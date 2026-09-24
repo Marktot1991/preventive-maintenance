@@ -2,7 +2,7 @@
 <html lang="th">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=0.5, maximum-scale=3.0, user-scalable=yes, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <title>Preventive Maintenance Form</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -11,7 +11,7 @@
 *{box-sizing:border-box}
 :root{--body-bg:#e9ecef;--surface:#fff;--surface-soft:#f8f9fa;--surface-input:#f9fafb;--text:#1f2937;--text-muted:#6b7280;--border:#d1d5db;--table-header:#dbe1e6;--table-subheader:#f0f0f0}
 html[data-theme=dark]{color-scheme:dark;--body-bg:#111827;--surface:#1f2937;--surface-soft:#273244;--surface-input:#172033;--text:#f3f4f6;--text-muted:#aeb8c6;--border:#4b5563;--table-header:#374151;--table-subheader:#303a4a}
-html{overflow-x:auto}body{font-family:'Segoe UI',Tahoma,sans-serif;font-size:14px;margin:0;min-height:100vh;background:var(--body-bg);color:var(--text)}
+body{font-family:'Segoe UI',Tahoma,sans-serif;font-size:14px;margin:0;min-height:100vh;background:var(--body-bg);color:var(--text)}
 .hidden{display:none!important}
 button{cursor:pointer;font-weight:700;padding:8px 12px;border-radius:5px;border:0;color:#fff;font-size:12px}
 #login-screen{position:fixed;inset:0;z-index:9999;padding:24px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#003f88,#007bff 52%,#17a2b8)}
@@ -20,24 +20,23 @@ button{cursor:pointer;font-weight:700;padding:8px 12px;border-radius:5px;border:
 .login-title{text-align:center;margin:0;font-size:25px}.login-subtitle{text-align:center;color:var(--text-muted);line-height:1.6;margin:9px 0 27px}
 .login-field{margin-bottom:17px}.login-field label{display:block;margin-bottom:7px;font-weight:650}
 .login-input-wrap{position:relative}.login-input-icon{position:absolute;top:50%;left:14px;transform:translateY(-50%)}
-.login-input{width:100%;height:48px;padding:0 48px 0 52px!important;border:1px solid var(--border);border-radius:10px;background:var(--surface-input);color:var(--text);outline:none}
+.login-input{width:100%;height:48px;padding:0 45px;border:1px solid var(--border);border-radius:10px;background:var(--surface-input);color:var(--text);outline:none}
 .login-input:focus{border-color:#007bff;box-shadow:0 0 0 4px rgba(0,123,255,.12)}
 .password-toggle{position:absolute;right:8px;top:50%;transform:translateY(-50%);background:transparent;color:var(--text-muted)}
 .login-actions{display:flex;justify-content:flex-end;margin:-5px 0 18px}.forgot-link{background:transparent;color:#007bff;padding:4px}
 .btn-login{width:100%;height:49px;background:linear-gradient(135deg,#007bff,#005fc5);font-size:14px}
-#login-theme-toggle{position:absolute;top:20px;right:20px;z-index:2;margin:0;min-width:42px;height:42px}
 #login-error,#forgot-status{display:none;margin-top:15px;padding:11px;font-size:13px;text-align:center;border-radius:9px}
 #login-error{color:#b42318;background:#fff1f0;border:1px solid #ffccc7}
 #forgot-status.is-loading,#forgot-status.is-success,#forgot-status.is-error{display:block}
 #forgot-status.is-loading{color:#075985;background:#e0f2fe}.is-success{color:#166534;background:#f0fdf4}.is-error{color:#b42318;background:#fff1f0}
 .login-footer{margin-top:23px;color:#9ca3af;font-size:11px;text-align:center}
-#app-container{width:100%;min-width:1120px;padding:15px;display:flex;flex-direction:column;align-items:center;gap:15px}
+#app-container{width:100%;padding:15px;display:flex;flex-direction:column;align-items:center;gap:15px}
 .top-control-panel{width:100%;max-width:1080px;background:#007bff;padding:20px;border-radius:10px;color:#fff;box-shadow:0 4px 10px rgba(0,0,0,.1)}
 html[data-theme=dark] .top-control-panel{background:var(--surface);border:1px solid var(--border)}
 .top-control-panel h3{margin-top:0;padding-bottom:12px;border-bottom:1px solid rgba(255,255,255,.3)}
 .tank-controls{display:flex;flex-wrap:wrap;gap:15px}.tank-group-box{flex:1;min-width:180px;background:var(--surface);padding:12px 14px;border-radius:8px;color:var(--text)}
 .tank-group-box label{display:block;font-weight:bold;margin-bottom:8px;font-size:13px}.tank-group-box select{width:100%;padding:8px;border-radius:6px;border:1px solid var(--border);background:var(--surface-input);color:var(--text)}
-.main-content{width:1080px;max-width:1080px;flex:0 0 1080px}.top-bar{width:100%;background:var(--surface);padding:10px 15px;border-radius:8px;margin-bottom:15px;display:flex;flex-wrap:wrap;align-items:center;justify-content:flex-end;gap:10px;box-shadow:0 2px 8px rgba(0,0,0,.05)}
+.main-content{width:100%;max-width:1080px}.top-bar{width:100%;background:var(--surface);padding:10px 15px;border-radius:8px;margin-bottom:15px;display:flex;flex-wrap:wrap;align-items:center;justify-content:flex-end;gap:10px;box-shadow:0 2px 8px rgba(0,0,0,.05)}
 #currentUserDisplay{margin-right:auto;font-weight:bold;color:var(--text);background:var(--surface-soft);padding:6px 10px;border-radius:5px;border:1px solid var(--border);font-size:12px}
 .theme-toggle{min-width:42px;height:36px;padding:0 11px;display:inline-flex;align-items:center;justify-content:center;gap:7px;color:var(--text);background:var(--surface-soft);border:1px solid var(--border);border-radius:9px}
 .btn-pdf{background:#17a2b8}.btn-logout{background:#6c757d}.btn-clear{background:#dc3545}
@@ -45,12 +44,11 @@ html[data-theme=dark] .top-control-panel{background:var(--surface);border:1px so
 table{width:100%;border-collapse:collapse;margin-bottom:15px;font-size:13.5px}th,td{border:1px solid #000;padding:6px 8px;vertical-align:middle}
 html[data-theme=dark] th,html[data-theme=dark] td{border-color:#737b88}.header-bg{background:var(--table-header);font-weight:bold;text-align:center}.sub-header-bg{background:var(--table-subheader)}
 input[type=text],input[type=date]{width:100%;border:1px solid #ccc;padding:4px;font:inherit}.borderless-input{border:0!important;background:transparent;outline:0}.borderless-input:focus{background:#ffffcc}
-.radio-center,.text-center{text-align:center}.radio-ok,.radio-no{transform:scale(1.5);cursor:pointer;margin:0}.radio-ok{accent-color:#28a745}.radio-no{accent-color:#dc3545}.locked-cursor{cursor:not-allowed!important}
+.radio-center,.text-center{text-align:center}.pm-choice{min-width:38px;min-height:34px;padding:5px 10px;border:1px solid #cbd5e1;border-radius:6px;background:#fff;color:#111827;font-weight:700;font-size:13px;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}.pm-choice.ok.active{background:#28a745;color:#fff;border-color:#28a745}.pm-choice.no.active{background:#dc3545;color:#fff;border-color:#dc3545}.pm-choice:disabled{cursor:not-allowed;opacity:.65}.locked-cursor{cursor:not-allowed!important}
 input[readonly]{color:inherit!important;-webkit-text-fill-color:currentColor;opacity:1;cursor:not-allowed;background:transparent}
 #loading{position:fixed;right:20px;bottom:20px;z-index:99999;background:#111827;color:#fff;padding:10px 14px;border-radius:8px;display:none}
 @media(max-width:768px){#currentUserDisplay{width:100%;text-align:center;margin-right:0}.top-bar button{flex:1;min-width:100px}}
 @media(max-width:480px){#login-screen{padding:16px;align-items:flex-start}#login-container{margin-top:28px;padding:30px 22px 26px}}
-.zoom-tools{display:flex;align-items:center;gap:4px;margin-left:4px}.zoom-tools button{min-width:34px;height:34px;padding:4px 8px;background:var(--surface-soft);color:var(--text);border:1px solid var(--border);border-radius:7px}.zoom-tools .zoom-value{min-width:52px;text-align:center;font-size:12px;font-weight:700;color:var(--text)}
 @media print{@page{size:A4 portrait;margin:5mm}body{background:#fff}#login-screen,.top-control-panel,.top-bar,#loading{display:none!important}#app-container,.main-content,.page-container{display:block!important;width:100%;max-width:100%;margin:0;padding:0;box-shadow:none;border-radius:0}table{width:100%;page-break-inside:avoid;font-size:10.5px}table,th,td{border:.05mm solid #000!important}th,td{padding:2px 4px}.radio-ok,.radio-no{transform:scale(1.05)!important}input{font-size:10.5px!important;padding:0!important}*{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}}
 </style>
 </head>
@@ -87,7 +85,6 @@ input[readonly]{color:inherit!important;-webkit-text-fill-color:currentColor;opa
 <div class="main-content"><div class="top-bar">
 <span id="currentUserDisplay"></span>
 <button type="button" class="theme-toggle" onclick="toggleTheme()" title="สลับธีม"><i class="fa-solid fa-moon"></i></button>
-<div class="zoom-tools" title="ปรับขนาดหน้าจอ"><button type="button" onclick="changeZoom(-0.1)" aria-label="Zoom out">−</button><span id="zoomValue" class="zoom-value">100%</span><button type="button" onclick="changeZoom(0.1)" aria-label="Zoom in">+</button><button type="button" onclick="resetZoom()" aria-label="Reset zoom">100%</button></div>
 <button class="btn-pdf" onclick="window.print()">โหลด PDF / พิมพ์</button>
 <button id="btnClearData" class="btn-clear" onclick="clearCurrentTankData()">ล้างถังนี้</button>
 <button id="btnClearGroup" class="btn-clear" style="background:#851414" onclick="clearCurrentGroupData()">ล้างทั้งกรุ๊ป</button>
@@ -324,9 +321,9 @@ function showApp(){document.getElementById("login-screen").classList.add("hidden
 function showLogin(){document.getElementById("login-screen").classList.remove("hidden");document.getElementById("app-container").classList.add("hidden")}
 
 async function loadDbData(){
-  const {data,error}=await db.from("pm_data").select("data_key,data_value");
+  const {data,error}=await db.from("pm_data").select("key,value");
   if(error)throw error;
-  dbData={};(data||[]).forEach(r=>dbData[r.data_key]=r.data_value??"");
+  dbData={};(data||[]).forEach(r=>dbData[r.key]=r.value??"");
 }
 
 async function saveDataToServer(key,value){
@@ -334,7 +331,7 @@ async function saveDataToServer(key,value){
   dbData[key]=String(value??"");
   try{
     setLoading(true);
-    const {error}=await db.from("pm_data").upsert({data_key:key,data_value:String(value??""),updated_by:currentUser.id,updated_at:new Date().toISOString()},{onConflict:"data_key"});
+    const {error}=await db.from("pm_data").upsert({key,value:String(value??""),updated_by:currentUser.id,updated_at:new Date().toISOString()},{onConflict:"key"});
     if(error)throw error;
   }catch(e){alert("⚠️ บันทึกไม่สำเร็จ: "+e.message);throw e}
   finally{setLoading(false)}
@@ -345,8 +342,8 @@ async function saveMany(rows){
   rows.forEach(r=>dbData[r.key]=String(r.value??""));
   try{
     setLoading(true);
-    const payload=rows.map(r=>({data_key:r.key,data_value:String(r.value??""),updated_by:currentUser.id,updated_at:new Date().toISOString()}));
-    const {error}=await db.from("pm_data").upsert(payload,{onConflict:"data_key"});
+    const payload=rows.map(r=>({key:r.key,value:String(r.value??""),updated_by:currentUser.id,updated_at:new Date().toISOString()}));
+    const {error}=await db.from("pm_data").upsert(payload,{onConflict:"key"});
     if(error)throw error;
   }catch(e){alert("⚠️ บันทึกข้อมูลไม่สำเร็จ: "+e.message);throw e}
   finally{setLoading(false)}
@@ -418,47 +415,37 @@ function switchTank(type){
 
 async function saveHeader(id){if(currentRole!=="view"&&activeTankName)await saveDataToServer(`${activeTankName}_header_${id}`,document.getElementById(id).value)}
 
-async function toggleRadio(e,radio,key,value){
-  if(e)e.preventDefault();
+async function toggleRadio(e,button,key,value){
+  if(e){e.preventDefault();e.stopPropagation()}
   if(currentRole==="view")return false;
 
-  const wasChecked=radio.getAttribute("data-checked")==="true";
-  const group=document.getElementsByName(radio.name);
+  const row=button.closest("tr");
+  if(!row)return false;
+  const buttons=row.querySelectorAll(".pm-choice");
+  const wasActive=button.classList.contains("active");
 
-  group.forEach(r=>{
-    r.checked=false;
-    r.setAttribute("data-checked","false");
-  });
+  // เปลี่ยนหน้าจอทันที ไม่ต้องรอ Supabase และไม่ใช้ radio/checkbox ของ browser
+  buttons.forEach(b=>b.classList.remove("active"));
+  const newValue=wasActive?"":value;
+  if(!wasActive)button.classList.add("active");
+  dbData[key]=newValue;
 
-  if(wasChecked){
-    await saveDataToServer(key,"");
-  }else{
-    radio.checked=true;
-    radio.setAttribute("data-checked","true");
-    await saveDataToServer(key,value);
+  try{
+    await saveDataToServer(key,newValue);
+  }catch(err){
+    // ถ้าบันทึกไม่สำเร็จ ให้คืนสถานะเดิม
+    buttons.forEach(b=>b.classList.remove("active"));
+    if(wasActive)button.classList.add("active");
   }
   return false;
 }
-
-let appZoom=1;
-function applyAppZoom(){
-  const app=document.getElementById("app-container");
-  if(app)app.style.zoom=appZoom;
-  const v=document.getElementById("zoomValue");
-  if(v)v.textContent=Math.round(appZoom*100)+"%";
-}
-function changeZoom(step){
-  appZoom=Math.max(0.6,Math.min(1.6,Math.round((appZoom+step)*10)/10));
-  applyAppZoom();
-}
-function resetZoom(){appZoom=1;applyAppZoom()}
 
 async function clearCurrentTankData(){
   if(currentRole==="view"||!activeTankName)return;
   if(!confirm(`ล้างข้อมูลถัง ${activeTankName} บน Supabase ใช่หรือไม่?`))return;
   setLoading(true);
   try{
-    const {error}=await db.from("pm_data").delete().like("data_key",`${activeTankName}_%`);
+    const {error}=await db.from("pm_data").delete().like("key",`${activeTankName}_%`);
     if(error)throw error;
     await loadDbData();renderForm();alert("เคลียร์ข้อมูลถังเรียบร้อย");
   }catch(e){alert("เกิดข้อผิดพลาด: "+e.message)}finally{setLoading(false)}
@@ -472,7 +459,7 @@ async function clearCurrentGroupData(){
   setLoading(true);
   try{
     for(const tank of tanks){
-      const {error}=await db.from("pm_data").delete().like("data_key",`${tank}_%`);
+      const {error}=await db.from("pm_data").delete().like("key",`${tank}_%`);
       if(error)throw error;
     }
     await loadDbData();renderForm();alert("เคลียร์ข้อมูลทั้งกรุ๊ปเรียบร้อยแล้ว");
@@ -527,24 +514,24 @@ function getEquipData(tank,code,tankType){
 }
 
 function buildTaskRows(maxRows,tasks,tankCode,valveId){
-  const view=currentRole==="view",ro=view?"readonly":"",cursor=view?"locked-cursor":"";
+  const view=currentRole==="view",ro=view?"readonly":"",disabled=view?"disabled":"";
   let h="";
   for(let i=0;i<maxRows;i++){
     const n=i+1,rKey=`${tankCode}_${valveId}_${n}_radio`,nKey=`${tankCode}_${valveId}_${n}_note`,radio=dbData[rKey]||"",note=dbData[nKey]||"";
     const ok=radio==="OK",no=radio==="NO";
+    const okBtn=`<button type="button" class="pm-choice ok ${ok?"active":""}" ${disabled} onclick="toggleRadio(event,this,'${esc(rKey)}','OK')">OK</button>`;
+    const noBtn=`<button type="button" class="pm-choice no ${no?"active":""}" ${disabled} onclick="toggleRadio(event,this,'${esc(rKey)}','NO')">NO</button>`;
     if(i<tasks.length){
       const t=tasks[i];
       h+=`<tr><td class="text-center">${t.id}</td><td>${esc(t.name)}</td><td>${esc(t.standard)}</td><td class="text-center">${esc(t.package)}</td>
-      <td class="radio-center"><input type="radio" class="radio-ok ${cursor}" name="grp_${esc(rKey)}" value="OK" ${ok?"checked":""} data-checked="${ok}" onpointerdown="toggleRadio(event,this,'${esc(rKey)}','OK')"></td>
-      <td class="radio-center"><input type="radio" class="radio-no ${cursor}" name="grp_${esc(rKey)}" value="NO" ${no?"checked":""} data-checked="${no}" onpointerdown="toggleRadio(event,this,'${esc(rKey)}','NO')"></td>
+      <td class="radio-center">${okBtn}</td><td class="radio-center">${noBtn}</td>
       <td><input type="text" class="borderless-input" value="${esc(note)}" ${ro} onchange="saveDataToServer('${esc(nKey)}',this.value)"></td></tr>`;
     }else{
       const a=`${tankCode}_${valveId}_${n}_taskName`,s=`${tankCode}_${valveId}_${n}_standard`,p=`${tankCode}_${valveId}_${n}_package`;
       h+=`<tr><td class="text-center">${n}</td><td><input type="text" class="borderless-input" value="${esc(dbData[a]||"")}" ${ro} onchange="saveDataToServer('${esc(a)}',this.value)"></td>
       <td><input type="text" class="borderless-input" value="${esc(dbData[s]||"")}" ${ro} onchange="saveDataToServer('${esc(s)}',this.value)"></td>
       <td><input type="text" class="borderless-input text-center" value="${esc(dbData[p]||"")}" ${ro} onchange="saveDataToServer('${esc(p)}',this.value)"></td>
-      <td class="radio-center"><input type="radio" class="radio-ok ${cursor}" name="grp_${esc(rKey)}" value="OK" ${ok?"checked":""} data-checked="${ok}" onpointerdown="toggleRadio(event,this,'${esc(rKey)}','OK')"></td>
-      <td class="radio-center"><input type="radio" class="radio-no ${cursor}" name="grp_${esc(rKey)}" value="NO" ${no?"checked":""} data-checked="${no}" onpointerdown="toggleRadio(event,this,'${esc(rKey)}','NO')"></td>
+      <td class="radio-center">${okBtn}</td><td class="radio-center">${noBtn}</td>
       <td><input type="text" class="borderless-input" value="${esc(note)}" ${ro} onchange="saveDataToServer('${esc(nKey)}',this.value)"></td></tr>`;
     }
   }
