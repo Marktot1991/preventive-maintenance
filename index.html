@@ -2,7 +2,8 @@
 <html lang="th">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<!-- แก้ไข Viewport เพื่อบังคับแสดงผลแบบ PC Desktop และเปิดให้ซูมได้ -->
+<meta name="viewport" content="width=1200, user-scalable=yes">
 <title>Preventive Maintenance Form</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -20,11 +21,12 @@ button{cursor:pointer;font-weight:700;padding:8px 12px;border-radius:5px;border:
 .login-title{text-align:center;margin:0;font-size:25px}.login-subtitle{text-align:center;color:var(--text-muted);line-height:1.6;margin:9px 0 27px}
 .login-field{margin-bottom:17px}.login-field label{display:block;margin-bottom:7px;font-weight:650}
 .login-input-wrap{position:relative}.login-input-icon{position:absolute;top:50%;left:14px;transform:translateY(-50%)}
-.login-input{width:100%;height:48px;padding:0 45px;border:1px solid var(--border);border-radius:10px;background:var(--surface-input);color:var(--text);outline:none}
+.login-input{width:100%;height:48px;padding:0 48px 0 52px!important;border:1px solid var(--border);border-radius:10px;background:var(--surface-input);color:var(--text);outline:none}
 .login-input:focus{border-color:#007bff;box-shadow:0 0 0 4px rgba(0,123,255,.12)}
 .password-toggle{position:absolute;right:8px;top:50%;transform:translateY(-50%);background:transparent;color:var(--text-muted)}
 .login-actions{display:flex;justify-content:flex-end;margin:-5px 0 18px}.forgot-link{background:transparent;color:#007bff;padding:4px}
 .btn-login{width:100%;height:49px;background:linear-gradient(135deg,#007bff,#005fc5);font-size:14px}
+#login-theme-toggle{position:absolute;top:20px;right:20px;z-index:2;margin:0;min-width:42px;height:42px}
 #login-error,#forgot-status{display:none;margin-top:15px;padding:11px;font-size:13px;text-align:center;border-radius:9px}
 #login-error{color:#b42318;background:#fff1f0;border:1px solid #ffccc7}
 #forgot-status.is-loading,#forgot-status.is-success,#forgot-status.is-error{display:block}
@@ -44,7 +46,7 @@ html[data-theme=dark] .top-control-panel{background:var(--surface);border:1px so
 table{width:100%;border-collapse:collapse;margin-bottom:15px;font-size:13.5px}th,td{border:1px solid #000;padding:6px 8px;vertical-align:middle}
 html[data-theme=dark] th,html[data-theme=dark] td{border-color:#737b88}.header-bg{background:var(--table-header);font-weight:bold;text-align:center}.sub-header-bg{background:var(--table-subheader)}
 input[type=text],input[type=date]{width:100%;border:1px solid #ccc;padding:4px;font:inherit}.borderless-input{border:0!important;background:transparent;outline:0}.borderless-input:focus{background:#ffffcc}
-.radio-center,.text-center{text-align:center}.pm-choice{min-width:38px;min-height:34px;padding:5px 10px;border:1px solid #cbd5e1;border-radius:6px;background:#fff;color:#111827;font-weight:700;font-size:13px;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}.pm-choice.ok.active{background:#28a745;color:#fff;border-color:#28a745}.pm-choice.no.active{background:#dc3545;color:#fff;border-color:#dc3545}.pm-choice:disabled{cursor:not-allowed;opacity:.65}.locked-cursor{cursor:not-allowed!important}
+.radio-center,.text-center{text-align:center}.radio-ok,.radio-no{transform:scale(1.5);cursor:pointer;margin:0}.radio-ok{accent-color:#28a745}.radio-no{accent-color:#dc3545}.locked-cursor{cursor:not-allowed!important}
 input[readonly]{color:inherit!important;-webkit-text-fill-color:currentColor;opacity:1;cursor:not-allowed;background:transparent}
 #loading{position:fixed;right:20px;bottom:20px;z-index:99999;background:#111827;color:#fff;padding:10px 14px;border-radius:8px;display:none}
 @media(max-width:768px){#currentUserDisplay{width:100%;text-align:center;margin-right:0}.top-bar button{flex:1;min-width:100px}}
@@ -321,9 +323,9 @@ function showApp(){document.getElementById("login-screen").classList.add("hidden
 function showLogin(){document.getElementById("login-screen").classList.remove("hidden");document.getElementById("app-container").classList.add("hidden")}
 
 async function loadDbData(){
-  const {data,error}=await db.from("pm_data").select("key,value");
+  const {data,error}=await db.from("pm_data").select("data_key,data_value");
   if(error)throw error;
-  dbData={};(data||[]).forEach(r=>dbData[r.key]=r.value??"");
+  dbData={};(data||[]).forEach(r=>dbData[r.data_key]=r.data_value??"");
 }
 
 async function saveDataToServer(key,value){
@@ -331,7 +333,7 @@ async function saveDataToServer(key,value){
   dbData[key]=String(value??"");
   try{
     setLoading(true);
-    const {error}=await db.from("pm_data").upsert({key,value:String(value??""),updated_by:currentUser.id,updated_at:new Date().toISOString()},{onConflict:"key"});
+    const {error}=await db.from("pm_data").upsert({data_key:key,data_value:String(value??""),updated_by:currentUser.id,updated_at:new Date().toISOString()},{onConflict:"data_key"});
     if(error)throw error;
   }catch(e){alert("⚠️ บันทึกไม่สำเร็จ: "+e.message);throw e}
   finally{setLoading(false)}
@@ -342,8 +344,8 @@ async function saveMany(rows){
   rows.forEach(r=>dbData[r.key]=String(r.value??""));
   try{
     setLoading(true);
-    const payload=rows.map(r=>({key:r.key,value:String(r.value??""),updated_by:currentUser.id,updated_at:new Date().toISOString()}));
-    const {error}=await db.from("pm_data").upsert(payload,{onConflict:"key"});
+    const payload=rows.map(r=>({data_key:r.key,data_value:String(r.value??""),updated_by:currentUser.id,updated_at:new Date().toISOString()}));
+    const {error}=await db.from("pm_data").upsert(payload,{onConflict:"data_key"});
     if(error)throw error;
   }catch(e){alert("⚠️ บันทึกข้อมูลไม่สำเร็จ: "+e.message);throw e}
   finally{setLoading(false)}
@@ -415,29 +417,19 @@ function switchTank(type){
 
 async function saveHeader(id){if(currentRole!=="view"&&activeTankName)await saveDataToServer(`${activeTankName}_header_${id}`,document.getElementById(id).value)}
 
-async function toggleRadio(e,button,key,value){
-  if(e){e.preventDefault();e.stopPropagation()}
-  if(currentRole==="view")return false;
-
-  const row=button.closest("tr");
-  if(!row)return false;
-  const buttons=row.querySelectorAll(".pm-choice");
-  const wasActive=button.classList.contains("active");
-
-  // เปลี่ยนหน้าจอทันที ไม่ต้องรอ Supabase และไม่ใช้ radio/checkbox ของ browser
-  buttons.forEach(b=>b.classList.remove("active"));
-  const newValue=wasActive?"":value;
-  if(!wasActive)button.classList.add("active");
-  dbData[key]=newValue;
-
-  try{
-    await saveDataToServer(key,newValue);
-  }catch(err){
-    // ถ้าบันทึกไม่สำเร็จ ให้คืนสถานะเดิม
-    buttons.forEach(b=>b.classList.remove("active"));
-    if(wasActive)button.classList.add("active");
+async function toggleRadio(e,radio,key,value){
+  if(currentRole==="view"){e.preventDefault();return false}
+  
+  if(radio.getAttribute("data-checked")==="true"){
+    radio.checked = false;
+    radio.setAttribute("data-checked","false");
+    await saveDataToServer(key,"");
+  }else{
+    document.getElementsByName(radio.name).forEach(r=>{r.setAttribute("data-checked","false")});
+    radio.setAttribute("data-checked","true");
+    await saveDataToServer(key,value);
   }
-  return false;
+  return true;
 }
 
 async function clearCurrentTankData(){
@@ -445,7 +437,7 @@ async function clearCurrentTankData(){
   if(!confirm(`ล้างข้อมูลถัง ${activeTankName} บน Supabase ใช่หรือไม่?`))return;
   setLoading(true);
   try{
-    const {error}=await db.from("pm_data").delete().like("key",`${activeTankName}_%`);
+    const {error}=await db.from("pm_data").delete().like("data_key",`${activeTankName}_%`);
     if(error)throw error;
     await loadDbData();renderForm();alert("เคลียร์ข้อมูลถังเรียบร้อย");
   }catch(e){alert("เกิดข้อผิดพลาด: "+e.message)}finally{setLoading(false)}
@@ -459,7 +451,7 @@ async function clearCurrentGroupData(){
   setLoading(true);
   try{
     for(const tank of tanks){
-      const {error}=await db.from("pm_data").delete().like("key",`${tank}_%`);
+      const {error}=await db.from("pm_data").delete().like("data_key",`${tank}_%`);
       if(error)throw error;
     }
     await loadDbData();renderForm();alert("เคลียร์ข้อมูลทั้งกรุ๊ปเรียบร้อยแล้ว");
@@ -514,24 +506,24 @@ function getEquipData(tank,code,tankType){
 }
 
 function buildTaskRows(maxRows,tasks,tankCode,valveId){
-  const view=currentRole==="view",ro=view?"readonly":"",disabled=view?"disabled":"";
+  const view=currentRole==="view",ro=view?"readonly":"",cursor=view?"locked-cursor":"";
   let h="";
   for(let i=0;i<maxRows;i++){
     const n=i+1,rKey=`${tankCode}_${valveId}_${n}_radio`,nKey=`${tankCode}_${valveId}_${n}_note`,radio=dbData[rKey]||"",note=dbData[nKey]||"";
     const ok=radio==="OK",no=radio==="NO";
-    const okBtn=`<button type="button" class="pm-choice ok ${ok?"active":""}" ${disabled} onclick="toggleRadio(event,this,'${esc(rKey)}','OK')">OK</button>`;
-    const noBtn=`<button type="button" class="pm-choice no ${no?"active":""}" ${disabled} onclick="toggleRadio(event,this,'${esc(rKey)}','NO')">NO</button>`;
     if(i<tasks.length){
       const t=tasks[i];
       h+=`<tr><td class="text-center">${t.id}</td><td>${esc(t.name)}</td><td>${esc(t.standard)}</td><td class="text-center">${esc(t.package)}</td>
-      <td class="radio-center">${okBtn}</td><td class="radio-center">${noBtn}</td>
+      <td class="radio-center"><input type="radio" class="radio-ok ${cursor}" name="grp_${esc(rKey)}" value="OK" ${ok?"checked":""} data-checked="${ok}" onclick="toggleRadio(event,this,'${esc(rKey)}','OK')"></td>
+      <td class="radio-center"><input type="radio" class="radio-no ${cursor}" name="grp_${esc(rKey)}" value="NO" ${no?"checked":""} data-checked="${no}" onclick="toggleRadio(event,this,'${esc(rKey)}','NO')"></td>
       <td><input type="text" class="borderless-input" value="${esc(note)}" ${ro} onchange="saveDataToServer('${esc(nKey)}',this.value)"></td></tr>`;
     }else{
       const a=`${tankCode}_${valveId}_${n}_taskName`,s=`${tankCode}_${valveId}_${n}_standard`,p=`${tankCode}_${valveId}_${n}_package`;
       h+=`<tr><td class="text-center">${n}</td><td><input type="text" class="borderless-input" value="${esc(dbData[a]||"")}" ${ro} onchange="saveDataToServer('${esc(a)}',this.value)"></td>
       <td><input type="text" class="borderless-input" value="${esc(dbData[s]||"")}" ${ro} onchange="saveDataToServer('${esc(s)}',this.value)"></td>
       <td><input type="text" class="borderless-input text-center" value="${esc(dbData[p]||"")}" ${ro} onchange="saveDataToServer('${esc(p)}',this.value)"></td>
-      <td class="radio-center">${okBtn}</td><td class="radio-center">${noBtn}</td>
+      <td class="radio-center"><input type="radio" class="radio-ok ${cursor}" name="grp_${esc(rKey)}" value="OK" ${ok?"checked":""} data-checked="${ok}" onclick="toggleRadio(event,this,'${esc(rKey)}','OK')"></td>
+      <td class="radio-center"><input type="radio" class="radio-no ${cursor}" name="grp_${esc(rKey)}" value="NO" ${no?"checked":""} data-checked="${no}" onclick="toggleRadio(event,this,'${esc(rKey)}','NO')"></td>
       <td><input type="text" class="borderless-input" value="${esc(note)}" ${ro} onchange="saveDataToServer('${esc(nKey)}',this.value)"></td></tr>`;
     }
   }
