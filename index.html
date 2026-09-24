@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<title>Preventive Maintenance Form</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="config.js"></script>
+<style>
+*{box-sizing:border-box}
+:root{--body-bg:#e9ecef;--surface:#fff;--surface-soft:#f8f9fa;--surface-input:#f9fafb;--text:#1f2937;--text-muted:#6b7280;--border:#d1d5db;--table-header:#dbe1e6;--table-subheader:#f0f0f0}
+html[data-theme=dark]{color-scheme:dark;--body-bg:#111827;--surface:#1f2937;--surface-soft:#273244;--surface-input:#172033;--text:#f3f4f6;--text-muted:#aeb8c6;--border:#4b5563;--table-header:#374151;--table-subheader:#303a4a}
+body{font-family:'Segoe UI',Tahoma,sans-serif;font-size:14px;margin:0;min-height:100vh;background:var(--body-bg);color:var(--text)}
+.hidden{display:none!important}
+button{cursor:pointer;font-weight:700;padding:8px 12px;border-radius:5px;border:0;color:#fff;font-size:12px}
+#login-screen{position:fixed;inset:0;z-index:9999;padding:24px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#003f88,#007bff 52%,#17a2b8)}
+#login-container{width:100%;max-width:430px;padding:38px 36px 30px;background:var(--surface);border-radius:20px;box-shadow:0 25px 65px rgba(0,0,0,.28)}
+.login-logo{width:72px;height:72px;margin:0 auto 18px;display:flex;align-items:center;justify-content:center;font-size:32px;background:#007bff;border-radius:21px}
+.login-title{text-align:center;margin:0;font-size:25px}.login-subtitle{text-align:center;color:var(--text-muted);line-height:1.6;margin:9px 0 27px}
+.login-field{margin-bottom:17px}.login-field label{display:block;margin-bottom:7px;font-weight:650}
+.login-input-wrap{position:relative}.login-input-icon{position:absolute;top:50%;left:14px;transform:translateY(-50%)}
+.login-input{width:100%;height:48px;padding:0 45px;border:1px solid var(--border);border-radius:10px;background:var(--surface-input);color:var(--text);outline:none}
+.login-input:focus{border-color:#007bff;box-shadow:0 0 0 4px rgba(0,123,255,.12)}
+.password-toggle{position:absolute;right:8px;top:50%;transform:translateY(-50%);background:transparent;color:var(--text-muted)}
+.login-actions{display:flex;justify-content:flex-end;margin:-5px 0 18px}.forgot-link{background:transparent;color:#007bff;padding:4px}
+.btn-login{width:100%;height:49px;background:linear-gradient(135deg,#007bff,#005fc5);font-size:14px}
+#login-error,#forgot-status{display:none;margin-top:15px;padding:11px;font-size:13px;text-align:center;border-radius:9px}
+#login-error{color:#b42318;background:#fff1f0;border:1px solid #ffccc7}
+#forgot-status.is-loading,#forgot-status.is-success,#forgot-status.is-error{display:block}
+#forgot-status.is-loading{color:#075985;background:#e0f2fe}.is-success{color:#166534;background:#f0fdf4}.is-error{color:#b42318;background:#fff1f0}
+.login-footer{margin-top:23px;color:#9ca3af;font-size:11px;text-align:center}
+#app-container{width:100%;padding:15px;display:flex;flex-direction:column;align-items:center;gap:15px}
+.top-control-panel{width:100%;max-width:1080px;background:#007bff;padding:20px;border-radius:10px;color:#fff;box-shadow:0 4px 10px rgba(0,0,0,.1)}
+html[data-theme=dark] .top-control-panel{background:var(--surface);border:1px solid var(--border)}
+.top-control-panel h3{margin-top:0;padding-bottom:12px;border-bottom:1px solid rgba(255,255,255,.3)}
+.tank-controls{display:flex;flex-wrap:wrap;gap:15px}.tank-group-box{flex:1;min-width:180px;background:var(--surface);padding:12px 14px;border-radius:8px;color:var(--text)}
+.tank-group-box label{display:block;font-weight:bold;margin-bottom:8px;font-size:13px}.tank-group-box select{width:100%;padding:8px;border-radius:6px;border:1px solid var(--border);background:var(--surface-input);color:var(--text)}
+.main-content{width:100%;max-width:1080px}.top-bar{width:100%;background:var(--surface);padding:10px 15px;border-radius:8px;margin-bottom:15px;display:flex;flex-wrap:wrap;align-items:center;justify-content:flex-end;gap:10px;box-shadow:0 2px 8px rgba(0,0,0,.05)}
+#currentUserDisplay{margin-right:auto;font-weight:bold;color:var(--text);background:var(--surface-soft);padding:6px 10px;border-radius:5px;border:1px solid var(--border);font-size:12px}
+.theme-toggle{min-width:42px;height:36px;padding:0 11px;display:inline-flex;align-items:center;justify-content:center;gap:7px;color:var(--text);background:var(--surface-soft);border:1px solid var(--border);border-radius:9px}
+.btn-pdf{background:#17a2b8}.btn-logout{background:#6c757d}.btn-clear{background:#dc3545}
+.page-container{width:100%;background:var(--surface);padding:15px;box-shadow:0 0 15px rgba(0,0,0,.2);margin-bottom:20px;border-radius:8px}
+table{width:100%;border-collapse:collapse;margin-bottom:15px;font-size:13.5px}th,td{border:1px solid #000;padding:6px 8px;vertical-align:middle}
+html[data-theme=dark] th,html[data-theme=dark] td{border-color:#737b88}.header-bg{background:var(--table-header);font-weight:bold;text-align:center}.sub-header-bg{background:var(--table-subheader)}
+input[type=text],input[type=date]{width:100%;border:1px solid #ccc;padding:4px;font:inherit}.borderless-input{border:0!important;background:transparent;outline:0}.borderless-input:focus{background:#ffffcc}
+.radio-center,.text-center{text-align:center}.radio-ok,.radio-no{transform:scale(1.5);cursor:pointer;margin:0}.radio-ok{accent-color:#28a745}.radio-no{accent-color:#dc3545}.locked-cursor{cursor:not-allowed!important}
+input[readonly]{color:inherit!important;-webkit-text-fill-color:currentColor;opacity:1;cursor:not-allowed;background:transparent}
+#loading{position:fixed;right:20px;bottom:20px;z-index:99999;background:#111827;color:#fff;padding:10px 14px;border-radius:8px;display:none}
+@media(max-width:768px){#currentUserDisplay{width:100%;text-align:center;margin-right:0}.top-bar button{flex:1;min-width:100px}}
+@media(max-width:480px){#login-screen{padding:16px;align-items:flex-start}#login-container{margin-top:28px;padding:30px 22px 26px}}
+@media print{@page{size:A4 portrait;margin:5mm}body{background:#fff}#login-screen,.top-control-panel,.top-bar,#loading{display:none!important}#app-container,.main-content,.page-container{display:block!important;width:100%;max-width:100%;margin:0;padding:0;box-shadow:none;border-radius:0}table{width:100%;page-break-inside:avoid;font-size:10.5px}table,th,td{border:.05mm solid #000!important}th,td{padding:2px 4px}.radio-ok,.radio-no{transform:scale(1.05)!important}input{font-size:10.5px!important;padding:0!important}*{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}}
+</style>
+</head>
+<body>
+<div id="loading">กำลังบันทึก...</div>
+
+<div id="login-screen">
+<button type="button" id="login-theme-toggle" class="theme-toggle" onclick="toggleTheme()" title="สลับธีม"><i class="fa-solid fa-moon"></i></button>
+<div id="login-container">
+<div class="login-logo">🛠️</div>
+<h1 class="login-title">Preventive Maintenance</h1>
+<p class="login-subtitle">กรุณาเข้าสู่ระบบเพื่อจัดการและตรวจสอบ<br>แบบฟอร์มบำรุงรักษาเชิงป้องกัน</p>
+<div class="login-field"><label for="username">E-Mail</label><div class="login-input-wrap"><span class="login-input-icon">👤</span><input type="email" id="username" class="login-input" placeholder="กรอก E-Mail" autocomplete="username"></div></div>
+<div class="login-field"><label for="password">รหัสผ่าน</label><div class="login-input-wrap"><span class="login-input-icon">🔑</span><input type="password" id="password" class="login-input" placeholder="กรอกรหัสผ่าน" autocomplete="current-password"><button type="button" id="passwordToggle" class="password-toggle" onclick="togglePasswordVisibility()"><i class="fa-solid fa-eye"></i></button></div></div>
+<div class="login-actions"><button type="button" id="forgotPasswordBtn" class="forgot-link" onclick="requestPasswordHelp()">ลืมรหัสผ่าน?</button></div>
+<button type="button" id="loginButton" class="btn-login" onclick="performLogin()">เข้าสู่ระบบ</button>
+<div id="login-error" role="alert"></div><div id="forgot-status" role="status"></div>
+<div class="login-footer">TOA Paint (Thailand) Public Company Limited • Emulsion 2</div>
+</div></div>
+
+<div id="app-container" class="hidden">
+<div class="top-control-panel"><h3>⚙️ เลือกระบบและถัง/อุปกรณ์</h3><div class="tank-controls">
+<div class="tank-group-box"><label>Letdown Tanks (T):</label><select id="delutingSelect" onchange="switchTank('deluting')"><option value="">-- เลือกถัง --</option></select></div>
+<div class="tank-group-box"><label>Delicel Tanks (R):</label><select id="delicelSelect" onchange="switchTank('delicel')"><option value="">-- เลือกถัง --</option></select></div>
+<div class="tank-group-box"><label>Additive Tanks (T):</label><select id="additiveSelect" onchange="switchTank('additive')"><option value="">-- เลือกถัง --</option></select></div>
+<div class="tank-group-box"><label>Up Down Mixer (D):</label><select id="updownSelect" onchange="switchTank('updown')"><option value="">-- เลือกถัง --</option></select></div>
+<div class="tank-group-box"><label>Tank Farm 2 (T):</label><select id="tankfarm2Select" onchange="switchTank('tankfarm2')"><option value="">-- เลือกถัง --</option></select></div>
+<div class="tank-group-box"><label>Surpressor (C):</label><select id="surpressorSelect" onchange="switchTank('surpressor')"><option value="">-- เลือกถัง --</option></select></div>
+<div class="tank-group-box"><label>Silo Powder (S):</label><select id="siloSelect" onchange="switchTank('silo')"><option value="">-- เลือกถัง --</option></select></div>
+<div class="tank-group-box"><label>Hopper Powder (B/X/Y):</label><select id="hopperSelect" onchange="switchTank('hopper')"><option value="">-- เลือกถัง --</option></select></div>
+<div class="tank-group-box"><label>2-Way Diverter (XV):</label><select id="diverterSelect" onchange="switchTank('diverter')"><option value="">-- เลือกตัว --</option></select></div>
+</div></div>
+
+<div class="main-content"><div class="top-bar">
+<span id="currentUserDisplay"></span>
+<button type="button" class="theme-toggle" onclick="toggleTheme()" title="สลับธีม"><i class="fa-solid fa-moon"></i></button>
+<button class="btn-pdf" onclick="window.print()">โหลด PDF / พิมพ์</button>
+<button id="btnClearData" class="btn-clear" onclick="clearCurrentTankData()">ล้างถังนี้</button>
+<button id="btnClearGroup" class="btn-clear" style="background:#851414" onclick="clearCurrentGroupData()">ล้างทั้งกรุ๊ป</button>
+<button class="btn-logout" onclick="performLogout()">ออกจากระบบ</button>
+</div>
+<div class="page-container">
+<table><tr><td colspan="4" class="header-bg">Preventive Maintenance Order Info.</td></tr>
+<tr><td width="25%">Order No :<input type="text" class="borderless-input" id="orderNo" onchange="saveHeader('orderNo')"></td><td width="25%">Order Type :<input type="text" class="borderless-input" id="orderType" onchange="saveHeader('orderType')"></td><td colspan="2">Order Activity Type :<input type="text" class="borderless-input" id="orderActivity" onchange="saveHeader('orderActivity')"></td></tr>
+<tr><td colspan="4">Description :<input type="text" class="borderless-input" id="desc" onchange="saveHeader('desc')"></td></tr>
+<tr><td colspan="2">Maintenance Work Center :<input type="text" class="borderless-input" id="workCenter" onchange="saveHeader('workCenter')"></td><td colspan="2">Supervisor :<input type="text" class="borderless-input" id="supervisor" onchange="saveHeader('supervisor')"></td></tr>
+<tr><td colspan="2">Order System Status :<input type="text" class="borderless-input" id="sysStatus" onchange="saveHeader('sysStatus')"></td><td>Order User Status :<input type="text" class="borderless-input" id="userStatus" onchange="saveHeader('userStatus')"></td><td>Order Release Date :<input type="text" class="borderless-input" id="releaseDate" onchange="saveHeader('releaseDate')"></td></tr></table>
+
+<table><tr><td colspan="2" class="header-bg">Equipment Info.</td></tr><tr><td>Company : TOA Paint (Thailand)</td><td>Department : Emulsion 2</td></tr><tr><td id="fl-display">Functional Location :</td><td id="equipment-desc-display"></td></tr></table>
+
+<table><tr><td width="50%" class="sub-header-bg text-center" id="pm-due-label">PM Date</td><td width="50%" class="sub-header-bg text-center" id="pm-next-due-label">Next Due Date</td></tr><tr><td><input type="date" class="borderless-input text-center" id="pmDate" onchange="saveGroupDate('pmDate')"></td><td><input type="date" class="borderless-input text-center" id="pmNextDate" onchange="saveGroupDate('pmNextDate')"></td></tr></table>
+<div id="checklist-container"></div>
+</div></div></div>
+<script>
+
+const delutingTanks = ["T5110","T5111","T5112","T5113","T5114","T5115","T5120","T5121","T5122","T5123","T5124","T5125","T5126","T5130","T5131","T5132","T5133","T5134","T5135","T5136","T5137","T5138","T5139","T5140","T5141","T5142","T5143"];
+const delicelTanks = ["R4500","R4510","R4511","R4512","R4520","R4530","R4531","R4532","R4540","R4550","R4560"];
+const additiveTanks = ["T3100","T3101","T3102","T3110","T3111","T3120","T3121","T3122","T3123","T3124","T3125","T3126","T3130","T3140","T3141","T3142","T3150","T3180","T3190","T3191"];
+const updownTanks = ['D7301','D7302','D7303','D7304','D7305','D7306','D7307','D7308','D7309','D7310','D7311','D7312','D7313','D7314','D7315'];
+const tankfarm2Tanks = ['T2110','T2111','T2112','T2113','T2210','T2211','T2212','T2213','T2214','T2215','T2216','T2217','T2218','T2219','T2220','T2221','T2410','T2411','T9110'];
+const surpressorTanks = ['C1910','C1911','C1920','C1921','C1930','C1940','C1960','C1970','C1980','C1995'];
+const siloPowderTanks = ['S1110','S1111','S1112','S1120','S1130','S1131','S1140','S1141'];
+const hopperPowderTanks = ['B1210','B1211','B1230','B1240','X1321','Y1220'];
+const diverterTanks = ['XV1110','XV1111','XV1112','XV1113','XV1114','XV1115','XV1116','XV1117','XV1130','XV1131','XV1132','XV1133','XV1134','XV1135','XV1136','XV1137','XV1138','XV1139','XV1141','XV1142','XV1143','XV1144','XV1150','XV1151','XV1160','XV1210','XV1211','XV1220','XV1221','XV1222','XV1223','XV1230','XV1231','XV1232','XV1240','XV1241','XV1242','XV1311','XV1313','XV1314','XV1315','XV1316','XV1317','XV1318','XV1319','XV1320','XV1321','XV1322','XV1323','XV1324','XV1325','XV1326','XV1327','XV1328','XV1350','XV1351'];
+
+const t_UPDOWN=[
+{id:1,name:"ตรวจเช็ค Actuator",standard:"ไม่มีลมรั่ว, Position Indicatorไม่หลุด",package:"6M"},
+{id:2,name:"ตรวจเช็ค Solenoid valve",standard:"ไม่มีลมรั่ว, รูเดรนไม่อุดตัน",package:"6M"},
+{id:3,name:"ตรวจเช็คสภาพสายไฟ",standard:"ยึดแน่นกับเทอร์มินอล, ฉนวนไม่ขาด",package:"6M"},
+{id:4,name:"ตรวจเช็คการทำงานของ Valve",standard:"เปิด/ปิดสุด ไม่ติดขัด",package:"6M"},
+{id:5,name:"ทำความสะอาด Actuator valve",standard:"สะอาดไม่มีคราบสกปรก",package:"6M"}];
+const t_LS=[
+{id:1,name:"ตรวจเช็คการทำงานของ Level switch",standard:"ทำงานปกติ",package:"6M"},
+{id:2,name:"ตรวจเช็คสภาพปะเก็น",standard:"เรียบสม่ำเสมอ ไม่แตก",package:"6M"},
+{id:3,name:"ตรวจเช็คความแน่นของ Bolt, Nut",standard:"ยึดแน่นไม่หลวมคลอน",package:"6M"},
+{id:4,name:"ตรวจเช็คสภาพ Cable Gland",standard:"ไม่แตก รัดสายไฟแน่น",package:"6M"}];
+const t_PDTR=[
+{id:1,name:"ตรวจเช็คการทำงานของ Radar",standard:"อ่านค่าได้ปกติ",package:"6M"},
+{id:2,name:"ตรวจเช็ค Remote Display ของ Radar",standard:"จอแสดงผลชัด ไม่ดับ",package:"6M"},
+{id:3,name:"ตรวจเช็คความแน่นของ Bolt, Nut",standard:"ยึดแน่นไม่หลวมคลอน",package:"6M"},
+{id:4,name:"ตรวจเช็คสภาพ Cable Gland",standard:"ไม่แตก รัดสายไฟแน่น",package:"6M"}];
+const t_PDTD=[
+{id:1,name:"ตรวจเช็คการทำงานของ Transmitter",standard:"อ่านค่าได้ปกติ",package:"6M"},
+{id:2,name:"ตรวจเช็คสภาพ Display",standard:"จอแสดงผลชัด ไม่ดับ",package:"6M"},
+{id:3,name:"ตรวจเช็คความแน่นของ Bolt, Nut",standard:"ยึดแน่นไม่หลวมคลอน",package:"6M"},
+{id:4,name:"ตรวจเช็คสภาพ Cable Gland",standard:"ไม่แตก รัดสายไฟแน่น",package:"6M"}];
+const t_TT=[
+{id:1,name:"ตรวจเช็คการทำงานของ Temp. Tran.",standard:"อ่านค่าได้ปกติ",package:"6M"},
+{id:2,name:"ตรวจเช็คสภาพ Probe",standard:"สะอาด ไม่มีคราบสกปรก",package:"6M"},
+{id:3,name:"ตรวจเช็คสภาพ Cable Gland",standard:"ไม่แตก รัดสายไฟแน่น",package:"6M"}];
+const t_XV=[
+{id:1,name:"ตรวจเช็คการทำงานของ Valve",standard:"เปิด/ปิดสุด, ไม่รั่วซึม",package:"6M"},
+{id:2,name:"ตรวจเช็ค Actuator+Solenoid valve",standard:"ไม่มีลมรั่ว, รูเดรนไม่อุดตัน",package:"6M"},
+{id:3,name:"ตรวจเช็คสภาพ Fitting",standard:"ไม่มีลมรั่ว, ไม่แตก",package:"6M"}];
+const t_PSV=[
+{id:1,name:"ตรวจเช็คสภาพภายนอก และภายใน",standard:"ไม่อุดตัน, ไม่สกปรก",package:"6M"},
+{id:2,name:"ตรวจเช็คสภาพปะเก็นและซีล",standard:"ไม่แตก, ไม่เสียรูป",package:"6M"},
+{id:3,name:"ตรวจเช็คความแน่นของ Bolt, Nut",standard:"ยึดแน่นไม่หลวมคลอน",package:"6M"}];
+const t_FT=[
+{id:1,name:"ตรวจเช็คการทำงานของ Flow meter",standard:"อ่านค่าได้ปกติ",package:"6M"},
+{id:2,name:"ตรวจเช็ค Display",standard:"จอแสดงผลชัด ไม่ดับ",package:"6M"},
+{id:3,name:"ตรวจเช็คความแน่นของ Bolt, Nut",standard:"ยึดแน่นไม่หลวมคลอน",package:"6M"},
+{id:4,name:"ตรวจเช็คสภาพปะเก็น",standard:"ไม่แตก ไม่เคมีรั่ว",package:"6M"},
+{id:5,name:"ตรวจเช็คสภาพ Cable Gland",standard:"ไม่แตก รัดสายไฟแน่น",package:"6M"}];
+const t_SOV=[
+{id:1,name:"ตรวจเช็คการทำงาน",standard:"ทำงานปกติ",package:"6M"},
+{id:2,name:"ตรวจเช็คสภาพ Diaphragm seal",standard:"ไม่ฉีกขาด, ไม่อุดตัน",package:"6M"},
+{id:3,name:"ตรวจเช็คสภาพ Fitting",standard:"ไม่มีลมรั่ว ไม่แตก",package:"6M"}];
+const t_REG=[
+{id:1,name:"ตรวจเช็คการทำงานของ Transmitter",standard:"รับค่าจาก DCS ได้ปกติ",package:"6M"},
+{id:2,name:"ตรวจเช็คการทำงานของ Regulator",standard:"จ่ายลมออกได้",package:"6M"},
+{id:3,name:"ตรวจเช็ค Body และ Fitting",standard:"ไม่แตก ไม่มีลมรั่ว",package:"6M"},
+{id:4,name:"ตรวจเช็คสภาพ Connector",standard:"ไม่หลุด ไม่แตก",package:"6M"},
+{id:5,name:"ตรวจเช็คสภาพสายสัญญาณ",standard:"ไม่มีรอยขาดชำรุด",package:"6M"}];
+const t_XVS=[
+{id:1,name:"ตรวจเช็คการทำงานของ Valve",standard:"เปิด/ปิดสุด, ไม่รั่วซึม",package:"6M"},
+{id:2,name:"ตรวจเช็ค Actuator+Solenoid valve",standard:"ไม่มีลมรั่ว, รูเดรนไม่อุดตัน",package:"6M"},
+{id:3,name:"ตรวจเช็คสภาพ Fitting",standard:"ไม่มีลมรั่ว, ไม่แตก",package:"6M"},
+{id:4,name:"ตรวจเช็คสายสัญญาณ",standard:"ไม่หลวม ไม่หลุด ไม่ขาด",package:"6M"}];
+const t_PIC=[
+{id:1,name:"ตรวจเช็คการทำงานของ Pressure switch",standard:"ทำงานปกติ",package:"6M"},
+{id:2,name:"ตรวจเช็คสายสัญญาณ",standard:"ไม่หลวม ไม่หลุด ไม่ขาด",package:"6M"},
+{id:3,name:"ตรวจเช็คสภาพ Connector",standard:"ไม่แตก เกลียวไม่คลาย",package:"6M"}];
+const t_JET=[
+{id:1,name:"ตรวจเช็คการทำงานของ Jet pulse",standard:"ทำงานปกติครบทุกวาล์ว",package:"6M"},
+{id:2,name:"ตรวจเช็ค Diff pressure",standard:"อ่านค่าได้ปกติทั้ง Local และ DCS",package:"6M"},
+{id:3,name:"ตรวจเช็ค Solenoid valve",standard:"ทำงานปกติ ไม่มีลมรั่ว",package:"6M"},
+{id:4,name:"ตรวจเช็คสายลม และ Fitting",standard:"ไม่อุดตัน",package:"6M"},
+{id:5,name:"ตรวจเช็คสายสัญญาณ",standard:"ไม่หลวม ไม่หลุด ไม่ขาด",package:"6M"}];
+const t_PRV=[
+{id:1,name:"ตรวจเช็ค PRV",standard:"ปิดสนิท ไม่รั่ว",package:"6M"},
+{id:2,name:"ตรวจเช็ค Spring loaded",standard:"ขยับได้ทั้งฝั่ง Pressure และ Suction",package:"6M"},
+{id:3,name:"ตรวจเช็คสภาพฟองน้ำ",standard:"ไม่เสียรูป ไม่ขาด",package:"6M"},
+{id:4,name:"ตรวจเช็คความแน่นของ Bolt, Nut",standard:"ยึดแน่นไม่หลวมคลอน",package:"6M"},
+{id:5,name:"ตรวจเช็คสภาพปะเก็น",standard:"ไม่แตก ไม่รั่ว",package:"6M"}];
+const t_TTP=[
+{id:1,name:"ตรวจเช็คการทำงานของ Temp. Tran.",standard:"อ่านค่าได้ปกติ",package:"6M"},
+{id:2,name:"ตรวจเช็คสภาพ Probe",standard:"สะอาด ไม่มีคราบสกปรก",package:"6M"},
+{id:3,name:"ตรวจเช็คสภาพ Cable Gland",standard:"ไม่แตก รัดสายไฟแน่น",package:"6M"},
+{id:4,name:"ตรวจเช็คสายสัญญาณ",standard:"ไม่หลวม ไม่หลุด ไม่ขาด",package:"6M"}];
+const t_LSP=[
+{id:1,name:"ตรวจเช็คการทำงานของ Level switch",standard:"ทำงานปกติ",package:"6M"},
+{id:2,name:"ตรวจเช็คสภาพ Body",standard:"ปิดสนิท ไม่แตก",package:"6M"},
+{id:3,name:"ตรวจเช็คสายสัญญาณ",standard:"ไม่หลวม ไม่หลุด ไม่ขาด",package:"6M"},
+{id:4,name:"ตรวจเช็คสภาพ Cable Gland",standard:"ไม่แตก รัดสายไฟแน่น",package:"6M"}];
+const t_YCP=[
+{id:1,name:"ตรวจเช็คการทำงานของ Level",standard:"อ่านค่าได้ปกติ",package:"6M"},
+{id:2,name:"ตรวจเช็คสภาพของเทป",standard:"ไม่ขาด ไม่งอ ไม่ติดขัด",package:"6M"},
+{id:3,name:"ตรวจเช็คลูกดิ่งปลายเทป",standard:"ไม่หลุดหาย",package:"6M"},
+{id:4,name:"ตรวจเช็คสายสัญญาณ",standard:"ไม่หลวม ไม่หลุด ไม่ขาด",package:"6M"}];
+const t_DIV=[
+{id:1,name:"ตรวจเช็ค Solenoid valve",standard:"ทำงานปกติ, ไม่พบลมรั่ว, ไม่อุดตัน",package:"6M"},
+{id:2,name:"ตรวจเช็ค Reed switch",standard:"ทำงานปกติ, สายสัญญาณไม่ชำรุด",package:"6M"},
+{id:3,name:"ตรวจเช็ค Junction box",standard:"ไม่แตกชำรุด, ยึดสายแน่นไม่หลวม",package:"6M"},
+{id:4,name:"ตรวจเช็คสายสัญญาณ",standard:"ไม่ขาดชำรุด",package:"6M"}];
+
+const delutingValveList=[
+{suffix:"XV01",eq:"MVAC011XXX"},{suffix:"XV02",eq:"MVAC011XXX"},{suffix:"XV05",eq:"MVAC011XXX"},
+{suffix:"XV06",eq:"MVAC011XXX"},{suffix:"XV07",eq:"MVAC011XXX"},{suffix:"XV08",eq:"MVAC011XXX"},
+{suffix:"XV09",eq:"MVAC011XXX"},{suffix:"XV11",eq:"MVAC011XXX"},{suffix:"XV12",eq:"MVAC011XXX"},
+{suffix:"XV13",eq:"MVAC011XXX"},{suffix:"XV14",eq:"MVAC011XXX"},{suffix:"XV15",eq:"MVAC011XXX"},
+{suffix:"XV16",eq:"MVAC011XXX"},{suffix:"XV18",eq:"MVAC011XXX"},{suffix:"XV40",eq:"MVAB011XXX"}];
+const delutingStdTasks=[
+{id:1,name:"เช็คลมรั่วบริเวณ Solenoid Valve",standard:"ไม่พบลมรั่ว",package:"6M"},
+{id:2,name:"เช็คการอุดตันบริเวณ Silencer",standard:"ไม่มีการอุดตัน หากมีให้เปลี่ยน",package:"6M"},
+{id:3,name:"เช็คลมรั่วบริเวณ หัวขับ",standard:"ไม่พบลมรั่ว",package:"6M"},
+{id:4,name:"เช็คจุดต่อสายสัญญาณ",standard:"ไม่แตก, ไม่หลวม หรือหลุด",package:"6M"}];
+const xv40Task={id:5,name:"เช็ค Sensor หัวขับ",standard:"ทำงานปกติ, ไม่แตกหัก",package:"6M"};
+
+const delicelValveList=[
+{eq:"IFVT011XXX",suffix:"FT01 Magnetic Flow Meter",type:"magFlow",p:"R"},
+{eq:"ITRT011XXX",suffix:"TT01 Temperature Transmitter",type:"tempTrans",p:"R"},
+{eq:"IWLT011XXX",suffix:"WT01 Weight Load Cell",type:"loadCell",p:"R"},
+{eq:"MVAC011XXX",suffix:"-XV01 Actuator valve",type:"std",p:"R"},
+{eq:"MVAC011XXX",suffix:"-XV02 Actuator valve",type:"std",p:"R"},
+{eq:"MVAC011XXX",suffix:"-XV04 Actuator valve",type:"std",p:"R"},
+{eq:"MVAC011XXX",suffix:"-XV06 Actuator valve",type:"std",p:"R"},
+{eq:"MVAC011XXX",suffix:"-XV07 Actuator valve",type:"std",p:"R"},
+{eq:"MVAC011XXX",suffix:"-XV08 Actuator valve",type:"std",p:"R"},
+{eq:"MVAC011XXX",suffix:"-XV10 Actuator valve",type:"std",p:"R"},
+{eq:"MVAC011XXX",suffix:"-XV11 Actuator valve",type:"std",p:"R"},
+{eq:"MVAC011XXX",suffix:"-XV12 Actuator valve",type:"std",p:"R"},
+{eq:"MVAC011XXX",suffix:"-XV13 Actuator valve",type:"std",p:"R"},
+{eq:"MVAC011XXX",suffix:"-XV15 Actuator valve",type:"std",p:"R"},
+{eq:"MVAC011XXX",suffix:"-XV16 Actuator valve",type:"std",p:"R"},
+{eq:"MVAC011XXX",suffix:"-XV17 Actuator valve",type:"std",p:"R"},
+{eq:"MVAC011XXX",suffix:"-XV18 Actuator valve",type:"std",p:"R"},
+{eq:"MVAC011XXX",suffix:"-XV40 Actuator valve",type:"std",p:"R"},
+{eq:"MVAC011XXX",suffix:"-XV70 Actuator valve",type:"std",p:"R"},
+{eq:"MVAC011XXX",suffix:"-XV81 Actuator valve",type:"std",p:"R"},
+{eq:"MVAC011XXX",suffix:"-XV82 Actuator valve",type:"std",p:"R"},
+{eq:"MVAC011XXX",suffix:"-XV90 Actuator valve",type:"std",p:"R"},
+{eq:"MVAC011XXX",suffix:"-XV92 Actuator valve",type:"std",p:"R"},
+{eq:"MVAC011XXX",suffix:"-XV93 Actuator valve",type:"std",p:"R"},
+{eq:"MVAC011XXX",suffix:"-XV94 Actuator valve",type:"std",p:"R"},
+{eq:"MVAC011XXX",suffix:"-XV95 Actuator valve",type:"std",p:"R"},
+{eq:"MVAC011XXX",suffix:"-XV96 Actuator valve",type:"std",p:"R"},
+{eq:"MVAC011XXX",suffix:"-XV97 Actuator valve",type:"std",p:"R"},
+{eq:"MVAC011XXX",suffix:"-XV98 Actuator valve",type:"std",p:"R"},
+{eq:"MVAC011XXX",suffix:"-XV40 Actuator valve",type:"std",p:"RV"},
+{eq:"MVAC011XXX",suffix:"-XV50 Actuator valve",type:"std",p:"RV"},
+{eq:"MVAC011*",suffix:"-XV50 Actuator valve",type:"std",p:"B"},
+{eq:"MVAC011*",suffix:"-XV51 Actuator valve",type:"std",p:"B"},
+{eq:"MBAG011XXX",suffix:"-YV01 Jet pulse control",type:"jet",p:"F"}];
+
+const delicelStdTasks=[
+{id:1,name:"ตรวจเช็ค Actuator",standard:"ไม่มีลมรั่ว, Position Indicatorไม่หลุด",package:"6M"},
+{id:2,name:"ตรวจเช็ค Solenoid valve",standard:"ไม่มีลมรั่ว, รูเดรนไม่อุดตัน",package:"6M"},
+{id:3,name:"ตรวจเช็คสภาพสายไฟ",standard:"ยึดแน่นกับเทอร์มินอล, ฉนวนไม่ขาด",package:"6M"},
+{id:4,name:"ตรวจเช็คการทำงานของ Valve",standard:"เปิด/ปิดสุด ไม่ติดขัด",package:"6M"},
+{id:5,name:"ทำความสะอาด Actuator valve",standard:"สะอาดไม่มีคราบสกปรก",package:"6M"}];
+const delicelJetTasks=[
+{id:1,name:"ตรวจเช็ค PLC",standard:"ทำงานปกติทุก I/O",package:"6M"},
+{id:2,name:"ตรวจเช็คสภาพสายไฟ",standard:"ยึดแน่นกับเทอร์มินอล, ฉนวนไม่ขาด",package:"6M"},
+{id:3,name:"ตรวจเช็ค Diff. pressure",standard:"อ่านค่าได้ปกติ, ค่าอ่านตรงกับ DCS",package:"6M"},
+{id:4,name:"ตรวจเช็ค Solenoid valve",standard:"ทำงานปกติ ไม่มีลมรั่ว",package:"6M"},
+{id:5,name:"ทำความสะอาดท่อลมเข้า Diff. pressure",standard:"สะอาดไม่มีฝุ่นอุดตัน",package:"6M"}];
+const delicelMagFlowTasks=[
+{id:1,name:"ตรวจเช็คการทำงานของ Flow meter",standard:"อ่านค่าได้ปกติ, ค่าอ่านตรงกับ DCS",package:"6M"},
+{id:2,name:"ตรวจเช็คสภาพสายไฟ",standard:"ยึดแน่นไม่หลุด/หลวม ฉนวนไม่ขาด",package:"6M"},
+{id:3,name:"ตรวจสอบหน้าจอแสดงผล",standard:"มองเห็นชัด ไม่ดับ",package:"6M"},
+{id:4,name:"ตรวจสอบฝาครอบ",standard:"ปิดสนิท ไม่มีน้ำซึมเข้าภายใน",package:"6M"},
+{id:5,name:"ตรวจสอบ Housing",standard:"ไม่แตกหัก",package:"6M"}];
+const delicelTempTransTasks=[
+{id:1,name:"ตรวจเช็คการทำงานของ Temp. Tran.",standard:"อ่านค่าได้ปกติ",package:"6M"},
+{id:2,name:"ตรวจเช็คสภาพ Probe",standard:"ไม่หักงอ ไม่มีคราบสีพอกหนา",package:"6M"},
+{id:3,name:"ตรวจเช็คสภาพสายไฟ",standard:"ยึดแน่นกับเทอร์มินอล, ฉนวนไม่ขาด",package:"6M"}];
+const delicelLoadCellTasks=[
+{id:1,name:"ตรวจเช็คการทำงานของ Loadcell",standard:"อ่านค่าได้ปกติ, ค่าอ่านตรงกับ DCS",package:"6M"},
+{id:2,name:"ตรวจวัดค่าความต้านทาน Loadcell",standard:"อยู่ใน range 350 ± 1 Ω",package:"6M"},
+{id:3,name:"ตรวจเช็คบาลานซ์ของ Loadcell",standard:"ระดับน้ำตรงทั้ง 3 มุม",package:"6M"},
+{id:4,name:"ตรวจเช็คสภาพสายไฟ",standard:"ยึดแน่นกับเทอร์มินอล, ฉนวนไม่ขาด",package:"6M"},
+{id:5,name:"ทำความสะอาด Load cell",standard:"สะอาดไม่มีคราบสกปรก",package:"6M"}];
+
+const additiveFuncLocMap={"T3100":"T-M-01-01-TAD-001","T3101":"T-M-01-01-TAD-002","T3102":"T-M-01-01-TAD-003","T3110":"T-M-01-01-TAD-004","T3111":"T-M-01-01-TAD-005","T3120":"T-M-01-01-TAD-006","T3121":"T-M-01-01-TAD-007","T3122":"T-M-01-01-TAD-008","T3123":"T-M-01-01-TAD-009","T3124":"T-M-01-01-TAD-010","T3125":"T-M-01-01-TAD-011","T3126":"T-M-01-01-TAD-012","T3130":"T-M-01-01-TAD-013","T3140":"T-M-01-01-TAD-014","T3141":"T-M-01-01-TAD-015","T3142":"T-M-01-01-TAD-016","T3150":"T-M-01-01-TAD-017","T3180":"T-M-01-01-TAD-018","T3190":"T-M-01-01-TAD-019","T3191":"T-M-01-01-TAD-020"};
+const additiveValveList=[
+{suffix:"-XV40",eq:"MVAC011",type:"actuator"},{suffix:"-XV41",eq:"MVAC011",type:"actuator"},
+{suffix:"-XV42",eq:"MVAC011",type:"actuator"},{suffix:"-XV402",eq:"MVAC011",type:"actuator"},
+{suffix:"-XV50",eq:"MSOV011",type:"solenoid"},{suffix:"-FT01",eq:"MIFT011",type:"flow"}];
+const additiveActuatorTasks=[{id:1,name:"ตรวจเช็ค Actuator",standard:"ไม่มีลมรั่ว, ทำงานปกติ",package:"6M"}];
+const additiveSolenoidTasks=[{id:1,name:"ตรวจเช็ค Solenoid valve",standard:"ไม่มีลมรั่ว",package:"6M"}];
+const additiveFlowTasks=[{id:1,name:"ตรวจเช็ค Flow Transmitter",standard:"อ่านค่าได้ปกติ",package:"6M"}];
+
+const tf2Map={'T2110':['LS','PDTR','TT','XV13','XV40_P','XV41_P','XV42_P','XV43_P','PSV','FT'],'T2111':['LS','PDTR','TT','XV13','XV14','XV40_P','XV42_P','XV43_P','PSV','FT'],'T2112':['LS','PDTR','TT','XV13','XV14','PSV'],'T2113':['LS','PDTR','TT','XV13','XV14','PSV'],'T2210':['LS','PDTD','XV40','XV50','SOV50','FT'],'T2211':['LS','PDTD','XV40','XV50'],'T2212':['LS','PDTD','XV40','XV50','SOV50','FT','REG'],'T2213':['LS','PDTD','XV40','XV50'],'T2214':['LS','PDTD','XV40','XV50','SOV50','FT','REG'],'T2215':['LS','PDTD','XV40','XV50'],'T2216':['LS','PDTD','XV13','XV40','XV50','SOV50','FT'],'T2217':['LS','PDTD','XV13','XV40','XV50','SOV50','FT'],'T2218':['LS','PDTD','XV13','XV40','XV50','SOV50','FT'],'T2219':['LS','PDTD','XV40'],'T2220':['LS','PDTD','XV40'],'T2221':['LS','PDTD','XV40'],'T2410':['LS','PDTD','XV13','XV40','XV41','XV50','SOV50','FT'],'T2411':['LS','PDTD','XV13','XV40','XV41','XV50','SOV50','FT'],'T9110':['LS','PDTD','XV13','XV40','XV41','XV50','SOV50','FT','REG']};
+const surpMap={'C1910':['XV80','XV50','XV51','PIC01'],'C1911':['XV80','XV50','PIC01'],'C1920':['XV80','XV50','XV51','PIC01'],'C1921':['XV80','XV50','XV51','XV52','PIC01'],'C1930':['XV80','XV50','XV51','PIC01'],'C1940':['XV80','XV50','PIC01'],'C1960':['XV80','XV51','PIC01'],'C1970':['XV80','PIC01'],'C1980':['XV80','XV51','PIC01'],'C1995':['XV80','XV51','PIC01']};
+const siloMap={'S1110':['JET','PRV','TT','LSH','YC','XV50','XV51','XV52','XV53','FB50','RV50','RV51','RV52','RV53'],'S1111':['JET','PRV','TT','LSH','YC','XV50','XV51','XV52','XV53','FB50','RV50','RV51','RV52','RV53'],'S1112':['JET','PRV','TT','LSH','YC','XV50','XV51','XV52','XV53','FB50','RV50','RV51','RV52','RV53'],'S1120':['JET','PRV','TT','LSH','YC','XV50','XV51','XV52','FB50','RV50','RV51','RV52','RV53'],'S1130':['JET','PRV','TT','LSH','YC','XV50','XV51','XV52','XV53','FB50','RV50','RV51','RV52','RV53'],'S1131':['JET','PRV','TT','LSH','YC','XV50','XV51','XV52','XV53','FB50','RV50','RV51','RV52','RV53'],'S1140':['JET','PRV','TT','LSH','YC','XV50','XV51','XV52','XV53','FB50','RV50','RV51','RV52','RV53'],'S1141':['JET','PRV','TT','LSH','YC','XV50','XV51','XV52','XV53','FB50','RV50','RV51','RV52','RV53']};
+const hopperMap={'B1210':['XV50','JET','RV50','LSH'],'B1211':['XV50','RV50','JET','LSH'],'B1230':['XV50','RV50','JET','LSH'],'B1240':['XV50','RV50','JET','LSH'],'X1321':['RV50','LSH'],'Y1220':['RV1220-XV50','RV1221-XV50','JET']};
+
+const mixFlMap={'D7301':'001','D7302':'002','D7303':'003','D7304':'004','D7305':'005','D7306':'006','D7307':'007','D7308':'008','D7309':'009','D7310':'010','D7311':'011','D7312':'012','D7313':'017','D7314':'018','D7315':'019'};
+const tf2FlMap={'T2110':'005','T2111':'006','T2112':'018','T2113':'022','T2210':'007','T2211':'008','T2212':'009','T2213':'010','T2214':'011','T2215':'012','T2216':'013','T2217':'014','T2218':'015','T2219':'019','T2220':'020','T2221':'021','T2410':'016','T2411':'017','T9110':'001'};
+const surpFlMap={'C1910':'001','C1911':'002','C1920':'003','C1921':'004','C1930':'005','C1940':'006','C1960':'007','C1970':'008','C1980':'009','C1995':'010'};
+const siloFlMap={'S1110':'001','S1111':'002','S1112':'003','S1120':'004','S1130':'005','S1131':'006','S1140':'007','S1141':'008'};
+const hopperFlMap={'B1210':'001','B1211':'002','B1230':'003','B1240':'004','X1321':'005','Y1220':'006'};
+const divFlMap={'XV1110':'001','XV1111':'002','XV1112':'003','XV1113':'004','XV1114':'005','XV1115':'006','XV1116':'007','XV1117':'008','XV1130':'009','XV1131':'010','XV1132':'011','XV1133':'012','XV1134':'013','XV1135':'014','XV1136':'015','XV1137':'016','XV1138':'017','XV1139':'018','XV1141':'019','XV1142':'020','XV1143':'021','XV1150':'022','XV1151':'023','XV1160':'024','XV1210':'025','XV1211':'026','XV1220':'027','XV1221':'028','XV1222':'029','XV1223':'030','XV1230':'031','XV1231':'032','XV1232':'035','XV1240':'033','XV1144':'034','XV1241':'036','XV1242':'037','XV1311':'038','XV1313':'039','XV1314':'040','XV1315':'041','XV1316':'042','XV1317':'043','XV1318':'044','XV1319':'045','XV1320':'046','XV1321':'047','XV1322':'048','XV1323':'049','XV1324':'050','XV1325':'051','XV1326':'052','XV1327':'053','XV1328':'054','XV1350':'055','XV1351':'056'};
+
+
+let dbData={}, activeTankType="deluting", activeTankName="T5110", currentUser=null, currentRole="view";
+
+const tankGroupMapping={deluting:delutingTanks,delicel:delicelTanks,additive:additiveTanks,updown:updownTanks,tankfarm2:tankfarm2Tanks,surpressor:surpressorTanks,silo:siloPowderTanks,hopper:hopperPowderTanks,diverter:diverterTanks};
+
+function esc(v){return String(v??"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#039;")}
+function setLoading(on){document.getElementById("loading").style.display=on?"block":"none"}
+function applyTheme(theme){const t=theme==="dark"?"dark":"light";document.documentElement.setAttribute("data-theme",t);localStorage.setItem("pmTheme",t);document.querySelectorAll(".theme-toggle").forEach(b=>{const i=b.querySelector("i");if(i)i.className=t==="dark"?"fa-solid fa-sun":"fa-solid fa-moon"})}
+function toggleTheme(){applyTheme((document.documentElement.getAttribute("data-theme")||"light")==="dark"?"light":"dark")}
+function initTheme(){const s=localStorage.getItem("pmTheme");applyTheme(s||(matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"))}
+
+function showLoginError(msg){const e=document.getElementById("login-error");e.textContent=msg;e.style.display="block"}
+function hideLoginError(){document.getElementById("login-error").style.display="none"}
+function showApp(){document.getElementById("login-screen").classList.add("hidden");document.getElementById("app-container").classList.remove("hidden")}
+function showLogin(){document.getElementById("login-screen").classList.remove("hidden");document.getElementById("app-container").classList.add("hidden")}
+
+async function loadDbData(){
+  const {data,error}=await db.from("pm_data").select("data_key,data_value");
+  if(error)throw error;
+  dbData={};(data||[]).forEach(r=>dbData[r.data_key]=r.data_value??"");
+}
+
+async function saveDataToServer(key,value){
+  if(currentRole==="view")return;
+  dbData[key]=String(value??"");
+  try{
+    setLoading(true);
+    const {error}=await db.from("pm_data").upsert({data_key:key,data_value:String(value??""),updated_by:currentUser.id,updated_at:new Date().toISOString()},{onConflict:"data_key"});
+    if(error)throw error;
+  }catch(e){alert("⚠️ บันทึกไม่สำเร็จ: "+e.message);throw e}
+  finally{setLoading(false)}
+}
+
+async function saveMany(rows){
+  if(currentRole==="view"||!rows.length)return;
+  rows.forEach(r=>dbData[r.key]=String(r.value??""));
+  try{
+    setLoading(true);
+    const payload=rows.map(r=>({data_key:r.key,data_value:String(r.value??""),updated_by:currentUser.id,updated_at:new Date().toISOString()}));
+    const {error}=await db.from("pm_data").upsert(payload,{onConflict:"data_key"});
+    if(error)throw error;
+  }catch(e){alert("⚠️ บันทึกข้อมูลไม่สำเร็จ: "+e.message);throw e}
+  finally{setLoading(false)}
+}
+
+async function performLogin(){
+  hideLoginError();
+  const email=document.getElementById("username").value.trim(),password=document.getElementById("password").value;
+  if(!email||!password){showLoginError("กรุณากรอก E-Mail และรหัสผ่าน");return}
+  const b=document.getElementById("loginButton");b.disabled=true;b.textContent="กำลังตรวจสอบ...";
+  const {data,error}=await db.auth.signInWithPassword({email,password});
+  b.disabled=false;b.textContent="เข้าสู่ระบบ";
+  if(error){showLoginError("เข้าสู่ระบบไม่สำเร็จ: "+error.message);return}
+  currentUser=data.user;
+  await loadUserAndStart();
+}
+
+async function loadUserAndStart(){
+  const {data,error}=await db.from("profiles").select("role,display_name,email").eq("id",currentUser.id).single();
+  if(error){showLoginError("ไม่พบ Profile ของผู้ใช้งาน: "+error.message);return}
+  currentRole=data.role||"view";
+  await loadDbData();
+  startApp();
+}
+
+async function checkLoginStatus(){
+  const {data}=await db.auth.getSession();
+  if(!data.session){showLogin();return}
+  currentUser=data.session.user;
+  await loadUserAndStart();
+}
+
+function startApp(){
+  showApp();
+  const view=currentRole==="view";
+  document.getElementById("currentUserDisplay").innerHTML=view?"👤 <b>สถานะ:</b> ดูข้อมูลอย่างเดียว":"👤 <b>สถานะ:</b> สามารถแก้ไขได้ (Admin)";
+  document.getElementById("btnClearData").style.display=view?"none":"inline-block";
+  document.getElementById("btnClearGroup").style.display=view?"none":"inline-block";
+  ["orderNo","orderType","orderActivity","desc","workCenter","supervisor","sysStatus","userStatus","releaseDate","pmDate","pmNextDate"].forEach(id=>{const e=document.getElementById(id);if(e)e.readOnly=view});
+  activeTankType=dbData.lastSavedTankType||"deluting";
+  activeTankName=dbData.lastSavedTank||"T5110";
+  ["deluting","delicel","additive","updown","tankfarm2","surpressor","silo","hopper","diverter"].forEach(t=>{const e=document.getElementById(t+"Select");if(e)e.value=t===activeTankType?activeTankName:""});
+  renderForm();
+}
+
+async function performLogout(){await db.auth.signOut();currentUser=null;showLogin();location.reload()}
+
+function togglePasswordVisibility(){const p=document.getElementById("password"),i=document.querySelector("#passwordToggle i");if(p.type==="password"){p.type="text";i.className="fa-solid fa-eye-slash"}else{p.type="password";i.className="fa-solid fa-eye"}p.focus()}
+
+async function requestPasswordHelp(){
+  const email=document.getElementById("username").value.trim(),s=document.getElementById("forgot-status"),b=document.getElementById("forgotPasswordBtn");
+  s.className="";s.style.display="none";
+  if(!email){s.className="is-error";s.textContent="กรุณากรอก E-Mail ก่อนแจ้งลืมรหัสผ่าน";s.style.display="block";return}
+  b.disabled=true;s.className="is-loading";s.textContent="⏳ กำลังส่งลิงก์รีเซ็ตรหัสผ่าน...";s.style.display="block";
+  const redirectTo=window.location.origin+window.location.pathname;
+  const {error}=await db.auth.resetPasswordForEmail(email,{redirectTo});
+  b.disabled=false;
+  if(error){s.className="is-error";s.textContent="ส่งลิงก์ไม่สำเร็จ: "+error.message}
+  else{s.className="is-success";s.textContent="✓ ส่งลิงก์รีเซ็ตรหัสผ่านไปยัง E-Mail แล้ว กรุณาตรวจสอบกล่องจดหมาย"}
+}
+
+function switchTank(type){
+  const el=document.getElementById(type+"Select");if(!el||!el.value)return;
+  activeTankType=type;activeTankName=el.value;
+  ["deluting","delicel","additive","updown","tankfarm2","surpressor","silo","hopper","diverter"].forEach(t=>{if(t!==type){const e=document.getElementById(t+"Select");if(e)e.value=""}});
+  if(currentRole!=="view")saveMany([{key:"lastSavedTankType",value:type},{key:"lastSavedTank",value:activeTankName}]).catch(console.error);
+  renderForm();
+}
+
+async function saveHeader(id){if(currentRole!=="view"&&activeTankName)await saveDataToServer(`${activeTankName}_header_${id}`,document.getElementById(id).value)}
+
+async function toggleRadio(e,radio,key,value){
+  if(currentRole==="view"){e.preventDefault();return false}
+  if(radio.getAttribute("data-checked")==="true"){
+    e.preventDefault();radio.checked=false;radio.setAttribute("data-checked","false");await saveDataToServer(key,"");
+  }else{
+    document.getElementsByName(radio.name).forEach(r=>{r.setAttribute("data-checked","false")});
+    radio.setAttribute("data-checked","true");await saveDataToServer(key,value);
+  }
+  return true;
+}
+
+async function clearCurrentTankData(){
+  if(currentRole==="view"||!activeTankName)return;
+  if(!confirm(`ล้างข้อมูลถัง ${activeTankName} บน Supabase ใช่หรือไม่?`))return;
+  setLoading(true);
+  try{
+    const {error}=await db.from("pm_data").delete().like("data_key",`${activeTankName}_%`);
+    if(error)throw error;
+    await loadDbData();renderForm();alert("เคลียร์ข้อมูลถังเรียบร้อย");
+  }catch(e){alert("เกิดข้อผิดพลาด: "+e.message)}finally{setLoading(false)}
+}
+
+async function clearCurrentGroupData(){
+  if(currentRole==="view"||!activeTankType)return;
+  const tanks=tankGroupMapping[activeTankType]||[];
+  if(!tanks.length)return;
+  if(!confirm(`⚠️ ล้างข้อมูลกรุ๊ป ${activeTankType} จำนวน ${tanks.length} อุปกรณ์?\n\nการกระทำนี้ไม่สามารถกู้คืนได้`))return;
+  setLoading(true);
+  try{
+    for(const tank of tanks){
+      const {error}=await db.from("pm_data").delete().like("data_key",`${tank}_%`);
+      if(error)throw error;
+    }
+    await loadDbData();renderForm();alert("เคลียร์ข้อมูลทั้งกรุ๊ปเรียบร้อยแล้ว");
+  }catch(e){alert("เกิดข้อผิดพลาด: "+e.message)}finally{setLoading(false)}
+}
+
+async function saveGroupDate(id){
+  if(currentRole==="view"||!activeTankType)return;
+  const value=document.getElementById(id).value,tanks=tankGroupMapping[activeTankType]||[];
+  await saveMany(tanks.map(t=>({key:`${t}_header_${id}`,value})));
+}
+
+function getEquipData(tank,code,tankType){
+  const pTank="P"+tank.substring(1);
+  if(tankType==="tankfarm2"){
+    if(code==="LS")return{eq:"N/A",desc:`LS${tank.substring(1)} Level switch`,tasks:t_LS};
+    if(code==="PDTR")return{eq:"N/A",desc:"Level Transmitter (Radar)",tasks:t_PDTR};
+    if(code==="PDTD")return{eq:"IPDT0110"+(tank==="T9110"?"40":"XX"),desc:"Diff. Pressure Transmitter",tasks:t_PDTD};
+    if(code==="TT")return{eq:"N/A",desc:`TT${tank.substring(1)} Temp. Transmitter of Mobile Pump`,tasks:t_TT};
+    if(code.startsWith("XV"))return{eq:"N/A",desc:`${tank}-${code} Actuator valve`,tasks:t_XV};
+    if(code==="XV40_P")return{eq:"N/A",desc:`${pTank}-XV40 Actuator valve`,tasks:t_XV};
+    if(code==="XV41_P")return{eq:"N/A",desc:`${pTank}-XV41 Actuator valve`,tasks:t_XV};
+    if(code==="XV42_P")return{eq:"N/A",desc:`${pTank}-XV42 Actuator valve`,tasks:t_XV};
+    if(code==="XV43_P")return{eq:"N/A",desc:`${pTank}-XV43 Actuator valve`,tasks:t_XV};
+    if(code==="PSV")return{eq:"N/A",desc:`PSV${tank.substring(1)} Breather valve`,tasks:t_PSV};
+    if(code==="FT")return{eq:"N/A",desc:"Mass Flow Transmitter",tasks:t_FT};
+    if(code==="SOV50")return{eq:"N/A",desc:`${pTank}-XV50 Solenoid valve 2/2`,tasks:t_SOV};
+    if(code==="REG")return{eq:"N/A",desc:`${pTank}-PCV54 Electric regulator`,tasks:t_REG};
+  }
+  if(tankType==="surpressor"){
+    if(code==="XV80"||code==="XV50"||code==="XV51"||code==="XV52")return{eq:"MVAC01",desc:`${tank}-${code} Actuator Valve`,tasks:t_XVS};
+    if(code==="PIC01")return{eq:"MIPRE01",desc:`${tank}-PIC01 Pressure Switch`,tasks:t_PIC};
+  }
+  if(tankType==="silo"){
+    if(code==="JET")return{eq:"IPAT011",desc:`Pressure Alarm Filter ${tank}`,tasks:t_JET};
+    if(code==="PRV")return{eq:"IPSI011",desc:`SPRV${tank.substring(1)} Safety Relief Valve (Pressure)`,tasks:t_PRV};
+    if(code==="TT")return{eq:"ITRT011",desc:`${tank}TT01 Temperature Transmitter`,tasks:t_TTP};
+    if(code==="LSH")return{eq:"N/A",desc:`${tank}-LSH01 Level switch`,tasks:t_LSP};
+    if(code==="YC")return{eq:"N/A",desc:`${tank}-YC01 Electromachanical Level`,tasks:t_YCP};
+    if(code.startsWith("XV"))return{eq:"N/A",desc:`${tank}-${code} Actuator valve`,tasks:t_XVS};
+    if(code.startsWith("FB"))return{eq:"N/A",desc:`FB${tank.substring(1)}-XV50 Actuator valve`,tasks:t_XVS};
+    if(code.startsWith("RV"))return{eq:"N/A",desc:`RV${tank.substring(1)}-${code.replace("RV","")} Actuator valve`,tasks:t_XVS};
+  }
+  if(tankType==="hopper"){
+    if(code==="XV50")return{eq:"MVAC01",desc:`${tank}-XV50 Actuator Valve`,tasks:t_XVS};
+    if(code==="RV50")return{eq:"MVAC01",desc:`RV${tank.substring(1)}-XV50 Actuator Valve`,tasks:t_XVS};
+    if(code==="JET")return{eq:"IPAT01",desc:`${tank} Dust Collector`,tasks:t_JET};
+    if(code==="LSH")return{eq:"MILSH01",desc:`${tank.charAt(0)==="X"?tank:"RV"+tank.substring(1)}-LSH01 Level Switch`,tasks:t_LSP};
+    if(code==="RV1220-XV50"||code==="RV1221-XV50")return{eq:"MVAC01",desc:`${code} Actuator Valve`,tasks:t_XVS};
+  }
+  return{eq:"-",desc:code,tasks:[]};
+}
+
+function buildTaskRows(maxRows,tasks,tankCode,valveId){
+  const view=currentRole==="view",ro=view?"readonly":"",cursor=view?"locked-cursor":"";
+  let h="";
+  for(let i=0;i<maxRows;i++){
+    const n=i+1,rKey=`${tankCode}_${valveId}_${n}_radio`,nKey=`${tankCode}_${valveId}_${n}_note`,radio=dbData[rKey]||"",note=dbData[nKey]||"";
+    const ok=radio==="OK",no=radio==="NO";
+    if(i<tasks.length){
+      const t=tasks[i];
+      h+=`<tr><td class="text-center">${t.id}</td><td>${esc(t.name)}</td><td>${esc(t.standard)}</td><td class="text-center">${esc(t.package)}</td>
+      <td class="radio-center"><input type="radio" class="radio-ok ${cursor}" name="grp_${esc(rKey)}" value="OK" ${ok?"checked":""} data-checked="${ok}" onclick="toggleRadio(event,this,'${esc(rKey)}','OK')"></td>
+      <td class="radio-center"><input type="radio" class="radio-no ${cursor}" name="grp_${esc(rKey)}" value="NO" ${no?"checked":""} data-checked="${no}" onclick="toggleRadio(event,this,'${esc(rKey)}','NO')"></td>
+      <td><input type="text" class="borderless-input" value="${esc(note)}" ${ro} onchange="saveDataToServer('${esc(nKey)}',this.value)"></td></tr>`;
+    }else{
+      const a=`${tankCode}_${valveId}_${n}_taskName`,s=`${tankCode}_${valveId}_${n}_standard`,p=`${tankCode}_${valveId}_${n}_package`;
+      h+=`<tr><td class="text-center">${n}</td><td><input type="text" class="borderless-input" value="${esc(dbData[a]||"")}" ${ro} onchange="saveDataToServer('${esc(a)}',this.value)"></td>
+      <td><input type="text" class="borderless-input" value="${esc(dbData[s]||"")}" ${ro} onchange="saveDataToServer('${esc(s)}',this.value)"></td>
+      <td><input type="text" class="borderless-input text-center" value="${esc(dbData[p]||"")}" ${ro} onchange="saveDataToServer('${esc(p)}',this.value)"></td>
+      <td class="radio-center"><input type="radio" class="radio-ok ${cursor}" name="grp_${esc(rKey)}" value="OK" ${ok?"checked":""} data-checked="${ok}" onclick="toggleRadio(event,this,'${esc(rKey)}','OK')"></td>
+      <td class="radio-center"><input type="radio" class="radio-no ${cursor}" name="grp_${esc(rKey)}" value="NO" ${no?"checked":""} data-checked="${no}" onclick="toggleRadio(event,this,'${esc(rKey)}','NO')"></td>
+      <td><input type="text" class="borderless-input" value="${esc(note)}" ${ro} onchange="saveDataToServer('${esc(nKey)}',this.value)"></td></tr>`;
+    }
+  }
+  return h;
+}
+
+function buildSection(eq,desc,tasks,valveId){
+  return `<table><tr class="header-bg"><td colspan="4" style="text-align:left">Equipment : ${esc(eq)}</td><td colspan="4" style="text-align:left;color:#b30000">Description : ${esc(desc)}</td></tr>
+  <tr class="sub-header-bg text-center"><td width="4%">Items</td><td width="24%">Preventive Maintenance Task List</td><td width="24%">Standard</td><td width="6%">Package</td><td width="4%">OK</td><td width="4%">NO</td><td width="28%">Result Note</td></tr>
+  ${buildTaskRows(6,tasks,activeTankName,valveId)}</table>`;
+}
+
+function renderForm(){
+  if(!activeTankName){document.getElementById("checklist-container").innerHTML="";return}
+  ["orderNo","orderType","orderActivity","desc","workCenter","supervisor","sysStatus","userStatus","releaseDate","pmDate","pmNextDate"].forEach(id=>document.getElementById(id).value=dbData[`${activeTankName}_header_${id}`]||"");
+  let h="";
+  const fl=document.getElementById("fl-display"),ed=document.getElementById("equipment-desc-display");
+  if(activeTankType==="deluting"){
+    fl.textContent="Functional Location : T-M-01-01-LET-001";ed.textContent=`Description : ${activeTankName} Deluting Tank (E2M12501)`;
+    delutingValveList.forEach(v=>h+=buildSection(v.eq,`${activeTankName}-${v.suffix} Actuator valve`,v.suffix==="XV40"?[...delutingStdTasks,xv40Task]:delutingStdTasks,v.suffix));
+  }else if(activeTankType==="delicel"){
+    fl.textContent="Functional Location : T-M-01-01-DEL-001";ed.textContent=`Description : ${activeTankName} Delicel`;
+    delicelValveList.forEach(v=>{let d;if(["magFlow","tempTrans","loadCell"].includes(v.type))d=activeTankName+v.suffix;else d=(v.p==="R"?activeTankName:v.p+activeTankName.substring(1))+v.suffix;
+      const id=v.p+"_"+v.suffix.split(" ")[0].replace("-","");
+      const t=v.type==="jet"?delicelJetTasks:v.type==="magFlow"?delicelMagFlowTasks:v.type==="tempTrans"?delicelTempTransTasks:v.type==="loadCell"?delicelLoadCellTasks:delicelStdTasks;
+      h+=buildSection(v.eq,d,t,id)});
+  }else if(activeTankType==="additive"){
+    fl.textContent=`Functional Location : ${additiveFuncLocMap[activeTankName]||""}`;ed.textContent=`Description : ${activeTankName} Additive Tank`;
+    additiveValveList.forEach(v=>{const pre="P"+activeTankName.substring(1),d=pre+v.suffix+(v.type==="actuator"?" Actuator valve":v.type==="solenoid"?" Solenoid valve 2/2":" Flow transmitter"),id="add_"+v.suffix.replace("-",""),t=v.type==="actuator"?additiveActuatorTasks:v.type==="solenoid"?additiveSolenoidTasks:additiveFlowTasks;h+=buildSection(v.eq,d,t,id)});
+  }else if(activeTankType==="updown"){
+    fl.textContent=`Functional Location : T-M-01-01-MIX-${mixFlMap[activeTankName]}`;ed.textContent=`Description : ${activeTankName} Up Down Mixer (E2M026${mixFlMap[activeTankName].substring(1)})`;
+    h+=buildSection("MVAC011",`${activeTankName}-XV50 Actuator valve`,t_UPDOWN,"XV50");
+  }else if(activeTankType==="tankfarm2"){
+    fl.textContent=`Functional Location : T-M-01-01-TSR-${tf2FlMap[activeTankName]}`;ed.textContent=`Description : ${activeTankName} Storage Tank`;
+    (tf2Map[activeTankName]||[]).forEach(c=>{const d=getEquipData(activeTankName,c,"tankfarm2");h+=buildSection(d.eq,d.desc,d.tasks,c)});
+  }else if(activeTankType==="surpressor"){
+    fl.textContent=`Functional Location : T-M-01-01-BLO-${surpFlMap[activeTankName]}`;ed.textContent=`Description : ${activeTankName} Surpressor`;
+    (surpMap[activeTankName]||[]).forEach(c=>{const d=getEquipData(activeTankName,c,"surpressor");h+=buildSection(d.eq,d.desc,d.tasks,c)});
+  }else if(activeTankType==="silo"){
+    fl.textContent=`Functional Location : T-M-01-01-SLO-${siloFlMap[activeTankName]}`;ed.textContent=`Description : ${activeTankName} Silo Powder`;
+    (siloMap[activeTankName]||[]).forEach(c=>{const d=getEquipData(activeTankName,c,"silo");h+=buildSection(d.eq,d.desc,d.tasks,c)});
+  }else if(activeTankType==="hopper"){
+    fl.textContent=`Functional Location : T-M-01-01-HOP-${hopperFlMap[activeTankName]}`;ed.textContent=`Description : ${activeTankName} Powder Hopper`;
+    (hopperMap[activeTankName]||[]).forEach(c=>{const d=getEquipData(activeTankName,c,"hopper");h+=buildSection(d.eq,d.desc,d.tasks,c)});
+  }else if(activeTankType==="diverter"){
+    fl.textContent=`Functional Location : T-M-01-01-VAC-${divFlMap[activeTankName]}`;ed.textContent=`Description : ${activeTankName}-2 Way Diverter`;
+    h+=buildSection("MVAC0110"+divFlMap[activeTankName],`${activeTankName}-2 Way Diverter`,t_DIV,"DIV");
+  }
+  document.getElementById("checklist-container").innerHTML=h;
+}
+
+function fillSelect(id,arr){const s=document.getElementById(id);arr.forEach(x=>s.add(new Option(x,x)))}
+function initSelectors(){
+  fillSelect("delutingSelect",delutingTanks);fillSelect("delicelSelect",delicelTanks);fillSelect("additiveSelect",additiveTanks);fillSelect("updownSelect",updownTanks);fillSelect("tankfarm2Select",tankfarm2Tanks);fillSelect("surpressorSelect",surpressorTanks);fillSelect("siloSelect",siloPowderTanks);fillSelect("hopperSelect",hopperPowderTanks);fillSelect("diverterSelect",diverterTanks);
+}
+
+window.addEventListener("DOMContentLoaded",async()=>{
+  initTheme();initSelectors();
+  document.getElementById("username").addEventListener("keydown",e=>{if(e.key==="Enter")document.getElementById("password").focus()});
+  document.getElementById("password").addEventListener("keydown",e=>{if(e.key==="Enter")performLogin()});
+  const {createClient}=supabase;
+  window.db=createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY);
+  db.auth.onAuthStateChange(async(event,session)=>{
+    if(event==="PASSWORD_RECOVERY"){
+      const p=prompt("ตั้งรหัสผ่านใหม่:");
+      if(p){const {error}=await db.auth.updateUser({password:p});alert(error?"เปลี่ยนรหัสผ่านไม่สำเร็จ: "+error.message:"เปลี่ยนรหัสผ่านสำเร็จ");}
+    }
+  });
+  try{await checkLoginStatus()}catch(e){showLoginError("เชื่อมต่อ Supabase ไม่สำเร็จ: "+e.message)}
+});
+
+</script>
+</body>
+</html>
