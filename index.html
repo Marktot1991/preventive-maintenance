@@ -270,7 +270,7 @@ async function checkLoginStatus(){
 function startApp(){
   showApp();
   const view=currentRole==="view";
-  document.getElementById("currentUserDisplay").innerHTML=view?"👤 <b>สถานะ:</b> ดูข้อมูลอย่างเดียว":"👤 <b>สถานะ:</b> สามารถแก้ไขได้ (Admin)";
+  document.getElementById("currentUserDisplay").innerHTML=view?"👤 <b>สถานะ:</b> ดูข้อมูลอย่างเดียว":"👤 <b>สถานะ:</b> 🟢Online (Admin)";
   document.getElementById("btnClearData").style.display=view?"none":"inline-block";
   document.getElementById("btnClearGroup").style.display=view?"none":"inline-block";
   ["orderNo","orderType","orderActivity","desc","workCenter","supervisor","sysStatus","userStatus","releaseDate","pmDate","pmNextDate"].forEach(id=>{const e=document.getElementById(id);if(e)e.readOnly=view});
