@@ -2,7 +2,6 @@
 <html lang="th">
 <head>
 <meta charset="UTF-8">
-<!-- แก้ไข Viewport เพื่อบังคับแสดงผลแบบ PC Desktop และเปิดให้ซูมได้ -->
 <meta name="viewport" content="width=1200, user-scalable=yes">
 <title>Preventive Maintenance Form</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
@@ -35,7 +34,9 @@ button{cursor:pointer;font-weight:700;padding:8px 12px;border-radius:5px;border:
 #app-container{width:100%;padding:15px;display:flex;flex-direction:column;align-items:center;gap:15px}
 .top-control-panel{width:100%;max-width:1080px;background:#007bff;padding:20px;border-radius:10px;color:#fff;box-shadow:0 4px 10px rgba(0,0,0,.1)}
 html[data-theme=dark] .top-control-panel{background:var(--surface);border:1px solid var(--border)}
-.top-control-panel h3{margin-top:0;padding-bottom:12px;border-bottom:1px solid rgba(255,255,255,.3)}
+.top-control-panel-header {display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid rgba(255,255,255,.3)}
+.top-control-panel h3{margin:0}
+.dept-selector{font-size:14px;font-weight:bold;background:var(--surface);color:var(--text);padding:8px 14px;border-radius:8px;border:1px solid var(--border);cursor:pointer;outline:none}
 .tank-controls{display:flex;flex-wrap:wrap;gap:15px}.tank-group-box{flex:1;min-width:180px;background:var(--surface);padding:12px 14px;border-radius:8px;color:var(--text)}
 .tank-group-box label{display:block;font-weight:bold;margin-bottom:8px;font-size:13px}.tank-group-box select{width:100%;padding:8px;border-radius:6px;border:1px solid var(--border);background:var(--surface-input);color:var(--text)}
 .main-content{width:100%;max-width:1080px}.top-bar{width:100%;background:var(--surface);padding:10px 15px;border-radius:8px;margin-bottom:15px;display:flex;flex-wrap:wrap;align-items:center;justify-content:flex-end;gap:10px;box-shadow:0 2px 8px rgba(0,0,0,.05)}
@@ -64,25 +65,40 @@ input[readonly]{color:inherit!important;-webkit-text-fill-color:currentColor;opa
 <h1 class="login-title">Preventive Maintenance</h1>
 <p class="login-subtitle">กรุณาเข้าสู่ระบบเพื่อจัดการและตรวจสอบ<br>แบบฟอร์มบำรุงรักษาเชิงป้องกัน</p>
 <div class="login-field"><label for="username">E-Mail</label><div class="login-input-wrap"><span class="login-input-icon">👤</span><input type="email" id="username" class="login-input" placeholder="กรอก E-Mail" autocomplete="username"></div></div>
-<div class="login-field"><label for="password">รหัสผ่าน</label><div class="login-input-wrap"><span class="login-input-icon">🔑</span><input type="password" id="password" class="login-input" placeholder="กรอกรหัสผ่าน" autocomplete="current-password"><button type="button" id="passwordToggle" class="password-toggle" onclick="togglePasswordVisibility()"><i class="fa-solid fa-eye"></i></button></div></div>
+<div class="login-field"><label for="password">รหัสผ่าน</label><div class="login-input-wrap"><span class="login-input-icon">🔑</span><input type="password" id="password" class="login-input" placeholder="กรอกรหัสผ่าน" autocomplete="current-password"><button type="button" id="passwordToggle" class="password-toggle" onclick="togglePasswordVisibility()"><i class="fa-solid fa-eye-slash"></i></button></div></div>
 <div class="login-actions"><button type="button" id="forgotPasswordBtn" class="forgot-link" onclick="requestPasswordHelp()">ลืมรหัสผ่าน?</button></div>
 <button type="button" id="loginButton" class="btn-login" onclick="performLogin()">เข้าสู่ระบบ</button>
 <div id="login-error" role="alert"></div><div id="forgot-status" role="status"></div>
-<div class="login-footer">TOA Paint (Thailand) Public Company Limited • Emulsion 2</div>
+<div class="login-footer">TOA Paint (Thailand) Public Company Limited</div>
 </div></div>
 
 <div id="app-container" class="hidden">
-<div class="top-control-panel"><h3>⚙️ เลือกระบบและถัง/อุปกรณ์</h3><div class="tank-controls">
-<div class="tank-group-box"><label>Letdown Tanks (T):</label><select id="delutingSelect" onchange="switchTank('deluting')"><option value="">-- เลือกถัง --</option></select></div>
-<div class="tank-group-box"><label>Delicel Tanks (R):</label><select id="delicelSelect" onchange="switchTank('delicel')"><option value="">-- เลือกถัง --</option></select></div>
-<div class="tank-group-box"><label>Additive Tanks (T):</label><select id="additiveSelect" onchange="switchTank('additive')"><option value="">-- เลือกถัง --</option></select></div>
-<div class="tank-group-box"><label>Up Down Mixer (D):</label><select id="updownSelect" onchange="switchTank('updown')"><option value="">-- เลือกถัง --</option></select></div>
-<div class="tank-group-box"><label>Tank Farm 2 (T):</label><select id="tankfarm2Select" onchange="switchTank('tankfarm2')"><option value="">-- เลือกถัง --</option></select></div>
-<div class="tank-group-box"><label>Surpressor (C):</label><select id="surpressorSelect" onchange="switchTank('surpressor')"><option value="">-- เลือกถัง --</option></select></div>
-<div class="tank-group-box"><label>Silo Powder (S):</label><select id="siloSelect" onchange="switchTank('silo')"><option value="">-- เลือกถัง --</option></select></div>
-<div class="tank-group-box"><label>Hopper Powder (B/X/Y):</label><select id="hopperSelect" onchange="switchTank('hopper')"><option value="">-- เลือกถัง --</option></select></div>
-<div class="tank-group-box"><label>2-Way Diverter (XV):</label><select id="diverterSelect" onchange="switchTank('diverter')"><option value="">-- เลือกตัว --</option></select></div>
-</div></div>
+<div class="top-control-panel">
+  <div class="top-control-panel-header">
+    <h3>⚙️ เลือกระบบและถัง/อุปกรณ์</h3>
+    <select id="deptSelect" class="dept-selector" onchange="switchDept(this.value)">
+      <option value="em2">แผนก : Emulsion 2</option>
+      <option value="resin">แผนก : Resin PD1</option>
+    </select>
+  </div>
+  
+  <div class="tank-controls" id="em2-controls">
+    <div class="tank-group-box"><label>Letdown Tanks (T):</label><select id="delutingSelect" onchange="switchTank('deluting')"><option value="">-- เลือกถัง --</option></select></div>
+    <div class="tank-group-box"><label>Delicel Tanks (R):</label><select id="delicelSelect" onchange="switchTank('delicel')"><option value="">-- เลือกถัง --</option></select></div>
+    <div class="tank-group-box"><label>Additive Tanks (T):</label><select id="additiveSelect" onchange="switchTank('additive')"><option value="">-- เลือกถัง --</option></select></div>
+    <div class="tank-group-box"><label>Up Down Mixer (D):</label><select id="updownSelect" onchange="switchTank('updown')"><option value="">-- เลือกถัง --</option></select></div>
+    <div class="tank-group-box"><label>Tank Farm 2 (T):</label><select id="tankfarm2Select" onchange="switchTank('tankfarm2')"><option value="">-- เลือกถัง --</option></select></div>
+    <div class="tank-group-box"><label>Surpressor (C):</label><select id="surpressorSelect" onchange="switchTank('surpressor')"><option value="">-- เลือกถัง --</option></select></div>
+    <div class="tank-group-box"><label>Silo Powder (S):</label><select id="siloSelect" onchange="switchTank('silo')"><option value="">-- เลือกถัง --</option></select></div>
+    <div class="tank-group-box"><label>Hopper Powder (B/X/Y):</label><select id="hopperSelect" onchange="switchTank('hopper')"><option value="">-- เลือกถัง --</option></select></div>
+    <div class="tank-group-box"><label>2-Way Diverter (XV):</label><select id="diverterSelect" onchange="switchTank('diverter')"><option value="">-- เลือกตัว --</option></select></div>
+  </div>
+
+  <div class="tank-controls hidden" id="resin-controls">
+    <div class="tank-group-box"><label>Thinning Tank (T):</label><select id="thinningSelect" onchange="switchTank('thinning')"><option value="">-- เลือกถัง --</option></select></div>
+    <div class="tank-group-box"><label>Reactor (R):</label><select id="reactorSelect" onchange="switchTank('reactor')"><option value="">-- เลือกถัง --</option></select></div>
+  </div>
+</div>
 
 <div class="main-content"><div class="top-bar">
 <span id="currentUserDisplay"></span>
@@ -99,12 +115,13 @@ input[readonly]{color:inherit!important;-webkit-text-fill-color:currentColor;opa
 <tr><td colspan="2">Maintenance Work Center :<input type="text" class="borderless-input" id="workCenter" onchange="saveHeader('workCenter')"></td><td colspan="2">Supervisor :<input type="text" class="borderless-input" id="supervisor" onchange="saveHeader('supervisor')"></td></tr>
 <tr><td colspan="2">Order System Status :<input type="text" class="borderless-input" id="sysStatus" onchange="saveHeader('sysStatus')"></td><td>Order User Status :<input type="text" class="borderless-input" id="userStatus" onchange="saveHeader('userStatus')"></td><td>Order Release Date :<input type="text" class="borderless-input" id="releaseDate" onchange="saveHeader('releaseDate')"></td></tr></table>
 
-<table><tr><td colspan="2" class="header-bg">Equipment Info.</td></tr><tr><td>Company : TOA Paint (Thailand)</td><td>Department : Emulsion 2</td></tr><tr><td id="fl-display">Functional Location :</td><td id="equipment-desc-display"></td></tr></table>
+<table><tr><td colspan="2" class="header-bg">Equipment Info.</td></tr><tr><td>Company : TOA Paint (Thailand)</td><td id="dept-display">Department : Emulsion 2</td></tr><tr><td id="fl-display">Functional Location :</td><td id="equipment-desc-display"></td></tr></table>
 
-<table><tr><td width="50%" class="sub-header-bg text-center" id="pm-due-label">PM Date</td><td width="50%" class="sub-header-bg text-center" id="pm-next-due-label">Next Due Date</td></tr><tr><td><input type="date" class="borderless-input text-center" id="pmDate" onchange="saveGroupDate('pmDate')"></td><td><input type="date" class="borderless-input text-center" id="pmNextDate" onchange="saveGroupDate('pmNextDate')"></td></tr></table>
+<table><tr><td width="50%" class="sub-header-bg text-center" id="pm-due-label">Preventive Matenance Date</td><td width="50%" class="sub-header-bg text-center" id="pm-next-due-label">Preventive Maintenance Next Due Date</td></tr><tr><td><input type="date" class="borderless-input text-center" id="pmDate" onchange="saveGroupDate('pmDate')"></td><td><input type="date" class="borderless-input text-center" id="pmNextDate" onchange="saveGroupDate('pmNextDate')"></td></tr></table>
 <div id="checklist-container"></div>
 </div></div></div>
 <script>
+let dbData={}, activeDepartment="em2", activeTankType="deluting", activeTankName="T5110", currentUser=null, currentRole="view";
 
 const delutingTanks = ["T5110","T5111","T5112","T5113","T5114","T5115","T5120","T5121","T5122","T5123","T5124","T5125","T5126","T5130","T5131","T5132","T5133","T5134","T5135","T5136","T5137","T5138","T5139","T5140","T5141","T5142","T5143"];
 const delicelTanks = ["R4500","R4510","R4511","R4512","R4520","R4530","R4531","R4532","R4540","R4550","R4560"];
@@ -115,184 +132,57 @@ const surpressorTanks = ['C1910','C1911','C1920','C1921','C1930','C1940','C1960'
 const siloPowderTanks = ['S1110','S1111','S1112','S1120','S1130','S1131','S1140','S1141'];
 const hopperPowderTanks = ['B1210','B1211','B1230','B1240','X1321','Y1220'];
 const diverterTanks = ['XV1110','XV1111','XV1112','XV1113','XV1114','XV1115','XV1116','XV1117','XV1130','XV1131','XV1132','XV1133','XV1134','XV1135','XV1136','XV1137','XV1138','XV1139','XV1141','XV1142','XV1143','XV1144','XV1150','XV1151','XV1160','XV1210','XV1211','XV1220','XV1221','XV1222','XV1223','XV1230','XV1231','XV1232','XV1240','XV1241','XV1242','XV1311','XV1313','XV1314','XV1315','XV1316','XV1317','XV1318','XV1319','XV1320','XV1321','XV1322','XV1323','XV1324','XV1325','XV1326','XV1327','XV1328','XV1350','XV1351'];
+const resinThinningTanks = ['T-111', 'T-141'];
+const resinReactorTanks = ['R-111', 'R-141'];
+const tankGroupMapping={deluting:delutingTanks, delicel:delicelTanks, additive:additiveTanks, updown:updownTanks, tankfarm2:tankfarm2Tanks, surpressor:surpressorTanks, silo:siloPowderTanks, hopper:hopperPowderTanks, diverter:diverterTanks, thinning:resinThinningTanks, reactor:resinReactorTanks};
 
-const t_UPDOWN=[
-{id:1,name:"ตรวจเช็ค Actuator",standard:"ไม่มีลมรั่ว, Position Indicatorไม่หลุด",package:"6M"},
-{id:2,name:"ตรวจเช็ค Solenoid valve",standard:"ไม่มีลมรั่ว, รูเดรนไม่อุดตัน",package:"6M"},
-{id:3,name:"ตรวจเช็คสภาพสายไฟ",standard:"ยึดแน่นกับเทอร์มินอล, ฉนวนไม่ขาด",package:"6M"},
-{id:4,name:"ตรวจเช็คการทำงานของ Valve",standard:"เปิด/ปิดสุด ไม่ติดขัด",package:"6M"},
-{id:5,name:"ทำความสะอาด Actuator valve",standard:"สะอาดไม่มีคราบสกปรก",package:"6M"}];
-const t_LS=[
-{id:1,name:"ตรวจเช็คการทำงานของ Level switch",standard:"ทำงานปกติ",package:"6M"},
-{id:2,name:"ตรวจเช็คสภาพปะเก็น",standard:"เรียบสม่ำเสมอ ไม่แตก",package:"6M"},
-{id:3,name:"ตรวจเช็คความแน่นของ Bolt, Nut",standard:"ยึดแน่นไม่หลวมคลอน",package:"6M"},
-{id:4,name:"ตรวจเช็คสภาพ Cable Gland",standard:"ไม่แตก รัดสายไฟแน่น",package:"6M"}];
-const t_PDTR=[
-{id:1,name:"ตรวจเช็คการทำงานของ Radar",standard:"อ่านค่าได้ปกติ",package:"6M"},
-{id:2,name:"ตรวจเช็ค Remote Display ของ Radar",standard:"จอแสดงผลชัด ไม่ดับ",package:"6M"},
-{id:3,name:"ตรวจเช็คความแน่นของ Bolt, Nut",standard:"ยึดแน่นไม่หลวมคลอน",package:"6M"},
-{id:4,name:"ตรวจเช็คสภาพ Cable Gland",standard:"ไม่แตก รัดสายไฟแน่น",package:"6M"}];
-const t_PDTD=[
-{id:1,name:"ตรวจเช็คการทำงานของ Transmitter",standard:"อ่านค่าได้ปกติ",package:"6M"},
-{id:2,name:"ตรวจเช็คสภาพ Display",standard:"จอแสดงผลชัด ไม่ดับ",package:"6M"},
-{id:3,name:"ตรวจเช็คความแน่นของ Bolt, Nut",standard:"ยึดแน่นไม่หลวมคลอน",package:"6M"},
-{id:4,name:"ตรวจเช็คสภาพ Cable Gland",standard:"ไม่แตก รัดสายไฟแน่น",package:"6M"}];
-const t_TT=[
-{id:1,name:"ตรวจเช็คการทำงานของ Temp. Tran.",standard:"อ่านค่าได้ปกติ",package:"6M"},
-{id:2,name:"ตรวจเช็คสภาพ Probe",standard:"สะอาด ไม่มีคราบสกปรก",package:"6M"},
-{id:3,name:"ตรวจเช็คสภาพ Cable Gland",standard:"ไม่แตก รัดสายไฟแน่น",package:"6M"}];
-const t_XV=[
-{id:1,name:"ตรวจเช็คการทำงานของ Valve",standard:"เปิด/ปิดสุด, ไม่รั่วซึม",package:"6M"},
-{id:2,name:"ตรวจเช็ค Actuator+Solenoid valve",standard:"ไม่มีลมรั่ว, รูเดรนไม่อุดตัน",package:"6M"},
-{id:3,name:"ตรวจเช็คสภาพ Fitting",standard:"ไม่มีลมรั่ว, ไม่แตก",package:"6M"}];
-const t_PSV=[
-{id:1,name:"ตรวจเช็คสภาพภายนอก และภายใน",standard:"ไม่อุดตัน, ไม่สกปรก",package:"6M"},
-{id:2,name:"ตรวจเช็คสภาพปะเก็นและซีล",standard:"ไม่แตก, ไม่เสียรูป",package:"6M"},
-{id:3,name:"ตรวจเช็คความแน่นของ Bolt, Nut",standard:"ยึดแน่นไม่หลวมคลอน",package:"6M"}];
-const t_FT=[
-{id:1,name:"ตรวจเช็คการทำงานของ Flow meter",standard:"อ่านค่าได้ปกติ",package:"6M"},
-{id:2,name:"ตรวจเช็ค Display",standard:"จอแสดงผลชัด ไม่ดับ",package:"6M"},
-{id:3,name:"ตรวจเช็คความแน่นของ Bolt, Nut",standard:"ยึดแน่นไม่หลวมคลอน",package:"6M"},
-{id:4,name:"ตรวจเช็คสภาพปะเก็น",standard:"ไม่แตก ไม่เคมีรั่ว",package:"6M"},
-{id:5,name:"ตรวจเช็คสภาพ Cable Gland",standard:"ไม่แตก รัดสายไฟแน่น",package:"6M"}];
-const t_SOV=[
-{id:1,name:"ตรวจเช็คการทำงาน",standard:"ทำงานปกติ",package:"6M"},
-{id:2,name:"ตรวจเช็คสภาพ Diaphragm seal",standard:"ไม่ฉีกขาด, ไม่อุดตัน",package:"6M"},
-{id:3,name:"ตรวจเช็คสภาพ Fitting",standard:"ไม่มีลมรั่ว ไม่แตก",package:"6M"}];
-const t_REG=[
-{id:1,name:"ตรวจเช็คการทำงานของ Transmitter",standard:"รับค่าจาก DCS ได้ปกติ",package:"6M"},
-{id:2,name:"ตรวจเช็คการทำงานของ Regulator",standard:"จ่ายลมออกได้",package:"6M"},
-{id:3,name:"ตรวจเช็ค Body และ Fitting",standard:"ไม่แตก ไม่มีลมรั่ว",package:"6M"},
-{id:4,name:"ตรวจเช็คสภาพ Connector",standard:"ไม่หลุด ไม่แตก",package:"6M"},
-{id:5,name:"ตรวจเช็คสภาพสายสัญญาณ",standard:"ไม่มีรอยขาดชำรุด",package:"6M"}];
-const t_XVS=[
-{id:1,name:"ตรวจเช็คการทำงานของ Valve",standard:"เปิด/ปิดสุด, ไม่รั่วซึม",package:"6M"},
-{id:2,name:"ตรวจเช็ค Actuator+Solenoid valve",standard:"ไม่มีลมรั่ว, รูเดรนไม่อุดตัน",package:"6M"},
-{id:3,name:"ตรวจเช็คสภาพ Fitting",standard:"ไม่มีลมรั่ว, ไม่แตก",package:"6M"},
-{id:4,name:"ตรวจเช็คสายสัญญาณ",standard:"ไม่หลวม ไม่หลุด ไม่ขาด",package:"6M"}];
-const t_PIC=[
-{id:1,name:"ตรวจเช็คการทำงานของ Pressure switch",standard:"ทำงานปกติ",package:"6M"},
-{id:2,name:"ตรวจเช็คสายสัญญาณ",standard:"ไม่หลวม ไม่หลุด ไม่ขาด",package:"6M"},
-{id:3,name:"ตรวจเช็คสภาพ Connector",standard:"ไม่แตก เกลียวไม่คลาย",package:"6M"}];
-const t_JET=[
-{id:1,name:"ตรวจเช็คการทำงานของ Jet pulse",standard:"ทำงานปกติครบทุกวาล์ว",package:"6M"},
-{id:2,name:"ตรวจเช็ค Diff pressure",standard:"อ่านค่าได้ปกติทั้ง Local และ DCS",package:"6M"},
-{id:3,name:"ตรวจเช็ค Solenoid valve",standard:"ทำงานปกติ ไม่มีลมรั่ว",package:"6M"},
-{id:4,name:"ตรวจเช็คสายลม และ Fitting",standard:"ไม่อุดตัน",package:"6M"},
-{id:5,name:"ตรวจเช็คสายสัญญาณ",standard:"ไม่หลวม ไม่หลุด ไม่ขาด",package:"6M"}];
-const t_PRV=[
-{id:1,name:"ตรวจเช็ค PRV",standard:"ปิดสนิท ไม่รั่ว",package:"6M"},
-{id:2,name:"ตรวจเช็ค Spring loaded",standard:"ขยับได้ทั้งฝั่ง Pressure และ Suction",package:"6M"},
-{id:3,name:"ตรวจเช็คสภาพฟองน้ำ",standard:"ไม่เสียรูป ไม่ขาด",package:"6M"},
-{id:4,name:"ตรวจเช็คความแน่นของ Bolt, Nut",standard:"ยึดแน่นไม่หลวมคลอน",package:"6M"},
-{id:5,name:"ตรวจเช็คสภาพปะเก็น",standard:"ไม่แตก ไม่รั่ว",package:"6M"}];
-const t_TTP=[
-{id:1,name:"ตรวจเช็คการทำงานของ Temp. Tran.",standard:"อ่านค่าได้ปกติ",package:"6M"},
-{id:2,name:"ตรวจเช็คสภาพ Probe",standard:"สะอาด ไม่มีคราบสกปรก",package:"6M"},
-{id:3,name:"ตรวจเช็คสภาพ Cable Gland",standard:"ไม่แตก รัดสายไฟแน่น",package:"6M"},
-{id:4,name:"ตรวจเช็คสายสัญญาณ",standard:"ไม่หลวม ไม่หลุด ไม่ขาด",package:"6M"}];
-const t_LSP=[
-{id:1,name:"ตรวจเช็คการทำงานของ Level switch",standard:"ทำงานปกติ",package:"6M"},
-{id:2,name:"ตรวจเช็คสภาพ Body",standard:"ปิดสนิท ไม่แตก",package:"6M"},
-{id:3,name:"ตรวจเช็คสายสัญญาณ",standard:"ไม่หลวม ไม่หลุด ไม่ขาด",package:"6M"},
-{id:4,name:"ตรวจเช็คสภาพ Cable Gland",standard:"ไม่แตก รัดสายไฟแน่น",package:"6M"}];
-const t_YCP=[
-{id:1,name:"ตรวจเช็คการทำงานของ Level",standard:"อ่านค่าได้ปกติ",package:"6M"},
-{id:2,name:"ตรวจเช็คสภาพของเทป",standard:"ไม่ขาด ไม่งอ ไม่ติดขัด",package:"6M"},
-{id:3,name:"ตรวจเช็คลูกดิ่งปลายเทป",standard:"ไม่หลุดหาย",package:"6M"},
-{id:4,name:"ตรวจเช็คสายสัญญาณ",standard:"ไม่หลวม ไม่หลุด ไม่ขาด",package:"6M"}];
-const t_DIV=[
-{id:1,name:"ตรวจเช็ค Solenoid valve",standard:"ทำงานปกติ, ไม่พบลมรั่ว, ไม่อุดตัน",package:"6M"},
-{id:2,name:"ตรวจเช็ค Reed switch",standard:"ทำงานปกติ, สายสัญญาณไม่ชำรุด",package:"6M"},
-{id:3,name:"ตรวจเช็ค Junction box",standard:"ไม่แตกชำรุด, ยึดสายแน่นไม่หลวม",package:"6M"},
-{id:4,name:"ตรวจเช็คสายสัญญาณ",standard:"ไม่ขาดชำรุด",package:"6M"}];
+const p6="6M";
+const t_UPDOWN=[{i:1,n:"ตรวจเช็ค Actuator",s:"ไม่มีลมรั่ว, Position Indicatorไม่หลุด",p:p6},{i:2,n:"ตรวจเช็ค Solenoid valve",s:"ไม่มีลมรั่ว, รูเดรนไม่อุดตัน",p:p6},{i:3,n:"ตรวจเช็คสภาพสายไฟ",s:"ยึดแน่นกับเทอร์มินอล, ฉนวนไม่ขาด",p:p6},{i:4,n:"ตรวจเช็คการทำงานของ Valve",s:"เปิด/ปิดสุด ไม่ติดขัด",p:p6},{i:5,n:"ทำความสะอาด Actuator valve",s:"สะอาดไม่มีคราบสกปรก",p:p6}];
+const t_LS=[{i:1,n:"ตรวจเช็คการทำงานของ Level switch",s:"ทำงานปกติ",p:p6},{i:2,n:"ตรวจเช็คสภาพปะเก็น",s:"เรียบสม่ำเสมอ ไม่แตก",p:p6},{i:3,n:"ตรวจเช็คความแน่นของ Bolt, Nut",s:"ยึดแน่นไม่หลวมคลอน",p:p6},{i:4,n:"ตรวจเช็คสภาพ Cable Gland",s:"ไม่แตก รัดสายไฟแน่น",p:p6}];
+const t_PDTR=[{i:1,n:"ตรวจเช็คการทำงานของ Radar",s:"อ่านค่าได้ปกติ",p:p6},{i:2,n:"ตรวจเช็ค Remote Display ของ Radar",s:"จอแสดงผลชัด ไม่ดับ",p:p6},{i:3,n:"ตรวจเช็คความแน่นของ Bolt, Nut",s:"ยึดแน่นไม่หลวมคลอน",p:p6},{i:4,n:"ตรวจเช็คสภาพ Cable Gland",s:"ไม่แตก รัดสายไฟแน่น",p:p6}];
+const t_PDTD=[{i:1,n:"ตรวจเช็คการทำงานของ Transmitter",s:"อ่านค่าได้ปกติ",p:p6},{i:2,n:"ตรวจเช็คสภาพ Display",s:"จอแสดงผลชัด ไม่ดับ",p:p6},{i:3,n:"ตรวจเช็คความแน่นของ Bolt, Nut",s:"ยึดแน่นไม่หลวมคลอน",p:p6},{i:4,n:"ตรวจเช็คสภาพ Cable Gland",s:"ไม่แตก รัดสายไฟแน่น",p:p6}];
+const t_TT=[{i:1,n:"ตรวจเช็คการทำงานของ Temp. Tran.",s:"อ่านค่าได้ปกติ",p:p6},{i:2,n:"ตรวจเช็คสภาพ Probe",s:"สะอาด ไม่มีคราบสกปรก",p:p6},{i:3,n:"ตรวจเช็คสภาพ Cable Gland",s:"ไม่แตก รัดสายไฟแน่น",p:p6}];
+const t_XV=[{i:1,n:"ตรวจเช็คการทำงานของ Valve",s:"เปิด/ปิดสุด, ไม่รั่วซึม",p:p6},{i:2,n:"ตรวจเช็ค Actuator+Solenoid valve",s:"ไม่มีลมรั่ว, รูเดรนไม่อุดตัน",p:p6},{i:3,n:"ตรวจเช็คสภาพ Fitting",s:"ไม่มีลมรั่ว, ไม่แตก",p:p6}];
+const t_PSV=[{i:1,n:"ตรวจเช็คสภาพภายนอก และภายใน",s:"ไม่อุดตัน, ไม่สกปรก",p:p6},{i:2,n:"ตรวจเช็คสภาพปะเก็นและซีล",s:"ไม่แตก, ไม่เสียรูป",p:p6},{i:3,n:"ตรวจเช็คความแน่นของ Bolt, Nut",s:"ยึดแน่นไม่หลวมคลอน",p:p6}];
+const t_FT=[{i:1,n:"ตรวจเช็คการทำงานของ Flow meter",s:"อ่านค่าได้ปกติ",p:p6},{i:2,n:"ตรวจเช็ค Display",s:"จอแสดงผลชัด ไม่ดับ",p:p6},{i:3,n:"ตรวจเช็คความแน่นของ Bolt, Nut",s:"ยึดแน่นไม่หลวมคลอน",p:p6},{i:4,n:"ตรวจเช็คสภาพปะเก็น",s:"ไม่แตก ไม่เคมีรั่ว",p:p6},{i:5,n:"ตรวจเช็คสภาพ Cable Gland",s:"ไม่แตก รัดสายไฟแน่น",p:p6}];
+const t_SOV=[{i:1,n:"ตรวจเช็คการทำงาน",s:"ทำงานปกติ",p:p6},{i:2,n:"ตรวจเช็คสภาพ Diaphragm seal",s:"ไม่ฉีกขาด, ไม่อุดตัน",p:p6},{i:3,n:"ตรวจเช็คสภาพ Fitting",s:"ไม่มีลมรั่ว ไม่แตก",p:p6}];
+const t_REG=[{i:1,n:"ตรวจเช็คการทำงานของ Transmitter",s:"รับค่าจาก DCS ได้ปกติ",p:p6},{i:2,n:"ตรวจเช็คการทำงานของ Regulator",s:"จ่ายลมออกได้",p:p6},{i:3,n:"ตรวจเช็ค Body และ Fitting",s:"ไม่แตก ไม่มีลมรั่ว",p:p6},{i:4,n:"ตรวจเช็คสภาพ Connector",s:"ไม่หลุด ไม่แตก",p:p6},{i:5,n:"ตรวจเช็คสภาพสายสัญญาณ",s:"ไม่มีรอยขาดชำรุด",p:p6}];
+const t_XVS=[{i:1,n:"ตรวจเช็คการทำงานของ Valve",s:"เปิด/ปิดสุด, ไม่รั่วซึม",p:p6},{i:2,n:"ตรวจเช็ค Actuator+Solenoid valve",s:"ไม่มีลมรั่ว, รูเดรนไม่อุดตัน",p:p6},{i:3,n:"ตรวจเช็คสภาพ Fitting",s:"ไม่มีลมรั่ว, ไม่แตก",p:p6},{i:4,n:"ตรวจเช็คสายสัญญาณ",s:"ไม่หลวม ไม่หลุด ไม่ขาด",p:p6}];
+const t_PIC=[{i:1,n:"ตรวจเช็คการทำงานของ Pressure switch",s:"ทำงานปกติ",p:p6},{i:2,n:"ตรวจเช็คสายสัญญาณ",s:"ไม่หลวม ไม่หลุด ไม่ขาด",p:p6},{i:3,n:"ตรวจเช็คสภาพ Connector",s:"ไม่แตก เกลียวไม่คลาย",p:p6}];
+const t_JET=[{i:1,n:"ตรวจเช็คการทำงานของ Jet pulse",s:"ทำงานปกติครบทุกวาล์ว",p:p6},{i:2,n:"ตรวจเช็ค Diff pressure",s:"อ่านค่าได้ปกติทั้ง Local และ DCS",p:p6},{i:3,n:"ตรวจเช็ค Solenoid valve",s:"ทำงานปกติ ไม่มีลมรั่ว",p:p6},{i:4,n:"ตรวจเช็คสายลม และ Fitting",s:"ไม่อุดตัน",p:p6},{i:5,n:"ตรวจเช็คสายสัญญาณ",s:"ไม่หลวม ไม่หลุด ไม่ขาด",p:p6}];
+const t_PRV=[{i:1,n:"ตรวจเช็ค PRV",s:"ปิดสนิท ไม่รั่ว",p:p6},{i:2,n:"ตรวจเช็ค Spring loaded",s:"ขยับได้ทั้งฝั่ง Pressure และ Suction",p:p6},{i:3,n:"ตรวจเช็คสภาพฟองน้ำ",s:"ไม่เสียรูป ไม่ขาด",p:p6},{i:4,n:"ตรวจเช็คความแน่นของ Bolt, Nut",s:"ยึดแน่นไม่หลวมคลอน",p:p6},{i:5,n:"ตรวจเช็คสภาพปะเก็น",s:"ไม่แตก ไม่รั่ว",p:p6}];
+const t_TTP=[{i:1,n:"ตรวจเช็คการทำงานของ Temp. Tran.",s:"อ่านค่าได้ปกติ",p:p6},{i:2,n:"ตรวจเช็คสภาพ Probe",s:"สะอาด ไม่มีคราบสกปรก",p:p6},{i:3,n:"ตรวจเช็คสภาพ Cable Gland",s:"ไม่แตก รัดสายไฟแน่น",p:p6},{i:4,n:"ตรวจเช็คสายสัญญาณ",s:"ไม่หลวม ไม่หลุด ไม่ขาด",p:p6}];
+const t_LSP=[{i:1,n:"ตรวจเช็คการทำงานของ Level switch",s:"ทำงานปกติ",p:p6},{i:2,n:"ตรวจเช็คสภาพ Body",s:"ปิดสนิท ไม่แตก",p:p6},{i:3,n:"ตรวจเช็คสายสัญญาณ",s:"ไม่หลวม ไม่หลุด ไม่ขาด",p:p6},{i:4,n:"ตรวจเช็คสภาพ Cable Gland",s:"ไม่แตก รัดสายไฟแน่น",p:p6}];
+const t_YCP=[{i:1,n:"ตรวจเช็คการทำงานของ Level",s:"อ่านค่าได้ปกติ",p:p6},{i:2,n:"ตรวจเช็คสภาพของเทป",s:"ไม่ขาด ไม่งอ ไม่ติดขัด",p:p6},{i:3,n:"ตรวจเช็คลูกดิ่งปลายเทป",s:"ไม่หลุดหาย",p:p6},{i:4,n:"ตรวจเช็คสายสัญญาณ",s:"ไม่หลวม ไม่หลุด ไม่ขาด",p:p6}];
+const t_DIV=[{i:1,n:"ตรวจเช็ค Solenoid valve",s:"ทำงานปกติ, ไม่พบลมรั่ว, ไม่อุดตัน",p:p6},{i:2,n:"ตรวจเช็ค Reed switch",s:"ทำงานปกติ, สายสัญญาณไม่ชำรุด",p:p6},{i:3,n:"ตรวจเช็ค Junction box",s:"ไม่แตกชำรุด, ยึดสายแน่นไม่หลวม",p:p6},{i:4,n:"ตรวจเช็คสายสัญญาณ",s:"ไม่ขาดชำรุด",p:p6}];
 
-const delutingValveList=[
-{suffix:"XV01",eq:"MVAC011XXX"},{suffix:"XV02",eq:"MVAC011XXX"},{suffix:"XV05",eq:"MVAC011XXX"},
-{suffix:"XV06",eq:"MVAC011XXX"},{suffix:"XV07",eq:"MVAC011XXX"},{suffix:"XV08",eq:"MVAC011XXX"},
-{suffix:"XV09",eq:"MVAC011XXX"},{suffix:"XV11",eq:"MVAC011XXX"},{suffix:"XV12",eq:"MVAC011XXX"},
-{suffix:"XV13",eq:"MVAC011XXX"},{suffix:"XV14",eq:"MVAC011XXX"},{suffix:"XV15",eq:"MVAC011XXX"},
-{suffix:"XV16",eq:"MVAC011XXX"},{suffix:"XV18",eq:"MVAC011XXX"},{suffix:"XV40",eq:"MVAB011XXX"}];
-const delutingStdTasks=[
-{id:1,name:"เช็คลมรั่วบริเวณ Solenoid Valve",standard:"ไม่พบลมรั่ว",package:"6M"},
-{id:2,name:"เช็คการอุดตันบริเวณ Silencer",standard:"ไม่มีการอุดตัน หากมีให้เปลี่ยน",package:"6M"},
-{id:3,name:"เช็คลมรั่วบริเวณ หัวขับ",standard:"ไม่พบลมรั่ว",package:"6M"},
-{id:4,name:"เช็คจุดต่อสายสัญญาณ",standard:"ไม่แตก, ไม่หลวม หรือหลุด",package:"6M"}];
-const xv40Task={id:5,name:"เช็ค Sensor หัวขับ",standard:"ทำงานปกติ, ไม่แตกหัก",package:"6M"};
+const tr_sv = [{i:1,n:"เช็คลมรั่วบริเวณข้อต่อ Regulator",s:"ไม่พบลมรั่ว",p:p6},{i:2,n:"เช็คเข็ม Regulator",s:"อยู่ในตำแหน่งระหว่าง 0.4 - 0.6 Mpa",p:p6},{i:3,n:"เช็คลมรั่วบริเวณ Solenoid Valve",s:"ไม่พบลมรั่ว",p:p6},{i:4,n:"เช็คลมรั่วบริเวณ หัวขับ",s:"ไม่พบลมรั่ว",p:p6},{i:5,n:"เช็คการอุดตันบริเวณ Silencer",s:"ไม่มีการอุดตัน หากมีให้เปลี่ยน Silencer",p:p6}];
+const tr_cv = [{i:1,n:"เช็คลมรั่วบริเวณข้อต่อ Regulator",s:"ไม่พบลมรั่ว",p:p6},{i:2,n:"เช็คเข็ม Regulator",s:"อยู่ในตำแหน่งระหว่าง 0.4 - 0.6 Mpa",p:p6},{i:3,n:"เช็คลมรั่วบริเวณ Positioner",s:"ไม่พบลมรั่ว",p:p6},{i:4,n:"เช็คลมรั่วบริเวณ หัวขับ",s:"ไม่พบลมรั่ว",p:p6},{i:5,n:"เช็คการอุดตันบริเวณ Silencer",s:"ไม่มีการอุดตัน หากมีให้เปลี่ยน Silencer",p:p6}];
+const tr_rota = [{i:1,n:"ตรวจสอบหลอดแก้ว/สเกลของ Rotameter",s:"ชัดเจน ไม่ขุ่นมัว ไม่ชำรุด หรือแตกร้าว",p:p6},{i:2,n:"ตรวจสอบการทำงานของลูกลอยภายใน",s:"ลูกลอยเคลื่อนที่ขึ้นลงได้อิสระ ไม่ค้างหรือไม่",p:p6},{i:3,n:"ตรวจสอบการรั่วซึมตามรอยต่อ/ข้อต่อ",s:"ไม่มีรอยรั่วซึม",p:p6}];
+const tr_temp = [{i:1,n:"ตรวจสอบฝาครอบ Temp",s:"ฝาครอบ RTD แน่น ไม่คลายตัว",p:p6},{i:2,n:"ตรวจสอบ Connector สายสัญญาณ",s:"Connector ไม่หลุด/หัก",p:p6},{i:3,n:"อ่านค่าอุณหภูมิที่หน้าจอแสดงผล",s:"ตัวเลขขึ้นค่าที่อ่านได้",p:p6}];
+const tr_psv = [{i:1,n:"ตรวจสอบการรั่วของของไหล",s:"ไม่มีของไหลรั่วออกมา",p:p6}];
+const tr_btv = [{i:1,n:"ตรวจสอบตำแหน่งวาล์วว่าอยู่ตรงมาร์ค Min/Max",s:"ตำแหน่ง Valve ตรงกับ มาร์ค",p:p6},{i:2,n:"ตำแหน่งของ Valve อยู่ในตำแหน่งเดียวกับ DCS",s:"ตำแหน่ง Valve ตรงกับ DCS",p:p6},{i:3,n:"ตรวจสอบการรั่วไหลบริเวณ Packing",s:"ไม่มีเคมีรั่วไหล",p:p6},{i:4,n:"ตรวจสอบความสะอาดของเฟืองตัวหนอนก้านวาล์ว",s:"ไม่มีสิ่งสกปรกบริเวณเกลียว",p:p6},{i:5,n:"ตรวจสอบ Connector สายไฟฟ้าของหัวขับ",s:"Connector ไม่คลายตัว/หัก",p:p6}];
+const tr_pt = [{i:1,n:"ตรวจสอบฝาครอบ Transmitter",s:"ฝาครอบแน่น ไม่คลายตัว",p:p6},{i:2,n:"เช็คสภาพ Connector หรือ Conduit",s:"แน่น ไม่ชำรุด ไม่มีน้ำเข้า",p:p6},{i:3,n:"เช็คค่า Pressure ที่แสดงในจอหรือ DCS",s:"มีตัวเลขขึ้นค่าที่อ่านได้และไม่มี Alarm",p:p6},{i:4,n:"ตรวจสอบความสะอาดของ Transmitter",s:"ทำความสะอาดโดยใช้เศษผ้าเช็ดเบาๆ",p:p6}];
+const tr_ft = [{i:1,n:"ตรวจสอบฝาครอบ Transmitter",s:"ฝาครอบแน่น ไม่คลายตัว",p:p6},{i:2,n:"เช็คสภาพ Connector หรือ Conduit",s:"แน่น ไม่ชำรุด",p:p6},{i:3,n:"เช็คค่า Flow ที่แสดงในจอ Trasmitter",s:"มีตัวเลขขึ้นค่าที่อ่านได้และไม่มี Alarm",p:p6},{i:4,n:"ตรวจสอบความสะอาดของ Transmitter",s:"ทำความสะอาดโดยใช้เศษผ้าเช็ดเบาๆ",p:p6}];
+const tr_pg = [{i:1,n:"ตรวจสอบเข็มบน Pressure Gauge",s:"ไม่หักหรือชำรุด",p:p6},{i:2,n:"ตรวจสอบการรั่วไหลบริเวณข้อต่อ",s:"ไม่มีของรั่วไหล",p:p6},{i:3,n:"ตรวจสอบความสะอาดของ Pressure Gauge",s:"ทำความสะอาดโดยใช้เศษผ้าเช็ด",p:p6}];
 
-const delicelValveList=[
-{eq:"IFVT011XXX",suffix:"FT01 Magnetic Flow Meter",type:"magFlow",p:"R"},
-{eq:"ITRT011XXX",suffix:"TT01 Temperature Transmitter",type:"tempTrans",p:"R"},
-{eq:"IWLT011XXX",suffix:"WT01 Weight Load Cell",type:"loadCell",p:"R"},
-{eq:"MVAC011XXX",suffix:"-XV01 Actuator valve",type:"std",p:"R"},
-{eq:"MVAC011XXX",suffix:"-XV02 Actuator valve",type:"std",p:"R"},
-{eq:"MVAC011XXX",suffix:"-XV04 Actuator valve",type:"std",p:"R"},
-{eq:"MVAC011XXX",suffix:"-XV06 Actuator valve",type:"std",p:"R"},
-{eq:"MVAC011XXX",suffix:"-XV07 Actuator valve",type:"std",p:"R"},
-{eq:"MVAC011XXX",suffix:"-XV08 Actuator valve",type:"std",p:"R"},
-{eq:"MVAC011XXX",suffix:"-XV10 Actuator valve",type:"std",p:"R"},
-{eq:"MVAC011XXX",suffix:"-XV11 Actuator valve",type:"std",p:"R"},
-{eq:"MVAC011XXX",suffix:"-XV12 Actuator valve",type:"std",p:"R"},
-{eq:"MVAC011XXX",suffix:"-XV13 Actuator valve",type:"std",p:"R"},
-{eq:"MVAC011XXX",suffix:"-XV15 Actuator valve",type:"std",p:"R"},
-{eq:"MVAC011XXX",suffix:"-XV16 Actuator valve",type:"std",p:"R"},
-{eq:"MVAC011XXX",suffix:"-XV17 Actuator valve",type:"std",p:"R"},
-{eq:"MVAC011XXX",suffix:"-XV18 Actuator valve",type:"std",p:"R"},
-{eq:"MVAC011XXX",suffix:"-XV40 Actuator valve",type:"std",p:"R"},
-{eq:"MVAC011XXX",suffix:"-XV70 Actuator valve",type:"std",p:"R"},
-{eq:"MVAC011XXX",suffix:"-XV81 Actuator valve",type:"std",p:"R"},
-{eq:"MVAC011XXX",suffix:"-XV82 Actuator valve",type:"std",p:"R"},
-{eq:"MVAC011XXX",suffix:"-XV90 Actuator valve",type:"std",p:"R"},
-{eq:"MVAC011XXX",suffix:"-XV92 Actuator valve",type:"std",p:"R"},
-{eq:"MVAC011XXX",suffix:"-XV93 Actuator valve",type:"std",p:"R"},
-{eq:"MVAC011XXX",suffix:"-XV94 Actuator valve",type:"std",p:"R"},
-{eq:"MVAC011XXX",suffix:"-XV95 Actuator valve",type:"std",p:"R"},
-{eq:"MVAC011XXX",suffix:"-XV96 Actuator valve",type:"std",p:"R"},
-{eq:"MVAC011XXX",suffix:"-XV97 Actuator valve",type:"std",p:"R"},
-{eq:"MVAC011XXX",suffix:"-XV98 Actuator valve",type:"std",p:"R"},
-{eq:"MVAC011XXX",suffix:"-XV40 Actuator valve",type:"std",p:"RV"},
-{eq:"MVAC011XXX",suffix:"-XV50 Actuator valve",type:"std",p:"RV"},
-{eq:"MVAC011*",suffix:"-XV50 Actuator valve",type:"std",p:"B"},
-{eq:"MVAC011*",suffix:"-XV51 Actuator valve",type:"std",p:"B"},
-{eq:"MBAG011XXX",suffix:"-YV01 Jet pulse control",type:"jet",p:"F"}];
+const delutingValveList=[{suffix:"XV01"},{suffix:"XV02"},{suffix:"XV05"},{suffix:"XV06"},{suffix:"XV07"},{suffix:"XV08"},{suffix:"XV09"},{suffix:"XV11"},{suffix:"XV12"},{suffix:"XV13"},{suffix:"XV14"},{suffix:"XV15"},{suffix:"XV16"},{suffix:"XV18"},{suffix:"XV40",eq:"MVAB011XXX"}];
+const delutingStdTasks=[{i:1,n:"เช็คลมรั่วบริเวณ Solenoid Valve",s:"ไม่พบลมรั่ว",p:p6},{i:2,n:"เช็คการอุดตันบริเวณ Silencer",s:"ไม่มีการอุดตัน หากมีให้เปลี่ยน",p:p6},{i:3,n:"เช็คลมรั่วบริเวณ หัวขับ",s:"ไม่พบลมรั่ว",p:p6},{i:4,n:"เช็คจุดต่อสายสัญญาณ",s:"ไม่แตก, ไม่หลวม หรือหลุด",p:p6}];
+const xv40Task={i:5,n:"เช็ค Sensor หัวขับ",s:"ทำงานปกติ, ไม่แตกหัก",p:p6};
 
-const delicelStdTasks=[
-{id:1,name:"ตรวจเช็ค Actuator",standard:"ไม่มีลมรั่ว, Position Indicatorไม่หลุด",package:"6M"},
-{id:2,name:"ตรวจเช็ค Solenoid valve",standard:"ไม่มีลมรั่ว, รูเดรนไม่อุดตัน",package:"6M"},
-{id:3,name:"ตรวจเช็คสภาพสายไฟ",standard:"ยึดแน่นกับเทอร์มินอล, ฉนวนไม่ขาด",package:"6M"},
-{id:4,name:"ตรวจเช็คการทำงานของ Valve",standard:"เปิด/ปิดสุด ไม่ติดขัด",package:"6M"},
-{id:5,name:"ทำความสะอาด Actuator valve",standard:"สะอาดไม่มีคราบสกปรก",package:"6M"}];
-const delicelJetTasks=[
-{id:1,name:"ตรวจเช็ค PLC",standard:"ทำงานปกติทุก I/O",package:"6M"},
-{id:2,name:"ตรวจเช็คสภาพสายไฟ",standard:"ยึดแน่นกับเทอร์มินอล, ฉนวนไม่ขาด",package:"6M"},
-{id:3,name:"ตรวจเช็ค Diff. pressure",standard:"อ่านค่าได้ปกติ, ค่าอ่านตรงกับ DCS",package:"6M"},
-{id:4,name:"ตรวจเช็ค Solenoid valve",standard:"ทำงานปกติ ไม่มีลมรั่ว",package:"6M"},
-{id:5,name:"ทำความสะอาดท่อลมเข้า Diff. pressure",standard:"สะอาดไม่มีฝุ่นอุดตัน",package:"6M"}];
-const delicelMagFlowTasks=[
-{id:1,name:"ตรวจเช็คการทำงานของ Flow meter",standard:"อ่านค่าได้ปกติ, ค่าอ่านตรงกับ DCS",package:"6M"},
-{id:2,name:"ตรวจเช็คสภาพสายไฟ",standard:"ยึดแน่นไม่หลุด/หลวม ฉนวนไม่ขาด",package:"6M"},
-{id:3,name:"ตรวจสอบหน้าจอแสดงผล",standard:"มองเห็นชัด ไม่ดับ",package:"6M"},
-{id:4,name:"ตรวจสอบฝาครอบ",standard:"ปิดสนิท ไม่มีน้ำซึมเข้าภายใน",package:"6M"},
-{id:5,name:"ตรวจสอบ Housing",standard:"ไม่แตกหัก",package:"6M"}];
-const delicelTempTransTasks=[
-{id:1,name:"ตรวจเช็คการทำงานของ Temp. Tran.",standard:"อ่านค่าได้ปกติ",package:"6M"},
-{id:2,name:"ตรวจเช็คสภาพ Probe",standard:"ไม่หักงอ ไม่มีคราบสีพอกหนา",package:"6M"},
-{id:3,name:"ตรวจเช็คสภาพสายไฟ",standard:"ยึดแน่นกับเทอร์มินอล, ฉนวนไม่ขาด",package:"6M"}];
-const delicelLoadCellTasks=[
-{id:1,name:"ตรวจเช็คการทำงานของ Loadcell",standard:"อ่านค่าได้ปกติ, ค่าอ่านตรงกับ DCS",package:"6M"},
-{id:2,name:"ตรวจวัดค่าความต้านทาน Loadcell",standard:"อยู่ใน range 350 ± 1 Ω",package:"6M"},
-{id:3,name:"ตรวจเช็คบาลานซ์ของ Loadcell",standard:"ระดับน้ำตรงทั้ง 3 มุม",package:"6M"},
-{id:4,name:"ตรวจเช็คสภาพสายไฟ",standard:"ยึดแน่นกับเทอร์มินอล, ฉนวนไม่ขาด",package:"6M"},
-{id:5,name:"ทำความสะอาด Load cell",standard:"สะอาดไม่มีคราบสกปรก",package:"6M"}];
+const delicelValveList=[{eq:"IFVT011XXX",suffix:"FT01 Magnetic Flow Meter",type:"magFlow",p:"R"},{eq:"ITRT011XXX",suffix:"TT01 Temperature Transmitter",type:"tempTrans",p:"R"},{eq:"IWLT011XXX",suffix:"WT01 Weight Load Cell",type:"loadCell",p:"R"},{eq:"MVAC011XXX",suffix:"-XV01 Actuator valve",type:"std",p:"R"},{eq:"MVAC011XXX",suffix:"-XV02 Actuator valve",type:"std",p:"R"},{eq:"MVAC011XXX",suffix:"-XV04 Actuator valve",type:"std",p:"R"},{eq:"MVAC011XXX",suffix:"-XV06 Actuator valve",type:"std",p:"R"},{eq:"MVAC011XXX",suffix:"-XV07 Actuator valve",type:"std",p:"R"},{eq:"MVAC011XXX",suffix:"-XV08 Actuator valve",type:"std",p:"R"},{eq:"MVAC011XXX",suffix:"-XV10 Actuator valve",type:"std",p:"R"},{eq:"MVAC011XXX",suffix:"-XV11 Actuator valve",type:"std",p:"R"},{eq:"MVAC011XXX",suffix:"-XV12 Actuator valve",type:"std",p:"R"},{eq:"MVAC011XXX",suffix:"-XV13 Actuator valve",type:"std",p:"R"},{eq:"MVAC011XXX",suffix:"-XV15 Actuator valve",type:"std",p:"R"},{eq:"MVAC011XXX",suffix:"-XV16 Actuator valve",type:"std",p:"R"},{eq:"MVAC011XXX",suffix:"-XV17 Actuator valve",type:"std",p:"R"},{eq:"MVAC011XXX",suffix:"-XV18 Actuator valve",type:"std",p:"R"},{eq:"MVAC011XXX",suffix:"-XV40 Actuator valve",type:"std",p:"R"},{eq:"MVAC011XXX",suffix:"-XV70 Actuator valve",type:"std",p:"R"},{eq:"MVAC011XXX",suffix:"-XV81 Actuator valve",type:"std",p:"R"},{eq:"MVAC011XXX",suffix:"-XV82 Actuator valve",type:"std",p:"R"},{eq:"MVAC011XXX",suffix:"-XV90 Actuator valve",type:"std",p:"R"},{eq:"MVAC011XXX",suffix:"-XV92 Actuator valve",type:"std",p:"R"},{eq:"MVAC011XXX",suffix:"-XV93 Actuator valve",type:"std",p:"R"},{eq:"MVAC011XXX",suffix:"-XV94 Actuator valve",type:"std",p:"R"},{eq:"MVAC011XXX",suffix:"-XV95 Actuator valve",type:"std",p:"R"},{eq:"MVAC011XXX",suffix:"-XV96 Actuator valve",type:"std",p:"R"},{eq:"MVAC011XXX",suffix:"-XV97 Actuator valve",type:"std",p:"R"},{eq:"MVAC011XXX",suffix:"-XV98 Actuator valve",type:"std",p:"R"},{eq:"MVAC011XXX",suffix:"-XV40 Actuator valve",type:"std",p:"RV"},{eq:"MVAC011XXX",suffix:"-XV50 Actuator valve",type:"std",p:"RV"},{eq:"MVAC011*",suffix:"-XV50 Actuator valve",type:"std",p:"B"},{eq:"MVAC011*",suffix:"-XV51 Actuator valve",type:"std",p:"B"},{eq:"MBAG011XXX",suffix:"-YV01 Jet pulse control",type:"jet",p:"F"}];
+
+const delicelStdTasks=[{i:1,n:"ตรวจเช็ค Actuator",s:"ไม่มีลมรั่ว, Position Indicatorไม่หลุด",p:p6},{i:2,n:"ตรวจเช็ค Solenoid valve",s:"ไม่มีลมรั่ว, รูเดรนไม่อุดตัน",p:p6},{i:3,n:"ตรวจเช็คสภาพสายไฟ",s:"ยึดแน่นกับเทอร์มินอล, ฉนวนไม่ขาด",p:p6},{i:4,n:"ตรวจเช็คการทำงานของ Valve",s:"เปิด/ปิดสุด ไม่ติดขัด",p:p6},{i:5,n:"ทำความสะอาด Actuator valve",s:"สะอาดไม่มีคราบสกปรก",p:p6}];
+const delicelJetTasks=[{i:1,n:"ตรวจเช็ค PLC",s:"ทำงานปกติทุก I/O",p:p6},{i:2,n:"ตรวจเช็คสภาพสายไฟ",s:"ยึดแน่นกับเทอร์มินอล, ฉนวนไม่ขาด",p:p6},{i:3,n:"ตรวจเช็ค Diff. pressure",s:"อ่านค่าได้ปกติ, ค่าอ่านตรงกับ DCS",p:p6},{i:4,n:"ตรวจเช็ค Solenoid valve",s:"ทำงานปกติ ไม่มีลมรั่ว",p:p6},{i:5,n:"ทำความสะอาดท่อลมเข้า Diff. pressure",s:"สะอาดไม่มีฝุ่นอุดตัน",p:p6}];
+const delicelMagFlowTasks=[{i:1,n:"ตรวจเช็คการทำงานของ Flow meter",s:"อ่านค่าได้ปกติ, ค่าอ่านตรงกับ DCS",p:p6},{i:2,n:"ตรวจเช็คสภาพสายไฟ",s:"ยึดแน่นไม่หลุด/หลวม ฉนวนไม่ขาด",p:p6},{i:3,n:"ตรวจสอบหน้าจอแสดงผล",s:"มองเห็นชัด ไม่ดับ",p:p6},{i:4,n:"ตรวจสอบฝาครอบ",s:"ปิดสนิท ไม่มีน้ำซึมเข้าภายใน",p:p6},{i:5,n:"ตรวจสอบ Housing",s:"ไม่แตกหัก",p:p6}];
+const delicelTempTransTasks=[{i:1,n:"ตรวจเช็คการทำงานของ Temp. Tran.",s:"อ่านค่าได้ปกติ",p:p6},{i:2,n:"ตรวจเช็คสภาพ Probe",s:"ไม่หักงอ ไม่มีคราบสีพอกหนา",p:p6},{i:3,n:"ตรวจเช็คสภาพสายไฟ",s:"ยึดแน่นกับเทอร์มินอล, ฉนวนไม่ขาด",p:p6}];
+const delicelLoadCellTasks=[{i:1,n:"ตรวจเช็คการทำงานของ Loadcell",s:"อ่านค่าได้ปกติ, ค่าอ่านตรงกับ DCS",p:p6},{i:2,n:"ตรวจวัดค่าความต้านทาน Loadcell",s:"อยู่ใน range 350 ± 1 Ω",p:p6},{i:3,n:"ตรวจเช็คบาลานซ์ของ Loadcell",s:"ระดับน้ำตรงทั้ง 3 มุม",p:p6},{i:4,n:"ตรวจเช็คสภาพสายไฟ",s:"ยึดแน่นกับเทอร์มินอล, ฉนวนไม่ขาด",p:p6},{i:5,n:"ทำความสะอาด Load cell",s:"สะอาดไม่มีคราบสกปรก",p:p6}];
 
 const additiveFuncLocMap={"T3100":"T-M-01-01-TAD-001","T3101":"T-M-01-01-TAD-002","T3102":"T-M-01-01-TAD-003","T3110":"T-M-01-01-TAD-004","T3111":"T-M-01-01-TAD-005","T3120":"T-M-01-01-TAD-006","T3121":"T-M-01-01-TAD-007","T3122":"T-M-01-01-TAD-008","T3123":"T-M-01-01-TAD-009","T3124":"T-M-01-01-TAD-010","T3125":"T-M-01-01-TAD-011","T3126":"T-M-01-01-TAD-012","T3130":"T-M-01-01-TAD-013","T3140":"T-M-01-01-TAD-014","T3141":"T-M-01-01-TAD-015","T3142":"T-M-01-01-TAD-016","T3150":"T-M-01-01-TAD-017","T3180":"T-M-01-01-TAD-018","T3190":"T-M-01-01-TAD-019","T3191":"T-M-01-01-TAD-020"};
-const additiveValveList=[
-{suffix:"-XV40",eq:"MVAC011",type:"actuator"},{suffix:"-XV41",eq:"MVAC011",type:"actuator"},
-{suffix:"-XV42",eq:"MVAC011",type:"actuator"},{suffix:"-XV402",eq:"MVAC011",type:"actuator"},
-{suffix:"-XV50",eq:"MSOV011",type:"solenoid"},{suffix:"-FT01",eq:"MIFT011",type:"flow"}];
-const additiveActuatorTasks=[{id:1,name:"ตรวจเช็ค Actuator",standard:"ไม่มีลมรั่ว, ทำงานปกติ",package:"6M"}];
-const additiveSolenoidTasks=[{id:1,name:"ตรวจเช็ค Solenoid valve",standard:"ไม่มีลมรั่ว",package:"6M"}];
-const additiveFlowTasks=[{id:1,name:"ตรวจเช็ค Flow Transmitter",standard:"อ่านค่าได้ปกติ",package:"6M"}];
+const additiveValveList=[{suffix:"-XV40",eq:"MVAC011",type:"actuator"},{suffix:"-XV41",eq:"MVAC011",type:"actuator"},{suffix:"-XV42",eq:"MVAC011",type:"actuator"},{suffix:"-XV402",eq:"MVAC011",type:"actuator"},{suffix:"-XV50",eq:"MSOV011",type:"solenoid"},{suffix:"-FT01",eq:"MIFT011",type:"flow"}];
+const additiveActuatorTasks=[{i:1,n:"ตรวจเช็ค Actuator",s:"ไม่มีลมรั่ว, ทำงานปกติ",p:p6}];
+const additiveSolenoidTasks=[{i:1,n:"ตรวจเช็ค Solenoid valve",s:"ไม่มีลมรั่ว",p:p6}];
+const additiveFlowTasks=[{i:1,n:"ตรวจเช็ค Flow Transmitter",s:"อ่านค่าได้ปกติ",p:p6}];
 
 const tf2Map={'T2110':['LS','PDTR','TT','XV13','XV40_P','XV41_P','XV42_P','XV43_P','PSV','FT'],'T2111':['LS','PDTR','TT','XV13','XV14','XV40_P','XV42_P','XV43_P','PSV','FT'],'T2112':['LS','PDTR','TT','XV13','XV14','PSV'],'T2113':['LS','PDTR','TT','XV13','XV14','PSV'],'T2210':['LS','PDTD','XV40','XV50','SOV50','FT'],'T2211':['LS','PDTD','XV40','XV50'],'T2212':['LS','PDTD','XV40','XV50','SOV50','FT','REG'],'T2213':['LS','PDTD','XV40','XV50'],'T2214':['LS','PDTD','XV40','XV50','SOV50','FT','REG'],'T2215':['LS','PDTD','XV40','XV50'],'T2216':['LS','PDTD','XV13','XV40','XV50','SOV50','FT'],'T2217':['LS','PDTD','XV13','XV40','XV50','SOV50','FT'],'T2218':['LS','PDTD','XV13','XV40','XV50','SOV50','FT'],'T2219':['LS','PDTD','XV40'],'T2220':['LS','PDTD','XV40'],'T2221':['LS','PDTD','XV40'],'T2410':['LS','PDTD','XV13','XV40','XV41','XV50','SOV50','FT'],'T2411':['LS','PDTD','XV13','XV40','XV41','XV50','SOV50','FT'],'T9110':['LS','PDTD','XV13','XV40','XV41','XV50','SOV50','FT','REG']};
 const surpMap={'C1910':['XV80','XV50','XV51','PIC01'],'C1911':['XV80','XV50','PIC01'],'C1920':['XV80','XV50','XV51','PIC01'],'C1921':['XV80','XV50','XV51','XV52','PIC01'],'C1930':['XV80','XV50','XV51','PIC01'],'C1940':['XV80','XV50','PIC01'],'C1960':['XV80','XV51','PIC01'],'C1970':['XV80','PIC01'],'C1980':['XV80','XV51','PIC01'],'C1995':['XV80','XV51','PIC01']};
@@ -306,17 +196,16 @@ const siloFlMap={'S1110':'001','S1111':'002','S1112':'003','S1120':'004','S1130'
 const hopperFlMap={'B1210':'001','B1211':'002','B1230':'003','B1240':'004','X1321':'005','Y1220':'006'};
 const divFlMap={'XV1110':'001','XV1111':'002','XV1112':'003','XV1113':'004','XV1114':'005','XV1115':'006','XV1116':'007','XV1117':'008','XV1130':'009','XV1131':'010','XV1132':'011','XV1133':'012','XV1134':'013','XV1135':'014','XV1136':'015','XV1137':'016','XV1138':'017','XV1139':'018','XV1141':'019','XV1142':'020','XV1143':'021','XV1150':'022','XV1151':'023','XV1160':'024','XV1210':'025','XV1211':'026','XV1220':'027','XV1221':'028','XV1222':'029','XV1223':'030','XV1230':'031','XV1231':'032','XV1232':'035','XV1240':'033','XV1144':'034','XV1241':'036','XV1242':'037','XV1311':'038','XV1313':'039','XV1314':'040','XV1315':'041','XV1316':'042','XV1317':'043','XV1318':'044','XV1319':'045','XV1320':'046','XV1321':'047','XV1322':'048','XV1323':'049','XV1324':'050','XV1325':'051','XV1326':'052','XV1327':'053','XV1328':'054','XV1350':'055','XV1351':'056'};
 
-
-let dbData={}, activeTankType="deluting", activeTankName="T5110", currentUser=null, currentRole="view";
-
-const tankGroupMapping={deluting:delutingTanks,delicel:delicelTanks,additive:additiveTanks,updown:updownTanks,tankfarm2:tankfarm2Tanks,surpressor:surpressorTanks,silo:siloPowderTanks,hopper:hopperPowderTanks,diverter:diverterTanks};
+const L111=["IPSI013008|RPD1-PS1008 Safety Valve|psv","ITRE013046|RPD1-TRE046 Temp Elelment T111|temp","MVAC013154|SV11012 Solenoid Valve Steam Supply|sv","MVAC013155|SV11013 Solenoid Valve By Pass ST Cond|sv","MVAC013156|SV11014 Solenoid Valve Steam Cond|sv","MVAC013157|SV1111 Solenoid Valve Transfer T111|sv","MVAC013158|SV1123 Solenoid Valve D20 T111|sv","MVAC013159|SV11842 Solenoid Vave WS T111|sv","MVAC013160|SV11901 Solenoid Valve CWS|sv","MVAC013161|SV11902 Solenoid Valve CWS E112|sv","MVAC013162|SV11911 Solenoid Vave CWR|sv","MVAC013163|SV11966 Solenoid Vave CHWS|sv","MVAC013164|SV11976 Solenoid Valve CHWR|sv","MVAC013165|SV11982 Solenoid Valve N2 by Pass|sv","MVAC013166|SV14512 Solenoid Valve Xylene > T111|sv"];
+const L141=["IFV1013007|RPD1-FV1007 Rotameter T141|rota","ITRE013047|RPD1-TRE047 Temp Elelment T141|temp","ITRE013048|RPD1-TRE048 Temp Elelment ref. T141|temp","MVAC013167|SV14914 Solenoid Valve CWR T141|sv","MVAC013168|SV14915 Solenoid Valve CHWR T141|sv","MVAC013169|SV14916 Solenoid Valve CHWS T141|sv","MVAC013170|SV14917 Solenoid Valve CWS T141|sv","MVAC013171|SV14918 Solenid Valve CWS & CHWS T141|sv","MVAC013172|SV14919 Solenoid Valve Fast Drain T141|sv","MVAC013173|SV14920 Solenoid Valve Drain ST T141|sv","MVAC013174|SV14921 Solenoid Valve Dernin T141|sv","MVCT013031|TCV1405 Control Valve Transfer T141|sv","MVCT013032|TCV14904 Control Valve Steam > T141|sv"];
+const LR111=["EVM0013004|BTV1110 Bottom Valve R111|btv","IFMT013012|RPD1-FMT012 Flow Transmitter DEMIN|ft","IFVI013003|RPD1-FV1003 Flow Meter N2|ft","IPAT013003|RPD1-PAT003 Pressure Transmitter R111|pt","IPSI013004|RPD1-PS1004 Safety Valve|psv","IPSI013005|RPD1-PS1005 Safety Valve|psv","ITRE013026|RPD1-TRE026 Temp Elelment R111|temp","ITRE013027|RPD1-TRE027 Temp Elelment ref.R111|temp","ITRE013028|RPD1-TRE028 Temp Elelment Hot oil R111|temp","ITRE013029|RPD1-TRE029 Temp Elelmen Head Cond R111|temp","ITRE013030|RPD1-TRE030 Temp Elelmen End Cond R111|temp","ITRE013031|TE1106PD Temp Elelment Cooling R111|temp","MVAC013103|SV11015 Solenoid valve Vac line E111|sv","MVAC013104|SV1120 Solenoid Valve Vent E111|sv","MVAC013105|SV1121 Solenoid Valve Vent D111|sv","MVAC013106|SV1122 Solenoid Valve E111 to D111|sv","MVAC013107|SV11903 Solenoid Valve CWS|sv","MVAC013108|SV11904 Solenoid Valve CWS E113|sv","MVAC013109|SV11905 Solenoid Valve CWS E111|sv","MVAC013110|SV11913 Solenoid Valve CWR|sv","MVAC013111|SV11914 Solenoid Valve CWR E113|sv","MVAC013112|SV11915 Solenoid Valve CWR E111|sv","MVAC013113|SV11931 Solenoid Valve By pass ST cond|sv","MVAC013114|SV11961 Solenoid Valve CHWS|sv","MVAC013115|SV11962 Solenoid Valve CHWS E113|sv","MVAC013116|SV11963 Solenoid Valve CHWS E111|sv","MVAC013117|SV11971 Solenoid Valve CHWR|sv","MVAC013118|SV11971 Solenoid Valve CHWR E113|sv","MVAC013119|SV11972 Solenoid Valve CHWR E111|sv","MVAC013120|SV11980 Solenoid Valve N2 by pass|sv","MVAC013121|SV11981 Solenoid Valve N2 Supply|sv","MVCT013021|TCV11011 Control Valve Hot Oil Supply|cv","MVCT013022|TCV11012 Control Valve CWS|cv","MVCT013023|TCV11014 Cornitrol Valve Steam|cv","MVD1013002|TWV11011 T-WAY Valve Steam Supply|cv","MVD1013003|TWV11012 T-WAY Valve Steam Cond|cv"];
+const LR141=["EVM0013005|BTV14006 Bottom Valve R141|btv","IFMT013013|RPD1-FMT013 Steam Flow Meter|rota","IFVI013004|RPD1-FV1004 Nitrogen Flow Meter|rota","IFV1013005|RPD1-FV1005 Rotameter R141|rota","IPAT013004|RPD1-PAT004 Pressure Transmitter R141|pt","IPGI013003|RPD1-PG1003 Pressure Gauge|pg","IPGI013004|RPD1-PG1004 Pressure Gauge|pg","IPGI013005|RPD1-PG1005 Pressure Gauge|pg","IPSI013006|RPD1-PS1006 Safety Valve|psv","ITRE013032|RPD1-TRE032 Temp Elelmetn R141|temp","ITRE013033|RPD1-TRE033 Temp Elelment Ref R141|temp","ITRE013034|RPD1-TRE034 Temp Elelment HOS R141|temp","ITRE013035|RPD1-TRE035 Temp Elelmen Head Cond R141|temp","ITRE013036|RPD1-TRE036 Temp Elelmen End Cond R141|temp","ITRE013037|RPD1-TRE037 Temp Elelment CHWS R141|temp","MVAC013122|SV14901 Solenoid Valve HT14901|sv","MVAC013123|SV14902 Solenoid Valve CWS DWS to D142|sv","MVAC013124|SV14903 Solenoid Valve Condenser1|sv","MVAC013125|SV14904 Solenoid Valve Total Condenser|sv","MVAC013126|SV14905 Solenoid Valve Vent D142|sv","MVAC013127|SV14906 Solenoid Valve Toatal Condenser|sv","MVAC013128|SV14907 Solenoid Valve D142|sv","MVAC013129|SV14908 Solenoid Valve CHWR R141|sv","MVAC013130|SV14909 Solenoid Valve CWR R141|sv","MVAC013131|SV14910 Solenoid Valve Fast Drain R141|sv","MVAC013132|SV14911 Solenoid Valve Drain Steam Trap|sv","MVAC013133|SV14912 Solenoid Vlave CHWS > R141|sv","MVAC013134|SV14913 Solenoid Valve CWS > R141|sv","MVAC013135|SV14941 Solenoid Valve T144>R141|sv","MVAC013136|SV14961 Solenoid Valve T146>R141|sv","MVCT013024|PCV1405 Control Valve Vent R141|cv","MVCT013025|TCV14011 Temp Control Valve HOS R141|cv","MVCT013026|TCV14901 Temp Control Valve Steam R141|cv","MVCT013027|TCV14902 Temp Control Valve CHWS R141|cv","MVD1013004|TWV14901 T-Way Valve D141, R141|sv","MVD1013005|TWV14902 T-Way Valve R141|sv"];
 
 function esc(v){return String(v??"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#039;")}
 function setLoading(on){document.getElementById("loading").style.display=on?"block":"none"}
 function applyTheme(theme){const t=theme==="dark"?"dark":"light";document.documentElement.setAttribute("data-theme",t);localStorage.setItem("pmTheme",t);document.querySelectorAll(".theme-toggle").forEach(b=>{const i=b.querySelector("i");if(i)i.className=t==="dark"?"fa-solid fa-sun":"fa-solid fa-moon"})}
 function toggleTheme(){applyTheme((document.documentElement.getAttribute("data-theme")||"light")==="dark"?"light":"dark")}
 function initTheme(){const s=localStorage.getItem("pmTheme");applyTheme(s||(matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"))}
-
 function showLoginError(msg){const e=document.getElementById("login-error");e.textContent=msg;e.style.display="block"}
 function hideLoginError(){document.getElementById("login-error").style.display="none"}
 function showApp(){document.getElementById("login-screen").classList.add("hidden");document.getElementById("app-container").classList.remove("hidden")}
@@ -387,13 +276,27 @@ function startApp(){
   ["orderNo","orderType","orderActivity","desc","workCenter","supervisor","sysStatus","userStatus","releaseDate","pmDate","pmNextDate"].forEach(id=>{const e=document.getElementById(id);if(e)e.readOnly=view});
   activeTankType=dbData.lastSavedTankType||"deluting";
   activeTankName=dbData.lastSavedTank||"T5110";
-  ["deluting","delicel","additive","updown","tankfarm2","surpressor","silo","hopper","diverter"].forEach(t=>{const e=document.getElementById(t+"Select");if(e)e.value=t===activeTankType?activeTankName:""});
+  const isResin = ['thinning', 'reactor'].includes(activeTankType);
+  document.getElementById("deptSelect").value = isResin ? 'resin' : 'em2';
+  switchDept(isResin ? 'resin' : 'em2', true);
+  ["deluting","delicel","additive","updown","tankfarm2","surpressor","silo","hopper","diverter","thinning","reactor"].forEach(t=>{const e=document.getElementById(t+"Select");if(e)e.value=t===activeTankType?activeTankName:""});
   renderForm();
 }
 
 async function performLogout(){await db.auth.signOut();currentUser=null;showLogin();location.reload()}
 
-function togglePasswordVisibility(){const p=document.getElementById("password"),i=document.querySelector("#passwordToggle i");if(p.type==="password"){p.type="text";i.className="fa-solid fa-eye-slash"}else{p.type="password";i.className="fa-solid fa-eye"}p.focus()}
+// ฟังก์ชันสลับสถานะดวงตารหัสผ่าน (เริ่มต้นเป็นปิดตาตาม HTML -> กดแล้วเปลี่ยนเป็น text+ตาเปิด)
+function togglePasswordVisibility(){
+  const p=document.getElementById("password"),i=document.querySelector("#passwordToggle i");
+  if(p.type==="password"){
+    p.type="text";
+    i.className="fa-solid fa-eye";
+  }else{
+    p.type="password";
+    i.className="fa-solid fa-eye-slash";
+  }
+  p.focus();
+}
 
 async function requestPasswordHelp(){
   const email=document.getElementById("username").value.trim(),s=document.getElementById("forgot-status"),b=document.getElementById("forgotPasswordBtn");
@@ -407,10 +310,24 @@ async function requestPasswordHelp(){
   else{s.className="is-success";s.textContent="✓ ส่งลิงก์รีเซ็ตรหัสผ่านไปยัง E-Mail แล้ว กรุณาตรวจสอบกล่องจดหมาย"}
 }
 
+function switchDept(dept, preventClear) {
+  activeDepartment = dept;
+  if(dept === 'resin'){
+    document.getElementById("em2-controls").classList.add("hidden");
+    document.getElementById("resin-controls").classList.remove("hidden");
+  } else {
+    document.getElementById("resin-controls").classList.add("hidden");
+    document.getElementById("em2-controls").classList.remove("hidden");
+  }
+  if(!preventClear) { activeTankType = ""; activeTankName = ""; }
+  ["deluting","delicel","additive","updown","tankfarm2","surpressor","silo","hopper","diverter","thinning","reactor"].forEach(t=>{const e=document.getElementById(t+"Select");if(e)e.value=""});
+  if(!preventClear) renderForm();
+}
+
 function switchTank(type){
   const el=document.getElementById(type+"Select");if(!el||!el.value)return;
   activeTankType=type;activeTankName=el.value;
-  ["deluting","delicel","additive","updown","tankfarm2","surpressor","silo","hopper","diverter"].forEach(t=>{if(t!==type){const e=document.getElementById(t+"Select");if(e)e.value=""}});
+  ["deluting","delicel","additive","updown","tankfarm2","surpressor","silo","hopper","diverter","thinning","reactor"].forEach(t=>{if(t!==type){const e=document.getElementById(t+"Select");if(e)e.value=""}});
   if(currentRole!=="view")saveMany([{key:"lastSavedTankType",value:type},{key:"lastSavedTank",value:activeTankName}]).catch(console.error);
   renderForm();
 }
@@ -419,7 +336,6 @@ async function saveHeader(id){if(currentRole!=="view"&&activeTankName)await save
 
 async function toggleRadio(e,radio,key,value){
   if(currentRole==="view"){e.preventDefault();return false}
-  
   if(radio.getAttribute("data-checked")==="true"){
     radio.checked = false;
     radio.setAttribute("data-checked","false");
@@ -513,7 +429,7 @@ function buildTaskRows(maxRows,tasks,tankCode,valveId){
     const ok=radio==="OK",no=radio==="NO";
     if(i<tasks.length){
       const t=tasks[i];
-      h+=`<tr><td class="text-center">${t.id}</td><td>${esc(t.name)}</td><td>${esc(t.standard)}</td><td class="text-center">${esc(t.package)}</td>
+      h+=`<tr><td class="text-center">${t.i}</td><td>${esc(t.n)}</td><td>${esc(t.s)}</td><td class="text-center">${esc(t.p)}</td>
       <td class="radio-center"><input type="radio" class="radio-ok ${cursor}" name="grp_${esc(rKey)}" value="OK" ${ok?"checked":""} data-checked="${ok}" onclick="toggleRadio(event,this,'${esc(rKey)}','OK')"></td>
       <td class="radio-center"><input type="radio" class="radio-no ${cursor}" name="grp_${esc(rKey)}" value="NO" ${no?"checked":""} data-checked="${no}" onclick="toggleRadio(event,this,'${esc(rKey)}','NO')"></td>
       <td><input type="text" class="borderless-input" value="${esc(note)}" ${ro} onchange="saveDataToServer('${esc(nKey)}',this.value)"></td></tr>`;
@@ -537,40 +453,60 @@ function buildSection(eq,desc,tasks,valveId){
 }
 
 function renderForm(){
+  const deptDisplay = document.getElementById("dept-display");
+  if(activeDepartment === "resin") deptDisplay.textContent = "Department : Resin PD1";
+  else deptDisplay.textContent = "Department : Emulsion 2";
   if(!activeTankName){document.getElementById("checklist-container").innerHTML="";return}
   ["orderNo","orderType","orderActivity","desc","workCenter","supervisor","sysStatus","userStatus","releaseDate","pmDate","pmNextDate"].forEach(id=>document.getElementById(id).value=dbData[`${activeTankName}_header_${id}`]||"");
+  
   let h="";
   const fl=document.getElementById("fl-display"),ed=document.getElementById("equipment-desc-display");
-  if(activeTankType==="deluting"){
-    fl.textContent="Functional Location : T-M-01-01-LET-001";ed.textContent=`Description : ${activeTankName} Deluting Tank (E2M12501)`;
-    delutingValveList.forEach(v=>h+=buildSection(v.eq,`${activeTankName}-${v.suffix} Actuator valve`,v.suffix==="XV40"?[...delutingStdTasks,xv40Task]:delutingStdTasks,v.suffix));
-  }else if(activeTankType==="delicel"){
-    fl.textContent="Functional Location : T-M-01-01-DEL-001";ed.textContent=`Description : ${activeTankName} Delicel`;
-    delicelValveList.forEach(v=>{let d;if(["magFlow","tempTrans","loadCell"].includes(v.type))d=activeTankName+v.suffix;else d=(v.p==="R"?activeTankName:v.p+activeTankName.substring(1))+v.suffix;
-      const id=v.p+"_"+v.suffix.split(" ")[0].replace("-","");
-      const t=v.type==="jet"?delicelJetTasks:v.type==="magFlow"?delicelMagFlowTasks:v.type==="tempTrans"?delicelTempTransTasks:v.type==="loadCell"?delicelLoadCellTasks:delicelStdTasks;
-      h+=buildSection(v.eq,d,t,id)});
-  }else if(activeTankType==="additive"){
-    fl.textContent=`Functional Location : ${additiveFuncLocMap[activeTankName]||""}`;ed.textContent=`Description : ${activeTankName} Additive Tank`;
-    additiveValveList.forEach(v=>{const pre="P"+activeTankName.substring(1),d=pre+v.suffix+(v.type==="actuator"?" Actuator valve":v.type==="solenoid"?" Solenoid valve 2/2":" Flow transmitter"),id="add_"+v.suffix.replace("-",""),t=v.type==="actuator"?additiveActuatorTasks:v.type==="solenoid"?additiveSolenoidTasks:additiveFlowTasks;h+=buildSection(v.eq,d,t,id)});
-  }else if(activeTankType==="updown"){
-    fl.textContent=`Functional Location : T-M-01-01-MIX-${mixFlMap[activeTankName]}`;ed.textContent=`Description : ${activeTankName} Up Down Mixer (E2M026${mixFlMap[activeTankName].substring(1)})`;
-    h+=buildSection("MVAC011",`${activeTankName}-XV50 Actuator valve`,t_UPDOWN,"XV50");
-  }else if(activeTankType==="tankfarm2"){
-    fl.textContent=`Functional Location : T-M-01-01-TSR-${tf2FlMap[activeTankName]}`;ed.textContent=`Description : ${activeTankName} Storage Tank`;
-    (tf2Map[activeTankName]||[]).forEach(c=>{const d=getEquipData(activeTankName,c,"tankfarm2");h+=buildSection(d.eq,d.desc,d.tasks,c)});
-  }else if(activeTankType==="surpressor"){
-    fl.textContent=`Functional Location : T-M-01-01-BLO-${surpFlMap[activeTankName]}`;ed.textContent=`Description : ${activeTankName} Surpressor`;
-    (surpMap[activeTankName]||[]).forEach(c=>{const d=getEquipData(activeTankName,c,"surpressor");h+=buildSection(d.eq,d.desc,d.tasks,c)});
-  }else if(activeTankType==="silo"){
-    fl.textContent=`Functional Location : T-M-01-01-SLO-${siloFlMap[activeTankName]}`;ed.textContent=`Description : ${activeTankName} Silo Powder`;
-    (siloMap[activeTankName]||[]).forEach(c=>{const d=getEquipData(activeTankName,c,"silo");h+=buildSection(d.eq,d.desc,d.tasks,c)});
-  }else if(activeTankType==="hopper"){
-    fl.textContent=`Functional Location : T-M-01-01-HOP-${hopperFlMap[activeTankName]}`;ed.textContent=`Description : ${activeTankName} Powder Hopper`;
-    (hopperMap[activeTankName]||[]).forEach(c=>{const d=getEquipData(activeTankName,c,"hopper");h+=buildSection(d.eq,d.desc,d.tasks,c)});
-  }else if(activeTankType==="diverter"){
-    fl.textContent=`Functional Location : T-M-01-01-VAC-${divFlMap[activeTankName]}`;ed.textContent=`Description : ${activeTankName}-2 Way Diverter`;
-    h+=buildSection("MVAC0110"+divFlMap[activeTankName],`${activeTankName}-2 Way Diverter`,t_DIV,"DIV");
+  
+  if(activeDepartment === "resin") {
+    const p = x => { let [e,d,t] = x.split('|'); return {e, d, t:eval('tr_'+t)} };
+    if(activeTankType === "thinning") {
+      fl.textContent = activeTankName === 'T-111' ? "Functional Location : T-M-03-03-TTN-001" : "Functional Location : T-M-03-03-TTN-002";
+      ed.textContent = activeTankName === 'T-111' ? "Description : T-111" : "Description : PDTA141 Thinning Tank T141";
+      const list = (activeTankName === 'T-111' ? L111 : L141).map(p);
+      list.forEach(v => h += buildSection(v.e, v.d, v.t, v.e));
+    } else if (activeTankType === "reactor") {
+      fl.textContent = activeTankName === 'R-111' ? "Functional Location : T-M-03-03-REC-001" : "Functional Location : T-M-03-03-REC-002";
+      ed.textContent = activeTankName === 'R-111' ? "Description : R-111" : "Description : PDRE141 Reactor R141";
+      const list = (activeTankName === 'R-111' ? LR111 : LR141).map(p);
+      list.forEach(v => h += buildSection(v.e, v.d, v.t, v.e));
+    }
+  } else {
+    if(activeTankType==="deluting"){
+      fl.textContent="Functional Location : T-M-01-01-LET-001";ed.textContent=`Description : ${activeTankName} Deluting Tank (E2M12501)`;
+      delutingValveList.forEach(v=>h+=buildSection(v.eq||"MVAC011XXX",`${activeTankName}-${v.suffix} Actuator valve`,v.suffix==="XV40"?[...delutingStdTasks,xv40Task]:delutingStdTasks,v.suffix));
+    }else if(activeTankType==="delicel"){
+      fl.textContent="Functional Location : T-M-01-01-DEL-001";ed.textContent=`Description : ${activeTankName} Delicel`;
+      delicelValveList.forEach(v=>{let d;if(["magFlow","tempTrans","loadCell"].includes(v.type))d=activeTankName+v.suffix;else d=(v.p==="R"?activeTankName:v.p+activeTankName.substring(1))+v.suffix;
+        const id=v.p+"_"+v.suffix.split(" ")[0].replace("-","");
+        const t=v.type==="jet"?delicelJetTasks:v.type==="magFlow"?delicelMagFlowTasks:v.type==="tempTrans"?delicelTempTransTasks:v.type==="loadCell"?delicelLoadCellTasks:delicelStdTasks;
+        h+=buildSection(v.eq,d,t,id)});
+    }else if(activeTankType==="additive"){
+      fl.textContent=`Functional Location : ${additiveFuncLocMap[activeTankName]||""}`;ed.textContent=`Description : ${activeTankName} Additive Tank`;
+      additiveValveList.forEach(v=>{const pre="P"+activeTankName.substring(1),d=pre+v.suffix+(v.type==="actuator"?" Actuator valve":v.type==="solenoid"?" Solenoid valve 2/2":" Flow transmitter"),id="add_"+v.suffix.replace("-",""),t=v.type==="actuator"?additiveActuatorTasks:v.type==="solenoid"?additiveSolenoidTasks:additiveFlowTasks;h+=buildSection(v.eq,d,t,id)});
+    }else if(activeTankType==="updown"){
+      fl.textContent=`Functional Location : T-M-01-01-MIX-${mixFlMap[activeTankName]}`;ed.textContent=`Description : ${activeTankName} Up Down Mixer (E2M026${mixFlMap[activeTankName].substring(1)})`;
+      h+=buildSection("MVAC011",`${activeTankName}-XV50 Actuator valve`,t_UPDOWN,"XV50");
+    }else if(activeTankType==="tankfarm2"){
+      fl.textContent=`Functional Location : T-M-01-01-TSR-${tf2FlMap[activeTankName]}`;ed.textContent=`Description : ${activeTankName} Storage Tank`;
+      (tf2Map[activeTankName]||[]).forEach(c=>{const d=getEquipData(activeTankName,c,"tankfarm2");h+=buildSection(d.eq,d.desc,d.tasks,c)});
+    }else if(activeTankType==="surpressor"){
+      fl.textContent=`Functional Location : T-M-01-01-BLO-${surpFlMap[activeTankName]}`;ed.textContent=`Description : ${activeTankName} Surpressor`;
+      (surpMap[activeTankName]||[]).forEach(c=>{const d=getEquipData(activeTankName,c,"surpressor");h+=buildSection(d.eq,d.desc,d.tasks,c)});
+    }else if(activeTankType==="silo"){
+      fl.textContent=`Functional Location : T-M-01-01-SLO-${siloFlMap[activeTankName]}`;ed.textContent=`Description : ${activeTankName} Silo Powder`;
+      (siloMap[activeTankName]||[]).forEach(c=>{const d=getEquipData(activeTankName,c,"silo");h+=buildSection(d.eq,d.desc,d.tasks,c)});
+    }else if(activeTankType==="hopper"){
+      fl.textContent=`Functional Location : T-M-01-01-HOP-${hopperFlMap[activeTankName]}`;ed.textContent=`Description : ${activeTankName} Powder Hopper`;
+      (hopperMap[activeTankName]||[]).forEach(c=>{const d=getEquipData(activeTankName,c,"hopper");h+=buildSection(d.eq,d.desc,d.tasks,c)});
+    }else if(activeTankType==="diverter"){
+      fl.textContent=`Functional Location : T-M-01-01-VAC-${divFlMap[activeTankName]}`;ed.textContent=`Description : ${activeTankName}-2 Way Diverter`;
+      h+=buildSection("MVAC0110"+divFlMap[activeTankName],`${activeTankName}-2 Way Diverter`,t_DIV,"DIV");
+    }
   }
   document.getElementById("checklist-container").innerHTML=h;
 }
@@ -578,6 +514,7 @@ function renderForm(){
 function fillSelect(id,arr){const s=document.getElementById(id);arr.forEach(x=>s.add(new Option(x,x)))}
 function initSelectors(){
   fillSelect("delutingSelect",delutingTanks);fillSelect("delicelSelect",delicelTanks);fillSelect("additiveSelect",additiveTanks);fillSelect("updownSelect",updownTanks);fillSelect("tankfarm2Select",tankfarm2Tanks);fillSelect("surpressorSelect",surpressorTanks);fillSelect("siloSelect",siloPowderTanks);fillSelect("hopperSelect",hopperPowderTanks);fillSelect("diverterSelect",diverterTanks);
+  fillSelect("thinningSelect",resinThinningTanks);fillSelect("reactorSelect",resinReactorTanks);
 }
 
 window.addEventListener("DOMContentLoaded",async()=>{
@@ -594,7 +531,6 @@ window.addEventListener("DOMContentLoaded",async()=>{
   });
   try{await checkLoginStatus()}catch(e){showLoginError("เชื่อมต่อ Supabase ไม่สำเร็จ: "+e.message)}
 });
-
 </script>
 </body>
 </html>
