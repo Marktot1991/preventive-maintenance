@@ -69,7 +69,10 @@ body::-webkit-scrollbar,
 }
 body{
   font-family:'Segoe UI',Tahoma,Arial,sans-serif;
-  font-size:14px;
+  font-size:15px;
+  line-height:1.5;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
   margin:0;
   min-height:100vh;
   background:var(--body-bg);
@@ -140,17 +143,17 @@ html[data-theme=dark] .login-input{border-color:#425462}html[data-theme=dark] .l
   font-size:14px;
 }
 .sidebar-scroll{flex:1;overflow-y:auto;overflow-x:hidden;padding:10px 0 4px}
-.sidebar-section-label{padding:7px 18px 9px;color:var(--sidebar-muted);font-size:12.5px;font-weight:800;letter-spacing:.45px;text-transform:uppercase}
+.sidebar-section-label{padding:9px 18px 10px;color:var(--sidebar-muted);font-size:13px;font-weight:800;letter-spacing:.45px;text-transform:uppercase}
 .dept-wrap{padding:0 18px 10px;border-bottom:1px solid var(--sidebar-line)}
 .dept-selector{
   width:100%;
-  height:36px;
+  height:38px;
   padding:0 10px;
   border-radius:4px;
   border:1px solid #00a99d;
   background:#1f3140;
   color:#f2f6f8;
-  font-size:15px;
+  font-size:14.5px;
   font-weight:700;
   outline:none;
 }
@@ -159,7 +162,7 @@ html[data-theme=dark] .dept-selector{background:#172732;color:#f1f6f9}
 .sidebar-link{
   position:relative;
   width:100%;
-  min-height:49px;
+  min-height:48px;
   display:flex;
   align-items:center;
   gap:13px;
@@ -169,7 +172,7 @@ html[data-theme=dark] .dept-selector{background:#172732;color:#f1f6f9}
   color:var(--sidebar-text);
   border:0;
   text-align:left;
-  font-size:15px;
+  font-size:14.5px;
   font-weight:600;
   transition:background .15s ease,color .15s ease;
 }
@@ -222,7 +225,7 @@ html[data-theme=dark] .app-topbar{background:#243643}
   height:100%;
 }
 .topbar-search-icon{color:#00cabb;font-size:14px}
-.topbar-label{color:#00cabb;font-size:15px;font-weight:800;white-space:nowrap}
+.topbar-label{color:#00cabb;font-size:14.5px;font-weight:800;white-space:nowrap}
 .equipment-selector{
   width:180px;
   height:41px;
@@ -231,7 +234,7 @@ html[data-theme=dark] .app-topbar{background:#243643}
   border-radius:5px;
   background:#1f3140;
   color:#f5fafb;
-  font-size:16px;
+  font-size:15.5px;
   font-weight:800;
   outline:none;
   cursor:pointer;
@@ -241,20 +244,20 @@ html[data-theme=dark] .equipment-selector{background:#172732}
 .topbar-spacer{flex:1}
 
 /* ---------- MAIN FORM AREA ---------- */
-.main-content{width:100%;max-width:100%;padding:77px 16px 25px}
+.main-content{width:100%;max-width:100%;padding:79px 18px 28px}
 .page-container{
   width:min(1135px,100%);
   margin:0 auto;
   background:var(--surface);
-  padding:11px;
-  box-shadow:0 1px 10px rgba(20,35,49,.13);
+  padding:14px;
+  box-shadow:0 2px 12px rgba(20,35,49,.12);
   border:1px solid rgba(116,130,143,.16);
   border-radius:7px;
 }
-table{width:100%;border-collapse:collapse;margin-bottom:9px;font-size:13.5px}th,td{border:1px solid #c9d1d9;padding:6px 8px;vertical-align:middle}
+table{width:100%;border-collapse:collapse;margin-bottom:10px;font-size:14px;line-height:1.45}th,td{border:1px solid #c9d1d9;padding:7px 8px;vertical-align:middle}
 html[data-theme=dark] th,html[data-theme=dark] td{border-color:#55636e}
 .header-bg{background:var(--table-header);font-weight:800;text-align:center}.sub-header-bg{background:var(--table-subheader)}
-input[type=text],input[type=date]{width:100%;border:1px solid #ccc;padding:4px;font:inherit;background:var(--surface-input);color:var(--text)}
+input[type=text],input[type=date]{width:100%;border:1px solid #ccc;padding:5px;font:inherit;background:var(--surface-input);color:var(--text)}
 .borderless-input{border:0!important;background:transparent!important;outline:0}.borderless-input:focus{background:#ffffcc!important;color:#1f2937}
 .radio-center,.text-center{text-align:center}
 .radio-ok,.radio-no{transform:scale(1.45);cursor:pointer;margin:0}
@@ -277,7 +280,7 @@ input[readonly]{color:inherit!important;-webkit-text-fill-color:currentColor;opa
   body.sidebar-open .sidebar{transform:translateX(0)}
   .app-main{margin-left:0}
   .app-topbar{left:0}
-  .main-content{padding:76px 8px 18px}
+  .main-content{padding:76px 8px 20px}
   .topbar-equipment{min-width:0;max-width:none;width:100%}
   .topbar-label{font-size:12px}
   .equipment-selector{flex:1;min-width:0;font-size:15px}
@@ -294,7 +297,27 @@ input[readonly]{color:inherit!important;-webkit-text-fill-color:currentColor;opa
   @page{size:A4 portrait;margin:5mm}
   body{background:#fff}
   #login-screen,.sidebar,.app-topbar,#loading{display:none!important}
-  #app-container,.app-main,.main-content,.page-container{display:block!important;width:100%;max-width:100%;margin:0;padding:0;box-shadow:none;border-radius:0;border:0}
+
+  /* Normal screen DOM is hidden; only the generated group print area is printed. */
+  body.printing-group > *:not(#print-group-container){display:none!important}
+  body.printing-group #print-group-container{display:block!important;width:100%;max-width:100%;margin:0;padding:0}
+  body.printing-group .print-group-item{display:block!important;width:100%;page-break-after:always;break-after:page}
+  body.printing-group .print-group-item:last-child{page-break-after:auto;break-after:auto}
+  body.printing-group .print-group-title{font-size:14px;font-weight:800;text-align:center;margin:0 0 4mm}
+  body.printing-group #print-group-container .page-container{
+    display:block!important;
+    width:100%;
+    max-width:100%;
+    margin:0;
+    padding:0;
+    box-shadow:none;
+    border-radius:0;
+    border:0;
+  }
+
+  /* Fallback if the print dialog is opened from another browser engine. */
+  #app-container,.app-main,.main-content,.page-container{box-shadow:none}
+
   table{width:100%;page-break-inside:avoid;font-size:10.5px}
   table,th,td{border:.05mm solid #000!important}
   th,td{padding:2px 4px}
@@ -353,7 +376,7 @@ input[readonly]{color:inherit!important;-webkit-text-fill-color:currentColor;opa
 
         <div class="sidebar-divider"></div>
         <button type="button" class="sidebar-link theme-toggle" onclick="toggleTheme()" title="สลับธีม"><i class="fa-solid fa-moon"></i><span class="menu-label">โหมดมืด</span><span class="menu-chevron"><i class="fa-solid fa-chevron-right"></i></span></button>
-        <button type="button" class="sidebar-link" onclick="window.print()"><i class="fa-solid fa-print"></i><span class="menu-label">ส่งออก PDF / พิมพ์ A4</span></button>
+        <button type="button" class="sidebar-link" onclick="exportCurrentGroupPDF()"><i class="fa-solid fa-print"></i><span class="menu-label">ส่งออก PDF / พิมพ์ A4</span></button>
         <button type="button" id="btnClearData" class="sidebar-link sidebar-action-danger" onclick="clearCurrentTankData()"><i class="fa-solid fa-eraser"></i><span class="menu-label">ล้างถังนี้</span></button>
         <button type="button" id="btnClearGroup" class="sidebar-link sidebar-action-danger" onclick="clearCurrentGroupData()"><i class="fa-solid fa-trash-can"></i><span class="menu-label">ล้างทั้งกรุ๊ป</span></button>
       </nav>
@@ -413,6 +436,9 @@ input[readonly]{color:inherit!important;-webkit-text-fill-color:currentColor;opa
     </section>
   </main>
 </div>
+
+<!-- Dedicated print area: generated only when exporting the selected equipment group -->
+<div id="print-group-container" aria-hidden="true"></div>
 
 <script>
 let dbData={}, activeDepartment="em2", activeTankType="deluting", activeTankName="T5110", currentUser=null, currentRole="view";
@@ -798,10 +824,10 @@ function buildTaskRows(maxRows,tasks,tankCode,valveId){
   return h;
 }
 
-function buildSection(eq,desc,tasks,valveId){
+function buildSection(eq,desc,tasks,valveId,tankName=activeTankName){
   return `<table><tr class="header-bg"><td colspan="4" style="text-align:left">Equipment : ${esc(eq)}</td><td colspan="4" style="text-align:left;color:#b30000">Description : ${esc(desc)}</td></tr>
   <tr class="sub-header-bg text-center"><td width="4%">Items</td><td width="24%">Preventive Maintenance Task List</td><td width="24%">Standard</td><td width="6%">Package</td><td width="4%">OK</td><td width="4%">NO</td><td width="28%">Result Note</td></tr>
-  ${buildTaskRows(6,tasks,activeTankName,valveId)}</table>`;
+  ${buildTaskRows(6,tasks,tankName,valveId)}</table>`;
 }
 
 const RESIN_TASK_LISTS={psv:tr_psv,temp:tr_temp,sv:tr_sv,rota:tr_rota,ft:tr_ft,pt:tr_pt,pg:tr_pg,btv:tr_btv,cv:tr_cv};
@@ -933,6 +959,105 @@ function updateEquipmentSelect(){
   list.forEach(v=>sel.add(new Option(v,v)));
   if(list.includes(current))sel.value=current;
 }
+/* ---------- GROUP PDF EXPORT ---------- */
+function syncPrintInputState(root){
+  root.querySelectorAll("input").forEach(input=>{
+    if(input.type==="radio" || input.type==="checkbox"){
+      if(input.checked) input.setAttribute("checked","checked");
+      else input.removeAttribute("checked");
+    }else{
+      input.setAttribute("value",input.value??"");
+    }
+  });
+}
+
+function exportCurrentGroupPDF(){
+  const groupType=activeTankType;
+  const tanks=[...(tankGroupMapping[groupType]||[])];
+  if(!groupType || !tanks.length){
+    alert("กรุณาเลือกกรุ๊ปอุปกรณ์ก่อนส่งออก PDF");
+    return;
+  }
+
+  const printRoot=document.getElementById("print-group-container");
+  if(!printRoot)return;
+
+  const savedTankType=activeTankType;
+  const savedTankName=activeTankName;
+  const savedDept=activeDepartment;
+
+  // Always build from the group list only.
+  // The currently selected tank is included exactly once because the list is de-duplicated.
+  const uniqueTanks=[...new Set(tanks)];
+  printRoot.innerHTML="";
+
+  // Helpful title shown only on the first printed page.
+  const groupLabel={
+    deluting:"Letdown Tanks",
+    delicel:"Delicel Tanks",
+    additive:"Additive Tanks",
+    updown:"Up Down Mixer",
+    tankfarm2:"Tank Farm 2",
+    surpressor:"Surpressor",
+    silo:"Silo Powder",
+    hopper:"Hopper Powder",
+    diverter:"2-Way Diverter",
+    thinning:"Thinning Tank",
+    reactor:"Reactor"
+  }[groupType]||groupType;
+
+  uniqueTanks.forEach((tank,index)=>{
+    activeTankType=groupType;
+    activeTankName=tank;
+
+    // renderForm uses the same dbData and existing checklist definitions,
+    // so each tank gets its own saved header/checklist values.
+    renderForm();
+
+    const source=document.querySelector(".page-container");
+    if(!source)return;
+
+    const item=document.createElement("section");
+    item.className="print-group-item";
+    item.setAttribute("data-tank",tank);
+
+    if(index===0){
+      const title=document.createElement("div");
+      title.className="print-group-title";
+      title.textContent=`Preventive Maintenance • ${groupLabel} • ${uniqueTanks.length} Equipment`;
+      item.appendChild(title);
+    }
+
+    const clone=source.cloneNode(true);
+    syncPrintInputState(clone);
+    item.appendChild(clone);
+    printRoot.appendChild(item);
+  });
+
+  activeTankType=savedTankType;
+  activeTankName=savedTankName;
+  activeDepartment=savedDept;
+
+  // Restore the on-screen dashboard before opening the browser print dialog.
+  updateEquipmentSelect();
+  updateSidebarForDept();
+  updateSidebarActive();
+  renderForm();
+
+  document.body.classList.add("printing-group");
+  const cleanup=()=>{
+    document.body.classList.remove("printing-group");
+    printRoot.innerHTML="";
+    window.removeEventListener("afterprint",cleanup);
+  };
+  window.addEventListener("afterprint",cleanup,{once:true});
+
+  // Some browsers may not fire afterprint consistently after a cancelled dialog.
+  setTimeout(()=>document.body.classList.remove("printing-group"),60000);
+
+  window.print();
+}
+
 function selectCategory(type){
   if(!sidebarCategoryVisible(type))return;
   activeTankType=type;
