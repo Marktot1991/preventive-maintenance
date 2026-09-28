@@ -99,17 +99,18 @@ button:disabled{cursor:not-allowed;opacity:.65}
   position:absolute;top:20px;right:20px;z-index:2;margin:0;width:46px;min-width:46px;height:46px;padding:0;
   display:flex;align-items:center;justify-content:center;
   border-radius:12px;
-  background:#2b3d4e;
-  border:1px solid rgba(43,61,78,.35);
-  color:#fff;
-  box-shadow:0 6px 16px rgba(20,35,49,.18);
-  backdrop-filter:blur(8px);
+  background:rgba(255,255,255,.62);
+  border:1px solid rgba(255,255,255,.82);
+  color:#111827;
+  box-shadow:0 6px 16px rgba(20,35,49,.12);
+  backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
   transition:all .2s ease;
 }
 #login-theme-toggle:hover{
-  background:#233444;
-  border-color:rgba(8,183,168,.65);
-  box-shadow:0 8px 20px rgba(20,35,49,.24);
+  background:rgba(255,255,255,.82);
+  border-color:rgba(8,183,168,.55);
+  box-shadow:0 8px 20px rgba(20,35,49,.18);
   transform:translateY(-1px);
 }
 #login-theme-toggle:focus-visible{
@@ -641,9 +642,33 @@ function showApp(){document.getElementById("login-screen").classList.add("hidden
 function showLogin(){document.getElementById("login-screen").classList.remove("hidden");document.getElementById("app-container").classList.add("hidden")}
 
 async function loadDbData(){
-  const {data,error}=await db.from("pm_data").select("data_key,data_value");
-  if(error)throw error;
-  dbData={};(data||[]).forEach(r=>dbData[r.data_key]=r.data_value??"");
+  // Supabase/PostgREST may return at most 1,000 rows per request.
+  // The PM table now contains several thousand rows, so load them in pages.
+  const pageSize = 1000;
+  const allRows = [];
+
+  for(let from = 0; ; from += pageSize){
+    const {data,error} = await db
+      .from("pm_data")
+      .select("data_key,data_value")
+      .order("data_key", {ascending:true})
+      .range(from, from + pageSize - 1);
+
+    if(error) throw error;
+
+    if(!data || data.length === 0) break;
+
+    allRows.push(...data);
+
+    if(data.length < pageSize) break;
+  }
+
+  dbData = {};
+  allRows.forEach(r => {
+    if(r && r.data_key != null){
+      dbData[r.data_key] = r.data_value ?? "";
+    }
+  });
 }
 
 async function saveDataToServer(key,value){
