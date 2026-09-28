@@ -326,6 +326,21 @@ input[readonly]{color:inherit!important;-webkit-text-fill-color:currentColor;opa
 /* ---------- PRINT ---------- */
 @media print{
   @page{size:A4 portrait;margin:5mm}
+
+  /* Always print a light/white document regardless of the screen theme. */
+  html[data-theme="dark"]{
+    --body-bg:#fff;
+    --surface:#fff;
+    --surface-soft:#f6f8fa;
+    --surface-input:#fff;
+    --text:#111827;
+    --text-muted:#5f6b76;
+    --border:#c9d1d9;
+    --table-header:#dbe2e8;
+    --table-subheader:#eef1f3;
+  }
+
+  html,body{background:#fff!important;color:#111827!important}
   body{background:#fff}
   #login-screen,.sidebar,.app-topbar,#loading{display:none!important}
 
@@ -344,6 +359,26 @@ input[readonly]{color:inherit!important;-webkit-text-fill-color:currentColor;opa
     box-shadow:none;
     border-radius:0;
     border:0;
+  }
+
+  /* Force the generated PDF content to stay light even when dark mode is active. */
+  #print-group-container,
+  #print-group-container .print-group-item,
+  #print-group-container .page-container,
+  #print-group-container table,
+  #print-group-container tr,
+  #print-group-container td,
+  #print-group-container input{
+    background:#fff!important;
+    color:#111827!important;
+  }
+  #print-group-container .header-bg{
+    background:#dbe2e8!important;
+    color:#111827!important;
+  }
+  #print-group-container .sub-header-bg{
+    background:#eef1f3!important;
+    color:#111827!important;
   }
 
   /* Fallback if the print dialog is opened from another browser engine. */
@@ -384,6 +419,60 @@ input[readonly]{color:inherit!important;-webkit-text-fill-color:currentColor;opa
   .radio-ok,.radio-no{display:none!important}
   input{font-size:10.5px!important;padding:0!important}
   *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}
+}
+
+
+/* ---------- MODERN COMPACT UI OVERRIDES ---------- */
+:root{
+  --sidebar:#243746;
+  --sidebar-2:#2c4252;
+  --sidebar-line:rgba(255,255,255,.065);
+  --sidebar-text:#c8d2dc;
+  --sidebar-muted:#9eacb8;
+}
+html[data-theme=dark]{
+  --sidebar:#172733;
+  --sidebar-2:#203542;
+  --sidebar-line:rgba(255,255,255,.055);
+}
+.sidebar{width:220px;box-shadow:2px 0 14px rgba(20,35,49,.12)}
+.sidebar-brand{height:60px;flex:0 0 60px;padding:0 14px;gap:9px}
+.brand-mark{width:22px;font-size:18px}
+.brand-title{font-size:16px;letter-spacing:0}
+.sidebar-collapse{width:30px;height:30px;font-size:13px;border-radius:7px}
+.sidebar-scroll{padding:8px 0 4px}
+.sidebar-section-label{padding:8px 16px 7px;font-size:11px;letter-spacing:.65px}
+.dept-wrap{padding:0 16px 9px}
+.dept-selector{height:36px;padding:0 10px;border-radius:7px;font-size:13.5px}
+.sidebar-menu{padding:6px 0 0}
+.sidebar-link{min-height:42px;height:42px;padding:0 15px;gap:11px;font-size:13.5px;border-radius:0}
+.sidebar-link i:first-child{width:18px;font-size:15px}
+.sidebar-link.active:before{width:3px}
+.sidebar-divider{margin:4px 0}
+.sidebar-footer{padding:6px 9px 10px}
+#currentUserDisplay{margin:0 0 5px 7px;padding:3px 0;gap:7px;font-size:13px}
+.user-status-icon{font-size:17px}
+.user-status-text strong{font-size:13px}
+.online-dot{width:7px;height:7px;margin-right:4px}
+.logout-link{height:40px;min-height:40px}
+.app-main{margin-left:220px}
+.app-topbar{left:220px;height:60px;padding:0 12px}
+.topbar-equipment{min-width:250px;max-width:390px;gap:8px}
+.topbar-search-icon{font-size:13px}
+.topbar-label{font-size:13px}
+.equipment-selector{width:175px;height:38px;padding:0 10px;border-radius:7px;font-size:14.5px}
+.main-content{padding:74px 16px 24px}
+.page-container{width:min(1120px,100%);padding:12px;border-radius:10px}
+
+@media(max-width:900px){
+  .sidebar{width:205px}
+  .app-main{margin-left:205px}
+  .app-topbar{left:205px}
+}
+@media(max-width:720px){
+  .sidebar{width:230px}
+  .app-main{margin-left:0}
+  .app-topbar{left:0}
 }
 </style>
 </head>
