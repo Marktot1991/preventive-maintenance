@@ -349,7 +349,7 @@ input[readonly]{color:inherit!important;-webkit-text-fill-color:currentColor;opa
   body.printing-group #print-group-container{display:block!important;width:100%;max-width:100%;margin:0;padding:0}
   body.printing-group .print-group-item{display:block!important;width:100%;page-break-after:always;break-after:page}
   body.printing-group .print-group-item:last-child{page-break-after:auto;break-after:auto}
-  body.printing-group .print-group-title{font-size:14px;font-weight:800;text-align:center;margin:0 0 4mm}
+  body.printing-group .print-group-title{display:none!important}
   body.printing-group #print-group-container .page-container{
     display:block!important;
     width:100%;
@@ -371,6 +371,13 @@ input[readonly]{color:inherit!important;-webkit-text-fill-color:currentColor;opa
   #print-group-container input{
     background:#fff!important;
     color:#111827!important;
+  }
+  #print-group-container,
+  #print-group-container .print-group-item{
+    background:#fff!important;
+    background-color:#fff!important;
+    border:0!important;
+    box-shadow:none!important;
   }
   #print-group-container .header-bg{
     background:#dbe2e8!important;
@@ -1207,13 +1214,7 @@ function exportCurrentGroupPDF(){
     item.className="print-group-item";
     item.setAttribute("data-tank",tank);
 
-    if(index===0){
-      const title=document.createElement("div");
-      title.className="print-group-title";
-      title.textContent=`Preventive Maintenance • ${groupLabel} • ${uniqueTanks.length} Equipment`;
-      item.appendChild(title);
-    }
-
+    // Do not print the group heading; PDF should contain only the form.
     const clone=source.cloneNode(true);
     syncPrintInputState(clone);
     item.appendChild(clone);
