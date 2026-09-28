@@ -481,8 +481,88 @@ html[data-theme=dark]{
   .app-main{margin-left:0}
   .app-topbar{left:0}
 }
-</style>
+
+/* ---------- PRINT: FORCE PURE LIGHT PAGE IN DARK MODE ---------- */
+@media print{
+  html, body,
+  body.printing-group,
+  body.printing-group #print-group-container,
+  body.printing-group #print-group-container .print-group-item,
+  body.printing-group #print-group-container .page-container {
+    background: #fff !important;
+    background-color: #fff !important;
+    color: #111 !important;
+    box-shadow: none !important;
+    -webkit-box-shadow: none !important;
+    outline: none !important;
+    border-color: #fff !important;
+  }
+
+  html, body {
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  body.printing-group #print-group-container {
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+    min-height: 100vh !important;
+  }
+
+  body.printing-group #print-group-container .print-group-item {
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+    min-height: 0 !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+  }
+
+  body.printing-group #print-group-container .page-container {
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+    max-width: none !important;
+    min-height: 0 !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    -webkit-box-shadow: none !important;
+    background: #fff !important;
+  }
+
+  /* Remove every possible dark wrapper/filter from the generated print tree. */
+  body.printing-group #print-group-container * {
+    box-shadow: none !important;
+    -webkit-box-shadow: none !important;
+    text-shadow: none !important;
+    filter: none !important;
+  }
+
+  /* Keep the actual form white while retaining black table lines. */
+  body.printing-group #print-group-container table,
+  body.printing-group #print-group-container tr,
+  body.printing-group #print-group-container td,
+  body.printing-group #print-group-container th {
+    background-color: #fff !important;
+    color: #111 !important;
+  }
+
+  body.printing-group #print-group-container .header-bg {
+    background-color: #dbe2e8 !important;
+  }
+
+  body.printing-group #print-group-container .sub-header-bg {
+    background-color: #eef1f3 !important;
+  }
+}
+
 </head>
+</style>
+
+
 <body>
 <div id="loading">กำลังบันทึก...</div>
 
