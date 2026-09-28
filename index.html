@@ -95,7 +95,37 @@ button:disabled{cursor:not-allowed;opacity:.65}
 .password-toggle{position:absolute;right:8px;top:50%;transform:translateY(-50%);background:transparent;color:var(--text-muted)}
 .login-actions{display:flex;justify-content:flex-end;margin:-5px 0 18px}.forgot-link{background:transparent;color:#007bff;padding:4px}
 .btn-login{width:100%;height:50px;background:linear-gradient(135deg,#08b7a8,#008d84);font-size:14px;box-shadow:0 8px 18px rgba(0,141,132,.20)}
-#login-theme-toggle{position:absolute;top:20px;right:20px;z-index:2;margin:0;width:46px;min-width:46px;height:46px;padding:0;border-radius:12px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.20);color:#fff;backdrop-filter:blur(8px)}
+#login-theme-toggle{
+  position:absolute;top:20px;right:20px;z-index:2;margin:0;width:46px;min-width:46px;height:46px;padding:0;
+  display:flex;align-items:center;justify-content:center;
+  border-radius:12px;
+  background:#2b3d4e;
+  border:1px solid rgba(43,61,78,.35);
+  color:#fff;
+  box-shadow:0 6px 16px rgba(20,35,49,.18);
+  backdrop-filter:blur(8px);
+  transition:all .2s ease;
+}
+#login-theme-toggle:hover{
+  background:#233444;
+  border-color:rgba(8,183,168,.65);
+  box-shadow:0 8px 20px rgba(20,35,49,.24);
+  transform:translateY(-1px);
+}
+#login-theme-toggle:focus-visible{
+  outline:3px solid rgba(8,183,168,.28);
+  outline-offset:2px;
+}
+html[data-theme=dark] #login-theme-toggle{
+  background:rgba(255,255,255,.10);
+  border-color:rgba(255,255,255,.22);
+  color:#fff;
+  box-shadow:0 6px 16px rgba(0,0,0,.22);
+}
+html[data-theme=dark] #login-theme-toggle:hover{
+  background:rgba(255,255,255,.17);
+  border-color:rgba(78,215,204,.65);
+}
 #login-error,#forgot-status{display:none;margin-top:15px;padding:11px;font-size:13px;text-align:center;border-radius:9px}
 #login-error{color:#b42318;background:#fff1f0;border:1px solid #ffccc7}
 #forgot-status.is-loading,#forgot-status.is-success,#forgot-status.is-error{display:block}
@@ -321,7 +351,36 @@ input[readonly]{color:inherit!important;-webkit-text-fill-color:currentColor;opa
   table{width:100%;page-break-inside:avoid;font-size:10.5px}
   table,th,td{border:.05mm solid #000!important}
   th,td{padding:2px 4px}
-  .radio-ok,.radio-no{transform:scale(1.05)!important}
+  /* Print radio/status as static circles so Chrome/Edge print preview always shows the saved status. */
+  .print-status-radio{
+    display:inline-block!important;
+    width:12px!important;
+    height:12px!important;
+    min-width:12px!important;
+    min-height:12px!important;
+    border:1.4px solid #777!important;
+    border-radius:50%!important;
+    position:relative!important;
+    vertical-align:middle!important;
+    box-sizing:border-box!important;
+    background:#fff!important;
+  }
+  .print-status-radio.selected-ok{border-color:#16a34a!important}
+  .print-status-radio.selected-no{border-color:#ef3340!important}
+  .print-status-radio.selected-ok::after,
+  .print-status-radio.selected-no::after{
+    content:"";
+    position:absolute;
+    width:6px;
+    height:6px;
+    left:50%;
+    top:50%;
+    transform:translate(-50%,-50%);
+    border-radius:50%;
+  }
+  .print-status-radio.selected-ok::after{background:#16a34a!important}
+  .print-status-radio.selected-no::after{background:#ef3340!important}
+  .radio-ok,.radio-no{display:none!important}
   input{font-size:10.5px!important;padding:0!important}
   *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}
 }
@@ -962,7 +1021,20 @@ function updateEquipmentSelect(){
 /* ---------- GROUP PDF EXPORT ---------- */
 function syncPrintInputState(root){
   root.querySelectorAll("input").forEach(input=>{
-    if(input.type==="radio" || input.type==="checkbox"){
+    if(input.type==="radio"){
+      /*
+       * Native radio controls are rendered inconsistently by browser print engines.
+       * Convert their current state to a plain HTML indicator before printing.
+       * Use both the live checked property and our data-checked flag so a just-clicked
+       * status is preserved even before any re-render.
+       */
+      const isChecked = input.checked || input.getAttribute("data-checked")==="true" || input.hasAttribute("checked");
+      const indicator=document.createElement("span");
+      indicator.className="print-status-radio "+(input.classList.contains("radio-ok")?"selected-ok":"selected-no");
+      if(!isChecked)indicator.classList.remove("selected-ok","selected-no");
+      indicator.setAttribute("aria-hidden","true");
+      input.replaceWith(indicator);
+    }else if(input.type==="checkbox"){
       if(input.checked) input.setAttribute("checked","checked");
       else input.removeAttribute("checked");
     }else{
