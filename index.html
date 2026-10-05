@@ -755,6 +755,42 @@ html[data-theme=dark]{
 <script>
 let dbData={}, activeDepartment="em2", activeTankType="deluting", activeTankName="T5110", currentUser=null, currentRole="view";
 
+// =====================================================
+// AUTH SESSION CONTROL
+// -----------------------------------------------------
+// Supabase keeps its auth session in persistent browser storage.
+// We add a tab-scoped marker so this app behaves like this:
+//   - Refresh / F5       => stay logged in
+//   - Close tab/browser  => marker disappears
+//   - Open app again     => Login is required
+// =====================================================
+const AUTH_TAB_KEY = "pm_tab_session_v1";
+
+function hasTabSession(){
+  try{
+    return sessionStorage.getItem(AUTH_TAB_KEY) === "1";
+  }catch(e){
+    console.warn("Cannot access sessionStorage:", e);
+    return false;
+  }
+}
+
+function markTabSession(){
+  try{
+    sessionStorage.setItem(AUTH_TAB_KEY, "1");
+  }catch(e){
+    console.warn("Cannot write sessionStorage:", e);
+  }
+}
+
+function clearTabSession(){
+  try{
+    sessionStorage.removeItem(AUTH_TAB_KEY);
+  }catch(e){
+    console.warn("Cannot clear sessionStorage:", e);
+  }
+}
+
 const delutingTanks = ["T5110","T5111","T5112","T5113","T5114","T5115","T5120","T5121","T5122","T5123","T5124","T5125","T5126","T5130","T5131","T5132","T5133","T5134","T5135","T5136","T5137","T5138","T5139","T5140","T5141","T5142","T5143"];
 const delicelTanks = ["R4500","R4510","R4511","R4512","R4520","R4530","R4531","R4532","R4540","R4550","R4560"];
 const additiveTanks = ["T3100","T3101","T3102","T3110","T3111","T3120","T3121","T3122","T3123","T3124","T3125","T3126","T3130","T3140","T3141","T3142","T3150","T3180","T3190","T3191"];
@@ -951,24 +987,67 @@ async function performLogin(){
   const email=document.getElementById("username").value.trim(),password=document.getElementById("password").value;
   if(!email||!password){showLoginError("กรุณากรอก E-Mail และรหัสผ่าน");return}
   const b=document.getElementById("loginButton");b.disabled=true;b.textContent="กำลังตรวจสอบ...";
+
   const {data,error}=await db.auth.signInWithPassword({email,password});
   b.disabled=false;b.textContent="เข้าสู่ระบบ";
-  if(error){showLoginError("เข้าสู่ระบบไม่สำเร็จ: "+error.message);return}
+
+  if(error){
+    clearTabSession();
+    showLoginError("เข้าสู่ระบบไม่สำเร็จ: "+error.message);
+    return;
+  }
+
   currentUser=data.user;
-  await loadUserAndStart();
+
+  try{
+    // Mark this browser tab only after authentication and Profile loading succeed.
+    const started=await loadUserAndStart();
+    if(started) markTabSession();
+    else clearTabSession();
+  }catch(e){
+    clearTabSession();
+    throw e;
+  }
 }
 
 async function loadUserAndStart(){
   const {data,error}=await db.from("profiles").select("role,display_name,email").eq("id",currentUser.id).single();
-  if(error){showLoginError("ไม่พบ Profile ของผู้ใช้งาน: "+error.message);return}
+  if(error){
+    showLoginError("ไม่พบ Profile ของผู้ใช้งาน: "+error.message);
+    return false;
+  }
   currentRole=data.role||"view";
   await loadDbData();
   startApp();
+  return true;
 }
 
 async function checkLoginStatus(){
   const {data}=await db.auth.getSession();
-  if(!data.session){showLogin();return}
+
+  // No active Supabase session. Stay on Login.
+  if(!data.session){
+    clearTabSession();
+    showLogin();
+    return;
+  }
+
+  // Supabase may still have a persistent session after the browser/tab was closed.
+  // The tab marker is gone in a new page session, so force a local sign-out and
+  // require the user to log in again. This keeps the app from reopening as logged in.
+  if(!hasTabSession()){
+    try{
+      await db.auth.signOut({scope:"local"});
+    }catch(e){
+      console.warn("Auto logout after browser/tab close:", e);
+    }
+    currentUser=null;
+    currentRole="view";
+    clearTabSession();
+    showLogin();
+    return;
+  }
+
   currentUser=data.session.user;
   await loadUserAndStart();
 }
@@ -992,7 +1071,20 @@ function startApp(){
   renderForm();
 }
 
-async function performLogout(){await db.auth.signOut();currentUser=null;showLogin();location.reload()}
+async function performLogout(){
+  try{
+    // Sign out only the current Supabase session, not other devices.
+    await db.auth.signOut({scope:"local"});
+  }catch(e){
+    console.warn("Logout error:", e);
+  }finally{
+    clearTabSession();
+    currentUser=null;
+    currentRole="view";
+    showLogin();
+    location.reload();
+  }
+}
 
 function togglePasswordVisibility(){
   const p=document.getElementById("password"),i=document.querySelector("#passwordToggle i");
