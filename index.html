@@ -762,7 +762,272 @@ html[data-theme=dark] .progress-bar-wrap{background:#263640}
   .progress-card-value{font-size:24px}
 }
 
+
+/* ---------- PM REPAIR / WAITING RED-TICK DASHBOARD ---------- */
+.progress-repair-section{
+  margin-top:18px;
+  border:1px solid var(--border);
+  border-radius:18px;
+  background:var(--surface);
+  box-shadow:0 8px 22px rgba(20,35,49,.07);
+  overflow:hidden;
+}
+.progress-repair-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:14px;
+  padding:15px 18px;
+  border-bottom:1px solid var(--border);
+  background:var(--surface-soft);
+}
+.progress-repair-title-wrap{display:flex;align-items:center;gap:10px;min-width:0}
+.progress-repair-icon{
+  width:34px;height:34px;flex:0 0 34px;
+  display:inline-flex;align-items:center;justify-content:center;
+  border-radius:10px;
+  background:#fff0f0;
+  color:#dc3545;
+  font-size:15px;
+}
+html[data-theme=dark] .progress-repair-icon{
+  background:#45262b;
+  color:#ff7b86;
+}
+.progress-repair-title{
+  margin:0;
+  color:var(--text);
+  font-size:15px;
+  font-weight:950;
+}
+.progress-repair-subtitle{
+  margin:3px 0 0;
+  color:var(--text-muted);
+  font-size:10.5px;
+  font-weight:700;
+}
+.progress-repair-note{
+  flex:0 0 auto;
+  padding:6px 10px;
+  border-radius:999px;
+  background:#fff6f6;
+  border:1px solid #ffd9dc;
+  color:#c52d39;
+  font-size:9.5px;
+  font-weight:900;
+  white-space:nowrap;
+}
+html[data-theme=dark] .progress-repair-note{
+  background:#40282d;
+  border-color:#5b383e;
+  color:#ff9ca4;
+}
+
+.progress-repair-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:14px;
+  padding:14px;
+}
+.progress-repair-panel{
+  min-width:0;
+  border:1px solid var(--border);
+  border-radius:15px;
+  background:var(--surface);
+  overflow:hidden;
+}
+.progress-repair-panel-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  padding:11px 13px;
+  border-bottom:1px solid var(--border);
+  background:var(--surface-soft);
+}
+.progress-repair-panel-title{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  color:var(--text);
+  font-size:12.5px;
+  font-weight:950;
+}
+.progress-repair-panel-title i{color:#dc3545}
+.progress-repair-panel-count{
+  padding:4px 8px;
+  border-radius:999px;
+  background:#fff0f0;
+  color:#c52d39;
+  font-size:9px;
+  font-weight:900;
+  white-space:nowrap;
+}
+html[data-theme=dark] .progress-repair-panel-count{
+  background:#45262b;
+  color:#ff9ca4;
+}
+
+.progress-repair-total{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  margin:10px 11px;
+  padding:8px 10px;
+  border-radius:9px;
+  background:#fffafa;
+  border:1px solid #f4dfe1;
+  color:var(--text-muted);
+  font-size:9.5px;
+  font-weight:800;
+}
+html[data-theme=dark] .progress-repair-total{
+  background:#2d2629;
+  border-color:#4b383c;
+}
+.progress-repair-total strong{
+  color:#c52d39;
+  font-size:11.5px;
+}
+
+.progress-repair-list{
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+  padding:0 11px 12px;
+}
+.progress-repair-row{
+  display:grid;
+  grid-template-columns:110px minmax(120px,1fr) 46px 72px;
+  gap:9px;
+  align-items:center;
+  min-height:48px;
+  padding:7px 9px;
+  border:1px solid transparent;
+  border-radius:10px;
+  background:var(--surface-soft);
+}
+.progress-repair-row:hover{
+  border-color:rgba(116,130,143,.16);
+  background:var(--surface);
+}
+.progress-repair-row.has-repair{
+  background:#fff8f8;
+  border-color:rgba(220,53,69,.10);
+}
+html[data-theme=dark] .progress-repair-row.has-repair{
+  background:#332629;
+  border-color:rgba(255,117,129,.10);
+}
+.progress-repair-form{
+  min-width:0;
+  color:var(--text);
+  font-size:10.5px;
+  font-weight:950;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+.progress-repair-form small{
+  display:block;
+  margin-top:2px;
+  color:var(--text-muted);
+  font-size:8px;
+  font-weight:750;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+.progress-repair-bar-wrap{
+  height:8px;
+  border-radius:999px;
+  overflow:hidden;
+  background:#e9eef2;
+}
+html[data-theme=dark] .progress-repair-bar-wrap{
+  background:#293740;
+}
+.progress-repair-bar{
+  height:100%;
+  width:0;
+  border-radius:999px;
+  background:linear-gradient(90deg,#e45763,#dc3545);
+  transition:width .35s ease;
+}
+.progress-repair-bar.zero{
+  background:#b7bec5;
+}
+.progress-repair-percent{
+  color:#c52d39;
+  font-size:11px;
+  font-weight:950;
+  text-align:right;
+}
+html[data-theme=dark] .progress-repair-percent{
+  color:#ff9099;
+}
+.progress-repair-count{
+  color:var(--text-muted);
+  font-size:9px;
+  font-weight:800;
+  text-align:right;
+  white-space:nowrap;
+}
+.progress-repair-status{
+  grid-column:1/-1;
+  display:flex;
+  justify-content:flex-end;
+  align-items:center;
+  gap:5px;
+  min-height:0;
+  margin-top:-1px;
+  color:#c52d39;
+  font-size:8px;
+  font-weight:850;
+}
+.progress-repair-status i{font-size:8px}
+.progress-repair-status.clear{
+  color:#16805a;
+}
+html[data-theme=dark] .progress-repair-status{color:#ff9ca4}
+html[data-theme=dark] .progress-repair-status.clear{color:#6be2b5}
+
+.progress-repair-empty{
+  padding:16px;
+  text-align:center;
+  color:var(--text-muted);
+  font-size:10.5px;
+  background:var(--surface-soft);
+  border-radius:9px;
+}
+
+@media(max-width:1100px){
+  .progress-repair-grid{grid-template-columns:1fr}
+}
+@media(max-width:720px){
+  .progress-repair-header{display:block}
+  .progress-repair-note{display:inline-flex;margin-top:8px}
+  .progress-repair-grid{padding:11px}
+  .progress-repair-row{
+    grid-template-columns:minmax(90px,110px) minmax(90px,1fr) 44px;
+  }
+  .progress-repair-count{grid-column:3;grid-row:1}
+  .progress-repair-status{grid-row:auto}
+}
+@media(max-width:430px){
+  .progress-repair-row{
+    grid-template-columns:96px minmax(80px,1fr) 40px;
+    gap:7px;
+    padding:7px;
+  }
+  .progress-repair-count{font-size:8.5px}
+  .progress-repair-percent{font-size:10.5px}
+}
+
 /* ---------- PRINT / PDF ---------- */
+
+
 /*
  * PDF / A4 rules
  * - PDF is ALWAYS light/white, even when the application is in dark mode.
@@ -1074,7 +1339,7 @@ html[data-theme=dark] .progress-bar-wrap{background:#263640}
 
         <div class="sidebar-divider"></div>
         <button type="button" id="navPMProgress" class="sidebar-link page-nav" onclick="showPMProgress()" title="ดูความคืบหน้า PM"><i class="fa-solid fa-chart-column"></i><span class="menu-label">PM Progress</span></button>
-        <button type="button" class="sidebar-link theme-toggle" onclick="toggleTheme()" title="สลับธีม"><i class="fa-solid fa-moon"></i><span class="menu-label">โหมดมืด</span><span class="menu-chevron"><i class="fa-solid fa-chevron-right"></i></span></button>
+        <button type="button" class="sidebar-link theme-toggle" onclick="toggleTheme()" title="สลับธีม"><i class="fa-solid fa-moon"></i><span class="menu-label">โหมดมืด</span></button>
         <button type="button" class="sidebar-link" onclick="exportCurrentGroupPDF()"><i class="fa-solid fa-print"></i><span class="menu-label">ส่งออก PDF / พิมพ์ A4</span></button>
         <button type="button" id="btnClearData" class="sidebar-link sidebar-action-danger" onclick="clearCurrentTankData()"><i class="fa-solid fa-eraser"></i><span class="menu-label">ล้างถังนี้</span></button>
         <button type="button" id="btnClearGroup" class="sidebar-link sidebar-action-danger" onclick="clearCurrentGroupData()"><i class="fa-solid fa-trash-can"></i><span class="menu-label">ล้างทั้งกรุ๊ป</span></button>
@@ -1164,6 +1429,20 @@ html[data-theme=dark] .progress-bar-wrap{background:#263640}
 
       <div id="progress-dept-grid" class="progress-dept-grid"></div>
 
+      <section class="progress-repair-section">
+        <div class="progress-repair-header">
+          <div class="progress-repair-title-wrap">
+            <span class="progress-repair-icon"><i class="fa-solid fa-screwdriver-wrench"></i></span>
+            <div>
+              <h2 class="progress-repair-title">รอแก้ไขจากเครื่องหมาย NO</h2>
+              <div class="progress-repair-subtitle">แสดงเปอร์เซ็นต์รายการที่ติ๊กสีแดง (NO) ของแต่ละฟอร์ม PM</div>
+            </div>
+          </div>
+          <div class="progress-repair-note">NO ÷ รายการ PM ที่มีชื่อ × 100</div>
+        </div>
+        <div id="progress-repair-grid" class="progress-repair-grid"></div>
+      </section>
+
       <div class="progress-detail-panel">
         <div class="progress-detail-head">
           <div>
@@ -1187,7 +1466,7 @@ html[data-theme=dark] .progress-bar-wrap{background:#263640}
         <span><i class="progress-dot zero"></i>ยังไม่เริ่ม</span>
         <span><i class="progress-dot partial"></i>กำลังทำ</span>
         <span><i class="progress-dot done"></i>ครบ 100%</span>
-        <span>นับเฉพาะรายการ PM ที่มีชื่อ และนับทั้ง OK / NO เป็นรายการที่ทำแล้ว</span>
+        <span>นับเฉพาะรายการ PM ที่มีชื่อ · OK/NO = ทำแล้ว · NO = รอแก้ไข</span>
       </div>
 
     </div>
@@ -1368,7 +1647,21 @@ const LR141=["EVM0013005|BTV14006 Bottom Valve R141|btv","IFMT013013|RPD1-FMT013
 function esc(v){return String(v??"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#039;")}
 function likeEsc(v){return String(v??"").replace(/[\\%_]/g,m=>"\\"+m)}
 function setLoading(on){document.getElementById("loading").style.display=on?"block":"none"}
-function applyTheme(theme){const t=theme==="dark"?"dark":"light";document.documentElement.setAttribute("data-theme",t);localStorage.setItem("pmTheme",t);document.querySelectorAll(".theme-toggle").forEach(b=>{const i=b.querySelector("i");if(i)i.className=t==="dark"?"fa-solid fa-sun":"fa-solid fa-moon"})}
+function applyTheme(theme){
+  const t=theme==="dark"?"dark":"light";
+  document.documentElement.setAttribute("data-theme",t);
+  localStorage.setItem("pmTheme",t);
+
+  // ปุ่มจะแสดง "โหมดสว่าง" เมื่ออยู่ใน Dark Mode
+  // และแสดง "โหมดมืด" เมื่ออยู่ใน Light Mode
+  document.querySelectorAll(".theme-toggle").forEach(b=>{
+    const i=b.querySelector("i");
+    const l=b.querySelector(".menu-label");
+    if(i)i.className=t==="dark"?"fa-solid fa-sun":"fa-solid fa-moon";
+    if(l)l.textContent=t==="dark"?"โหมดสว่าง":"โหมดมืด";
+    b.setAttribute("title",t==="dark"?"เปลี่ยนเป็นโหมดสว่าง":"เปลี่ยนเป็นโหมดมืด");
+  });
+}
 function toggleTheme(){applyTheme((document.documentElement.getAttribute("data-theme")||"light")==="dark"?"light":"dark")}
 function initTheme(){const s=localStorage.getItem("pmTheme");applyTheme(s||(matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"))}
 function showLoginError(msg){const e=document.getElementById("login-error");e.textContent=msg;e.style.display="block"}
@@ -2058,6 +2351,58 @@ function renderDepartmentPanel(dept,rows){
   </section>`;
 }
 
+function renderRepairDepartmentPanel(dept,rows){
+  const labels=dept==="em2"
+    ? {name:"EM2",title:"Emulsion 2"}
+    : {name:"Resin PD1",title:"Resin PD1"};
+
+  const total=rows.reduce((a,r)=>a+r.total,0);
+  const no=rows.reduce((a,r)=>a+r.no,0);
+  const repairPct=total?Math.round((no/total)*1000)/10:0;
+  const formsWithRepair=rows.filter(r=>r.no>0).length;
+
+  const sorted=[...rows].sort((a,b)=>{
+    const ap=a.total?a.no/a.total:0;
+    const bp=b.total?b.no/b.total:0;
+    return bp-ap || b.no-a.no || a.tank.localeCompare(b.tank);
+  });
+
+  return `<section class="progress-repair-panel">
+    <div class="progress-repair-panel-head">
+      <div class="progress-repair-panel-title">
+        <i class="fa-solid fa-circle-exclamation"></i>
+        <span>${esc(labels.name)} · ${esc(labels.title)}</span>
+      </div>
+      <span class="progress-repair-panel-count">${formsWithRepair} ฟอร์มมีรายการรอแก้</span>
+    </div>
+
+    <div class="progress-repair-total">
+      <span>NO รวม / รายการที่มีชื่อ</span>
+      <strong>${no.toLocaleString()} / ${total.toLocaleString()} · ${repairPct}%</strong>
+    </div>
+
+    <div class="progress-repair-list">
+      ${sorted.length?sorted.map(r=>{
+        const pct=r.total?Math.round((r.no/r.total)*1000)/10:0;
+        const label=pmProgressGroupLabels[r.groupType]||r.groupType;
+        const hasRepair=r.no>0;
+        return `<div class="progress-repair-row ${hasRepair?"has-repair":""}" title="${esc(r.tank)} · ${esc(label)}">
+          <div class="progress-repair-form">${esc(r.tank)}<small>${esc(label)}</small></div>
+          <div class="progress-repair-bar-wrap">
+            <div class="progress-repair-bar ${hasRepair?"":"zero"}" style="width:${Math.max(0,Math.min(100,pct))}%"></div>
+          </div>
+          <div class="progress-repair-percent">${pct}%</div>
+          <div class="progress-repair-count">NO ${r.no}/${r.total}</div>
+          <div class="progress-repair-status ${hasRepair?"":"clear"}">
+            <i class="fa-solid ${hasRepair?"fa-triangle-exclamation":"fa-circle-check"}"></i>
+            ${hasRepair?"มีรายการรอแก้":"ไม่มี NO"}
+          </div>
+        </div>`;
+      }).join(""):'<div class="progress-repair-empty">ไม่มีฟอร์มตามตัวกรองที่เลือก</div>'}
+    </div>
+  </section>`;
+}
+
 function renderPMProgress(){
   if(currentPage!=="progress")return;
   const rowsEl=document.getElementById("progress-rows");
@@ -2105,6 +2450,14 @@ function renderPMProgress(){
   if(filteredDept==="all"||filteredDept==="em2")panels+=renderDepartmentPanel("em2",em2Rows);
   if(filteredDept==="all"||filteredDept==="resin")panels+=renderDepartmentPanel("resin",resinRows);
   deptGrid.innerHTML=panels || '<div class="progress-empty">ไม่พบข้อมูลตามเงื่อนไขที่เลือก</div>';
+
+  const repairGrid=document.getElementById("progress-repair-grid");
+  if(repairGrid){
+    let repairPanels="";
+    if(filteredDept==="all"||filteredDept==="em2")repairPanels+=renderRepairDepartmentPanel("em2",em2Rows);
+    if(filteredDept==="all"||filteredDept==="resin")repairPanels+=renderRepairDepartmentPanel("resin",resinRows);
+    repairGrid.innerHTML=repairPanels || '<div class="progress-repair-empty">ไม่พบข้อมูลตามเงื่อนไขที่เลือก</div>';
+  }
 
   if(!rows.length){
     rowsEl.innerHTML='<div class="progress-empty">ไม่พบฟอร์มตามเงื่อนไขที่เลือก</div>';
