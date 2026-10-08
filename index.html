@@ -1832,12 +1832,12 @@ async function requestPasswordHelp(){
   const email=document.getElementById("username").value.trim(),s=document.getElementById("forgot-status"),b=document.getElementById("forgotPasswordBtn");
   s.className="";s.style.display="none";
   if(!email){s.className="is-error";s.textContent="กรุณากรอก E-Mail ก่อนแจ้งลืมรหัสผ่าน";s.style.display="block";return}
-  b.disabled=true;s.className="is-loading";s.textContent="⏳ กำลังส่งลิงก์รีเซ็ตรหัสผ่าน...";s.style.display="block";
+  b.disabled=true;s.className="is-loading";s.textContent="⏳ กำลังส่งลิงค์รีเซ็ตรหัสผ่าน...";s.style.display="block";
   const redirectTo=window.location.origin+window.location.pathname;
   const {error}=await db.auth.resetPasswordForEmail(email,{redirectTo});
   b.disabled=false;
-  if(error){s.className="is-error";s.textContent="ส่งลิงก์ไม่สำเร็จ: "+error.message}
-  else{s.className="is-success";s.textContent="✓ ส่งลิงก์รีเซ็ตรหัสผ่านไปยัง E-Mail แล้ว กรุณาตรวจสอบกล่องจดหมาย"}
+  if(error){s.className="is-error";s.textContent="ส่งลิงค์ไม่สำเร็จ: "+error.message}
+  else{s.className="is-success";s.textContent="✓ ส่งลิงค์รีเซ็ตรหัสผ่านไปยัง E-Mail แล้ว กรุณาตรวจสอบกล่องจดหมาย"}
 }
 
 function switchDept(dept, preventClear) {
