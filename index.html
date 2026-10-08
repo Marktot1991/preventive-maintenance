@@ -880,7 +880,7 @@ html[data-theme=dark] .progress-repair-panel-count{
 }
 .progress-repair-total-donut{
   --repair-pct:0;
-  width:72px;height:72px;flex:0 0 72px;
+  width:142px;height:142px;flex:0 0 142px;
   border-radius:50%;
   display:grid;place-items:center;position:relative;
   background:conic-gradient(#dc3545 calc(var(--repair-pct) * 1%),#edf1f4 0);
@@ -890,16 +890,16 @@ html[data-theme=dark] .progress-repair-total-donut{
 }
 .progress-repair-total-donut:before{
   content:"";
-  position:absolute;width:52px;height:52px;border-radius:50%;
-  background:var(--surface);box-shadow:0 3px 9px rgba(20,35,49,.08);
+  position:absolute;width:106px;height:106px;border-radius:50%;
+  background:var(--surface);box-shadow:0 4px 12px rgba(20,35,49,.06);
 }
 .progress-repair-total-donut-center{
   position:relative;z-index:1;text-align:center;line-height:1;
 }
-.progress-repair-total-donut-value{color:#c52d39;font-size:14px;font-weight:950}
+.progress-repair-total-donut-value{color:#c52d39;font-size:26px;font-weight:950;line-height:1}
 html[data-theme=dark] .progress-repair-total-donut-value{color:#ff9099}
 .progress-repair-total-donut-label{
-  margin-top:3px;color:var(--text-muted);font-size:7px;font-weight:850;
+  margin-top:5px;color:var(--text-muted);font-size:9.5px;font-weight:850;
 }
 .progress-repair-total{
   flex:1;display:flex;align-items:center;justify-content:space-between;
@@ -999,9 +999,9 @@ html[data-theme=dark] .progress-repair-status.clear{color:#6be2b5}
 }
 @media(max-width:430px){
   .progress-repair-total-wrap{gap:8px}
-  .progress-repair-total-donut{width:60px;height:60px;flex-basis:60px}
-  .progress-repair-total-donut:before{width:44px;height:44px}
-  .progress-repair-total-donut-value{font-size:11px}
+  .progress-repair-total-donut{width:142px;height:142px;flex-basis:142px}
+  .progress-repair-total-donut:before{width:106px;height:106px}
+  .progress-repair-total-donut-value{font-size:26px}
   .progress-repair-row{
     grid-template-columns:76px minmax(70px,1fr) 40px;
     gap:5px;
@@ -1832,12 +1832,12 @@ async function requestPasswordHelp(){
   const email=document.getElementById("username").value.trim(),s=document.getElementById("forgot-status"),b=document.getElementById("forgotPasswordBtn");
   s.className="";s.style.display="none";
   if(!email){s.className="is-error";s.textContent="กรุณากรอก E-Mail ก่อนแจ้งลืมรหัสผ่าน";s.style.display="block";return}
-  b.disabled=true;s.className="is-loading";s.textContent="⏳ กำลังส่งลิงค์รีเซ็ตรหัสผ่าน...";s.style.display="block";
+  b.disabled=true;s.className="is-loading";s.textContent="⏳ กำลังส่งลิงก์รีเซ็ตรหัสผ่าน...";s.style.display="block";
   const redirectTo=window.location.origin+window.location.pathname;
   const {error}=await db.auth.resetPasswordForEmail(email,{redirectTo});
   b.disabled=false;
-  if(error){s.className="is-error";s.textContent="ส่งลิงค์ไม่สำเร็จ: "+error.message}
-  else{s.className="is-success";s.textContent="✓ ส่งลิงค์รีเซ็ตรหัสผ่านไปยัง E-Mail แล้ว กรุณาตรวจสอบกล่องจดหมาย"}
+  if(error){s.className="is-error";s.textContent="ส่งลิงก์ไม่สำเร็จ: "+error.message}
+  else{s.className="is-success";s.textContent="✓ ส่งลิงก์รีเซ็ตรหัสผ่านไปยัง E-Mail แล้ว กรุณาตรวจสอบกล่องจดหมาย"}
 }
 
 function switchDept(dept, preventClear) {
