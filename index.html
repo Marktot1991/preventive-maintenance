@@ -1274,6 +1274,405 @@ html[data-theme=dark] .progress-repair-status.clear{color:#6be2b5}
 
 /* ---------- PRINT END ---------- */
 
+/* ---------- INDUSTRIAL DARK PM DASHBOARD THEME ---------- */
+/* Scoped to the PM Progress page; form entry, login and PDF print stay unchanged. */
+#pm-progress-page{
+  --pm-bg:#071523;
+  --pm-surface:#0d2133;
+  --pm-surface-2:#10283c;
+  --pm-surface-3:#142f45;
+  --pm-border:#234158;
+  --pm-text:#edf6fc;
+  --pm-muted:#91a9bd;
+  --pm-green:#36d8b2;
+  --pm-blue:#42a9ec;
+  --pm-amber:#ffbd59;
+  --pm-red:#ff6675;
+  background:radial-gradient(ellipse at 50% -12%,#163650 0%,#0a1c2b 40%,var(--pm-bg) 76%)!important;
+  color:var(--pm-text)!important;
+  min-height:calc(100vh - 60px);
+}
+#pm-progress-page .page-container{
+  background:transparent!important;
+  border:0!important;
+  box-shadow:none!important;
+  padding:0!important;
+}
+#pm-progress-page .progress-dashboard-shell{padding:12px 8px 28px;}
+#pm-progress-page .progress-dashboard-hero{
+  min-height:94px;
+  margin-bottom:16px;
+  padding:21px 24px;
+  border:1px solid #294a63;
+  border-radius:15px;
+  background:radial-gradient(circle at 92% 0%,rgba(54,216,178,.17),transparent 29%),linear-gradient(120deg,#102a40 0%,#10263b 48%,#0b1d2e 100%);
+  box-shadow:0 12px 32px rgba(0,0,0,.22),inset 0 1px rgba(255,255,255,.04);
+}
+#pm-progress-page .progress-dashboard-title{
+  color:#f4f9fe;
+  font-size:clamp(20px,2vw,27px);
+  letter-spacing:.45px;
+  text-transform:uppercase;
+}
+#pm-progress-page .progress-dashboard-subtitle{color:#9db8cc;font-size:12px;letter-spacing:.25px;}
+#pm-progress-page .progress-hero-badge{
+  color:#c9f8ed;
+  border-color:rgba(54,216,178,.28);
+  background:rgba(54,216,178,.09);
+}
+#pm-progress-page .progress-hero-badge i{color:var(--pm-green);}
+#pm-progress-page .progress-filter-bar{gap:10px;margin-bottom:15px;}
+#pm-progress-page .progress-filter{
+  color:#e7f1f8!important;
+  background:#0e2538!important;
+  border:1px solid #29465c!important;
+  border-radius:9px;
+  box-shadow:inset 0 1px rgba(255,255,255,.025);
+}
+#pm-progress-page .progress-filter option{color:#e7f1f8;background:#0e2538;}
+#pm-progress-page .progress-filter:focus{border-color:#39cdb5!important;box-shadow:0 0 0 3px rgba(54,216,178,.12)!important;}
+#pm-progress-page .progress-refresh-btn{
+  color:#04221f;
+  background:linear-gradient(135deg,#45e0bf,#1cb99e);
+  box-shadow:0 7px 18px rgba(23,195,164,.18);
+}
+#pm-progress-page .progress-summary{gap:13px;margin-bottom:16px;}
+#pm-progress-page .progress-card{
+  min-height:105px;
+  padding:16px 18px;
+  border:1px solid #234158;
+  border-radius:12px;
+  background:linear-gradient(145deg,#112b40 0%,#0b2032 100%);
+  box-shadow:0 8px 22px rgba(0,0,0,.16),inset 0 1px rgba(255,255,255,.025);
+  transition:transform .18s ease,border-color .18s ease;
+}
+#pm-progress-page .progress-card:hover{transform:translateY(-2px);border-color:#3b667f;}
+#pm-progress-page .progress-card:before{width:4px;background:var(--pm-green);}
+#pm-progress-page .progress-card:nth-child(2):before{background:var(--pm-blue);}
+#pm-progress-page .progress-card:nth-child(3):before{background:var(--pm-amber);}
+#pm-progress-page .progress-card:nth-child(4):before{background:var(--pm-red);}
+#pm-progress-page .progress-card-label{color:#9fb7ca;font-size:11px;letter-spacing:.35px;}
+#pm-progress-page .progress-card-value{color:#f3f9ff;font-size:clamp(25px,2.2vw,32px);letter-spacing:-.4px;}
+#pm-progress-page .progress-card:nth-child(1) .progress-card-value{color:#48e0bd;}
+#pm-progress-page .progress-card:nth-child(2) .progress-card-value{color:#65bdf4;}
+#pm-progress-page .progress-card:nth-child(3) .progress-card-value{color:#ffd07d;}
+#pm-progress-page .progress-card:nth-child(4) .progress-card-value{color:#ff7884;}
+#pm-progress-page .progress-card-sub{color:#8fa9bd;font-size:10.5px;}
+#pm-progress-page .progress-dept-grid{gap:15px;margin-bottom:16px;}
+#pm-progress-page .progress-dept-panel,
+#pm-progress-page .progress-repair-panel,
+#pm-progress-page .progress-detail-panel{
+  background:linear-gradient(155deg,#0e2437 0%,#0a1d2e 100%)!important;
+  border:1px solid #234158!important;
+  border-radius:14px;
+  box-shadow:0 10px 25px rgba(0,0,0,.19),inset 0 1px rgba(255,255,255,.025)!important;
+}
+#pm-progress-page .progress-dept-head,
+#pm-progress-page .progress-repair-panel-head,
+#pm-progress-page .progress-detail-head{
+  background:linear-gradient(100deg,#122c41,#0e2437)!important;
+  border-bottom:1px solid #234158!important;
+}
+#pm-progress-page .progress-dept-title,
+#pm-progress-page .progress-repair-panel-title,
+#pm-progress-page .progress-detail-title{color:#eaf4fb!important;}
+#pm-progress-page .progress-dept-title small{color:#91a9bd!important;}
+#pm-progress-page .progress-dept-count,
+#pm-progress-page .progress-repair-panel-count{
+  color:#a9c4d8!important;
+  background:#17334a!important;
+  border:1px solid #2a4c63;
+}
+#pm-progress-page .progress-dept-icon{
+  color:#59e4c8!important;
+  background:#123d43!important;
+  border:1px solid rgba(54,216,178,.18);
+}
+#pm-progress-page .progress-dept-body{background:transparent!important;}
+#pm-progress-page .progress-ring{
+  background:conic-gradient(#36d8b2 calc(var(--progress-pct) * 1%),#1d3548 0)!important;
+  box-shadow:0 0 25px rgba(54,216,178,.07),inset 0 0 0 1px rgba(255,255,255,.035);
+}
+#pm-progress-page .progress-ring:before{background:#0d2133!important;box-shadow:0 4px 12px rgba(0,0,0,.15)!important;}
+#pm-progress-page .progress-ring-value{color:#effffb!important;}
+#pm-progress-page .progress-ring-label,
+#pm-progress-page .progress-mini-stat .label{color:#8fa9bd!important;}
+#pm-progress-page .progress-overview-stats{gap:8px;}
+#pm-progress-page .progress-mini-stat{
+  background:#112a3e!important;
+  border:1px solid #214158!important;
+  border-radius:9px;
+}
+#pm-progress-page .progress-mini-stat .value{color:#eaf6ff!important;}
+#pm-progress-page .progress-group-chart-title{color:#dceaf5!important;font-size:11.5px;letter-spacing:.15px;}
+#pm-progress-page .progress-group-chart{gap:10px;}
+#pm-progress-page .progress-group-label{color:#c9dce9!important;}
+#pm-progress-page .progress-group-bar{background:#1b3448!important;border:1px solid rgba(255,255,255,.025);height:10px;}
+#pm-progress-page .progress-group-fill{background:linear-gradient(90deg,#20bca4,#47e0c7)!important;box-shadow:0 0 12px rgba(54,216,178,.15);}
+#pm-progress-page .progress-group-percent{color:#dceef7!important;}
+#pm-progress-page .progress-no-data,
+#pm-progress-page .progress-empty,
+#pm-progress-page .progress-repair-empty{
+  color:#91a9bd!important;background:#10283b!important;border:1px dashed #29485d;
+}
+#pm-progress-page .progress-repair-section{
+  border:1px solid #493542!important;
+  border-radius:14px;
+  background:linear-gradient(155deg,#151f31 0%,#0c1c2c 100%)!important;
+  box-shadow:0 10px 25px rgba(0,0,0,.19)!important;
+}
+#pm-progress-page .progress-repair-header{
+  background:linear-gradient(100deg,#241d30,#142235)!important;
+  border-bottom:1px solid #493542!important;
+}
+#pm-progress-page .progress-repair-icon{background:#482531!important;color:#ff7c88!important;border:1px solid rgba(255,102,117,.18);}
+#pm-progress-page .progress-repair-title{color:#f7edf1!important;}
+#pm-progress-page .progress-repair-subtitle{color:#b69ca9!important;}
+#pm-progress-page .progress-repair-note{background:#3c2632!important;border:1px solid #68404c!important;color:#ffb0b8!important;}
+#pm-progress-page .progress-repair-total-donut{
+  background:conic-gradient(#ff6675 calc(var(--repair-pct) * 1%),#263445 0)!important;
+  box-shadow:0 0 20px rgba(255,102,117,.06);
+}
+#pm-progress-page .progress-repair-total-donut:before{background:#0e2132!important;box-shadow:0 4px 12px rgba(0,0,0,.15)!important;}
+#pm-progress-page .progress-repair-total-donut-value{color:#ff8b96!important;}
+#pm-progress-page .progress-repair-total-donut-label{color:#a0b0c0!important;}
+#pm-progress-page .progress-repair-total{background:#251f2c!important;border-color:#493542!important;color:#bca9b7!important;}
+#pm-progress-page .progress-repair-total strong{color:#ff8b96!important;}
+#pm-progress-page .progress-repair-row{background:#122638!important;border:1px solid #243d51!important;}
+#pm-progress-page .progress-repair-row.has-repair{background:#2a202e!important;border-color:#583744!important;}
+#pm-progress-page .progress-repair-row:hover{background:#183047!important;border-color:#31536b!important;}
+#pm-progress-page .progress-repair-row.has-repair:hover{background:#352532!important;border-color:#744450!important;}
+#pm-progress-page .progress-repair-form{color:#e4eff7!important;}
+#pm-progress-page .progress-repair-form small{color:#9bb2c4!important;}
+#pm-progress-page .progress-repair-bar-wrap{background:#24384a!important;}
+#pm-progress-page .progress-repair-bar{background:linear-gradient(90deg,#ff7b85,#e84760)!important;box-shadow:0 0 10px rgba(255,102,117,.13);}
+#pm-progress-page .progress-repair-bar.zero{background:#586675!important;box-shadow:none;}
+#pm-progress-page .progress-repair-percent{color:#ff8b96!important;}
+#pm-progress-page .progress-repair-count{color:#b0c0cf!important;}
+#pm-progress-page .progress-repair-status{color:#ff9aa3!important;}
+#pm-progress-page .progress-repair-status.clear{color:#4addb6!important;}
+#pm-progress-page .progress-detail-panel{margin-top:16px;}
+#pm-progress-page .progress-detail-sub{color:#91a9bd!important;}
+#pm-progress-page .progress-list{background:transparent!important;}
+#pm-progress-page .progress-list-head{background:#17334a!important;color:#cbdce9!important;border-bottom:1px solid #29465c!important;}
+#pm-progress-page .progress-row{background:#0d2234!important;border-bottom:1px solid #203a4f!important;}
+#pm-progress-page .progress-row:nth-child(even){background:#10273a!important;}
+#pm-progress-page .progress-row:hover{background:#19344a!important;}
+#pm-progress-page .progress-form-name{color:#eaf4fb!important;}
+#pm-progress-page .progress-form-name small{color:#8fa9bd!important;}
+#pm-progress-page .progress-group-badge{background:#123d43!important;color:#6de8d0!important;border:1px solid rgba(54,216,178,.14);}
+#pm-progress-page .progress-bar-wrap{background:#263b4d!important;}
+#pm-progress-page .progress-bar.done{background:linear-gradient(90deg,#1cb99b,#48e0bd)!important;}
+#pm-progress-page .progress-bar.partial{background:linear-gradient(90deg,#d89236,#ffca6f)!important;}
+#pm-progress-page .progress-bar.zero{background:#687787!important;}
+#pm-progress-page .progress-percent{color:#e8f4fb!important;}
+#pm-progress-page .progress-checks{color:#9db3c5!important;}
+#pm-progress-page .progress-legend{color:#a9bdcc!important;}
+#pm-progress-page .progress-dot.done{background:#36d8b2;}
+#pm-progress-page .progress-dot.partial{background:#ffbd59;}
+#pm-progress-page .progress-dot.zero{background:#687787;}
+@media(max-width:720px){
+  #pm-progress-page .progress-dashboard-shell{padding:8px 4px 20px;}
+  #pm-progress-page .progress-dashboard-hero{padding:16px;border-radius:12px;}
+  #pm-progress-page .progress-card{padding:13px;min-height:88px;}
+  #pm-progress-page .progress-card-value{font-size:24px;}
+  #pm-progress-page .progress-dept-head{padding:12px;}
+  #pm-progress-page .progress-repair-header{padding:12px;}
+  #pm-progress-page .progress-detail-head{padding:12px;}
+}
+
+
+/* ---------- REFERENCE-STYLE INDUSTRIAL CHART PANELS ---------- */
+#pm-progress-page .pm-visual-charts{margin:0 0 18px;}
+#pm-progress-page .pm-visual-chart-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px;margin-bottom:12px;}
+#pm-progress-page .pm-visual-chart-panel{min-width:0;overflow:hidden;border:1px solid #24435a;border-radius:10px;background:linear-gradient(155deg,#102a40 0%,#0a1d2e 100%);box-shadow:0 8px 22px rgba(0,0,0,.18),inset 0 1px rgba(255,255,255,.025);padding:15px 17px 12px;}
+#pm-progress-page .pm-visual-chart-title{text-align:center;color:#edf6fc;font-weight:900;font-size:clamp(11px,1vw,14px);letter-spacing:.25px;line-height:1.4;}
+#pm-progress-page .pm-visual-chart-subtitle{text-align:center;color:#8faabd;font-size:10px;margin-top:4px;}
+#pm-progress-page .pm-visual-legend{display:flex;justify-content:center;align-items:center;gap:16px;margin:10px 0 0;color:#c5d7e4;font-size:10px;font-weight:700;}
+#pm-progress-page .pm-visual-legend span{display:inline-flex;align-items:center;gap:6px;}
+#pm-progress-page .pm-legend-square{display:inline-block;width:10px;height:10px;border-radius:2px;}
+#pm-progress-page .pm-legend-square.planned{background:#d5e4ee;}
+#pm-progress-page .pm-legend-square.actual{background:#2587bd;}
+#pm-progress-page .pm-visual-bar-chart{width:100%;min-height:225px;margin-top:0;}
+#pm-progress-page .pm-visual-bar-chart svg,#pm-progress-page .pm-visual-area-chart svg{display:block;width:100%;height:auto;overflow:visible;}
+#pm-progress-page .pm-visual-donut-chart{display:flex;align-items:center;justify-content:center;gap:20px;min-height:230px;padding:12px 2px 3px;}
+#pm-progress-page .pm-visual-donut{width:160px;height:160px;flex:0 0 160px;border-radius:50%;display:grid;place-items:center;position:relative;box-shadow:0 0 24px rgba(40,140,200,.06);}
+#pm-progress-page .pm-visual-donut:before{content:"";position:absolute;width:92px;height:92px;border-radius:50%;background:#0c2133;box-shadow:inset 0 0 0 1px rgba(255,255,255,.035);}
+#pm-progress-page .pm-visual-donut-center{position:relative;z-index:1;text-align:center;}
+#pm-progress-page .pm-visual-donut-total{color:#f0f8ff;font-size:24px;line-height:1.1;font-weight:950;}
+#pm-progress-page .pm-visual-donut-label{color:#91a9bd;font-size:9px;font-weight:800;margin-top:4px;letter-spacing:.35px;}
+#pm-progress-page .pm-visual-donut-legend{display:flex;flex-direction:column;gap:12px;min-width:110px;}
+#pm-progress-page .pm-donut-legend-item{display:grid;grid-template-columns:9px minmax(0,1fr) auto;align-items:center;gap:7px;color:#c6d9e7;font-size:10px;}
+#pm-progress-page .pm-donut-legend-dot{width:9px;height:9px;border-radius:2px;}
+#pm-progress-page .pm-donut-legend-name{white-space:nowrap;}
+#pm-progress-page .pm-donut-legend-value{color:#f2f8fc;font-weight:900;text-align:right;white-space:nowrap;}
+#pm-progress-page .pm-visual-area-panel{padding-bottom:8px;}
+#pm-progress-page .pm-visual-area-chart{width:100%;min-height:220px;margin-top:8px;}
+#pm-progress-page .pm-group-chart-legend{margin-top:10px;margin-bottom:2px;}
+#pm-progress-page .pm-legend-average-line{display:inline-block;width:24px;height:0;border-top:3px solid #e0525b;border-radius:2px;box-shadow:0 0 7px rgba(224,82,91,.22);}
+#pm-progress-page .pm-group-chart-legend strong{color:#ff858b;font-weight:900;}
+#pm-progress-page .pm-visual-percent-bar-chart svg{overflow:visible;}
+#pm-progress-page .pm-percent-bar{transform-origin:center bottom;animation:pmPercentBarRise .65s cubic-bezier(.2,.75,.25,1) both;}
+@keyframes pmPercentBarRise{from{transform:scaleY(.03);opacity:.45;}to{transform:scaleY(1);opacity:1;}}
+#pm-progress-page .pm-percent-bar:hover{filter:brightness(1.18);}
+#pm-progress-page .pm-percent-average{filter:drop-shadow(0 0 3px rgba(224,82,91,.35));}
+#pm-progress-page .pm-visual-no-data{display:flex;align-items:center;justify-content:center;min-height:200px;text-align:center;color:#8faabd;font-size:12px;padding:20px;border:1px dashed #29485d;border-radius:8px;background:rgba(11,31,47,.42);}
+@media(max-width:950px){#pm-progress-page .pm-visual-chart-grid{grid-template-columns:1fr;}#pm-progress-page .pm-visual-donut-chart{min-height:210px;}}
+@media(max-width:560px){#pm-progress-page .pm-visual-chart-panel{padding:12px 10px 8px;}#pm-progress-page .pm-visual-donut-chart{flex-direction:column;gap:14px;}#pm-progress-page .pm-visual-donut-legend{width:min(100%,260px);display:grid;grid-template-columns:1fr 1fr;gap:9px;}#pm-progress-page .pm-visual-bar-chart{min-height:190px;}#pm-progress-page .pm-visual-area-chart{min-height:190px;}}
+
+
+
+/* ---------- MODERN GLOWING PM PROGRESS ROWS ---------- */
+#pm-progress-page .progress-detail-panel{
+  border:1px solid rgba(66,133,171,.38)!important;
+  border-radius:18px!important;
+  background:linear-gradient(160deg,#10283b 0%,#091b2b 100%)!important;
+  box-shadow:0 16px 38px rgba(0,0,0,.24),0 0 0 1px rgba(48,112,148,.06),inset 0 1px rgba(255,255,255,.035)!important;
+}
+#pm-progress-page .progress-detail-head{
+  position:relative;
+  overflow:hidden;
+  padding:16px 19px!important;
+  background:linear-gradient(105deg,#15364f 0%,#102a40 52%,#14263d 100%)!important;
+  border-bottom:1px solid rgba(78,146,184,.25)!important;
+}
+#pm-progress-page .progress-detail-head::after{
+  content:"";position:absolute;inset:auto 0 0;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(53,220,199,.55),rgba(78,151,255,.45),transparent);
+}
+#pm-progress-page .progress-detail-title{
+  color:#f1f8ff!important;font-size:14px!important;letter-spacing:.2px;
+  text-shadow:0 0 18px rgba(65,178,224,.12);
+}
+#pm-progress-page .progress-detail-sub{color:#95b3c9!important;}
+#pm-progress-page .progress-list{background:#0b2031!important;}
+#pm-progress-page .progress-list-head{
+  position:relative;
+  background:linear-gradient(90deg,#1a3b54,#18334b)!important;
+  color:#c9e0ef!important;
+  border-bottom:1px solid rgba(67,136,175,.28)!important;
+  padding:12px 16px!important;
+  letter-spacing:.25px;
+}
+#pm-progress-page .progress-rows{
+  gap:7px!important;
+  padding:9px 10px 11px!important;
+  background:linear-gradient(180deg,#0b2031,#0a1d2d)!important;
+}
+#pm-progress-page .progress-row{
+  position:relative;
+  isolation:isolate;
+  overflow:hidden;
+  margin:0!important;
+  padding:12px 15px!important;
+  border:1px solid rgba(76,133,166,.17)!important;
+  border-bottom:1px solid rgba(76,133,166,.17)!important;
+  border-radius:12px!important;
+  background:linear-gradient(105deg,rgba(18,43,63,.98),rgba(13,34,52,.98))!important;
+  box-shadow:inset 0 1px rgba(255,255,255,.025),0 4px 12px rgba(0,0,0,.10)!important;
+  transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease,background .2s ease!important;
+}
+#pm-progress-page .progress-row:nth-child(even){
+  background:linear-gradient(105deg,rgba(20,47,68,.98),rgba(14,37,55,.98))!important;
+}
+#pm-progress-page .progress-row::before{
+  content:"";position:absolute;z-index:0;left:0;top:22%;bottom:22%;width:3px;
+  border-radius:0 5px 5px 0;opacity:.85;transition:top .2s ease,opacity .2s ease;
+}
+#pm-progress-page .progress-row.row-zero::before{background:linear-gradient(180deg,#60758a,#8aa0b3);}
+#pm-progress-page .progress-row.row-partial::before{background:linear-gradient(180deg,#ffe08a,#f5a623);box-shadow:0 0 10px rgba(255,183,72,.25);}
+#pm-progress-page .progress-row.row-done::before{background:linear-gradient(180deg,#54f1d1,#12b99c);box-shadow:0 0 12px rgba(54,224,190,.34);}
+#pm-progress-page .progress-row::after{
+  content:"";position:absolute;z-index:0;inset:0;pointer-events:none;opacity:0;
+  background:radial-gradient(ellipse at 12% 50%,rgba(50,207,195,.09),transparent 42%);
+  transition:opacity .22s ease;
+}
+#pm-progress-page .progress-row:hover{
+  transform:translateX(3px);
+  border-color:rgba(64,194,199,.38)!important;
+  background:linear-gradient(105deg,#183c55,#123149)!important;
+  box-shadow:inset 0 1px rgba(255,255,255,.05),0 7px 20px rgba(0,0,0,.20),0 0 14px rgba(41,190,191,.06)!important;
+}
+#pm-progress-page .progress-row:hover::before{top:12%;opacity:1;}
+#pm-progress-page .progress-row:hover::after{opacity:1;}
+#pm-progress-page .progress-row > *{position:relative;z-index:1;}
+#pm-progress-page .progress-form-name{color:#eff8ff!important;font-size:12px!important;letter-spacing:.1px;}
+#pm-progress-page .progress-form-name small{color:#8eacc1!important;font-size:9.5px!important;margin-top:3px!important;}
+#pm-progress-page .progress-group-badge{
+  padding:5px 10px!important;
+  border-radius:999px!important;
+  background:linear-gradient(135deg,rgba(18,88,91,.62),rgba(13,62,75,.78))!important;
+  border:1px solid rgba(62,220,195,.25)!important;
+  color:#76f0da!important;
+  box-shadow:inset 0 1px rgba(255,255,255,.045),0 2px 8px rgba(0,0,0,.10);
+  font-size:9.5px!important;font-weight:850!important;
+  transition:transform .2s ease,box-shadow .2s ease;
+}
+#pm-progress-page .progress-row:hover .progress-group-badge{transform:translateY(-1px);box-shadow:0 0 12px rgba(43,211,190,.10);}
+#pm-progress-page .progress-bar-wrap{
+  height:12px!important;
+  border:1px solid rgba(115,157,184,.13)!important;
+  border-radius:999px!important;
+  overflow:hidden!important;
+  background:linear-gradient(180deg,#20394d,#1a3043)!important;
+  box-shadow:inset 0 2px 4px rgba(0,0,0,.24),0 1px rgba(255,255,255,.02)!important;
+}
+#pm-progress-page .progress-bar{
+  position:relative;height:100%;border-radius:999px!important;
+  min-width:0;overflow:hidden;
+  transition:width .65s cubic-bezier(.2,.8,.2,1)!important;
+}
+#pm-progress-page .progress-bar.done{
+  background:linear-gradient(90deg,#0e9f88 0%,#20c6aa 52%,#59efd1 100%)!important;
+  box-shadow:0 0 8px rgba(44,221,188,.36),inset 0 1px rgba(255,255,255,.24)!important;
+}
+#pm-progress-page .progress-bar.partial{
+  background:linear-gradient(90deg,#d48726 0%,#f7b94f 56%,#ffe09a 100%)!important;
+  box-shadow:0 0 8px rgba(247,178,67,.25),inset 0 1px rgba(255,255,255,.25)!important;
+}
+#pm-progress-page .progress-bar.zero{background:linear-gradient(90deg,#607184,#8292a2)!important;box-shadow:none!important;}
+#pm-progress-page .progress-bar.done::after,
+#pm-progress-page .progress-bar.partial::after{
+  content:"";position:absolute;top:0;bottom:0;left:-45%;width:36%;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.42),transparent);
+  transform:skewX(-18deg);animation:pmProgressShimmer 3.8s ease-in-out infinite;
+}
+#pm-progress-page .progress-percent{
+  justify-self:end;min-width:53px;padding:5px 8px!important;
+  border-radius:8px!important;text-align:center!important;
+  font-size:11px!important;font-weight:950!important;letter-spacing:.15px;
+  background:rgba(102,129,151,.12)!important;
+  border:1px solid rgba(126,160,183,.18)!important;
+  color:#c5d9e7!important;
+  box-shadow:inset 0 1px rgba(255,255,255,.025);
+}
+#pm-progress-page .progress-percent.zero{color:#b7c6d2!important;background:rgba(123,145,164,.10)!important;}
+#pm-progress-page .progress-percent.partial{color:#ffd27c!important;background:rgba(219,151,49,.10)!important;border-color:rgba(246,183,76,.22)!important;}
+#pm-progress-page .progress-percent.done{color:#6ff0d2!important;background:rgba(25,193,159,.10)!important;border-color:rgba(55,228,193,.23)!important;}
+#pm-progress-page .progress-checks{
+  display:inline-flex;justify-self:end;align-items:center;justify-content:center;
+  padding:5px 8px!important;border-radius:8px!important;
+  background:rgba(116,147,168,.08)!important;
+  border:1px solid rgba(116,147,168,.12)!important;
+  color:#9eb8ca!important;font-size:9.5px!important;
+  line-height:1.35;
+}
+#pm-progress-page .progress-row:hover .progress-checks{border-color:rgba(89,164,190,.22)!important;color:#d1e4f0!important;}
+@keyframes pmProgressShimmer{0%,40%{left:-45%;opacity:0}52%{opacity:.7}78%,100%{left:115%;opacity:0}}
+@media(max-width:720px){
+  #pm-progress-page .progress-rows{padding:7px!important;gap:6px!important;}
+  #pm-progress-page .progress-row{padding:11px 10px!important;border-radius:10px!important;}
+  #pm-progress-page .progress-checks{justify-self:stretch;}
+  #pm-progress-page .progress-percent{min-width:48px;}
+}
+@media(prefers-reduced-motion:reduce){
+  #pm-progress-page .progress-row,
+  #pm-progress-page .progress-bar,
+  #pm-progress-page .progress-group-badge{transition:none!important;}
+  #pm-progress-page .progress-bar.done::after,
+  #pm-progress-page .progress-bar.partial::after{animation:none!important;}
+}
+
 </style>
 </head>
 
@@ -1321,6 +1720,7 @@ html[data-theme=dark] .progress-repair-status.clear{color:#6be2b5}
         <button type="button" class="sidebar-link tank-nav" data-type="silo" onclick="selectCategory('silo')"><i class="fa-solid fa-industry"></i><span class="menu-label">Silo Powder</span></button>
         <button type="button" class="sidebar-link tank-nav" data-type="hopper" onclick="selectCategory('hopper')"><i class="fa-solid fa-filter"></i><span class="menu-label">Hopper Powder</span></button>
         <button type="button" class="sidebar-link tank-nav" data-type="diverter" onclick="selectCategory('diverter')"><i class="fa-solid fa-code-branch"></i><span class="menu-label">2-Way Diverter</span></button>
+        <button type="button" class="sidebar-link tank-nav" data-type="slurry" onclick="selectCategory('slurry')"><i class="fa-solid fa-water"></i><span class="menu-label">Slurry</span></button>
         <button type="button" class="sidebar-link tank-nav resin-only" data-type="thinning" onclick="selectCategory('thinning')"><i class="fa-solid fa-flask-vial"></i><span class="menu-label">Thinning Tank</span></button>
         <button type="button" class="sidebar-link tank-nav resin-only" data-type="reactor" onclick="selectCategory('reactor')"><i class="fa-solid fa-atom"></i><span class="menu-label">Reactor</span></button>
 
@@ -1365,6 +1765,7 @@ html[data-theme=dark] .progress-repair-status.clear{color:#6be2b5}
         <select id="siloSelect" onchange="switchTank('silo')"><option value="">-- เลือกถัง --</option></select>
         <select id="hopperSelect" onchange="switchTank('hopper')"><option value="">-- เลือกถัง --</option></select>
         <select id="diverterSelect" onchange="switchTank('diverter')"><option value="">-- เลือกตัว --</option></select>
+        <select id="slurrySelect" onchange="switchTank('slurry')"><option value="">-- เลือก Slurry --</option></select>
       </div>
       <div class="tank-controls hidden" id="resin-controls">
         <select id="thinningSelect" onchange="switchTank('thinning')"><option value="">-- เลือกถัง --</option></select>
@@ -1394,7 +1795,7 @@ html[data-theme=dark] .progress-repair-status.clear{color:#6be2b5}
       <div class="progress-dashboard-hero">
         <div>
           <h1 class="progress-dashboard-title">PM Progress Dashboard</h1>
-          <p class="progress-dashboard-subtitle"></p>
+          <p class="progress-dashboard-subtitle">ภาพรวมความคืบหน้า PM · สรุปผลตามแผนกและกลุ่มอุปกรณ์</p>
         </div>
         <div class="progress-hero-badge"><i class="fa-solid fa-chart-line"></i><span>Live จากข้อมูล PM</span></div>
       </div>
@@ -1413,6 +1814,35 @@ html[data-theme=dark] .progress-repair-status.clear{color:#6be2b5}
       </div>
 
       <div id="progress-summary" class="progress-summary"></div>
+
+      <!-- Chart layout inspired by the reference industrial dashboard. -->
+      <section class="pm-visual-charts" aria-label="กราฟสรุปความคืบหน้า PM">
+        <div class="pm-visual-chart-grid">
+          <article class="pm-visual-chart-panel pm-visual-plan-panel">
+            <div class="pm-visual-chart-title">PM PLAN VS ACTUAL PERFORMANCE BY DEPARTMENT</div>
+            <div class="pm-visual-chart-subtitle">จำนวนรายการตามแผน เทียบกับรายการที่ตรวจแล้ว</div>
+            <div class="pm-visual-legend">
+              <span><i class="pm-legend-square planned"></i> Planned</span>
+              <span><i class="pm-legend-square actual"></i> Checked</span>
+            </div>
+            <div id="pm-plan-actual-chart" class="pm-visual-bar-chart"></div>
+          </article>
+          <article class="pm-visual-chart-panel pm-visual-donut-panel">
+            <div class="pm-visual-chart-title">PM CHECK STATUS ANALYSIS</div>
+            <div class="pm-visual-chart-subtitle">สัดส่วนผลตรวจจากรายการ PM ที่มีชื่อ</div>
+            <div id="pm-result-donut" class="pm-visual-donut-chart"></div>
+          </article>
+        </div>
+        <article class="pm-visual-chart-panel pm-visual-area-panel">
+          <div class="pm-visual-chart-title">PM COMPLETION RATE BY EQUIPMENT GROUP</div>
+          <div class="pm-visual-chart-subtitle">อัตราความคืบหน้า 0–100% ตามกลุ่มอุปกรณ์ · อัปเดตตามตัวกรองที่เลือก</div>
+          <div class="pm-visual-legend pm-group-chart-legend">
+            <span><i class="pm-legend-square actual"></i> ความคืบหน้า (%)</span>
+            <span><i class="pm-legend-average-line"></i> ค่าเฉลี่ย <strong id="pm-group-average-label">0%</strong></span>
+          </div>
+          <div id="pm-group-trend-chart" class="pm-visual-area-chart pm-visual-percent-bar-chart"></div>
+        </article>
+      </section>
 
       <div id="progress-dept-grid" class="progress-dept-grid"></div>
 
@@ -1515,7 +1945,28 @@ const hopperPowderTanks = ['B1210','B1211','B1230','B1240','X1321','Y1220'];
 const diverterTanks = ['XV1110','XV1111','XV1112','XV1113','XV1114','XV1115','XV1116','XV1117','XV1130','XV1131','XV1132','XV1133','XV1134','XV1135','XV1136','XV1137','XV1138','XV1139','XV1141','XV1142','XV1143','XV1144','XV1150','XV1151','XV1160','XV1210','XV1211','XV1220','XV1221','XV1222','XV1223','XV1230','XV1231','XV1232','XV1240','XV1241','XV1242','XV1311','XV1313','XV1314','XV1315','XV1316','XV1317','XV1318','XV1319','XV1320','XV1321','XV1322','XV1323','XV1324','XV1325','XV1326','XV1327','XV1328','XV1350','XV1351'];
 const resinThinningTanks = ['T-111', 'T-141'];
 const resinReactorTanks = ['R-111', 'R-141'];
-const tankGroupMapping={deluting:delutingTanks, delicel:delicelTanks, additive:additiveTanks, updown:updownTanks, tankfarm2:tankfarm2Tanks, surpressor:surpressorTanks, silo:siloPowderTanks, hopper:hopperPowderTanks, diverter:diverterTanks, thinning:resinThinningTanks, reactor:resinReactorTanks};
+const slurryTanks=Array.from({length:20},(_,i)=>`SLU-${String(i+1).padStart(3,"0")}`);
+const tankGroupMapping={deluting:delutingTanks, delicel:delicelTanks, additive:additiveTanks, updown:updownTanks, tankfarm2:tankfarm2Tanks, surpressor:surpressorTanks, silo:siloPowderTanks, hopper:hopperPowderTanks, diverter:diverterTanks, slurry:slurryTanks, thinning:resinThinningTanks, reactor:resinReactorTanks};
+
+// Slurry PM checksheet imported from "PM Checksheet_Slurry.pdf" (20 locations, 116 equipment sections).
+const slurryTankDescriptions={"SLU-001":"T5210 Slurry","SLU-002":"T5211 Slurry","SLU-003":"T5220 Slurry","SLU-004":"T5221 Slurry","SLU-005":"T5230 Slurry","SLU-006":"T5231 Slurry","SLU-007":"T5240 Slurry","SLU-008":"T5241 Slurry","SLU-009":"T5250 Slurry","SLU-010":"T5251 Slurry","SLU-011":"T5252 Slurry","SLU-012":"T5253 Slurry","SLU-013":"T5254 Slurry","SLU-014":"T5255 Slurry","SLU-015":"T5256 Slurry","SLU-016":"T5257 Slurry","SLU-017":"T5258 Slurry","SLU-018":"T5259 Slurry","SLU-019":"T5260 Slurry","SLU-020":"T5261 Slurry"};
+const slurryEquipmentByLocation={"SLU-001":[{"id":"SLU001A01","number":"IFMT011023","description":"P5210FT40 Mass Flow Meter"},{"id":"SLU001A02","number":"N/A","description":"P5210-PIC01 Pressure transmitter"},{"id":"SLU001A03","number":"N/A","description":"T5210-XV40 Actuator valve"},{"id":"SLU001A04","number":"N/A","description":"T5210-XV55 Actuator valve"},{"id":"SLU001A05","number":"N/A","description":"P5210-XV40 Actuator valve"},{"id":"SLU001A06","number":"N/A","description":"P5210-XV41 Actuator valve"}],"SLU-002":[{"id":"SLU002A01","number":"IFMT011024","description":"DVP5250FT01 Mass Flow Meter"},{"id":"SLU002A02","number":"N/A","description":"P5211-PIC01 Pressure transmitter"},{"id":"SLU002A03","number":"N/A","description":"T5211-XV40 Actuator valve"},{"id":"SLU002A04","number":"N/A","description":"T5211-XV55 Actuator valve"},{"id":"SLU002A05","number":"N/A","description":"P5211-XV40 Actuator valve"},{"id":"SLU002A06","number":"N/A","description":"P5211-XV41 Actuator valve"}],"SLU-003":[{"id":"SLU003A01","number":"IFMT011025","description":"DVP2220FT01 Mass Flow Meter"},{"id":"SLU003A02","number":"N/A","description":"P5220-PIC01 Pressure transmitter"},{"id":"SLU003A03","number":"N/A","description":"T5220-XV02 Actuator valve"},{"id":"SLU003A04","number":"N/A","description":"T5220-XV03 Actuator valve"},{"id":"SLU003A05","number":"N/A","description":"T5220-XV40 Actuator valve"},{"id":"SLU003A06","number":"N/A","description":"T5220-XV41 Actuator valve"},{"id":"SLU003A07","number":"N/A","description":"T5220-XV55 Actuator valve"}],"SLU-004":[{"id":"SLU004A01","number":"N/A","description":"P5221-PIC01 Pressure transmitter"},{"id":"SLU004A02","number":"N/A","description":"T5221-XV02 Actuator valve"},{"id":"SLU004A03","number":"N/A","description":"T5221-XV03 Actuator valve"},{"id":"SLU004A04","number":"N/A","description":"T5221-XV40 Actuator valve"},{"id":"SLU004A05","number":"N/A","description":"T5221-XV55 Actuator valve"}],"SLU-005":[{"id":"SLU005A01","number":"IFMT011025","description":"P5230FT01 Mass Flow Meter"},{"id":"SLU005A02","number":"N/A","description":"P5230-PIC01 Pressure transmitter"},{"id":"SLU005A03","number":"N/A","description":"T5230-XV02 Actuator valve"},{"id":"SLU005A04","number":"N/A","description":"T5230-XV03 Actuator valve"},{"id":"SLU005A05","number":"N/A","description":"T5230-XV40 Actuator valve"},{"id":"SLU005A06","number":"N/A","description":"T5230-XV41 Actuator valve"},{"id":"SLU005A07","number":"N/A","description":"T5230-XV55 Actuator valve"}],"SLU-006":[{"id":"SLU006A01","number":"N/A","description":"P5231-PIC01 Pressure transmitter"},{"id":"SLU006A02","number":"N/A","description":"T5231-XV02 Actuator valve"},{"id":"SLU006A03","number":"N/A","description":"T5231-XV03 Actuator valve"},{"id":"SLU006A04","number":"N/A","description":"T5231-XV40 Actuator valve"},{"id":"SLU006A05","number":"N/A","description":"T5231-XV55 Actuator valve"}],"SLU-007":[{"id":"SLU007A01","number":"IFMT011027","description":"DVP5252FT01 Mass Flow Meter"},{"id":"SLU007A02","number":"N/A","description":"P5240-PIC01 Pressure transmitter"},{"id":"SLU007A03","number":"N/A","description":"T5240-XV40 Actuator valve"},{"id":"SLU007A04","number":"N/A","description":"T5240-XV55 Actuator valve"},{"id":"SLU007A05","number":"N/A","description":"P5240-XV40 Actuator valve"},{"id":"SLU007A06","number":"N/A","description":"P5240-XV41 Actuator valve"}],"SLU-008":[{"id":"SLU008A01","number":"IFMT011028","description":"P5241FT40 Mass Flow Meter"},{"id":"SLU008A02","number":"N/A","description":"P5241-PIC01 Pressure transmitter"},{"id":"SLU008A03","number":"N/A","description":"T5241-XV40 Actuator valve"},{"id":"SLU008A04","number":"N/A","description":"T5241-XV55 Actuator valve"},{"id":"SLU008A05","number":"N/A","description":"P5241-XV40 Actuator valve"},{"id":"SLU008A06","number":"N/A","description":"P5241-XV41 Actuator valve"}],"SLU-009":[{"id":"SLU009A01","number":"IFMT011029","description":"P5250FT40 Mass Flow Meter"},{"id":"SLU009A02","number":"N/A","description":"P5250-PIC01 Pressure transmitter"},{"id":"SLU009A03","number":"N/A","description":"T5250-XV40 Actuator valve"},{"id":"SLU009A04","number":"N/A","description":"T5250-XV55 Actuator valve"},{"id":"SLU009A05","number":"N/A","description":"P5250-XV40 Actuator valve"},{"id":"SLU009A06","number":"N/A","description":"P5250-XV41 Actuator valve"}],"SLU-010":[{"id":"SLU010A01","number":"IFMT011030","description":"P5251FT40 Mass Flow Meter"},{"id":"SLU010A02","number":"N/A","description":"P5251-PIC01 Pressure transmitter"},{"id":"SLU010A03","number":"N/A","description":"T5251-XV40 Actuator valve"},{"id":"SLU010A04","number":"N/A","description":"T5251-XV55 Actuator valve"},{"id":"SLU010A05","number":"N/A","description":"P5251-XV40 Actuator valve"},{"id":"SLU010A06","number":"N/A","description":"P5251-XV41 Actuator valve"}],"SLU-011":[{"id":"SLU011A01","number":"IFMT011031","description":"P5252FT40 Mass Flow Meter"},{"id":"SLU011A02","number":"N/A","description":"P5252-PIC01 Pressure transmitter"},{"id":"SLU011A03","number":"N/A","description":"T5252-XV40 Actuator valve"},{"id":"SLU011A04","number":"N/A","description":"T5252-XV55 Actuator valve"},{"id":"SLU011A05","number":"N/A","description":"P5252-XV40 Actuator valve"},{"id":"SLU011A06","number":"N/A","description":"P5252-XV41 Actuator valve"}],"SLU-012":[{"id":"SLU012A01","number":"IFMT011032","description":"P5253FT40 Mass Flow Meter"},{"id":"SLU012A02","number":"N/A","description":"P5253-PIC01 Pressure transmitter"},{"id":"SLU012A03","number":"N/A","description":"T5253-XV40 Actuator valve"},{"id":"SLU012A04","number":"N/A","description":"T5253-XV55 Actuator valve"},{"id":"SLU012A05","number":"N/A","description":"P5253-XV40 Actuator valve"},{"id":"SLU012A06","number":"N/A","description":"P5253-XV41 Actuator valve"}],"SLU-013":[{"id":"SLU013A01","number":"IFMT011033","description":"DVP5251FT01 Mass Flow Meter"},{"id":"SLU013A02","number":"N/A","description":"P5254-PIC01 Pressure transmitter"},{"id":"SLU013A03","number":"N/A","description":"T5254-XV40 Actuator valve"},{"id":"SLU013A04","number":"N/A","description":"T5254-XV55 Actuator valve"},{"id":"SLU013A05","number":"N/A","description":"P5254-XV40 Actuator valve"},{"id":"SLU013A06","number":"N/A","description":"P5254-XV41 Actuator valve"}],"SLU-014":[{"id":"SLU014A01","number":"IFMT011034","description":"P5255FT40 Mass Flow Meter"},{"id":"SLU014A02","number":"N/A","description":"P5255-PIC01 Pressure transmitter"},{"id":"SLU014A03","number":"N/A","description":"T5255-XV40 Actuator valve"},{"id":"SLU014A04","number":"N/A","description":"T5255-XV55 Actuator valve"},{"id":"SLU014A05","number":"N/A","description":"P5255-XV42 Actuator valve"},{"id":"SLU014A06","number":"N/A","description":"P5255-XV43 Actuator valve"}],"SLU-015":[{"id":"SLU015A01","number":"IFMT011035","description":"P5256FT40 Mass Flow Meter"},{"id":"SLU015A02","number":"N/A","description":"P5256-PIC01 Pressure transmitter"},{"id":"SLU015A03","number":"N/A","description":"T5256-XV40 Actuator valve"},{"id":"SLU015A04","number":"N/A","description":"T5256-XV55 Actuator valve"},{"id":"SLU015A05","number":"N/A","description":"P5256-XV42 Actuator valve"},{"id":"SLU015A06","number":"N/A","description":"P5256-XV43 Actuator valve"}],"SLU-016":[{"id":"SLU016A01","number":"IFMT011036","description":"P5257FT40 Mass Flow Meter"},{"id":"SLU016A02","number":"N/A","description":"P5257-PIC01 Pressure transmitter"},{"id":"SLU016A03","number":"N/A","description":"T5257-XV40 Actuator valve"},{"id":"SLU016A04","number":"N/A","description":"T5257-XV55 Actuator valve"},{"id":"SLU016A05","number":"N/A","description":"P5257-XV42 Actuator valve"},{"id":"SLU016A06","number":"N/A","description":"P5257-XV43 Actuator valve"}],"SLU-017":[{"id":"SLU017A01","number":"N/A","description":"T5258-XV40 Actuator valve"},{"id":"SLU017A02","number":"N/A","description":"T5258-XV41 Actuator valve"},{"id":"SLU017A03","number":"N/A","description":"T5258-XV03 Actuator valve"}],"SLU-018":[{"id":"SLU018A01","number":"IFMT011037","description":"P5259FT40 Mass Flow Meter"},{"id":"SLU018A02","number":"N/A","description":"P5259-PIC01 Pressure transmitter"},{"id":"SLU018A03","number":"N/A","description":"T5259-XV03 Actuator valve"},{"id":"SLU018A04","number":"N/A","description":"T5259-XV40 Actuator valve"},{"id":"SLU018A05","number":"N/A","description":"T5259-XV41 Actuator valve"},{"id":"SLU018A06","number":"N/A","description":"P5259-XV42 Actuator valve"},{"id":"SLU018A07","number":"N/A","description":"P5259-XV43 Actuator valve"}],"SLU-019":[{"id":"SLU019A01","number":"N/A","description":"T5260-XV40 Actuator valve"},{"id":"SLU019A02","number":"N/A","description":"T5260-XV41 Actuator valve"},{"id":"SLU019A03","number":"N/A","description":"T5260-XV03 Actuator valve"}],"SLU-020":[{"id":"SLU020A01","number":"IFMT011038","description":"P5261FT40 Mass Flow Meter"},{"id":"SLU020A02","number":"N/A","description":"P5261-PIC01 Pressure transmitter"},{"id":"SLU020A03","number":"N/A","description":"T5261-XV03 Actuator valve"},{"id":"SLU020A04","number":"N/A","description":"T5261-XV40 Actuator valve"},{"id":"SLU020A05","number":"N/A","description":"T5261-XV41 Actuator valve"},{"id":"SLU020A06","number":"N/A","description":"P5261-XV42 Actuator valve"},{"id":"SLU020A07","number":"N/A","description":"P5261-XV43 Actuator valve"}]};
+const slurryTaskLists={
+  flow:[
+    {i:"0010",n:"ตรวจเช็คการทำงานของ Flow meter",s:"อ่านค่าได้ปกติ, ค่าอ่านตรงกับ DCS",p:"6M"},
+    {i:"0020",n:"ตรวจเช็คสภาพสายไฟ",s:"ยึดแน่นกับเทอร์มินอล, ฉนวนไม่ขาด",p:"6M"},
+    {i:"0030",n:"ตรวจสอบหน้าจอแสดงผล",s:"ไม่มี Alarm, Error",p:"6M"}
+  ],
+  pressure:[
+    {i:"0010",n:"ตรวจเช็คการทำงาน",s:"อ่านค่าได้ปกติ, ค่าอ่านตรงกับ DCS",p:"6M"},
+    {i:"0040",n:"ตรวจเช็คสภาพสายไฟ",s:"ยึดแน่นกับเทอร์มินอล, ฉนวนไม่ขาด",p:"6M"},
+    {i:"0030",n:"ตรวจสอบหน้า Diaphragm",s:"ไม่มีคราบสีแห้งติด ไม่รั่ว",p:"6M"}
+  ],
+  actuator:[
+    {i:"0010",n:"ตรวจเช็ค Actuator+Solenoid valve",s:"ไม่มีลมรั่ว, รูเดรนไม่อุดตัน",p:"6M"},
+    {i:"0020",n:"ตรวจเช็คสภาพสายไฟ",s:"ยึดแน่นกับเทอร์มินอล, ฉนวนไม่ขาด",p:"6M"}
+  ]
+};
 
 const p6="6M";
 const t_UPDOWN=[{i:1,n:"ตรวจเช็ค Actuator",s:"ไม่มีลมรั่ว, Position Indicatorไม่หลุด",p:p6},{i:2,n:"ตรวจเช็ค Solenoid valve",s:"ไม่มีลมรั่ว, รูเดรนไม่อุดตัน",p:p6},{i:3,n:"ตรวจเช็คสภาพสายไฟ",s:"ยึดแน่นกับเทอร์มินอล, ฉนวนไม่ขาด",p:p6},{i:4,n:"ตรวจเช็คการทำงานของ Valve",s:"เปิด/ปิดสุด ไม่ติดขัด",p:p6},{i:5,n:"ทำความสะอาด Actuator valve",s:"สะอาดไม่มีคราบสกปรก",p:p6}];
@@ -1794,7 +2245,7 @@ function startApp(){
   const isResin = ['thinning', 'reactor'].includes(activeTankType);
   document.getElementById("deptSelect").value = isResin ? 'resin' : 'em2';
   switchDept(isResin ? 'resin' : 'em2', true);
-  ["deluting","delicel","additive","updown","tankfarm2","surpressor","silo","hopper","diverter","thinning","reactor"].forEach(t=>{const e=document.getElementById(t+"Select");if(e)e.value=t===activeTankType?activeTankName:""});
+  ["deluting","delicel","additive","updown","tankfarm2","surpressor","silo","hopper","diverter","slurry","thinning","reactor"].forEach(t=>{const e=document.getElementById(t+"Select");if(e)e.value=t===activeTankType?activeTankName:""});
   updateSidebarForDept();
   updateEquipmentSelect();
   updateSidebarActive();
@@ -1850,7 +2301,7 @@ function switchDept(dept, preventClear) {
     document.getElementById("em2-controls").classList.remove("hidden");
   }
   if(!preventClear) { activeTankType = ""; activeTankName = ""; }
-  ["deluting","delicel","additive","updown","tankfarm2","surpressor","silo","hopper","diverter","thinning","reactor"].forEach(t=>{const e=document.getElementById(t+"Select");if(e)e.value=""});
+  ["deluting","delicel","additive","updown","tankfarm2","surpressor","silo","hopper","diverter","slurry","thinning","reactor"].forEach(t=>{const e=document.getElementById(t+"Select");if(e)e.value=""});
   document.getElementById("deptSelect").value=dept;
   updateSidebarForDept();
   updateEquipmentSelect();
@@ -1861,7 +2312,7 @@ function switchDept(dept, preventClear) {
 function switchTank(type){
   const el=document.getElementById(type+"Select");if(!el||!el.value)return;
   activeTankType=type;activeTankName=el.value;
-  ["deluting","delicel","additive","updown","tankfarm2","surpressor","silo","hopper","diverter","thinning","reactor"].forEach(t=>{if(t!==type){const e=document.getElementById(t+"Select");if(e)e.value=""}});
+  ["deluting","delicel","additive","updown","tankfarm2","surpressor","silo","hopper","diverter","slurry","thinning","reactor"].forEach(t=>{if(t!==type){const e=document.getElementById(t+"Select");if(e)e.value=""}});
   if(currentRole!=="view")saveMany([{key:"lastSavedTankType",value:type},{key:"lastSavedTank",value:activeTankName}]).catch(console.error);
   updateEquipmentSelect();
   updateSidebarActive();
@@ -2049,7 +2500,16 @@ function renderForm(){
       list.forEach(v => h += buildSection(v.e, v.d, v.t, v.e));
     }
   } else {
-    if(activeTankType==="deluting"){
+    if(activeTankType==="slurry"){
+      const loc=activeTankName;
+      fl.textContent=`Functional Location : T-M-01-01-${loc}`;
+      ed.textContent=`Description : ${slurryTankDescriptions[loc]||"Slurry"}`;
+      (slurryEquipmentByLocation[loc]||[]).forEach(asset=>{
+        const d=asset.description.toLowerCase();
+        const tasks=d.includes("mass flow meter")?slurryTaskLists.flow:d.includes("pressure transmitter")?slurryTaskLists.pressure:slurryTaskLists.actuator;
+        h+=buildSection(asset.number,asset.description,tasks,asset.id,loc);
+      });
+    } else if(activeTankType==="deluting"){
       fl.textContent="Functional Location : T-M-01-01-LET-001";ed.textContent=`Description : ${activeTankName} Deluting Tank (E2M12501)`;
       delutingValveList.forEach(v=>h+=buildSection(v.eq||"MVAC011XXX",`${activeTankName}-${v.suffix} Actuator valve`,v.suffix==="XV40"?[...delutingStdTasks,xv40Task]:delutingStdTasks,v.suffix));
     }else if(activeTankType==="delicel"){
@@ -2109,7 +2569,7 @@ function renderForm(){
 function fillSelect(id,arr){const s=document.getElementById(id);arr.forEach(x=>s.add(new Option(x,x)))}
 function initSelectors(){
   fillSelect("delutingSelect",delutingTanks);fillSelect("delicelSelect",delicelTanks);fillSelect("additiveSelect",additiveTanks);fillSelect("updownSelect",updownTanks);fillSelect("tankfarm2Select",tankfarm2Tanks);fillSelect("surpressorSelect",surpressorTanks);fillSelect("siloSelect",siloPowderTanks);fillSelect("hopperSelect",hopperPowderTanks);fillSelect("diverterSelect",diverterTanks);
-  fillSelect("thinningSelect",resinThinningTanks);fillSelect("reactorSelect",resinReactorTanks);
+  fillSelect("thinningSelect",resinThinningTanks);fillSelect("reactorSelect",resinReactorTanks);fillSelect("slurrySelect",slurryTanks);
 }
 
 function toggleSidebar(){
@@ -2184,11 +2644,12 @@ const pmProgressGroupLabels={
   silo:"Silo Powder",
   hopper:"Hopper Powder",
   diverter:"2-Way Diverter",
+  slurry:"Slurry",
   thinning:"Thinning Tank",
   reactor:"Reactor"
 };
 const pmProgressDeptByGroup={
-  deluting:"em2",delicel:"em2",additive:"em2",updown:"em2",tankfarm2:"em2",surpressor:"em2",silo:"em2",hopper:"em2",diverter:"em2",
+  deluting:"em2",delicel:"em2",additive:"em2",updown:"em2",tankfarm2:"em2",surpressor:"em2",silo:"em2",hopper:"em2",diverter:"em2",slurry:"em2",
   thinning:"resin",reactor:"resin"
 };
 
@@ -2256,7 +2717,12 @@ function getProgressRows(){
     if(group!=="all"&&groupType!==group)return;
     [...new Set(tanks||[])].forEach(tank=>{
       const label=pmProgressGroupLabels[groupType]||groupType;
-      if(search&&!(`${tank} ${label} ${groupType}`.toLowerCase().includes(search)))return;
+      // Slurry rows are displayed and searched by tank name (T5210–T5261),
+      // while retaining SLU-xxx as the internal key for saving/loading data.
+      const displayTank=groupType==="slurry"
+        ? ((slurryTankDescriptions[tank]||tank).split(/\s+/)[0]||tank)
+        : tank;
+      if(search&&!(`${tank} ${displayTank} ${label} ${groupType}`.toLowerCase().includes(search)))return;
       rows.push(calculateTankProgress(groupType,tank));
     });
   });
@@ -2348,11 +2814,21 @@ function renderRepairDepartmentPanel(dept,rows){
   const repairPct=total?Math.round((no/total)*1000)/10:0;
   const formsWithRepair=rows.filter(r=>r.no>0).length;
 
-  const sorted=[...rows].sort((a,b)=>{
-    const ap=a.total?a.no/a.total:0;
-    const bp=b.total?b.no/b.total:0;
-    return bp-ap || b.no-a.no || (a.tank||"").localeCompare((b.tank||""),undefined,{numeric:true});
+  // รวมจำนวน NO ตามกลุ่มอุปกรณ์ เพื่อให้กราฟสีแดงมีรูปแบบเดียวกับกราฟสีเขียว
+  const groupRows=new Map();
+  rows.forEach(r=>{
+    if(!groupRows.has(r.groupType)){
+      groupRows.set(r.groupType,{groupType:r.groupType,total:0,no:0,forms:0,formsWithRepair:0});
+    }
+    const g=groupRows.get(r.groupType);
+    g.total+=r.total;
+    g.no+=r.no;
+    g.forms++;
+    if(r.no>0)g.formsWithRepair++;
   });
+  const sorted=[...groupRows.values()]
+    .map(g=>({...g,percent:g.total?Math.round((g.no/g.total)*1000)/10:0}))
+    .sort((a,b)=>b.percent-a.percent || a.groupType.localeCompare(b.groupType));
 
   return `<section class="progress-repair-panel">
     <div class="progress-repair-panel-head">
@@ -2377,18 +2853,18 @@ function renderRepairDepartmentPanel(dept,rows){
     </div>
 
     <div class="progress-repair-list">
-      ${sorted.length?sorted.map(r=>{
-        const pct=r.total?Math.round((r.no/r.total)*1000)/10:0;
-        const label=pmProgressGroupLabels[r.groupType]||r.groupType;
-        const hasRepair=r.no>0;
+      ${sorted.length?sorted.map(g=>{
+        const pct=g.percent;
+        const label=pmProgressGroupLabels[g.groupType]||g.groupType;
+        const hasRepair=g.no>0;
 
-        return `<div class="progress-repair-row ${hasRepair?"has-repair":""}" title="${esc(r.tank)} · ${esc(label)} · NO ${r.no}/${r.total}">
-          <div class="progress-repair-form">${esc(r.tank)}<small>${esc(label)}</small></div>
+        return `<div class="progress-repair-row ${hasRepair?"has-repair":""}" title="${esc(label)} · NO ${g.no}/${g.total}">
+          <div class="progress-repair-form">${esc(label)}<small>${g.forms} ฟอร์ม · ${g.formsWithRepair} ฟอร์มมี NO</small></div>
           <div class="progress-repair-bar-wrap">
             <div class="progress-repair-bar ${hasRepair?"":"zero"}" style="width:${Math.max(0,Math.min(100,pct))}%"></div>
           </div>
           <div class="progress-repair-percent">${pct}%</div>
-          <div class="progress-repair-count">NO ${r.no}/${r.total}</div>
+          <div class="progress-repair-count">NO ${g.no}/${g.total}</div>
           <div class="progress-repair-status ${hasRepair?"":"clear"}">
             <i class="fa-solid ${hasRepair?"fa-triangle-exclamation":"fa-circle-check"}"></i>
             ${hasRepair?"มีรายการรอแก้":"ไม่มี NO"}
@@ -2397,6 +2873,87 @@ function renderRepairDepartmentPanel(dept,rows){
       }).join(""):'<div class="progress-repair-empty">ไม่มีฟอร์มตามตัวกรองที่เลือก</div>'}
     </div>
   </section>`;
+}
+
+
+function renderPMVisualCharts(rows,em2Rows,resinRows,filteredDept){
+  const barRoot=document.getElementById("pm-plan-actual-chart");
+  const donutRoot=document.getElementById("pm-result-donut");
+  const areaRoot=document.getElementById("pm-group-trend-chart");
+  if(!barRoot||!donutRoot||!areaRoot)return;
+
+  const deptData=[];
+  if(filteredDept==="all"||filteredDept==="em2")deptData.push({label:"EM2",rows:em2Rows});
+  if(filteredDept==="all"||filteredDept==="resin")deptData.push({label:"Resin PD1",rows:resinRows});
+  const stats=deptData.map(d=>({label:d.label,plan:d.rows.reduce((a,r)=>a+r.total,0),checked:d.rows.reduce((a,r)=>a+r.done,0)}));
+  const maxPlan=Math.max(1,...stats.map(x=>x.plan));
+  const roundedMax=Math.max(5,Math.ceil(maxPlan/5)*5);
+  const chartW=700,chartH=252,left=49,right=18,top=18,bottom=42;
+  const plotW=chartW-left-right,plotH=chartH-top-bottom,baseY=top+plotH;
+  const yGrid=[];
+  for(let i=0;i<=4;i++){
+    const value=roundedMax*i/4, y=baseY-(value/roundedMax)*plotH;
+    yGrid.push(`<line x1="${left}" y1="${y}" x2="${chartW-right}" y2="${y}" stroke="#29465b" stroke-width="1"/><text x="${left-10}" y="${y+4}" text-anchor="end" fill="#8fa9bd" font-size="11">${Math.round(value)}</text>`);
+  }
+  let bars="";
+  const groupSlot=plotW/Math.max(stats.length,1),barW=Math.min(45,groupSlot*.24);
+  stats.forEach((d,i)=>{
+    const cx=left+groupSlot*(i+.5);
+    const ph=d.plan/roundedMax*plotH,ch=d.checked/roundedMax*plotH;
+    bars+=`<rect x="${cx-barW-3}" y="${baseY-ph}" width="${barW}" height="${ph}" rx="2" fill="#d5e4ee"><title>${esc(d.label)} planned: ${d.plan}</title></rect>`;
+    bars+=`<rect x="${cx+3}" y="${baseY-ch}" width="${barW}" height="${ch}" rx="2" fill="#2587bd"><title>${esc(d.label)} checked: ${d.checked}</title></rect>`;
+    bars+=`<text x="${cx}" y="${baseY+22}" text-anchor="middle" fill="#b9cddc" font-size="12" font-weight="700">${esc(d.label)}</text>`;
+  });
+  barRoot.innerHTML=stats.length&&rows.length?`<svg viewBox="0 0 ${chartW} ${chartH}" role="img" aria-label="Planned tasks compared with checked tasks">${yGrid.join("")}<line x1="${left}" y1="${baseY}" x2="${chartW-right}" y2="${baseY}" stroke="#527086" stroke-width="1.2"/>${bars}</svg>`:'<div class="pm-visual-no-data">ไม่มีข้อมูลตามตัวกรองที่เลือก</div>';
+
+  const status={ok:rows.reduce((a,r)=>a+r.ok,0),no:rows.reduce((a,r)=>a+r.no,0),pending:rows.reduce((a,r)=>a+Math.max(0,r.total-r.done),0)};
+  const statusTotal=status.ok+status.no+status.pending;
+  const pOk=statusTotal?status.ok/statusTotal*100:0;
+  const pNo=statusTotal?status.no/statusTotal*100:0;
+  const pPending=statusTotal?status.pending/statusTotal*100:0;
+  const noStart=pOk, noEnd=pOk+pNo;
+  const donutBg=statusTotal?`conic-gradient(#35d8b0 0 ${noStart}%,#ff6675 ${noStart}% ${noEnd}%,#526579 ${noEnd}% 100%)`:`conic-gradient(#294256 0 100%)`;
+  const legend=(color,label,val,pct)=>`<div class="pm-donut-legend-item"><i class="pm-donut-legend-dot" style="background:${color}"></i><span class="pm-donut-legend-name">${label}</span><strong class="pm-donut-legend-value">${val.toLocaleString()} <span style="color:#90aabd;font-weight:700">${statusTotal?Math.round(pct):0}%</span></strong></div>`;
+  donutRoot.innerHTML=`<div class="pm-visual-donut" style="background:${donutBg}"><div class="pm-visual-donut-center"><div class="pm-visual-donut-total">${statusTotal.toLocaleString()}</div><div class="pm-visual-donut-label">TOTAL ITEMS</div></div></div><div class="pm-visual-donut-legend">${legend('#35d8b0','OK',status.ok,pOk)}${legend('#ff6675','NO',status.no,pNo)}${legend('#526579','Pending',status.pending,pPending)}</div>`;
+
+  const groups=aggregateProgressByGroup(rows).slice(0,12);
+  const avgLabel=document.getElementById("pm-group-average-label");
+  if(!groups.length){
+    areaRoot.innerHTML='<div class="pm-visual-no-data">ไม่มีข้อมูลตามตัวกรองที่เลือก</div>';
+    if(avgLabel)avgLabel.textContent='0%';
+    return;
+  }
+
+  // Column chart fixed to a 0–100% scale, with a red line for the mean completion rate.
+  const w=1100,h=290,l=52,r=22,t=20,b=66;
+  const pw=w-l-r,ph=h-t-b,barBaseY=t+ph;
+  const cleanPct=v=>Math.max(0,Math.min(100,Number(v)||0));
+  const pctAvg=groups.reduce((sum,g)=>sum+cleanPct(g.percent),0)/groups.length;
+  if(avgLabel)avgLabel.textContent=`${Math.round(pctAvg*10)/10}%`;
+  let pctGrid='';
+  [0,20,40,60,80,100].forEach(v=>{
+    const y=t+(100-v)/100*ph;
+    pctGrid+=`<line x1="${l}" y1="${y}" x2="${w-r}" y2="${y}" stroke="${v===0?'#58758a':'#29465b'}" stroke-width="${v===0?'1.4':'1'}" ${v===0?'':'stroke-dasharray="3 4"'}/><text x="${l-11}" y="${y+4}" text-anchor="end" fill="#9db5c7" font-size="11" font-weight="700">${v}%</text>`;
+  });
+  const pctSlot=pw/groups.length;
+  const pctBarW=Math.min(54,pctSlot*.55);
+  let pctBars='',pctLabels='';
+  groups.forEach((g,i)=>{
+    const pct=cleanPct(g.percent);
+    const bh=pct/100*ph;
+    const x=l+pctSlot*i+(pctSlot-pctBarW)/2;
+    const y=barBaseY-bh;
+    const label=pmProgressGroupLabels[g.groupType]||g.groupType;
+    const shortLabel=label.length>15?label.slice(0,14)+'…':label;
+    pctBars+=`<g><rect class="pm-percent-bar" x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${pctBarW.toFixed(1)}" height="${Math.max(0,bh).toFixed(1)}" rx="3" fill="url(#pmPercentBarGradient)" stroke="#4b91c6" stroke-width=".6"><title>${esc(label)}: ${pct.toFixed(1)}%</title></rect><text x="${(x+pctBarW/2).toFixed(1)}" y="${Math.max(t+12,y-7).toFixed(1)}" text-anchor="middle" fill="#d9f1ff" font-size="${groups.length>8?10:12}" font-weight="850">${Math.round(pct)}%</text></g>`;
+    pctLabels+=`<text x="${(l+pctSlot*(i+.5)).toFixed(1)}" y="${barBaseY+19}" text-anchor="middle" fill="#bdd0df" font-size="${groups.length>8?9:11}" font-weight="700"><title>${esc(label)}</title>${esc(shortLabel)}</text>`;
+  });
+  const avgY=t+(100-pctAvg)/100*ph;
+  const avgLine=`<line class="pm-percent-average" x1="${l}" y1="${avgY.toFixed(1)}" x2="${w-r}" y2="${avgY.toFixed(1)}" stroke="#e0525b" stroke-width="3.5" stroke-linecap="round"><title>ค่าเฉลี่ย ${pctAvg.toFixed(1)}%</title></line>`;
+  const avgTagX=w-r-3;
+  const avgTagY=Math.max(t+12,Math.min(barBaseY-5,avgY-8));
+  const avgTag=`<rect x="${avgTagX-58}" y="${avgTagY-12}" width="58" height="18" rx="5" fill="#642e39" stroke="#e0525b" stroke-width=".7"/><text x="${avgTagX-29}" y="${avgTagY+1}" text-anchor="middle" fill="#ffdce0" font-size="10" font-weight="900">AVG ${Math.round(pctAvg*10)/10}%</text>`;
+  areaRoot.innerHTML=`<svg viewBox="0 0 ${w} ${h}" role="img" aria-label="PM completion percentages from zero to one hundred with average line"><defs><linearGradient id="pmPercentBarGradient" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#69b8f4"/><stop offset="100%" stop-color="#3274b8"/></linearGradient><filter id="pmBarGlow" x="-30%" y="-20%" width="160%" height="150%"><feGaussianBlur stdDeviation="2" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>${pctGrid}${pctBars}${avgLine}${avgTag}${pctLabels}<text x="${l}" y="${h-8}" fill="#7f9bb0" font-size="10">เปอร์เซ็นต์ความคืบหน้า</text></svg>`;
 }
 
 function renderPMProgress(){
@@ -2416,31 +2973,33 @@ function renderPMProgress(){
   const startedForms=rows.filter(r=>r.done>0&&r.done<r.total).length;
   const notStartedForms=rows.filter(r=>r.done===0).length;
 
+  const totalNo=rows.reduce((a,r)=>a+r.no,0);
   summaryEl.innerHTML=`
     <div class="progress-card">
-      <div class="progress-card-label">ความคืบหน้ารวม</div>
+      <div class="progress-card-label">PM COMPLIANCE RATE</div>
       <div class="progress-card-value">${overall}%</div>
-      <div class="progress-card-sub">${done.toLocaleString()} / ${total.toLocaleString()} รายการที่มีชื่อ</div>
+      <div class="progress-card-sub">${done.toLocaleString()} / ${total.toLocaleString()} รายการตรวจแล้ว</div>
     </div>
     <div class="progress-card">
-      <div class="progress-card-label">ฟอร์มเสร็จ 100%</div>
+      <div class="progress-card-label">PM ITEMS CHECKED</div>
+      <div class="progress-card-value">${done.toLocaleString()}</div>
+      <div class="progress-card-sub">จากแผนทั้งหมด ${total.toLocaleString()} รายการ</div>
+    </div>
+    <div class="progress-card">
+      <div class="progress-card-label">OUTSTANDING NO ITEMS</div>
+      <div class="progress-card-value">${totalNo.toLocaleString()}</div>
+      <div class="progress-card-sub">รายการที่ต้องติดตามแก้ไข</div>
+    </div>
+    <div class="progress-card">
+      <div class="progress-card-label">FORMS COMPLETED</div>
       <div class="progress-card-value">${completeForms}</div>
-      <div class="progress-card-sub">จาก ${rows.length} ฟอร์ม</div>
-    </div>
-    <div class="progress-card">
-      <div class="progress-card-label">กำลังดำเนินการ</div>
-      <div class="progress-card-value">${startedForms}</div>
-      <div class="progress-card-sub">มีการติ๊กแล้วบางส่วน</div>
-    </div>
-    <div class="progress-card">
-      <div class="progress-card-label">ยังไม่เริ่ม</div>
-      <div class="progress-card-value">${notStartedForms}</div>
-      <div class="progress-card-sub">ยังไม่มี OK / NO ที่เลือก</div>
+      <div class="progress-card-sub">ครบ 100% จาก ${rows.length} ฟอร์ม</div>
     </div>`;
 
   const filteredDept=document.getElementById("progressDeptFilter")?.value||"all";
   const em2Rows=rows.filter(r=>pmProgressDeptByGroup[r.groupType]==="em2");
   const resinRows=rows.filter(r=>pmProgressDeptByGroup[r.groupType]==="resin");
+  renderPMVisualCharts(rows,em2Rows,resinRows,filteredDept);
 
   let panels="";
   if(filteredDept==="all"||filteredDept==="em2")panels+=renderDepartmentPanel("em2",em2Rows);
@@ -2465,11 +3024,14 @@ function renderPMProgress(){
     const label=pmProgressGroupLabels[r.groupType]||r.groupType;
     const dept=pmProgressDeptByGroup[r.groupType]==="resin"?"Resin PD1":"EM2";
     const state=r.percent>=100?"done":r.percent>0?"partial":"zero";
-    return `<div class="progress-row">
-      <div class="progress-form-name">${esc(r.tank)}<small>${esc(dept)} · ${esc(label)}</small></div>
+    const displayTank=r.groupType==="slurry"
+      ? ((slurryTankDescriptions[r.tank]||r.tank).split(/\s+/)[0]||r.tank)
+      : r.tank;
+    return `<div class="progress-row row-${state}">
+      <div class="progress-form-name">${esc(displayTank)}<small>${esc(dept)} · ${esc(label)}</small></div>
       <div><span class="progress-group-badge">${esc(label)}</span></div>
       <div class="progress-bar-wrap" title="${r.done} / ${r.total} รายการ"><div class="progress-bar ${state}" style="width:${Math.max(0,Math.min(100,r.percent))}%"></div></div>
-      <div class="progress-percent">${r.percent}%</div>
+      <div class="progress-percent ${state}">${r.percent}%</div>
       <div class="progress-checks">${r.done}/${r.total} · OK ${r.ok} / NO ${r.no}</div>
     </div>`;
   }).join("");
@@ -2495,7 +3057,14 @@ function updateEquipmentSelect(){
   const list=tankGroupMapping[activeTankType]||[];
   const current=activeTankName||'';
   sel.innerHTML='<option value="">-- เลือกอุปกรณ์ --</option>';
-  list.forEach(v=>sel.add(new Option(v,v)));
+  list.forEach(v=>{
+    // For Slurry, show only the tank name (T5210–T5261) in the selector.
+    // Keep the internal option value (SLU-001…SLU-020) unchanged for existing logic.
+    const label=activeTankType==="slurry"
+      ? ((slurryTankDescriptions[v]||v).split(/\s+/)[0] || v)
+      : v;
+    sel.add(new Option(label,v));
+  });
   if(list.includes(current))sel.value=current;
 }
 /* ---------- GROUP PDF EXPORT ---------- */
@@ -2554,6 +3123,7 @@ function exportCurrentGroupPDF(){
     silo:"Silo Powder",
     hopper:"Hopper Powder",
     diverter:"2-Way Diverter",
+    slurry:"Slurry",
     thinning:"Thinning Tank",
     reactor:"Reactor"
   }[groupType]||groupType;
