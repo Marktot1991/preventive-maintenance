@@ -1705,6 +1705,7 @@ html[data-theme=dark] .progress-repair-status.clear{color:#6be2b5}
       <div class="sidebar-section-label">DEPARTMENT / แผนก</div>
       <div class="dept-wrap">
         <select id="deptSelect" class="dept-selector" onchange="switchDept(this.value)">
+          <option value="em1">EM1</option>
           <option value="em2">EM2</option>
           <option value="resin">Resin PD1</option>
         </select>
@@ -1721,6 +1722,7 @@ html[data-theme=dark] .progress-repair-status.clear{color:#6be2b5}
         <button type="button" class="sidebar-link tank-nav" data-type="hopper" onclick="selectCategory('hopper')"><i class="fa-solid fa-filter"></i><span class="menu-label">Hopper Powder</span></button>
         <button type="button" class="sidebar-link tank-nav" data-type="diverter" onclick="selectCategory('diverter')"><i class="fa-solid fa-code-branch"></i><span class="menu-label">2-Way Diverter</span></button>
         <button type="button" class="sidebar-link tank-nav" data-type="slurry" onclick="selectCategory('slurry')"><i class="fa-solid fa-water"></i><span class="menu-label">Slurry</span></button>
+        <button type="button" class="sidebar-link tank-nav" data-type="fmu" onclick="selectCategory('fmu')"><i class="fa-solid fa-gauge-high"></i><span class="menu-label">Flow Meter Unit</span></button>
         <button type="button" class="sidebar-link tank-nav resin-only" data-type="thinning" onclick="selectCategory('thinning')"><i class="fa-solid fa-flask-vial"></i><span class="menu-label">Thinning Tank</span></button>
         <button type="button" class="sidebar-link tank-nav resin-only" data-type="reactor" onclick="selectCategory('reactor')"><i class="fa-solid fa-atom"></i><span class="menu-label">Reactor</span></button>
 
@@ -1766,6 +1768,9 @@ html[data-theme=dark] .progress-repair-status.clear{color:#6be2b5}
         <select id="hopperSelect" onchange="switchTank('hopper')"><option value="">-- เลือกถัง --</option></select>
         <select id="diverterSelect" onchange="switchTank('diverter')"><option value="">-- เลือกตัว --</option></select>
         <select id="slurrySelect" onchange="switchTank('slurry')"><option value="">-- เลือก Slurry --</option></select>
+      </div>
+      <div class="tank-controls hidden" id="em1-controls">
+        <select id="fmuSelect" onchange="switchTank('fmu')"><option value="">-- เลือก Unit --</option></select>
       </div>
       <div class="tank-controls hidden" id="resin-controls">
         <select id="thinningSelect" onchange="switchTank('thinning')"><option value="">-- เลือกถัง --</option></select>
@@ -1946,7 +1951,92 @@ const diverterTanks = ['XV1110','XV1111','XV1112','XV1113','XV1114','XV1115','XV
 const resinThinningTanks = ['T-111', 'T-141'];
 const resinReactorTanks = ['R-111', 'R-141'];
 const slurryTanks=Array.from({length:20},(_,i)=>`SLU-${String(i+1).padStart(3,"0")}`);
-const tankGroupMapping={deluting:delutingTanks, delicel:delicelTanks, additive:additiveTanks, updown:updownTanks, tankfarm2:tankfarm2Tanks, surpressor:surpressorTanks, silo:siloPowderTanks, hopper:hopperPowderTanks, diverter:diverterTanks, slurry:slurryTanks, thinning:resinThinningTanks, reactor:resinReactorTanks};
+const fmuTanks = ["FMU-001", "FMU-002", "FMU-003", "FMU-004", "FMU-005", "FMU-006"];
+const t_em1_fmu_full = [
+  {i:1, n:"ตรวจเช็คการทํางานของ Flow", s:"อ่านค่าที่ Transmitter และBatch ปกติ", p:"6M"},
+  {i:2, n:"ตรวจเช็คสภาพสายไฟ", s:"ยึดแน่นไม่หลุด/หลวม ฉนวนไม่ขาด", p:"6M"},
+  {i:3, n:"ตรวจสอบหน้าจอแสดงผล", s:"มองเห็นชัด ไม่ดับ", p:"6M"},
+  {i:4, n:"ตรวจสอบฝาครอบ", s:"ปิดสนิท ไม่มีน้ำซึมเข้าภายใน", p:"6M"},
+  {i:5, n:"ตรวจสอบ Housing", s:"ไม่แตกหัก", p:"6M"}
+];
+const t_em1_fmu_batch = [
+  {i:1, n:"ตรวจเช็คการทํางานของ Flow", s:"อ่านค่าที่ Batch ปกติ", p:"6M"},
+  {i:2, n:"ตรวจเช็คสภาพสายไฟ", s:"ยึดแน่นไม่หลุด/หลวม ฉนวนไม่ขาด", p:"6M"},
+  {i:3, n:"ตรวจสอบฝาครอบ", s:"ปิดสนิท ไม่มีน้ำซึมเข้าภายใน", p:"6M"},
+  {i:4, n:"ตรวจสอบ Housing", s:"ไม่แตกหัก", p:"6M"}
+];
+const em1Equipments = {
+  "FMU-001": [
+    {id:"IFMT011001", desc:"BEM1-FMT001 Flow meter RS010001(S101)", tType:5},
+    {id:"IFMT011001.1", desc:"BEM1-FMT001 Batch controller", tType:5},
+    {id:"IFMT011001.2", desc:"BEM1-FMT001 Pneumatic ON/OFF Valve", tType:5},
+    {id:"IFMT011002", desc:"BEM1-FMT002 Flow meter RS030002(5305)", tType:4},
+    {id:"IFMT011002.1", desc:"BEM1-FMT002 Batch controller", tType:4},
+    {id:"IFMT011002.2", desc:"BEM1-FMT002 Pneumatic ON/OFF Valve", tType:4},
+    {id:"IFMT011003", desc:"BEM1-FMT003 Flow meter RS070015(5700)", tType:5},
+    {id:"IFMT011003.1", desc:"BEM1-FMT003 Batch controller", tType:5},
+    {id:"IFMT011003.2", desc:"BEM1-FMT003 Pneumatic ON/OFF Valve", tType:5}
+  ],
+  "FMU-002": [
+    {id:"IFMT011005", desc:"BEM1-FMT005 Flow meter RA080001(A702)", tType:5},
+    {id:"IFMT011005.1", desc:"BEM1-FMT005 Batch controller", tType:5},
+    {id:"IFMT011005.2", desc:"BEM1-FMT005 Pneumatic ON/OFF Valve", tType:5},
+    {id:"IFMT011006", desc:"BEM1-FMT006 Flow meter RS010001(S101)", tType:4},
+    {id:"IFMT011006.1", desc:"BEM1-FMT006 Batch controller", tType:4},
+    {id:"IFMT011006.2", desc:"BEM1-FMT006 Pneumatic ON/OFF Valve", tType:4}
+  ],
+  "FMU-003": [
+    {id:"IFMT011009", desc:"BEM1-FMT009 Flow meter RS010001(S101)", tType:5},
+    {id:"IFMT011009.1", desc:"BEM1-FMT009 Batch controller", tType:5},
+    {id:"IFMT011009.2", desc:"BEM1-FMT009 Pneumatic ON/OFF Valve", tType:5},
+    {id:"IFMT011010", desc:"BEM1-FMT010 Flow meter RS030002(5305)", tType:4},
+    {id:"IFMT011010.1", desc:"BEM1-FMT010 Batch controller", tType:4},
+    {id:"IFMT011010.2", desc:"BEM1-FMT010 Pneumatic ON/OFF Valve", tType:4},
+    {id:"IFMT011011", desc:"BEM1-FMT011 Flow meter RS070015(5700)", tType:5},
+    {id:"IFMT011011.1", desc:"BEM1-FMT011 Batch controller", tType:5},
+    {id:"IFMT011011.2", desc:"BEM1-FMT011 Pneumatic ON/OFF Valve", tType:5}
+  ],
+  "FMU-004": [
+    {id:"IFMT011012", desc:"BEM1-FMT012 Flow meter RS070015(5700)", tType:4},
+    {id:"IFMT011012.1", desc:"BEM1-FMT012 Batch controller", tType:4},
+    {id:"IFMT011012.2", desc:"BEM1-FMT012 Pneumatic ON/OFF Valve", tType:4},
+    {id:"IFMT011013", desc:"BEM1-FMT013 Flow meter RS030002(5305)", tType:4},
+    {id:"IFMT011013.1", desc:"BEM1-FMT013 Batch controller", tType:4},
+    {id:"IFMT011013.2", desc:"BEM1-FMT013 Pneumatic ON/OFF Valve", tType:4},
+    {id:"IFMT011014", desc:"BEM1-FMT014 Flow meter RS010001(S101)", tType:5},
+    {id:"IFMT011014.1", desc:"BEM1-FMT014 Batch controller", tType:5},
+    {id:"IFMT011014.2", desc:"BEM1-FMT014 Pneumatic ON/OFF Valve", tType:5},
+    {id:"IFMT011015", desc:"BEM1-FMT015 Flow meter RA080001(A702)", tType:5},
+    {id:"IFMT011015.1", desc:"BEM1-FMT015 Batch controller", tType:5},
+    {id:"IFMT011015.2", desc:"BEM1-FMT015 Pneumatic ON/OFF Valve", tType:5}
+  ],
+  "FMU-005": [
+    {id:"IFMT011016", desc:"BEM1-FMT016 Flow meter RS010001(S101)", tType:4},
+    {id:"IFMT011016.1", desc:"BEM1-FMT016 Batch controller", tType:4},
+    {id:"IFMT011016.2", desc:"BEM1-FMT016 Pneumatic ON/OFF Valve", tType:4},
+    {id:"IFMT011017", desc:"BEM1-FMT017 Flow meter RS030002(5305)", tType:4},
+    {id:"IFMT011017.1", desc:"BEM1-FMT017 Batch controller", tType:4},
+    {id:"IFMT011017.2", desc:"BEM1-FMT017 Pneumatic ON/OFF Valve", tType:4},
+    {id:"IFMT011018", desc:"BEM1-FMT018 Flow meter RS070015(5700)", tType:4},
+    {id:"IFMT011018.1", desc:"BEM1-FMT018 Batch controller", tType:4},
+    {id:"IFMT011018.2", desc:"BEM1-FMT018 Pneumatic ON/OFF Valve", tType:4}
+  ],
+  "FMU-006": [
+    {id:"IFMT011019", desc:"BEM1-FMT019 Flow meter RA080001(A702)", tType:5},
+    {id:"IFMT011019.1", desc:"BEM1-FMT019 Batch controller", tType:5},
+    {id:"IFMT011019.2", desc:"BEM1-FMT019 Pneumatic ON/OFF Valve", tType:5},
+    {id:"IFMT011020", desc:"BEM1-FMT020 Flow meter RS030002(5305)", tType:4},
+    {id:"IFMT011020.1", desc:"BEM1-FMT020 Batch controller", tType:4},
+    {id:"IFMT011020.2", desc:"BEM1-FMT020 Pneumatic ON/OFF Valve", tType:4},
+    {id:"IFMT011021", desc:"BEM1-FMT021 Flow meter RS070015(5700)", tType:4},
+    {id:"IFMT011021.1", desc:"BEM1-FMT021 Batch controller", tType:4},
+    {id:"IFMT011021.2", desc:"BEM1-FMT021 Pneumatic ON/OFF Valve", tType:4},
+    {id:"IFMT011022", desc:"BEM1-FMT022 Flow meter CB021LT219", tType:5},
+    {id:"IFMT011022.1", desc:"BEM1-FMT022 Batch controller", tType:5},
+    {id:"IFMT011022.2", desc:"BEM1-FMT022 Pneumatic ON/OFF Valve", tType:5}
+  ]
+};
+const tankGroupMapping={deluting:delutingTanks, delicel:delicelTanks, additive:additiveTanks, updown:updownTanks, tankfarm2:tankfarm2Tanks, surpressor:surpressorTanks, silo:siloPowderTanks, hopper:hopperPowderTanks, diverter:diverterTanks, fmu:fmuTanks, slurry:slurryTanks, thinning:resinThinningTanks, reactor:resinReactorTanks};
 
 // Slurry PM checksheet imported from "PM Checksheet_Slurry.pdf" (20 locations, 116 equipment sections).
 const slurryTankDescriptions={"SLU-001":"T5210 Slurry","SLU-002":"T5211 Slurry","SLU-003":"T5220 Slurry","SLU-004":"T5221 Slurry","SLU-005":"T5230 Slurry","SLU-006":"T5231 Slurry","SLU-007":"T5240 Slurry","SLU-008":"T5241 Slurry","SLU-009":"T5250 Slurry","SLU-010":"T5251 Slurry","SLU-011":"T5252 Slurry","SLU-012":"T5253 Slurry","SLU-013":"T5254 Slurry","SLU-014":"T5255 Slurry","SLU-015":"T5256 Slurry","SLU-016":"T5257 Slurry","SLU-017":"T5258 Slurry","SLU-018":"T5259 Slurry","SLU-019":"T5260 Slurry","SLU-020":"T5261 Slurry"};
@@ -2243,9 +2333,11 @@ function startApp(){
   activeTankType=dbData.lastSavedTankType||"deluting";
   activeTankName=dbData.lastSavedTank||"T5110";
   const isResin = ['thinning', 'reactor'].includes(activeTankType);
-  document.getElementById("deptSelect").value = isResin ? 'resin' : 'em2';
-  switchDept(isResin ? 'resin' : 'em2', true);
-  ["deluting","delicel","additive","updown","tankfarm2","surpressor","silo","hopper","diverter","slurry","thinning","reactor"].forEach(t=>{const e=document.getElementById(t+"Select");if(e)e.value=t===activeTankType?activeTankName:""});
+  const isEm1 = ['fmu'].includes(activeTankType);
+  const startDept = isResin ? 'resin' : (isEm1 ? 'em1' : 'em2');
+  document.getElementById("deptSelect").value = startDept;
+  switchDept(startDept, true);
+  ["deluting","delicel","additive","updown","tankfarm2","surpressor","silo","hopper","diverter","slurry","thinning","reactor","fmu"].forEach(t=>{const e=document.getElementById(t+"Select");if(e)e.value=t===activeTankType?activeTankName:""});
   updateSidebarForDept();
   updateEquipmentSelect();
   updateSidebarActive();
@@ -2293,15 +2385,18 @@ async function requestPasswordHelp(){
 
 function switchDept(dept, preventClear) {
   activeDepartment = dept;
+  document.getElementById("em1-controls").classList.add("hidden");
+  document.getElementById("em2-controls").classList.add("hidden");
+  document.getElementById("resin-controls").classList.add("hidden");
   if(dept === 'resin'){
-    document.getElementById("em2-controls").classList.add("hidden");
     document.getElementById("resin-controls").classList.remove("hidden");
+  } else if(dept === 'em1'){
+    document.getElementById("em1-controls").classList.remove("hidden");
   } else {
-    document.getElementById("resin-controls").classList.add("hidden");
     document.getElementById("em2-controls").classList.remove("hidden");
   }
   if(!preventClear) { activeTankType = ""; activeTankName = ""; }
-  ["deluting","delicel","additive","updown","tankfarm2","surpressor","silo","hopper","diverter","slurry","thinning","reactor"].forEach(t=>{const e=document.getElementById(t+"Select");if(e)e.value=""});
+  ["deluting","delicel","additive","updown","tankfarm2","surpressor","silo","hopper","diverter","slurry","thinning","reactor","fmu"].forEach(t=>{const e=document.getElementById(t+"Select");if(e)e.value=""});
   document.getElementById("deptSelect").value=dept;
   updateSidebarForDept();
   updateEquipmentSelect();
@@ -2312,7 +2407,7 @@ function switchDept(dept, preventClear) {
 function switchTank(type){
   const el=document.getElementById(type+"Select");if(!el||!el.value)return;
   activeTankType=type;activeTankName=el.value;
-  ["deluting","delicel","additive","updown","tankfarm2","surpressor","silo","hopper","diverter","slurry","thinning","reactor"].forEach(t=>{if(t!==type){const e=document.getElementById(t+"Select");if(e)e.value=""}});
+  ["deluting","delicel","additive","updown","tankfarm2","surpressor","silo","hopper","diverter","slurry","thinning","reactor","fmu"].forEach(t=>{if(t!==type){const e=document.getElementById(t+"Select");if(e)e.value=""}});
   if(currentRole!=="view")saveMany([{key:"lastSavedTankType",value:type},{key:"lastSavedTank",value:activeTankName}]).catch(console.error);
   updateEquipmentSelect();
   updateSidebarActive();
@@ -2478,7 +2573,8 @@ const RESIN_TASK_LISTS={psv:tr_psv,temp:tr_temp,sv:tr_sv,rota:tr_rota,ft:tr_ft,p
 
 function renderForm(){
   const deptDisplay = document.getElementById("dept-display");
-  if(activeDepartment === "resin") deptDisplay.textContent = "Department : Resin PD1";
+  if(activeDepartment === "em1") deptDisplay.textContent = "Department : Emulsion 1";
+  else if(activeDepartment === "resin") deptDisplay.textContent = "Department : Resin PD1";
   else deptDisplay.textContent = "Department : Emulsion 2";
   if(!activeTankName){document.getElementById("checklist-container").innerHTML="";return}
   ["orderNo","orderType","orderActivity","desc","workCenter","supervisor","sysStatus","userStatus","releaseDate","pmDate","pmNextDate"].forEach(id=>document.getElementById(id).value=dbData[`${activeTankName}_header_${id}`]||"");
@@ -2486,7 +2582,17 @@ function renderForm(){
   let h="";
   const fl=document.getElementById("fl-display"),ed=document.getElementById("equipment-desc-display");
   
-  if(activeDepartment === "resin") {
+  if (activeDepartment === "em1") {
+    if(activeTankType === "fmu") {
+      fl.textContent = `Functional Location : T-M-01-00-${activeTankName}`;
+      ed.textContent = `Description : Flow Meter Unit ${activeTankName.split('-')[1].replace(/^0+/, '')}`;
+      const equips = em1Equipments[activeTankName] || [];
+      equips.forEach(eq => {
+        const tasks = eq.tType === 5 ? t_em1_fmu_full : t_em1_fmu_batch;
+        h += buildSection(eq.id, eq.desc, tasks, eq.id, activeTankName);
+      });
+    }
+  } else if(activeDepartment === "resin") {
     const p = x => { let [e,d,t] = x.split('|'); return {e, d, t:RESIN_TASK_LISTS[t]} };
     if(activeTankType === "thinning") {
       fl.textContent = activeTankName === 'T-111' ? "Functional Location : T-M-03-03-TTN-001" : "Functional Location : T-M-03-03-TTN-002";
@@ -2569,7 +2675,7 @@ function renderForm(){
 function fillSelect(id,arr){const s=document.getElementById(id);arr.forEach(x=>s.add(new Option(x,x)))}
 function initSelectors(){
   fillSelect("delutingSelect",delutingTanks);fillSelect("delicelSelect",delicelTanks);fillSelect("additiveSelect",additiveTanks);fillSelect("updownSelect",updownTanks);fillSelect("tankfarm2Select",tankfarm2Tanks);fillSelect("surpressorSelect",surpressorTanks);fillSelect("siloSelect",siloPowderTanks);fillSelect("hopperSelect",hopperPowderTanks);fillSelect("diverterSelect",diverterTanks);
-  fillSelect("thinningSelect",resinThinningTanks);fillSelect("reactorSelect",resinReactorTanks);fillSelect("slurrySelect",slurryTanks);
+  fillSelect("thinningSelect",resinThinningTanks);fillSelect("reactorSelect",resinReactorTanks);fillSelect("slurrySelect",slurryTanks);fillSelect("fmuSelect",fmuTanks);
 }
 
 function toggleSidebar(){
@@ -2591,9 +2697,9 @@ function toggleSidebar(){
   }
 }
 function sidebarCategoryVisible(type){
-  return activeDepartment==='em2'
-    ? !['thinning','reactor'].includes(type)
-    : ['thinning','reactor'].includes(type);
+  if(activeDepartment==='em1') return ['fmu'].includes(type);
+  if(activeDepartment==='resin') return ['thinning','reactor'].includes(type);
+  return !['thinning','reactor','fmu'].includes(type);
 }
 function updateSidebarForDept(){
   document.querySelectorAll('.tank-nav').forEach(btn=>{
@@ -2635,6 +2741,7 @@ function showPMProgress(){
 }
 
 const pmProgressGroupLabels={
+  fmu:"Flow Meter Unit",
   deluting:"Letdown Tanks",
   delicel:"Delicel Tanks",
   additive:"Additive Tanks",
@@ -2646,9 +2753,11 @@ const pmProgressGroupLabels={
   diverter:"2-Way Diverter",
   slurry:"Slurry",
   thinning:"Thinning Tank",
-  reactor:"Reactor"
+  reactor:"Reactor",
+  fmu:"Flow Meter Unit"
 };
 const pmProgressDeptByGroup={
+  fmu:"em1",
   deluting:"em2",delicel:"em2",additive:"em2",updown:"em2",tankfarm2:"em2",surpressor:"em2",silo:"em2",hopper:"em2",diverter:"em2",slurry:"em2",
   thinning:"resin",reactor:"resin"
 };
@@ -2753,9 +2862,7 @@ function aggregateProgressByGroup(rows){
 }
 
 function renderDepartmentPanel(dept,rows){
-  const labels=dept==="em2"
-    ? {name:"EM2",title:"Emulsion 2",icon:"fa-industry"}
-    : {name:"Resin PD1",title:"Resin PD1",icon:"fa-flask-vial"};
+  const labels=dept==="em1"?{name:"EM1",title:"Emulsion 1",icon:"fa-industry"}:dept==="em2"?{name:"EM2",title:"Emulsion 2",icon:"fa-industry"}:{name:"Resin PD1",title:"Resin PD1",icon:"fa-flask-vial"};
 
   const total=rows.reduce((a,r)=>a+r.total,0);
   const done=rows.reduce((a,r)=>a+r.done,0);
@@ -2805,9 +2912,7 @@ function renderDepartmentPanel(dept,rows){
 }
 
 function renderRepairDepartmentPanel(dept,rows){
-  const labels=dept==="em2"
-    ? {name:"EM2",title:"Emulsion 2"}
-    : {name:"Resin PD1",title:"Resin PD1"};
+  const labels=dept==="em1"?{name:"EM1",title:"Emulsion 1"}:dept==="em2"?{name:"EM2",title:"Emulsion 2"}:{name:"Resin PD1",title:"Resin PD1"};
 
   const total=rows.reduce((a,r)=>a+r.total,0);
   const no=rows.reduce((a,r)=>a+r.no,0);
@@ -2883,6 +2988,7 @@ function renderPMVisualCharts(rows,em2Rows,resinRows,filteredDept){
   if(!barRoot||!donutRoot||!areaRoot)return;
 
   const deptData=[];
+  if(filteredDept==="all"||filteredDept==="em1")deptData.push({label:"EM1",rows:em1Rows});
   if(filteredDept==="all"||filteredDept==="em2")deptData.push({label:"EM2",rows:em2Rows});
   if(filteredDept==="all"||filteredDept==="resin")deptData.push({label:"Resin PD1",rows:resinRows});
   const stats=deptData.map(d=>({label:d.label,plan:d.rows.reduce((a,r)=>a+r.total,0),checked:d.rows.reduce((a,r)=>a+r.done,0)}));
@@ -2997,11 +3103,13 @@ function renderPMProgress(){
     </div>`;
 
   const filteredDept=document.getElementById("progressDeptFilter")?.value||"all";
+  const em1Rows=rows.filter(r=>pmProgressDeptByGroup[r.groupType]==="em1");
   const em2Rows=rows.filter(r=>pmProgressDeptByGroup[r.groupType]==="em2");
   const resinRows=rows.filter(r=>pmProgressDeptByGroup[r.groupType]==="resin");
   renderPMVisualCharts(rows,em2Rows,resinRows,filteredDept);
 
   let panels="";
+  if(filteredDept==="all"||filteredDept==="em1")panels+=renderDepartmentPanel("em1",em1Rows);
   if(filteredDept==="all"||filteredDept==="em2")panels+=renderDepartmentPanel("em2",em2Rows);
   if(filteredDept==="all"||filteredDept==="resin")panels+=renderDepartmentPanel("resin",resinRows);
   deptGrid.innerHTML=panels || '<div class="progress-empty">ไม่พบข้อมูลตามเงื่อนไขที่เลือก</div>';
@@ -3009,6 +3117,7 @@ function renderPMProgress(){
   const repairGrid=document.getElementById("progress-repair-grid");
   if(repairGrid){
     let repairPanels="";
+    if(filteredDept==="all"||filteredDept==="em1")repairPanels+=renderRepairDepartmentPanel("em1",em1Rows);
     if(filteredDept==="all"||filteredDept==="em2")repairPanels+=renderRepairDepartmentPanel("em2",em2Rows);
     if(filteredDept==="all"||filteredDept==="resin")repairPanels+=renderRepairDepartmentPanel("resin",resinRows);
     repairGrid.innerHTML=repairPanels || '<div class="progress-repair-empty">ไม่พบข้อมูลตามเงื่อนไขที่เลือก</div>';
@@ -3022,7 +3131,7 @@ function renderPMProgress(){
   rows.sort((a,b)=>a.percent-b.percent || a.groupType.localeCompare(b.groupType) || a.tank.localeCompare(b.tank));
   rowsEl.innerHTML=rows.map(r=>{
     const label=pmProgressGroupLabels[r.groupType]||r.groupType;
-    const dept=pmProgressDeptByGroup[r.groupType]==="resin"?"Resin PD1":"EM2";
+    const dept=pmProgressDeptByGroup[r.groupType]==="em1"?"EM1":pmProgressDeptByGroup[r.groupType]==="resin"?"Resin PD1":"EM2";
     const state=r.percent>=100?"done":r.percent>0?"partial":"zero";
     const displayTank=r.groupType==="slurry"
       ? ((slurryTankDescriptions[r.tank]||r.tank).split(/\s+/)[0]||r.tank)
@@ -3060,9 +3169,9 @@ function updateEquipmentSelect(){
   list.forEach(v=>{
     // For Slurry, show only the tank name (T5210–T5261) in the selector.
     // Keep the internal option value (SLU-001…SLU-020) unchanged for existing logic.
-    const label=activeTankType==="slurry"
+    const label = activeTankType === "slurry"
       ? ((slurryTankDescriptions[v]||v).split(/\s+/)[0] || v)
-      : v;
+      : (activeTankType === "fmu" ? "Flow Meter Unit " + parseInt(v.split("-")[1], 10) : v);
     sel.add(new Option(label,v));
   });
   if(list.includes(current))sel.value=current;
@@ -3114,7 +3223,8 @@ function exportCurrentGroupPDF(){
 
   // Helpful title shown only on the first printed page.
   const groupLabel={
-    deluting:"Letdown Tanks",
+    fmu:"Flow Meter Unit",
+  deluting:"Letdown Tanks",
     delicel:"Delicel Tanks",
     additive:"Additive Tanks",
     updown:"Up Down Mixer",
@@ -3125,7 +3235,8 @@ function exportCurrentGroupPDF(){
     diverter:"2-Way Diverter",
     slurry:"Slurry",
     thinning:"Thinning Tank",
-    reactor:"Reactor"
+    reactor:"Reactor",
+  fmu:"Flow Meter Unit"
   }[groupType]||groupType;
 
   uniqueTanks.forEach((tank,index)=>{
