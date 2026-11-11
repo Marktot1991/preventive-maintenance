@@ -288,7 +288,7 @@ html[data-theme=dark] .equipment-selector{background:#172732}
 table{width:100%;border-collapse:collapse;margin-bottom:10px;font-size:14px;line-height:1.45}th,td{border:1px solid #c9d1d9;padding:7px 8px;vertical-align:middle}
 html[data-theme=dark] th,html[data-theme=dark] td{border-color:#55636e}
 .header-bg{background:var(--table-header);font-weight:800;text-align:center}.sub-header-bg{background:var(--table-subheader)}
-input[type=text],input[type=date]{width:100%;border:1px solid #ccc;padding:5px;font:inherit;background:var(--surface-input);color:var(--text)}
+input[type=text],input[type=date],input[type=month]{width:100%;border:1px solid #ccc;padding:5px;font:inherit;background:var(--surface-input);color:var(--text)}
 .borderless-input{border:0!important;background:transparent!important;outline:0}.borderless-input:focus{background:#ffffcc!important;color:#1f2937}
 .radio-center,.text-center{text-align:center}
 .radio-ok,.radio-no{transform:scale(1.45);cursor:pointer;margin:0}
@@ -1009,27 +1009,11 @@ html[data-theme=dark] .progress-repair-status.clear{color:#6be2b5}
 }
 
 /* ---------- PRINT / PDF ---------- */
-
-
-
-
-
-
-/*
- * PDF / A4 rules
- * - PDF is ALWAYS light/white, even when the application is in dark mode.
- * - The outer form frame is intentionally BLACK and THICK.
- * - Every table/cell border is BLACK so Chrome/Edge PDF export cannot inherit
- *   the dark-theme gray borders.
- * - The generated print group contains one selected equipment group per page.
- */
 @media print{
   @page{
     size:A4 portrait;
     margin:5mm;
   }
-
-  /* Never allow dark-mode variables/backgrounds to leak into the PDF. */
   html,
   body,
   body.printing-group{
@@ -1040,23 +1024,15 @@ html[data-theme=dark] .progress-repair-status.clear{color:#6be2b5}
     margin:0!important;
     padding:0!important;
   }
-
-  /* Hide application chrome. */
   #login-screen,
   .sidebar,
   .app-topbar,
   #loading{
     display:none!important;
   }
-
-  /*
-   * During export, the normal dashboard is hidden and only the generated
-   * print group remains visible.
-   */
   body.printing-group > *:not(#print-group-container){
     display:none!important;
   }
-
   body.printing-group #print-group-container{
     display:block!important;
     width:100%!important;
@@ -1072,7 +1048,6 @@ html[data-theme=dark] .progress-repair-status.clear{color:#6be2b5}
     box-shadow:none!important;
     outline:0!important;
   }
-
   body.printing-group #print-group-container .print-group-item{
     display:block!important;
     width:100%!important;
@@ -1089,20 +1064,13 @@ html[data-theme=dark] .progress-repair-status.clear{color:#6be2b5}
     page-break-after:always;
     break-after:page;
   }
-
   body.printing-group #print-group-container .print-group-item:last-child{
     page-break-after:auto;
     break-after:auto;
   }
-
   body.printing-group #print-group-container .print-group-title{
     display:none!important;
   }
-
-  /*
-   * The PDF should contain only the PM form itself.
-   * Remove the outer wrapper/frame; keep all internal table borders.
-   */
   body.printing-group #print-group-container .page-container{
     display:block!important;
     width:100%!important;
@@ -1113,26 +1081,18 @@ html[data-theme=dark] .progress-repair-status.clear{color:#6be2b5}
     background:#fff!important;
     background-color:#fff!important;
     color:#111!important;
-
     border:0!important;
     border-radius:0!important;
     box-shadow:none!important;
     -webkit-box-shadow:none!important;
     outline:none!important;
   }
-
-  /* Remove effects that can make the PDF inherit dark UI styling. */
   body.printing-group #print-group-container *{
     box-shadow:none!important;
     -webkit-box-shadow:none!important;
     text-shadow:none!important;
     filter:none!important;
   }
-
-  /*
-   * Tables are the actual PM form grid.
-   * Use a solid BLACK 1px border everywhere, including dark mode.
-   */
   body.printing-group #print-group-container table{
     width:100%!important;
     border-collapse:collapse!important;
@@ -1146,11 +1106,9 @@ html[data-theme=dark] .progress-repair-status.clear{color:#6be2b5}
     page-break-inside:avoid;
     break-inside:avoid;
   }
-
   body.printing-group #print-group-container table:last-child{
     margin-bottom:0!important;
   }
-
   body.printing-group #print-group-container th,
   body.printing-group #print-group-container td{
     border:1px solid #000!important;
@@ -1160,8 +1118,6 @@ html[data-theme=dark] .progress-repair-status.clear{color:#6be2b5}
     padding:2px 4px!important;
     vertical-align:middle!important;
   }
-
-  /* Main section headers. */
   body.printing-group #print-group-container .header-bg{
     background:#dbe2e8!important;
     background-color:#dbe2e8!important;
@@ -1169,15 +1125,11 @@ html[data-theme=dark] .progress-repair-status.clear{color:#6be2b5}
     font-weight:800!important;
     text-align:center!important;
   }
-
-  /* Secondary/date headers. */
   body.printing-group #print-group-container .sub-header-bg{
     background:#eef1f3!important;
     background-color:#eef1f3!important;
     color:#111!important;
   }
-
-  /* Inputs must print as their current values, never as dark controls. */
   body.printing-group #print-group-container input,
   body.printing-group #print-group-container select,
   body.printing-group #print-group-container textarea{
@@ -1189,8 +1141,6 @@ html[data-theme=dark] .progress-repair-status.clear{color:#6be2b5}
     font-size:10.5px!important;
     padding:0!important;
   }
-
-  /* Borderless data-entry fields remain visually borderless in the PDF. */
   body.printing-group #print-group-container .borderless-input{
     border:0!important;
     outline:0!important;
@@ -1198,11 +1148,6 @@ html[data-theme=dark] .progress-repair-status.clear{color:#6be2b5}
     color:#111!important;
     -webkit-text-fill-color:#111!important;
   }
-
-  /*
-   * Static status circles are used instead of native radio controls so the
-   * selected OK/NO state is reliable in Chrome/Edge print preview.
-   */
   body.printing-group #print-group-container .print-status-radio{
     display:inline-block!important;
     width:12px!important;
@@ -1218,15 +1163,12 @@ html[data-theme=dark] .progress-repair-status.clear{color:#6be2b5}
     box-sizing:border-box!important;
     background:#fff!important;
   }
-
   body.printing-group #print-group-container .print-status-radio.selected-ok{
     border-color:#16a34a!important;
   }
-
   body.printing-group #print-group-container .print-status-radio.selected-no{
     border-color:#ef3340!important;
   }
-
   body.printing-group #print-group-container .print-status-radio.selected-ok::after,
   body.printing-group #print-group-container .print-status-radio.selected-no::after{
     content:"";
@@ -1238,44 +1180,49 @@ html[data-theme=dark] .progress-repair-status.clear{color:#6be2b5}
     transform:translate(-50%,-50%);
     border-radius:50%;
   }
-
   body.printing-group #print-group-container .print-status-radio.selected-ok::after{
     background:#16a34a!important;
   }
-
   body.printing-group #print-group-container .print-status-radio.selected-no::after{
     background:#ef3340!important;
   }
-
   body.printing-group #print-group-container .radio-ok,
   body.printing-group #print-group-container .radio-no{
     display:none!important;
   }
-
-  /*
-   * Do not let the screen shadow/border rules reappear through the fallback
-   * application containers in print mode.
-   */
   #app-container,
   .app-main,
   .main-content,
   .page-container{
     box-shadow:none!important;
   }
-
-  /*
-   * Force browser print engines to preserve the black grid and header fills.
-   */
   *{
     -webkit-print-color-adjust:exact!important;
     print-color-adjust:exact!important;
+  }
+
+  /* --- FIX PDF ROUNDED CORNERS (NEW) --- */
+  body.printing-group #print-group-container,
+  body.printing-group #print-group-container * {
+    border-radius: 0 !important;
+    -webkit-border-radius: 0 !important;
+    overflow: visible !important;
+  }
+  body.printing-group #print-group-container .page-container::before {
+    display: none !important; /* ซ่อนแถบสีสันด้านบน */
+  }
+  body.printing-group #print-group-container table,
+  body.printing-group #print-group-container tr,
+  body.printing-group #print-group-container td,
+  body.printing-group #print-group-container th {
+    border-radius: 0 !important;
+    border-collapse: collapse !important;
   }
 }
 
 /* ---------- PRINT END ---------- */
 
 /* ---------- INDUSTRIAL DARK PM DASHBOARD THEME ---------- */
-/* Scoped to the PM Progress page; form entry, login and PDF print stay unchanged. */
 #pm-progress-page{
   --pm-bg:#071523;
   --pm-surface:#0d2133;
@@ -1673,11 +1620,486 @@ html[data-theme=dark] .progress-repair-status.clear{color:#6be2b5}
   #pm-progress-page .progress-bar.partial::after{animation:none!important;}
 }
 
+
+/* ---------- SYNC OVERLAY ---------- */
+#sync-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 999999;
+  background: rgba(255,255,255,0.7);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+html[data-theme=dark] #sync-overlay {
+  background: rgba(17, 27, 36, 0.75);
+}
+.sync-spinner {
+  width: 50px;
+  height: 50px;
+  border: 5px solid rgba(8, 183, 168, 0.2);
+  border-top-color: #08b7a8;
+  border-radius: 50%;
+  animation: syncSpin 0.8s linear infinite;
+  margin-bottom: 15px;
+}
+@keyframes syncSpin {
+  to { transform: rotate(360deg); }
+}
+.sync-text {
+  color: var(--text);
+  font-size: 18px;
+  font-weight: 800;
+}
+
+/* ============================================================
+   ✨ DIMENSIONAL & COLORFUL ENHANCEMENTS (NEW)
+   - เพิ่มมิติด้วย多层 shadows + gradients
+   - ไม่กระทบฟังก์ชันเดิม (Supabase, Print/PDF, logic ทั้งหมด)
+   ============================================================ */
+
+/* ---------- 1) LOGIN SCREEN : Animated gradient + Glassmorphism ---------- */
+#login-screen{
+  background:
+    radial-gradient(circle at 12% 18%, rgba(8,183,168,.28), transparent 42%),
+    radial-gradient(circle at 88% 82%, rgba(91,124,255,.22), transparent 42%),
+    radial-gradient(circle at 50% 50%, rgba(255,189,89,.10), transparent 55%),
+    linear-gradient(135deg, var(--login-bg-1), var(--login-bg-2));
+  overflow:hidden;
+}
+#login-screen::before{
+  content:"";
+  position:absolute;
+  width:520px;height:520px;
+  top:-160px;left:-160px;
+  border-radius:50%;
+  background:radial-gradient(circle,rgba(8,183,168,.35),transparent 65%);
+  filter:blur(40px);
+  animation:loginBlob1 14s ease-in-out infinite;
+  pointer-events:none;
+}
+#login-screen::after{
+  content:"";
+  position:absolute;
+  width:460px;height:460px;
+  bottom:-140px;right:-120px;
+  border-radius:50%;
+  background:radial-gradient(circle,rgba(91,124,255,.30),transparent 65%);
+  filter:blur(40px);
+  animation:loginBlob2 16s ease-in-out infinite;
+  pointer-events:none;
+}
+@keyframes loginBlob1{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(60px,40px) scale(1.12)}}
+@keyframes loginBlob2{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(-50px,-30px) scale(1.1)}}
+
+#login-container{
+  position:relative;
+  z-index:2;
+  background:linear-gradient(160deg,var(--login-card) 0%,#f4fefd 100%);
+  box-shadow:
+    0 25px 70px rgba(0,0,0,.28),
+    0 0 0 1px rgba(255,255,255,.7) inset,
+    0 1px 0 rgba(255,255,255,.9) inset;
+  backdrop-filter:blur(20px);
+  -webkit-backdrop-filter:blur(20px);
+  animation:cardFloat .8s cubic-bezier(.2,.85,.3,1) both;
+}
+@keyframes cardFloat{from{opacity:0;transform:translateY(20px) scale(.97)}to{opacity:1;transform:none}}
+html[data-theme=dark] #login-container{
+  background:linear-gradient(160deg,#1b2a35 0%,#223240 100%);
+  box-shadow:
+    0 25px 70px rgba(0,0,0,.55),
+    0 0 0 1px rgba(255,255,255,.06) inset;
+}
+
+.login-logo{
+  background:linear-gradient(135deg,#08b7a8 0%,#00a99d 45%,#5b7cff 100%);
+  box-shadow:
+    0 14px 30px rgba(0,126,147,.35),
+    0 0 0 5px rgba(8,183,168,.10),
+    0 2px 0 rgba(255,255,255,.35) inset;
+  animation:logoPulse 3.5s ease-in-out infinite;
+}
+@keyframes logoPulse{0%,100%{box-shadow:0 14px 30px rgba(0,126,147,.35),0 0 0 5px rgba(8,183,168,.10),0 2px 0 rgba(255,255,255,.35) inset}50%{box-shadow:0 14px 34px rgba(0,126,147,.45),0 0 0 8px rgba(8,183,168,.08),0 2px 0 rgba(255,255,255,.35) inset}}
+
+.login-title{
+  background:linear-gradient(135deg,#0c4a5c 0%,#007e93 50%,#08b7a8 100%);
+  -webkit-background-clip:text;
+  background-clip:text;
+  -webkit-text-fill-color:transparent;
+  color:transparent;
+  letter-spacing:.3px;
+}
+html[data-theme=dark] .login-title{
+  background:linear-gradient(135deg,#7cebdb 0%,#08b7a8 50%,#5bd6ff 100%);
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+}
+
+.login-input{
+  transition:all .22s ease;
+  box-shadow:0 1px 2px rgba(20,35,49,.04) inset;
+}
+.login-input:focus{
+  border-color:#08b7a8 !important;
+  box-shadow:
+    0 0 0 4px rgba(8,183,168,.15),
+    0 1px 4px rgba(8,183,168,.08) inset !important;
+  background:#f3fffd;
+}
+html[data-theme=dark] .login-input:focus{background:#17272f !important}
+
+.btn-login{
+  background:linear-gradient(135deg,#08b7a8 0%,#00a99d 45%,#008d84 100%);
+  box-shadow:
+    0 10px 24px rgba(0,141,132,.32),
+    0 0 0 1px rgba(255,255,255,.20) inset,
+    0 2px 0 rgba(255,255,255,.15) inset;
+  transition:all .22s cubic-bezier(.2,.85,.3,1);
+  letter-spacing:.4px;
+}
+.btn-login:hover{
+  transform:translateY(-2px);
+  box-shadow:
+    0 16px 32px rgba(0,141,132,.42),
+    0 0 0 1px rgba(255,255,255,.25) inset,
+    0 2px 0 rgba(255,255,255,.20) inset;
+}
+.btn-login:active{transform:translateY(0);box-shadow:0 6px 16px rgba(0,141,132,.30)}
+
+/* ---------- 2) SIDEBAR : Depth + Neon Accent ---------- */
+.sidebar{
+  background:linear-gradient(180deg,#2d4356 0%,#263a4b 45%,#1f2f3e 100%);
+  box-shadow:
+    6px 0 28px rgba(0,0,0,.20),
+    1px 0 0 rgba(255,255,255,.05) inset,
+    -2px 0 12px rgba(8,183,168,.04) inset;
+}
+html[data-theme=dark] .sidebar{
+  background:linear-gradient(180deg,#1d2f3d 0%,#172733 55%,#12202b 100%);
+  box-shadow:6px 0 30px rgba(0,0,0,.45),1px 0 0 rgba(255,255,255,.04) inset;
+}
+.sidebar-brand{
+  background:linear-gradient(135deg,rgba(8,183,168,.16) 0%,rgba(91,124,255,.05) 100%);
+  box-shadow:0 1px 0 rgba(255,255,255,.06) inset;
+}
+.brand-mark{
+  filter:drop-shadow(0 0 8px rgba(8,183,168,.55));
+  animation:brandGlow 3s ease-in-out infinite;
+}
+@keyframes brandGlow{0%,100%{filter:drop-shadow(0 0 6px rgba(8,183,168,.45))}50%{filter:drop-shadow(0 0 12px rgba(8,183,168,.85))}}
+
+.sidebar-link{
+  transition:all .18s ease;
+}
+.sidebar-link:hover{
+  background:linear-gradient(90deg,rgba(8,183,168,.14),rgba(8,183,168,.03) 60%,transparent);
+  color:#fff;
+  padding-left:20px;
+}
+.sidebar-link.active{
+  background:linear-gradient(90deg,#00a99d 0%,#008d84 60%,#067a72 100%);
+  box-shadow:
+    0 2px 0 rgba(255,255,255,.08) inset,
+    0 -2px 0 rgba(0,0,0,.10) inset,
+    0 4px 14px rgba(0,169,157,.32),
+    0 0 24px rgba(8,183,168,.16);
+}
+.sidebar-link.active:before{
+  background:linear-gradient(180deg,#2effe0,#0ad6c4,#08b7a8);
+  box-shadow:0 0 12px rgba(10,214,196,.75);
+  width:4px;
+}
+
+.dept-selector,.equipment-selector{
+  transition:all .2s ease;
+}
+.dept-selector:focus,.equipment-selector:focus{
+  box-shadow:
+    0 0 0 2px rgba(0,203,186,.35),
+    0 0 18px rgba(0,203,186,.18) !important;
+}
+
+/* ---------- 3) TOP BAR : Gradient + Glow ---------- */
+.app-topbar{
+  background:linear-gradient(180deg,#354a5d 0%,#2b3d4e 55%,#253545 100%);
+  box-shadow:
+    0 4px 18px rgba(0,0,0,.18),
+    0 1px 0 rgba(255,255,255,.07) inset,
+    0 -1px 0 rgba(0,0,0,.10) inset;
+}
+html[data-theme=dark] .app-topbar{
+  background:linear-gradient(180deg,#2b4055 0%,#243643 60%,#1f2d39 100%);
+}
+
+/* ---------- 4) MAIN FORM : Card depth + softer tables ---------- */
+.main-content{
+  background:
+    radial-gradient(ellipse at 10% 0%,rgba(8,183,168,.05),transparent 40%),
+    radial-gradient(ellipse at 90% 100%,rgba(91,124,255,.05),transparent 40%),
+    var(--body-bg);
+}
+html[data-theme=dark] .main-content{
+  background:
+    radial-gradient(ellipse at 10% 0%,rgba(8,183,168,.08),transparent 45%),
+    radial-gradient(ellipse at 90% 100%,rgba(91,124,255,.06),transparent 45%),
+    var(--body-bg);
+}
+
+.page-container{
+  background:linear-gradient(180deg,var(--surface) 0%,var(--surface-soft) 100%);
+  box-shadow:
+    0 6px 24px rgba(20,35,49,.10),
+    0 1px 0 rgba(255,255,255,.9) inset,
+    0 0 0 1px rgba(116,130,143,.08);
+  border-radius:12px;
+  position:relative;
+  overflow:hidden;
+}
+.page-container::before{
+  content:"";
+  position:absolute;
+  top:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,#08b7a8,#00a99d,#5b7cff,#08b7a8);
+  background-size:200% 100%;
+  animation:topAccent 6s linear infinite;
+}
+@keyframes topAccent{0%{background-position:0% 0}100%{background-position:200% 0}}
+
+/* Table styling with subtle depth */
+table{
+  border-radius:8px;
+  overflow:hidden;
+  box-shadow:0 1px 3px rgba(20,35,49,.05);
+}
+.header-bg{
+  background:linear-gradient(180deg,#e5ecf2 0%,#d5dfe7 100%);
+  text-shadow:0 1px 0 rgba(255,255,255,.65);
+  box-shadow:
+    0 1px 0 rgba(255,255,255,.55) inset,
+    0 -1px 0 rgba(0,0,0,.05) inset;
+  letter-spacing:.2px;
+}
+html[data-theme=dark] .header-bg{
+  background:linear-gradient(180deg,#3c4f5e 0%,#324552 100%);
+  text-shadow:0 1px 0 rgba(0,0,0,.35);
+}
+.sub-header-bg{
+  background:linear-gradient(180deg,#f6f9fb 0%,#eaf0f5 100%);
+}
+html[data-theme=dark] .sub-header-bg{
+  background:linear-gradient(180deg,#2e3d49 0%,#293845 100%);
+}
+
+th,td{
+  transition:background .15s ease;
+}
+tbody tr:hover td{
+  background:linear-gradient(180deg,rgba(8,183,168,.035),rgba(8,183,168,.02));
+}
+
+/* Inputs */
+input[type=text],input[type=date],input[type=month],input[type=email],input[type=password],input[type=search]{
+  transition:all .18s ease;
+  border-radius:5px;
+}
+input[type=text]:focus,input[type=date]:focus,input[type=month]:focus,
+input[type=email]:focus,input[type=password]:focus,input[type=search]:focus{
+  outline:none;
+  border-color:#08b7a8;
+  box-shadow:
+    0 0 0 3px rgba(8,183,168,.13),
+    0 1px 4px rgba(8,183,168,.08) inset;
+}
+.borderless-input:focus{
+  background:linear-gradient(180deg,#fffce8,#fff8d4) !important;
+  box-shadow:0 0 0 2px rgba(255,189,89,.35);
+}
+html[data-theme=dark] .borderless-input:focus{
+  background:linear-gradient(180deg,#3a3520,#2f2b1a) !important;
+  color:#fff3cf !important;
+  -webkit-text-fill-color:#fff3cf;
+}
+
+/* Radio buttons — vivid glow when checked */
+.radio-ok,.radio-no{
+  transition:all .18s ease;
+  filter:drop-shadow(0 1px 2px rgba(0,0,0,.10));
+}
+.radio-ok:hover{filter:drop-shadow(0 0 6px rgba(40,167,69,.55))}
+.radio-no:hover{filter:drop-shadow(0 0 6px rgba(220,53,69,.55))}
+.radio-ok:checked{filter:drop-shadow(0 0 8px rgba(40,167,69,.65))}
+.radio-no:checked{filter:drop-shadow(0 0 8px rgba(220,53,69,.65))}
+
+/* ---------- 5) PM PROGRESS DASHBOARD : Deeper glow ---------- */
+#pm-progress-page .progress-dashboard-hero{
+  box-shadow:
+    0 16px 40px rgba(0,0,0,.32),
+    0 0 60px rgba(8,183,168,.10),
+    inset 0 1px rgba(255,255,255,.06);
+  border-color:rgba(80,150,180,.35);
+}
+#pm-progress-page .progress-card{
+  transition:transform .22s cubic-bezier(.2,.85,.3,1),box-shadow .22s ease,border-color .22s ease;
+}
+#pm-progress-page .progress-card:hover{
+  transform:translateY(-3px) scale(1.01);
+  box-shadow:
+    0 16px 32px rgba(0,0,0,.28),
+    0 0 24px rgba(8,183,168,.10),
+    inset 0 1px rgba(255,255,255,.05) !important;
+}
+#pm-progress-page .progress-refresh-btn{
+  transition:all .2s ease;
+}
+#pm-progress-page .progress-refresh-btn:hover{
+  transform:translateY(-2px);
+  box-shadow:0 12px 26px rgba(23,195,164,.32),0 0 24px rgba(54,216,178,.20);
+}
+
+/* ---------- 6) SMOOTH SCROLL ---------- */
+html,body,*{scroll-behavior:smooth}
+
+/* ---------- 7) SYNC OVERLAY polish ---------- */
+#sync-overlay{
+  background:radial-gradient(circle at 50% 50%,rgba(8,183,168,.10),transparent 60%),rgba(255,255,255,.75);
+}
+html[data-theme=dark] #sync-overlay{
+  background:radial-gradient(circle at 50% 50%,rgba(8,183,168,.15),transparent 60%),rgba(17,27,36,.82);
+}
+.sync-spinner{
+  box-shadow:0 0 24px rgba(8,183,168,.35);
+}
+
+/* ---------- 8) HIDE NEW EFFECTS FROM PRINT / PDF ---------- */
+@media print{
+  #login-screen::before,#login-screen::after{display:none!important}
+  .page-container::before{display:none!important}
+  .page-container{box-shadow:none!important;background:#fff!important}
+  table{box-shadow:none!important}
+}
+/* ---------- END ENHANCEMENTS ---------- */
+
+/* ============================================================
+   ✨ PM PROGRESS 3D & GLASSMORPHISM ENHANCEMENTS (NEW)
+   ============================================================ */
+
+/* 1. พื้นหลังแบบ Tech Grid เพื่อเพิ่มมิติ */
+#pm-progress-page {
+  background: 
+    radial-gradient(ellipse at 50% -20%, #1a3e5c 0%, #071523 60%),
+    repeating-linear-gradient(0deg, transparent, transparent 39px, rgba(255,255,255,0.02) 40px),
+    repeating-linear-gradient(90deg, transparent, transparent 39px, rgba(255,255,255,0.02) 40px) !important;
+  background-size: 100% 100%, 40px 40px, 40px 40px !important;
+}
+
+/* 2. การ์ดหลัก (Hero & Summary) แบบ 3D */
+#pm-progress-page .progress-dashboard-hero {
+  box-shadow: 
+    0 20px 40px rgba(0,0,0,.4), 
+    0 0 0 1px rgba(255,255,255,.05) inset,
+    0 0 40px rgba(8,183,168,.15) !important;
+  transform: perspective(1000px) translateZ(0);
+  transition: transform .3s ease, box-shadow .3s ease;
+}
+#pm-progress-page .progress-dashboard-hero:hover {
+  transform: perspective(1000px) translateZ(10px);
+  box-shadow: 0 25px 50px rgba(0,0,0,.5), 0 0 50px rgba(8,183,168,.25) !important;
+}
+
+#pm-progress-page .progress-card {
+  background: linear-gradient(145deg, rgba(18,43,63,.9), rgba(10,25,40,.95)) !important;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,.08) !important;
+  box-shadow: 
+    0 10px 20px rgba(0,0,0,.3),
+    0 1px 0 rgba(255,255,255,.1) inset !important;
+}
+#pm-progress-page .progress-card:hover {
+  transform: translateY(-5px) scale(1.02) !important;
+  box-shadow: 
+    0 20px 30px rgba(0,0,0,.4),
+    0 0 25px rgba(54,216,178,.15),
+    0 1px 0 rgba(255,255,255,.2) inset !important;
+}
+
+/* 3. แผงแผนก (Department Panels) เพิ่มความลึก */
+#pm-progress-page .progress-dept-panel {
+  background: linear-gradient(160deg, rgba(14,36,55,.95), rgba(8,20,32,.98)) !important;
+  box-shadow: 
+    0 15px 35px rgba(0,0,0,.35),
+    0 0 0 1px rgba(54,216,178,.1) inset,
+    0 0 30px rgba(8,183,168,.05) !important;
+  border: 1px solid rgba(54,216,178,.2) !important;
+  transition: transform .3s ease, box-shadow .3s ease;
+}
+#pm-progress-page .progress-dept-panel:hover {
+  transform: translateY(-3px);
+  box-shadow: 
+    0 22px 45px rgba(0,0,0,.45),
+    0 0 0 1px rgba(54,216,178,.2) inset,
+    0 0 40px rgba(8,183,168,.1) !important;
+}
+
+/* 4. กราฟ (Charts) เพิ่ม Drop Shadow ให้ดูมีมิติ */
+#pm-progress-page .pm-visual-chart-panel {
+  background: linear-gradient(145deg, rgba(16,42,64,.95), rgba(8,25,40,.98)) !important;
+  box-shadow: 
+    0 15px 30px rgba(0,0,0,.4),
+    0 0 0 1px rgba(255,255,255,.05) inset !important;
+  border: 1px solid rgba(56,118,154,.3) !important;
+}
+#pm-progress-page .pm-visual-bar-chart svg,
+#pm-progress-page .pm-visual-donut-chart > div,
+#pm-progress-page .pm-visual-area-chart svg {
+  filter: drop-shadow(0 10px 15px rgba(0,0,0,.4));
+}
+
+/* 5. Progress Rows (แถบรายละเอียด) แบบ Glassmorphism 3D */
+#pm-progress-page .progress-row {
+  background: linear-gradient(100deg, rgba(20,50,75,.7), rgba(12,30,48,.8)) !important;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(76,150,190,.15) !important;
+  box-shadow: 
+    0 4px 10px rgba(0,0,0,.2),
+    0 1px 0 rgba(255,255,255,.05) inset !important;
+}
+#pm-progress-page .progress-row:hover {
+  transform: translateX(6px) scale(1.005) !important;
+  background: linear-gradient(100deg, rgba(26,65,95,.9), rgba(16,42,64,.95)) !important;
+  border-color: rgba(64,204,199,.5) !important;
+  box-shadow: 
+    0 10px 25px rgba(0,0,0,.35),
+    0 0 20px rgba(54,216,178,.1),
+    0 1px 0 rgba(255,255,255,.1) inset !important;
+}
+
+/* 6. แถบ Progress Bar ให้มี Glow */
+#pm-progress-page .progress-bar.done {
+  box-shadow: 
+    0 0 12px rgba(44,221,188,.5),
+    0 1px 2px rgba(0,0,0,.3) inset !important;
+}
+#pm-progress-page .progress-bar.partial {
+  box-shadow: 
+    0 0 12px rgba(247,178,67,.4),
+    0 1px 2px rgba(0,0,0,.3) inset !important;
+}
 </style>
+
 </head>
 
 <body>
 <div id="loading">กำลังบันทึก...</div>
+
+<div id="sync-overlay" class="hidden">
+  <div class="sync-spinner"></div>
+  <div class="sync-text">กำลังซิงค์ฐานข้อมูล...</div>
+</div>
 
 <div id="login-screen">
 <button type="button" id="login-theme-toggle" class="theme-toggle" onclick="toggleTheme()" title="สลับธีม"><i class="fa-solid fa-moon"></i></button>
@@ -1708,8 +2130,45 @@ html[data-theme=dark] .progress-repair-status.clear{color:#6be2b5}
           <option value="em1">EM1</option>
           <option value="em2">EM2</option>
           <option value="resin">Resin PD1</option>
+          <option value="wwt">WWT</option>
         </select>
       </div>
+
+      <style>.wwt-only{display:none;}
+/* ---------- SYNC OVERLAY ---------- */
+#sync-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 999999;
+  background: rgba(255,255,255,0.7);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+html[data-theme=dark] #sync-overlay {
+  background: rgba(17, 27, 36, 0.75);
+}
+.sync-spinner {
+  width: 50px;
+  height: 50px;
+  border: 5px solid rgba(8, 183, 168, 0.2);
+  border-top-color: #08b7a8;
+  border-radius: 50%;
+  animation: syncSpin 0.8s linear infinite;
+  margin-bottom: 15px;
+}
+@keyframes syncSpin {
+  to { transform: rotate(360deg); }
+}
+.sync-text {
+  color: var(--text);
+  font-size: 18px;
+  font-weight: 800;
+}
+</style>
 
       <nav class="sidebar-menu" aria-label="PM equipment menu">
         <button type="button" class="sidebar-link tank-nav" data-type="deluting" onclick="selectCategory('deluting')"><i class="fa-solid fa-flask"></i><span class="menu-label">Letdown Tanks</span></button>
@@ -1725,6 +2184,8 @@ html[data-theme=dark] .progress-repair-status.clear{color:#6be2b5}
         <button type="button" class="sidebar-link tank-nav" data-type="fmu" onclick="selectCategory('fmu')"><i class="fa-solid fa-gauge-high"></i><span class="menu-label">Flow Meter Unit</span></button>
         <button type="button" class="sidebar-link tank-nav resin-only" data-type="thinning" onclick="selectCategory('thinning')"><i class="fa-solid fa-flask-vial"></i><span class="menu-label">Thinning Tank</span></button>
         <button type="button" class="sidebar-link tank-nav resin-only" data-type="reactor" onclick="selectCategory('reactor')"><i class="fa-solid fa-atom"></i><span class="menu-label">Reactor</span></button>
+        <button type="button" class="sidebar-link tank-nav wwt-only" data-type="wwt_flow" onclick="selectCategory('wwt_flow')"><i class="fa-solid fa-water"></i><span class="menu-label">Flow Meter</span></button>
+        <button type="button" class="sidebar-link tank-nav wwt-only" data-type="wwt_cond" onclick="selectCategory('wwt_cond')"><i class="fa-solid fa-bolt"></i><span class="menu-label">Conductivity</span></button>
 
         <div class="sidebar-divider"></div>
         <button type="button" id="navPMProgress" class="sidebar-link page-nav" onclick="showPMProgress()" title="ดูความคืบหน้า PM"><i class="fa-solid fa-chart-column"></i><span class="menu-label">PM Progress</span></button>
@@ -1776,6 +2237,10 @@ html[data-theme=dark] .progress-repair-status.clear{color:#6be2b5}
         <select id="thinningSelect" onchange="switchTank('thinning')"><option value="">-- เลือกถัง --</option></select>
         <select id="reactorSelect" onchange="switchTank('reactor')"><option value="">-- เลือกถัง --</option></select>
       </div>
+      <div class="tank-controls hidden" id="wwt-controls">
+        <select id="wwt_flowSelect" onchange="switchTank('wwt_flow')"><option value="">-- เลือก Unit --</option></select>
+        <select id="wwt_condSelect" onchange="switchTank('wwt_cond')"><option value="">-- เลือก Unit --</option></select>
+      </div>
     </div>
 
     <section id="pm-form-page" class="main-content">
@@ -1788,7 +2253,15 @@ html[data-theme=dark] .progress-repair-status.clear{color:#6be2b5}
 
         <table><tr><td colspan="2" class="header-bg">Equipment Info.</td></tr><tr><td>Company : TOA Paint (Thailand)</td><td id="dept-display">Department : Emulsion 2</td></tr><tr><td id="fl-display">Functional Location :</td><td id="equipment-desc-display"></td></tr></table>
 
-        <table><tr><td width="50%" class="sub-header-bg text-center" id="pm-due-label">Preventive Matenance Date</td><td width="50%" class="sub-header-bg text-center" id="pm-next-due-label">Preventive Maintenance Next Due Date</td></tr><tr><td><input type="date" class="borderless-input text-center" id="pmDate" onchange="saveGroupDate('pmDate')"></td><td><input type="date" class="borderless-input text-center" id="pmNextDate" onchange="saveGroupDate('pmNextDate')"></td></tr></table>
+        <table><tr><td width="50%" class="sub-header-bg text-center" id="pm-due-label">Preventive Matenance Date</td><td width="50%" class="sub-header-bg text-center" id="pm-next-due-label">Preventive Maintenance Next Due Date</td></tr><tr><td>
+          <input type="text" class="borderless-input text-center" id="pmDate_display" placeholder="MM/YYYY" 
+                 onfocus="onMonthFocus(this)" onblur="onMonthBlur(this)" onchange="onMonthChange(this, 'pmDate')">
+          <input type="hidden" id="pmDate">
+        </td><td>
+          <input type="text" class="borderless-input text-center" id="pmNextDate_display" placeholder="MM/YYYY" 
+                 onfocus="onMonthFocus(this)" onblur="onMonthBlur(this)" onchange="onMonthChange(this, 'pmNextDate')">
+          <input type="hidden" id="pmNextDate">
+        </td></tr></table>
         <div id="checklist-container"></div>
       </div>
     </section>
@@ -1808,8 +2281,10 @@ html[data-theme=dark] .progress-repair-status.clear{color:#6be2b5}
       <div class="progress-filter-bar">
         <select id="progressDeptFilter" class="progress-filter" onchange="renderPMProgress()">
           <option value="all">แสดงทุกแผนก</option>
+          <option value="em1">EM1</option>
           <option value="em2">EM2</option>
           <option value="resin">Resin PD1</option>
+          <option value="wwt">WWT</option>
         </select>
         <select id="progressGroupFilter" class="progress-filter" onchange="renderPMProgress()">
           <option value="all">ทุกกลุ่มอุปกรณ์</option>
@@ -1952,6 +2427,25 @@ const resinThinningTanks = ['T-111', 'T-141'];
 const resinReactorTanks = ['R-111', 'R-141'];
 const slurryTanks=Array.from({length:20},(_,i)=>`SLU-${String(i+1).padStart(3,"0")}`);
 const fmuTanks = ["FMU-001", "FMU-002", "FMU-003", "FMU-004", "FMU-005", "FMU-006"];
+const wwtFlowTanks = ["FVT-001", "FVT-002", "FVT-003", "FVT-004", "FVT-005", "FVT-006", "FVT-007", "FVT-008", "FVT-009"];
+const wwtCondTanks = ["CMC-001", "CMC-002"];
+const t_wwt_flow = [{i:1, n:"ตรวจเช็คการทํางาน", s:"อ่านค่าได้ปกติ", p:"6M"},{i:2, n:"ตรวจเช็คสภาพสายไฟ", s:"ยึดแน่นไม่หลุด/หลวม ฉนวนไม่ขาด", p:"6M"},{i:3, n:"ตรวจสอบหน้าจอแสดงผล", s:"มองเห็นชัด ไม่ดับ", p:"6M"},{i:4, n:"ตรวจสอบฝาครอบ", s:"ปิดสนิท ไม่มีน้ำซึมเข้าภายใน", p:"6M"},{i:5, n:"ตรวจสอบ Housing", s:"ไม่แตกหัก", p:"6M"}];
+const t_wwt_cond = [{i:1, n:"ตรวจเช็คสภาพ sensor", s:"ไม่มีน้ำรั่ว ไม่แตกร้าว", p:"6M"},{i:2, n:"ตรวจเช็คสภาพสายไฟ", s:"ไม่ขาดชำรุด", p:"6M"},{i:3, n:"ทำความสะอาด Electrode", s:"สะอาด ไม่มีคราบสกปรก", p:"6M"}];
+const wwtFlowEquipments = {
+  "FVT-001": { fl: "T-M-01-05-FVT-001", desc: "MEMB1038 FLOW METER (Raw Waste Sump)", items: [ {id: "IFVT011016", desc: "BWW1-FVT001 Magnetic flow transmitter"} ] },
+  "FVT-002": { fl: "T-M-01-05-FVT-002", desc: "MEMB1039 FLOW METER (บ่อ EQ1น่าเสีย)", items: [ {id: "IFVT011017", desc: "BWW1-FVT002 Magnetic flow transmitter"} ] },
+  "FVT-003": { fl: "T-M-01-05-FVT-003", desc: "MEMB1040 FLOW METER (บ่อพักน้ำออกนอกโรงง)", items: [ {id: "IFVT011018", desc: "BWW1-FVT003 Magnetic flow transmitter"} ] },
+  "FVT-004": { fl: "T-M-01-05-FVT-004", desc: "MEMB1041 FLOW METER (ถังตกตะกอน)", items: [ {id: "IFVT011019", desc: "BWW1-FVT004 Magnetic flow transmitter"} ] },
+  "FVT-005": { fl: "T-M-01-05-FVT-005", desc: "MEMB1042 FLOW METER (บำบัดชีวภาพ1)", items: [ {id: "IFVT011020", desc: "BWW1-FVT005 Magnetic flow transmitter"} ] },
+  "FVT-006": { fl: "T-M-01-05-FVT-006", desc: "MEMB1043 FLOW METER (บ่อ EQ2 น่าเสีย)", items: [ {id: "IFVT011021", desc: "BWW1-FVT006 Magnetic flow transmitter"} ] },
+  "FVT-007": { fl: "T-M-01-05-FVT-007", desc: "MEMB1044 FLOW METER (บ่อบัฟเฟอร์)", items: [ {id: "IFVT011030", desc: "BWW1-FVT007 Magnetic flow transmitter"} ] },
+  "FVT-008": { fl: "T-M-01-05-FVT-008", desc: "MEMB1045 FLOW METER (บ่อ รีเทรินชีวภาพ2)", items: [ {id: "IFVT011041", desc: "BWW1-FVT008 Magnetic flow transmitter"} ] },
+  "FVT-009": { fl: "T-M-01-05-FVT-009", desc: "MEMB1046 FLOW METER (บ่อ พักน่าใสชีวภาพ2)", items: [ {id: "IFVT011042", desc: "BWW1-FVT009 Magnetic flow transmitter"} ] }
+};
+const wwtCondEquipments = {
+  "CMC-001": { fl: "T-M-01-05-CMC-001", desc: "MEMEC01 EC01 Meter (Nano filter)", items: [ {id: "ICMC011001", desc: "BWW1-CMC001 EC01 Conductivity sensor"}, {id: "ICMC011001.1", desc: "BWW1-CMC001 EC01 Transmitter"} ] },
+  "CMC-002": { fl: "T-M-01-05-CMC-002", desc: "MEMEC02 EC02 Meter (Nano filter)", items: [ {id: "ICMC011002", desc: "BWW1-CMC002 EC02 Conductivity sensor"}, {id: "ICMC011002.1", desc: "BWW1-CMC002 EC02 Transmitter"} ] }
+};
 const t_em1_fmu_full = [
   {i:1, n:"ตรวจเช็คการทํางานของ Flow", s:"อ่านค่าที่ Transmitter และBatch ปกติ", p:"6M"},
   {i:2, n:"ตรวจเช็คสภาพสายไฟ", s:"ยึดแน่นไม่หลุด/หลวม ฉนวนไม่ขาด", p:"6M"},
@@ -2036,7 +2530,7 @@ const em1Equipments = {
     {id:"IFMT011022.2", desc:"BEM1-FMT022 Pneumatic ON/OFF Valve", tType:5}
   ]
 };
-const tankGroupMapping={deluting:delutingTanks, delicel:delicelTanks, additive:additiveTanks, updown:updownTanks, tankfarm2:tankfarm2Tanks, surpressor:surpressorTanks, silo:siloPowderTanks, hopper:hopperPowderTanks, diverter:diverterTanks, fmu:fmuTanks, slurry:slurryTanks, thinning:resinThinningTanks, reactor:resinReactorTanks};
+const tankGroupMapping={deluting:delutingTanks, delicel:delicelTanks, additive:additiveTanks, updown:updownTanks, tankfarm2:tankfarm2Tanks, surpressor:surpressorTanks, silo:siloPowderTanks, hopper:hopperPowderTanks, diverter:diverterTanks, fmu:fmuTanks, slurry:slurryTanks, thinning:resinThinningTanks, reactor:resinReactorTanks, wwt_flow:wwtFlowTanks, wwt_cond:wwtCondTanks};
 
 // Slurry PM checksheet imported from "PM Checksheet_Slurry.pdf" (20 locations, 116 equipment sections).
 const slurryTankDescriptions={"SLU-001":"T5210 Slurry","SLU-002":"T5211 Slurry","SLU-003":"T5220 Slurry","SLU-004":"T5221 Slurry","SLU-005":"T5230 Slurry","SLU-006":"T5231 Slurry","SLU-007":"T5240 Slurry","SLU-008":"T5241 Slurry","SLU-009":"T5250 Slurry","SLU-010":"T5251 Slurry","SLU-011":"T5252 Slurry","SLU-012":"T5253 Slurry","SLU-013":"T5254 Slurry","SLU-014":"T5255 Slurry","SLU-015":"T5256 Slurry","SLU-016":"T5257 Slurry","SLU-017":"T5258 Slurry","SLU-018":"T5259 Slurry","SLU-019":"T5260 Slurry","SLU-020":"T5261 Slurry"};
@@ -2179,9 +2673,6 @@ function applyTheme(theme){
   const t=theme==="dark"?"dark":"light";
   document.documentElement.setAttribute("data-theme",t);
   localStorage.setItem("pmTheme",t);
-
-  // ปุ่มจะแสดง "โหมดสว่าง" เมื่ออยู่ใน Dark Mode
-  // และแสดง "โหมดมืด" เมื่ออยู่ใน Light Mode
   document.querySelectorAll(".theme-toggle").forEach(b=>{
     const i=b.querySelector("i");
     const l=b.querySelector(".menu-label");
@@ -2198,8 +2689,6 @@ function showApp(){document.getElementById("login-screen").classList.add("hidden
 function showLogin(){document.getElementById("login-screen").classList.remove("hidden");document.getElementById("app-container").classList.add("hidden")}
 
 async function loadDbData(){
-  // Supabase/PostgREST may return at most 1,000 rows per request.
-  // The PM table now contains several thousand rows, so load them in pages.
   const pageSize = 1000;
   const allRows = [];
 
@@ -2211,11 +2700,8 @@ async function loadDbData(){
       .range(from, from + pageSize - 1);
 
     if(error) throw error;
-
     if(!data || data.length === 0) break;
-
     allRows.push(...data);
-
     if(data.length < pageSize) break;
   }
 
@@ -2268,15 +2754,17 @@ async function performLogin(){
   }
 
   currentUser=data.user;
+  document.getElementById("sync-overlay").classList.remove("hidden");
 
   try{
-    // Mark this browser tab only after authentication and Profile loading succeed.
     const started=await loadUserAndStart();
     if(started) markTabSession();
     else clearTabSession();
   }catch(e){
     clearTabSession();
     throw e;
+  } finally {
+    document.getElementById("sync-overlay").classList.add("hidden");
   }
 }
 
@@ -2295,16 +2783,12 @@ async function loadUserAndStart(){
 async function checkLoginStatus(){
   const {data}=await db.auth.getSession();
 
-  // No active Supabase session. Stay on Login.
   if(!data.session){
     clearTabSession();
     showLogin();
     return;
   }
 
-  // Supabase may still have a persistent session after the browser/tab was closed.
-  // The tab marker is gone in a new page session, so force a local sign-out and
-  // require the user to log in again. This keeps the app from reopening as logged in.
   if(!hasTabSession()){
     try{
       await db.auth.signOut({scope:"local"});
@@ -2319,7 +2803,12 @@ async function checkLoginStatus(){
   }
 
   currentUser=data.session.user;
-  await loadUserAndStart();
+  document.getElementById("sync-overlay").classList.remove("hidden");
+  try {
+    await loadUserAndStart();
+  } finally {
+    document.getElementById("sync-overlay").classList.add("hidden");
+  }
 }
 
 function startApp(){
@@ -2329,7 +2818,7 @@ function startApp(){
   document.getElementById("currentUserDisplay").innerHTML=view?`<span class="user-status-icon"><i class="fa-solid fa-user"></i></span><span class="user-status-text"><strong>ดูข้อมูลอย่างเดียว</strong></span>`:`<span class="user-status-icon"><i class="fa-solid fa-user-shield"></i></span><span class="user-status-text"><strong><span class="online-dot"></span>Online (Admin)</strong></span>`;
   document.getElementById("btnClearData").style.display=view?"none":"inline-block";
   document.getElementById("btnClearGroup").style.display=view?"none":"inline-block";
-  ["orderNo","orderType","orderActivity","desc","workCenter","supervisor","sysStatus","userStatus","releaseDate","pmDate","pmNextDate"].forEach(id=>{const e=document.getElementById(id);if(e)e.readOnly=view});
+  ["orderNo","orderType","orderActivity","desc","workCenter","supervisor","sysStatus","userStatus","releaseDate","pmDate","pmNextDate"].forEach(id=>{const e=document.getElementById(id==="pmDate"||id==="pmNextDate"?id+"_display":id);if(e)e.readOnly=view});
   activeTankType=dbData.lastSavedTankType||"deluting";
   activeTankName=dbData.lastSavedTank||"T5110";
   const isResin = ['thinning', 'reactor'].includes(activeTankType);
@@ -2337,7 +2826,7 @@ function startApp(){
   const startDept = isResin ? 'resin' : (isEm1 ? 'em1' : 'em2');
   document.getElementById("deptSelect").value = startDept;
   switchDept(startDept, true);
-  ["deluting","delicel","additive","updown","tankfarm2","surpressor","silo","hopper","diverter","slurry","thinning","reactor","fmu"].forEach(t=>{const e=document.getElementById(t+"Select");if(e)e.value=t===activeTankType?activeTankName:""});
+  ["deluting","delicel","additive","updown","tankfarm2","surpressor","silo","hopper","diverter","slurry","thinning","reactor","fmu","wwt_flow","wwt_cond"].forEach(t=>{const e=document.getElementById(t+"Select");if(e)e.value=t===activeTankType?activeTankName:""});
   updateSidebarForDept();
   updateEquipmentSelect();
   updateSidebarActive();
@@ -2346,7 +2835,6 @@ function startApp(){
 
 async function performLogout(){
   try{
-    // Sign out only the current Supabase session, not other devices.
     await db.auth.signOut({scope:"local"});
   }catch(e){
     console.warn("Logout error:", e);
@@ -2388,7 +2876,11 @@ function switchDept(dept, preventClear) {
   document.getElementById("em1-controls").classList.add("hidden");
   document.getElementById("em2-controls").classList.add("hidden");
   document.getElementById("resin-controls").classList.add("hidden");
+  document.getElementById("wwt-controls").classList.add("hidden");
   if(dept === 'resin'){
+    document.getElementById("resin-controls").classList.remove("hidden");
+  } else if(dept === 'wwt'){
+    document.getElementById("wwt-controls").classList.remove("hidden");
     document.getElementById("resin-controls").classList.remove("hidden");
   } else if(dept === 'em1'){
     document.getElementById("em1-controls").classList.remove("hidden");
@@ -2396,7 +2888,7 @@ function switchDept(dept, preventClear) {
     document.getElementById("em2-controls").classList.remove("hidden");
   }
   if(!preventClear) { activeTankType = ""; activeTankName = ""; }
-  ["deluting","delicel","additive","updown","tankfarm2","surpressor","silo","hopper","diverter","slurry","thinning","reactor","fmu"].forEach(t=>{const e=document.getElementById(t+"Select");if(e)e.value=""});
+  ["deluting","delicel","additive","updown","tankfarm2","surpressor","silo","hopper","diverter","slurry","thinning","reactor","fmu","wwt_flow","wwt_cond"].forEach(t=>{const e=document.getElementById(t+"Select");if(e)e.value=""});
   document.getElementById("deptSelect").value=dept;
   updateSidebarForDept();
   updateEquipmentSelect();
@@ -2407,7 +2899,7 @@ function switchDept(dept, preventClear) {
 function switchTank(type){
   const el=document.getElementById(type+"Select");if(!el||!el.value)return;
   activeTankType=type;activeTankName=el.value;
-  ["deluting","delicel","additive","updown","tankfarm2","surpressor","silo","hopper","diverter","slurry","thinning","reactor","fmu"].forEach(t=>{if(t!==type){const e=document.getElementById(t+"Select");if(e)e.value=""}});
+  ["deluting","delicel","additive","updown","tankfarm2","surpressor","silo","hopper","diverter","slurry","thinning","reactor","fmu","wwt_flow","wwt_cond"].forEach(t=>{if(t!==type){const e=document.getElementById(t+"Select");if(e)e.value=""}});
   if(currentRole!=="view")saveMany([{key:"lastSavedTankType",value:type},{key:"lastSavedTank",value:activeTankName}]).catch(console.error);
   updateEquipmentSelect();
   updateSidebarActive();
@@ -2517,12 +3009,9 @@ function buildTaskRows(maxRows,tasks,tankCode,valveId){
     const note=dbData[nKey]||"";
     const ok=radio==="OK",no=radio==="NO";
 
-    // Standard task row: always has a real task name.
     if(i<list.length){
       const t=list[i];
       const taskName=String(t?.n??"").trim();
-
-      // Never create a checkable row when there is no task name.
       if(!taskName)continue;
 
       h+=`<tr data-pm-check="1">
@@ -2537,14 +3026,12 @@ function buildTaskRows(maxRows,tasks,tankCode,valveId){
       continue;
     }
 
-    // Optional custom task row: show/check it only when a task name was actually saved.
     const a=`${tankCode}_${valveId}_${n}_taskName`;
     const s=`${tankCode}_${valveId}_${n}_standard`;
     const p=`${tankCode}_${valveId}_${n}_package`;
     const customTaskName=String(dbData[a]??"").trim();
 
     if(!customTaskName){
-      // Important: no task name = no row and no OK/NO controls.
       continue;
     }
 
@@ -2562,7 +3049,6 @@ function buildTaskRows(maxRows,tasks,tankCode,valveId){
 }
 
 function buildSection(eq,desc,tasks,valveId,tankName=activeTankName){
-  // Keep the table itself clean: only rows that have a task name are rendered.
   const rowCount=Array.isArray(tasks)?Math.max(6,tasks.length):6;
   return `<table><tr class="header-bg"><td colspan="4" style="text-align:left">Equipment : ${esc(eq)}</td><td colspan="4" style="text-align:left;color:#b30000">Description : ${esc(desc)}</td></tr>
   <tr class="sub-header-bg text-center"><td width="4%">Items</td><td width="24%">Preventive Maintenance Task List</td><td width="24%">Standard</td><td width="6%">Package</td><td width="4%">OK</td><td width="4%">NO</td><td width="28%">Result Note</td></tr>
@@ -2575,9 +3061,26 @@ function renderForm(){
   const deptDisplay = document.getElementById("dept-display");
   if(activeDepartment === "em1") deptDisplay.textContent = "Department : Emulsion 1";
   else if(activeDepartment === "resin") deptDisplay.textContent = "Department : Resin PD1";
+  else if(activeDepartment === "wwt") deptDisplay.textContent = "Department : WWT";
   else deptDisplay.textContent = "Department : Emulsion 2";
   if(!activeTankName){document.getElementById("checklist-container").innerHTML="";return}
-  ["orderNo","orderType","orderActivity","desc","workCenter","supervisor","sysStatus","userStatus","releaseDate","pmDate","pmNextDate"].forEach(id=>document.getElementById(id).value=dbData[`${activeTankName}_header_${id}`]||"");
+  ["orderNo","orderType","orderActivity","desc","workCenter","supervisor","sysStatus","userStatus","releaseDate","pmDate","pmNextDate"].forEach(id=>{
+    let val = dbData[`${activeTankName}_header_${id}`]||"";
+    if(id==="pmDate" || id==="pmNextDate") {
+      if(val.length > 7) val = val.substring(0, 7);
+      const hiddenEl = document.getElementById(id);
+      const dispEl = document.getElementById(id + "_display");
+      if(hiddenEl) hiddenEl.value = val;
+      if(dispEl) {
+        dispEl.dataset.val = val;
+        dispEl.type = 'text';
+        dispEl.value = formatMonthEn(val);
+      }
+    } else {
+      const el = document.getElementById(id);
+      if(el) el.value = val;
+    }
+  });
   
   let h="";
   const fl=document.getElementById("fl-display"),ed=document.getElementById("equipment-desc-display");
@@ -2604,6 +3107,26 @@ function renderForm(){
       ed.textContent = activeTankName === 'R-111' ? "Description : R-111" : "Description : PDRE141 Reactor R141";
       const list = (activeTankName === 'R-111' ? LR111 : LR141).map(p);
       list.forEach(v => h += buildSection(v.e, v.d, v.t, v.e));
+    }
+  } else if (activeDepartment === "wwt") {
+    if(activeTankType === "wwt_flow") {
+      const data = wwtFlowEquipments[activeTankName];
+      if(data) {
+        fl.textContent = `Functional Location : ${data.fl}`;
+        ed.textContent = `Description : ${data.desc}`;
+        data.items.forEach(eq => {
+          h += buildSection(eq.id, eq.desc, t_wwt_flow, eq.id, activeTankName);
+        });
+      }
+    } else if(activeTankType === "wwt_cond") {
+      const data = wwtCondEquipments[activeTankName];
+      if(data) {
+        fl.textContent = `Functional Location : ${data.fl}`;
+        ed.textContent = `Description : ${data.desc}`;
+        data.items.forEach(eq => {
+          h += buildSection(eq.id, eq.desc, t_wwt_cond, eq.id, activeTankName);
+        });
+      }
     }
   } else {
     if(activeTankType==="slurry"){
@@ -2672,10 +3195,40 @@ function renderForm(){
   document.getElementById("checklist-container").innerHTML=h;
 }
 
+
+function formatMonthEn(yyyy_mm) {
+    if (!yyyy_mm || yyyy_mm.length < 7) return "";
+    const y = yyyy_mm.substring(0, 4);
+    const m = parseInt(yyyy_mm.substring(5, 7), 10);
+    if(isNaN(m)) return "";
+    const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    return `${months[m-1]} ${y}`;
+}
+function onMonthFocus(el) {
+    if(currentRole === "view") return;
+    el.type = 'month';
+    el.value = el.dataset.val || '';
+    try { el.showPicker(); } catch(e){}
+}
+function onMonthBlur(el) {
+    el.dataset.val = el.value || '';
+    el.type = 'text';
+    el.value = formatMonthEn(el.dataset.val);
+}
+function onMonthChange(el, hiddenId) {
+    el.dataset.val = el.value;
+    const hiddenEl = document.getElementById(hiddenId);
+    if(hiddenEl) {
+        hiddenEl.value = el.value;
+        saveGroupDate(hiddenId);
+    }
+}
+
 function fillSelect(id,arr){const s=document.getElementById(id);arr.forEach(x=>s.add(new Option(x,x)))}
 function initSelectors(){
   fillSelect("delutingSelect",delutingTanks);fillSelect("delicelSelect",delicelTanks);fillSelect("additiveSelect",additiveTanks);fillSelect("updownSelect",updownTanks);fillSelect("tankfarm2Select",tankfarm2Tanks);fillSelect("surpressorSelect",surpressorTanks);fillSelect("siloSelect",siloPowderTanks);fillSelect("hopperSelect",hopperPowderTanks);fillSelect("diverterSelect",diverterTanks);
   fillSelect("thinningSelect",resinThinningTanks);fillSelect("reactorSelect",resinReactorTanks);fillSelect("slurrySelect",slurryTanks);fillSelect("fmuSelect",fmuTanks);
+  fillSelect("wwt_flowSelect",wwtFlowTanks);fillSelect("wwt_condSelect",wwtCondTanks);
 }
 
 function toggleSidebar(){
@@ -2699,7 +3252,8 @@ function toggleSidebar(){
 function sidebarCategoryVisible(type){
   if(activeDepartment==='em1') return ['fmu'].includes(type);
   if(activeDepartment==='resin') return ['thinning','reactor'].includes(type);
-  return !['thinning','reactor','fmu'].includes(type);
+  if(activeDepartment==='wwt') return ['wwt_flow','wwt_cond'].includes(type);
+  return !['thinning','reactor','fmu','wwt_flow','wwt_cond'].includes(type);
 }
 function updateSidebarForDept(){
   document.querySelectorAll('.tank-nav').forEach(btn=>{
@@ -2754,12 +3308,15 @@ const pmProgressGroupLabels={
   slurry:"Slurry",
   thinning:"Thinning Tank",
   reactor:"Reactor",
+  wwt_flow:"WWT Flow Meter",
+  wwt_cond:"WWT Conductivity",
   fmu:"Flow Meter Unit"
 };
 const pmProgressDeptByGroup={
   fmu:"em1",
   deluting:"em2",delicel:"em2",additive:"em2",updown:"em2",tankfarm2:"em2",surpressor:"em2",silo:"em2",hopper:"em2",diverter:"em2",slurry:"em2",
-  thinning:"resin",reactor:"resin"
+  thinning:"resin",reactor:"resin",
+  wwt_flow:"wwt",wwt_cond:"wwt"
 };
 
 function schedulePMProgressRefresh(){
@@ -2781,10 +3338,6 @@ function calculateTankProgress(groupType,tank){
     if(!root)return {groupType,tank,total:0,done:0,percent:0,ok:0,no:0};
 
     const byName=new Map();
-
-    // Count ONLY real PM task rows (rows that actually have a task name).
-    // Blank placeholder rows are excluded completely, so they can never
-    // inflate the denominator and make the percentage wrong.
     root.querySelectorAll('tr[data-pm-check="1"] input[type="radio"]').forEach(r=>{
       const name=r.name||"";
       if(!name)return;
@@ -2826,8 +3379,6 @@ function getProgressRows(){
     if(group!=="all"&&groupType!==group)return;
     [...new Set(tanks||[])].forEach(tank=>{
       const label=pmProgressGroupLabels[groupType]||groupType;
-      // Slurry rows are displayed and searched by tank name (T5210–T5261),
-      // while retaining SLU-xxx as the internal key for saving/loading data.
       const displayTank=groupType==="slurry"
         ? ((slurryTankDescriptions[tank]||tank).split(/\s+/)[0]||tank)
         : tank;
@@ -2862,7 +3413,7 @@ function aggregateProgressByGroup(rows){
 }
 
 function renderDepartmentPanel(dept,rows){
-  const labels=dept==="em1"?{name:"EM1",title:"Emulsion 1",icon:"fa-industry"}:dept==="em2"?{name:"EM2",title:"Emulsion 2",icon:"fa-industry"}:{name:"Resin PD1",title:"Resin PD1",icon:"fa-flask-vial"};
+  const labels=dept==="em1"?{name:"EM1",title:"Emulsion 1",icon:"fa-industry"}:dept==="em2"?{name:"EM2",title:"Emulsion 2",icon:"fa-industry"}:dept==="wwt"?{name:"WWT",title:"Waste Water Treatment",icon:"fa-water"}:{name:"Resin PD1",title:"Resin PD1",icon:"fa-flask-vial"};
 
   const total=rows.reduce((a,r)=>a+r.total,0);
   const done=rows.reduce((a,r)=>a+r.done,0);
@@ -2912,14 +3463,13 @@ function renderDepartmentPanel(dept,rows){
 }
 
 function renderRepairDepartmentPanel(dept,rows){
-  const labels=dept==="em1"?{name:"EM1",title:"Emulsion 1"}:dept==="em2"?{name:"EM2",title:"Emulsion 2"}:{name:"Resin PD1",title:"Resin PD1"};
+  const labels=dept==="em1"?{name:"EM1",title:"Emulsion 1"}:dept==="em2"?{name:"EM2",title:"Emulsion 2"}:dept==="wwt"?{name:"WWT",title:"Waste Water Treatment"}:{name:"Resin PD1",title:"Resin PD1"};
 
   const total=rows.reduce((a,r)=>a+r.total,0);
   const no=rows.reduce((a,r)=>a+r.no,0);
   const repairPct=total?Math.round((no/total)*1000)/10:0;
   const formsWithRepair=rows.filter(r=>r.no>0).length;
 
-  // รวมจำนวน NO ตามกลุ่มอุปกรณ์ เพื่อให้กราฟสีแดงมีรูปแบบเดียวกับกราฟสีเขียว
   const groupRows=new Map();
   rows.forEach(r=>{
     if(!groupRows.has(r.groupType)){
@@ -2981,7 +3531,7 @@ function renderRepairDepartmentPanel(dept,rows){
 }
 
 
-function renderPMVisualCharts(rows,em2Rows,resinRows,filteredDept){
+function renderPMVisualCharts(rows,em1Rows,em2Rows,resinRows,wwtRows,filteredDept){
   const barRoot=document.getElementById("pm-plan-actual-chart");
   const donutRoot=document.getElementById("pm-result-donut");
   const areaRoot=document.getElementById("pm-group-trend-chart");
@@ -2991,6 +3541,7 @@ function renderPMVisualCharts(rows,em2Rows,resinRows,filteredDept){
   if(filteredDept==="all"||filteredDept==="em1")deptData.push({label:"EM1",rows:em1Rows});
   if(filteredDept==="all"||filteredDept==="em2")deptData.push({label:"EM2",rows:em2Rows});
   if(filteredDept==="all"||filteredDept==="resin")deptData.push({label:"Resin PD1",rows:resinRows});
+  if(filteredDept==="all"||filteredDept==="wwt")deptData.push({label:"WWT",rows:wwtRows});
   const stats=deptData.map(d=>({label:d.label,plan:d.rows.reduce((a,r)=>a+r.total,0),checked:d.rows.reduce((a,r)=>a+r.done,0)}));
   const maxPlan=Math.max(1,...stats.map(x=>x.plan));
   const roundedMax=Math.max(5,Math.ceil(maxPlan/5)*5);
@@ -3030,7 +3581,6 @@ function renderPMVisualCharts(rows,em2Rows,resinRows,filteredDept){
     return;
   }
 
-  // Column chart fixed to a 0–100% scale, with a red line for the mean completion rate.
   const w=1100,h=290,l=52,r=22,t=20,b=66;
   const pw=w-l-r,ph=h-t-b,barBaseY=t+ph;
   const cleanPct=v=>Math.max(0,Math.min(100,Number(v)||0));
@@ -3106,12 +3656,14 @@ function renderPMProgress(){
   const em1Rows=rows.filter(r=>pmProgressDeptByGroup[r.groupType]==="em1");
   const em2Rows=rows.filter(r=>pmProgressDeptByGroup[r.groupType]==="em2");
   const resinRows=rows.filter(r=>pmProgressDeptByGroup[r.groupType]==="resin");
-  renderPMVisualCharts(rows,em2Rows,resinRows,filteredDept);
+  const wwtRows=rows.filter(r=>pmProgressDeptByGroup[r.groupType]==="wwt");
+  renderPMVisualCharts(rows,em1Rows,em2Rows,resinRows,wwtRows,filteredDept);
 
   let panels="";
   if(filteredDept==="all"||filteredDept==="em1")panels+=renderDepartmentPanel("em1",em1Rows);
   if(filteredDept==="all"||filteredDept==="em2")panels+=renderDepartmentPanel("em2",em2Rows);
   if(filteredDept==="all"||filteredDept==="resin")panels+=renderDepartmentPanel("resin",resinRows);
+  if(filteredDept==="all"||filteredDept==="wwt")panels+=renderDepartmentPanel("wwt",wwtRows);
   deptGrid.innerHTML=panels || '<div class="progress-empty">ไม่พบข้อมูลตามเงื่อนไขที่เลือก</div>';
 
   const repairGrid=document.getElementById("progress-repair-grid");
@@ -3120,6 +3672,7 @@ function renderPMProgress(){
     if(filteredDept==="all"||filteredDept==="em1")repairPanels+=renderRepairDepartmentPanel("em1",em1Rows);
     if(filteredDept==="all"||filteredDept==="em2")repairPanels+=renderRepairDepartmentPanel("em2",em2Rows);
     if(filteredDept==="all"||filteredDept==="resin")repairPanels+=renderRepairDepartmentPanel("resin",resinRows);
+    if(filteredDept==="all"||filteredDept==="wwt")repairPanels+=renderRepairDepartmentPanel("wwt",wwtRows);
     repairGrid.innerHTML=repairPanels || '<div class="progress-repair-empty">ไม่พบข้อมูลตามเงื่อนไขที่เลือก</div>';
   }
 
@@ -3131,7 +3684,7 @@ function renderPMProgress(){
   rows.sort((a,b)=>a.percent-b.percent || a.groupType.localeCompare(b.groupType) || a.tank.localeCompare(b.tank));
   rowsEl.innerHTML=rows.map(r=>{
     const label=pmProgressGroupLabels[r.groupType]||r.groupType;
-    const dept=pmProgressDeptByGroup[r.groupType]==="em1"?"EM1":pmProgressDeptByGroup[r.groupType]==="resin"?"Resin PD1":"EM2";
+    const dept=pmProgressDeptByGroup[r.groupType]==="em1"?"EM1":pmProgressDeptByGroup[r.groupType]==="resin"?"Resin PD1":pmProgressDeptByGroup[r.groupType]==="wwt"?"WWT":"EM2";
     const state=r.percent>=100?"done":r.percent>0?"partial":"zero";
     const displayTank=r.groupType==="slurry"
       ? ((slurryTankDescriptions[r.tank]||r.tank).split(/\s+/)[0]||r.tank)
@@ -3167,8 +3720,6 @@ function updateEquipmentSelect(){
   const current=activeTankName||'';
   sel.innerHTML='<option value="">-- เลือกอุปกรณ์ --</option>';
   list.forEach(v=>{
-    // For Slurry, show only the tank name (T5210–T5261) in the selector.
-    // Keep the internal option value (SLU-001…SLU-020) unchanged for existing logic.
     const label = activeTankType === "slurry"
       ? ((slurryTankDescriptions[v]||v).split(/\s+/)[0] || v)
       : (activeTankType === "fmu" ? "Flow Meter Unit " + parseInt(v.split("-")[1], 10) : v);
@@ -3176,16 +3727,11 @@ function updateEquipmentSelect(){
   });
   if(list.includes(current))sel.value=current;
 }
+
 /* ---------- GROUP PDF EXPORT ---------- */
 function syncPrintInputState(root){
   root.querySelectorAll("input").forEach(input=>{
     if(input.type==="radio"){
-      /*
-       * Native radio controls are rendered inconsistently by browser print engines.
-       * Convert their current state to a plain HTML indicator before printing.
-       * Use both the live checked property and our data-checked flag so a just-clicked
-       * status is preserved even before any re-render.
-       */
       const isChecked = input.checked || input.getAttribute("data-checked")==="true" || input.hasAttribute("checked");
       const indicator=document.createElement("span");
       indicator.className="print-status-radio "+(input.classList.contains("radio-ok")?"selected-ok":"selected-no");
@@ -3216,12 +3762,9 @@ function exportCurrentGroupPDF(){
   const savedTankName=activeTankName;
   const savedDept=activeDepartment;
 
-  // Always build from the group list only.
-  // The currently selected tank is included exactly once because the list is de-duplicated.
   const uniqueTanks=[...new Set(tanks)];
   printRoot.innerHTML="";
 
-  // Helpful title shown only on the first printed page.
   const groupLabel={
     fmu:"Flow Meter Unit",
   deluting:"Letdown Tanks",
@@ -3236,6 +3779,8 @@ function exportCurrentGroupPDF(){
     slurry:"Slurry",
     thinning:"Thinning Tank",
     reactor:"Reactor",
+    wwt_flow:"WWT Flow Meter",
+    wwt_cond:"WWT Conductivity",
   fmu:"Flow Meter Unit"
   }[groupType]||groupType;
 
@@ -3243,8 +3788,6 @@ function exportCurrentGroupPDF(){
     activeTankType=groupType;
     activeTankName=tank;
 
-    // renderForm uses the same dbData and existing checklist definitions,
-    // so each tank gets its own saved header/checklist values.
     renderForm();
 
     const source=document.querySelector(".page-container");
@@ -3254,7 +3797,6 @@ function exportCurrentGroupPDF(){
     item.className="print-group-item";
     item.setAttribute("data-tank",tank);
 
-    // Do not print the group heading; PDF should contain only the form.
     const clone=source.cloneNode(true);
     syncPrintInputState(clone);
     item.appendChild(clone);
@@ -3265,7 +3807,6 @@ function exportCurrentGroupPDF(){
   activeTankName=savedTankName;
   activeDepartment=savedDept;
 
-  // Restore the on-screen dashboard before opening the browser print dialog.
   updateEquipmentSelect();
   updateSidebarForDept();
   updateSidebarActive();
@@ -3279,7 +3820,6 @@ function exportCurrentGroupPDF(){
   };
   window.addEventListener("afterprint",cleanup,{once:true});
 
-  // Some browsers may not fire afterprint consistently after a cancelled dialog.
   setTimeout(()=>document.body.classList.remove("printing-group"),60000);
 
   window.print();
