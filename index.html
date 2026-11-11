@@ -2089,6 +2089,667 @@ html[data-theme=dark] #sync-overlay{
     0 0 12px rgba(247,178,67,.4),
     0 1px 2px rgba(0,0,0,.3) inset !important;
 }
+/* ============================================================
+   LOGIN + PM PROGRESS : REFINED 3D UI
+   Cosmetic overrides only — existing HTML, IDs, events and JS
+   are intentionally left unchanged.
+   ============================================================ */
+
+/* ---------- LOGIN : dimensional glass panel ---------- */
+#login-screen{
+  perspective:1500px;
+  isolation:isolate;
+  background:
+    radial-gradient(circle at 14% 17%,rgba(8,183,168,.30),transparent 34%),
+    radial-gradient(circle at 86% 82%,rgba(75,126,255,.24),transparent 36%),
+    radial-gradient(circle at 52% 48%,rgba(255,255,255,.42),transparent 55%),
+    linear-gradient(135deg,#e8f0f5 0%,#d7e5ed 48%,#cbdce8 100%);
+}
+#login-container{
+  position:relative;
+  isolation:isolate;
+  overflow:hidden;
+  transform-style:preserve-3d;
+  border:1px solid rgba(255,255,255,.82);
+  border-radius:25px;
+  background:linear-gradient(148deg,rgba(255,255,255,.98) 0%,rgba(246,252,253,.96) 52%,rgba(232,246,247,.96) 100%);
+  box-shadow:
+    0 38px 80px rgba(24,54,74,.25),
+    0 18px 34px rgba(16,69,82,.12),
+    0 2px 0 rgba(255,255,255,.95) inset,
+    0 -2px 0 rgba(18,95,105,.045) inset;
+  transition:transform .35s cubic-bezier(.2,.8,.2,1),box-shadow .35s ease,border-color .25s ease;
+}
+#login-container::before{
+  content:"";
+  position:absolute;
+  z-index:-1;
+  top:0;left:0;right:0;height:7px;
+  background:linear-gradient(90deg,#08b7a8 0%,#36d8c5 38%,#5b7cff 72%,#08b7a8 100%);
+  box-shadow:0 3px 14px rgba(8,183,168,.22);
+}
+#login-container::after{
+  content:"";
+  position:absolute;
+  z-index:-1;
+  width:260px;height:260px;
+  top:-155px;right:-125px;
+  border-radius:50%;
+  background:radial-gradient(circle,rgba(8,183,168,.13),rgba(91,124,255,.04) 52%,transparent 70%);
+  pointer-events:none;
+}
+#login-container:hover{
+  transform:perspective(1400px) rotateX(1deg) rotateY(-1deg) translateY(-4px);
+  box-shadow:
+    0 48px 92px rgba(24,54,74,.29),
+    0 22px 42px rgba(16,69,82,.15),
+    0 2px 0 rgba(255,255,255,.98) inset,
+    0 -2px 0 rgba(18,95,105,.045) inset;
+}
+.login-logo{
+  position:relative;
+  overflow:hidden;
+  transform:translateZ(30px) rotateX(5deg);
+  border:1px solid rgba(255,255,255,.40);
+  border-radius:22px;
+  background:linear-gradient(145deg,#42e0cd 0%,#08b7a8 42%,#007e93 100%);
+  box-shadow:
+    0 17px 28px rgba(0,126,147,.30),
+    0 7px 0 #087e83,
+    0 0 0 7px rgba(8,183,168,.085),
+    0 2px 0 rgba(255,255,255,.42) inset;
+}
+.login-logo::after{
+  content:"";
+  position:absolute;
+  inset:-55% 48% -55% -35%;
+  transform:rotate(28deg);
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.30),transparent);
+  animation:loginLogoShine 5.5s ease-in-out infinite;
+  pointer-events:none;
+}
+@keyframes loginLogoShine{
+  0%,58%,100%{transform:translateX(-35%) rotate(28deg);opacity:0}
+  68%{opacity:1}
+  82%{transform:translateX(260%) rotate(28deg);opacity:0}
+}
+.login-title,.login-title,.login-subtitle,.login-field,.login-actions,.btn-login,.login-footer{
+  position:relative;
+  transform:translateZ(12px);
+}
+.login-title{
+  text-shadow:0 1px 0 rgba(255,255,255,.75);
+  letter-spacing:.15px;
+}
+.login-field label{
+  color:#29465a;
+  font-size:13px;
+  font-weight:800;
+  letter-spacing:.15px;
+}
+.login-input-wrap{
+  transform-style:preserve-3d;
+}
+.login-input{
+  border:1px solid #c8d9e1!important;
+  border-radius:12px!important;
+  background:linear-gradient(180deg,#fff 0%,#f2f8fa 100%)!important;
+  box-shadow:
+    0 5px 11px rgba(28,59,77,.07),
+    0 1px 0 rgba(255,255,255,.95) inset,
+    0 -1px 0 rgba(31,88,105,.045) inset!important;
+  transition:transform .22s ease,box-shadow .22s ease,border-color .22s ease!important;
+}
+.login-input:hover{
+  transform:translateY(-1px);
+  box-shadow:0 8px 16px rgba(28,59,77,.09),0 1px 0 rgba(255,255,255,.95) inset!important;
+}
+.login-input:focus{
+  transform:translateY(-2px);
+  border-color:#08b7a8!important;
+  background:#f6fffd!important;
+  box-shadow:
+    0 0 0 4px rgba(8,183,168,.13),
+    0 8px 17px rgba(8,147,139,.12),
+    0 1px 0 rgba(255,255,255,.9) inset!important;
+}
+.login-input-icon{
+  color:#188e91;
+  filter:drop-shadow(0 2px 2px rgba(16,85,92,.15));
+}
+.password-toggle{
+  border-radius:8px;
+  transition:background .2s ease,transform .2s ease;
+}
+.password-toggle:hover{background:rgba(8,183,168,.10);transform:translateY(-50%) scale(1.06)}
+.forgot-link{
+  border-radius:7px;
+  text-shadow:0 1px 0 rgba(255,255,255,.65);
+}
+.btn-login{
+  position:relative;
+  overflow:hidden;
+  border:1px solid rgba(255,255,255,.22);
+  border-radius:12px;
+  background:linear-gradient(145deg,#32d6c2 0%,#08b7a8 42%,#007f79 100%);
+  box-shadow:
+    0 10px 0 #087b76,
+    0 17px 27px rgba(0,141,132,.27),
+    0 1px 0 rgba(255,255,255,.40) inset;
+  text-shadow:0 1px 2px rgba(0,67,67,.22);
+  transition:transform .18s ease,box-shadow .18s ease,filter .18s ease;
+}
+.btn-login:hover{
+  transform:translateY(-3px) translateZ(18px);
+  filter:saturate(1.08) brightness(1.04);
+  box-shadow:
+    0 12px 0 #087b76,
+    0 22px 34px rgba(0,141,132,.34),
+    0 1px 0 rgba(255,255,255,.45) inset;
+}
+.btn-login:active{
+  transform:translateY(5px) translateZ(8px);
+  box-shadow:0 3px 0 #087b76,0 8px 14px rgba(0,141,132,.22),0 1px 0 rgba(255,255,255,.25) inset;
+}
+#login-theme-toggle{
+  border-radius:13px;
+  box-shadow:0 8px 0 rgba(70,94,110,.13),0 13px 24px rgba(20,35,49,.15),0 1px 0 rgba(255,255,255,.9) inset;
+  transition:transform .2s ease,box-shadow .2s ease,background .2s ease;
+}
+#login-theme-toggle:hover{transform:translateY(-3px);box-shadow:0 10px 0 rgba(70,94,110,.12),0 17px 28px rgba(20,35,49,.19),0 1px 0 rgba(255,255,255,.9) inset}
+html[data-theme=dark] #login-screen{
+  background:
+    radial-gradient(circle at 14% 17%,rgba(8,183,168,.19),transparent 35%),
+    radial-gradient(circle at 86% 82%,rgba(75,126,255,.16),transparent 37%),
+    linear-gradient(135deg,#101d29 0%,#172b3a 52%,#102333 100%);
+}
+html[data-theme=dark] #login-container{
+  border-color:rgba(123,208,213,.17);
+  background:linear-gradient(148deg,rgba(35,57,72,.98) 0%,rgba(25,44,59,.98) 56%,rgba(20,37,52,.98) 100%);
+  box-shadow:0 38px 82px rgba(0,0,0,.48),0 16px 34px rgba(0,0,0,.22),0 1px 0 rgba(255,255,255,.10) inset,0 -2px 0 rgba(0,0,0,.15) inset;
+}
+html[data-theme=dark] #login-container:hover{box-shadow:0 48px 92px rgba(0,0,0,.55),0 20px 40px rgba(0,0,0,.26),0 1px 0 rgba(255,255,255,.12) inset}
+html[data-theme=dark] .login-field label{color:#d5e6ef}
+html[data-theme=dark] .login-input{
+  border-color:#3d5c6e!important;
+  background:linear-gradient(180deg,#203746 0%,#172d3a 100%)!important;
+  box-shadow:0 5px 12px rgba(0,0,0,.18),0 1px 0 rgba(255,255,255,.055) inset!important;
+}
+html[data-theme=dark] .login-input:focus{background:#172f3b!important;box-shadow:0 0 0 4px rgba(8,183,168,.16),0 9px 18px rgba(0,0,0,.2)!important}
+html[data-theme=dark] .login-title{text-shadow:0 2px 10px rgba(0,0,0,.24)}
+html[data-theme=dark] .login-input-icon{filter:drop-shadow(0 2px 3px rgba(0,0,0,.4))}
+
+/* ---------- PM PROGRESS : layered industrial 3D dashboard ---------- */
+#pm-progress-page{
+  perspective:1600px;
+  background:
+    radial-gradient(ellipse at 50% -18%,rgba(38,103,139,.42) 0%,transparent 48%),
+    radial-gradient(ellipse at 7% 28%,rgba(17,132,130,.10),transparent 35%),
+    repeating-linear-gradient(0deg,transparent 0,transparent 39px,rgba(160,211,235,.026) 40px),
+    repeating-linear-gradient(90deg,transparent 0,transparent 39px,rgba(160,211,235,.026) 40px),
+    linear-gradient(145deg,#0a1c2a 0%,#071523 52%,#0b2031 100%)!important;
+  background-size:100% 100%,100% 100%,40px 40px,40px 40px,100% 100%!important;
+}
+#pm-progress-page .progress-dashboard-shell{transform-style:preserve-3d;}
+#pm-progress-page .progress-dashboard-hero{
+  position:relative;
+  overflow:hidden;
+  isolation:isolate;
+  transform-style:preserve-3d;
+  border:1px solid rgba(91,177,205,.34)!important;
+  border-radius:19px;
+  background:
+    radial-gradient(circle at 88% 5%,rgba(54,216,178,.23),transparent 29%),
+    linear-gradient(135deg,#173c56 0%,#102c43 48%,#0a1d2e 100%)!important;
+  box-shadow:
+    0 21px 0 rgba(2,12,21,.26),
+    0 30px 42px rgba(0,0,0,.34),
+    0 0 38px rgba(54,216,178,.11),
+    0 1px 0 rgba(255,255,255,.13) inset,
+    0 -2px 0 rgba(0,0,0,.20) inset!important;
+  transition:transform .3s ease,box-shadow .3s ease,border-color .3s ease;
+}
+#pm-progress-page .progress-dashboard-hero::before{
+  content:"";
+  position:absolute;
+  z-index:0;
+  inset:0 0 auto 0;
+  height:2px;
+  background:linear-gradient(90deg,transparent,rgba(95,255,222,.85),rgba(110,184,255,.55),transparent);
+  box-shadow:0 0 18px rgba(54,216,178,.45);
+}
+#pm-progress-page .progress-dashboard-hero:hover{
+  transform:translateY(-4px) rotateX(.5deg);
+  border-color:rgba(87,225,204,.48)!important;
+  box-shadow:0 25px 0 rgba(2,12,21,.22),0 38px 54px rgba(0,0,0,.40),0 0 46px rgba(54,216,178,.16),0 1px 0 rgba(255,255,255,.15) inset!important;
+}
+#pm-progress-page .progress-dashboard-title,
+#pm-progress-page .progress-dashboard-subtitle,
+#pm-progress-page .progress-hero-badge{transform:translateZ(12px);}
+#pm-progress-page .progress-hero-badge{
+  border:1px solid rgba(87,225,204,.32)!important;
+  border-radius:12px;
+  background:linear-gradient(145deg,rgba(68,211,190,.18),rgba(29,91,111,.20))!important;
+  box-shadow:0 8px 18px rgba(0,0,0,.19),0 1px 0 rgba(255,255,255,.11) inset;
+}
+#pm-progress-page .progress-filter{
+  border:1px solid #31536a!important;
+  border-radius:11px!important;
+  background:linear-gradient(180deg,#15344a 0%,#0c2437 100%)!important;
+  box-shadow:0 7px 0 rgba(2,13,22,.25),0 11px 18px rgba(0,0,0,.18),0 1px 0 rgba(255,255,255,.08) inset!important;
+  transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease!important;
+}
+#pm-progress-page .progress-filter:hover{transform:translateY(-2px);border-color:#4a8195!important;}
+#pm-progress-page .progress-filter:focus{
+  transform:translateY(-2px);
+  border-color:#36d8b2!important;
+  box-shadow:0 0 0 3px rgba(54,216,178,.13),0 10px 18px rgba(0,0,0,.20),0 1px 0 rgba(255,255,255,.08) inset!important;
+}
+#pm-progress-page .progress-refresh-btn{
+  border:1px solid rgba(168,255,239,.40);
+  border-radius:11px;
+  background:linear-gradient(145deg,#6af0d5 0%,#22c9ad 48%,#0d987f 100%)!important;
+  box-shadow:0 6px 0 #087b70,0 13px 22px rgba(13,190,159,.22),0 1px 0 rgba(255,255,255,.50) inset!important;
+  transition:transform .18s ease,box-shadow .18s ease,filter .18s ease;
+}
+#pm-progress-page .progress-refresh-btn:hover{
+  transform:translateY(-3px);
+  filter:brightness(1.06);
+  box-shadow:0 8px 0 #087b70,0 18px 28px rgba(13,190,159,.30),0 1px 0 rgba(255,255,255,.55) inset!important;
+}
+#pm-progress-page .progress-refresh-btn:active{transform:translateY(3px);box-shadow:0 2px 0 #087b70,0 7px 12px rgba(13,190,159,.20)!important;}
+
+#pm-progress-page .progress-card{
+  position:relative;
+  isolation:isolate;
+  overflow:hidden;
+  transform-style:preserve-3d;
+  border:1px solid rgba(104,163,190,.25)!important;
+  border-radius:16px!important;
+  background:linear-gradient(150deg,rgba(23,57,79,.98) 0%,rgba(13,35,53,.98) 58%,rgba(9,27,43,.99) 100%)!important;
+  box-shadow:0 8px 0 rgba(2,12,21,.24),0 15px 25px rgba(0,0,0,.27),0 1px 0 rgba(255,255,255,.10) inset!important;
+  transition:transform .24s ease,box-shadow .24s ease,border-color .24s ease!important;
+}
+#pm-progress-page .progress-card::after{
+  content:"";
+  position:absolute;
+  z-index:0;
+  top:0;left:5px;right:5px;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.23),transparent);
+  pointer-events:none;
+}
+#pm-progress-page .progress-card > *{position:relative;z-index:1;}
+#pm-progress-page .progress-card:hover{
+  transform:translateY(-5px) rotateX(1.2deg)!important;
+  border-color:rgba(69,219,197,.45)!important;
+  box-shadow:0 11px 0 rgba(2,12,21,.20),0 22px 34px rgba(0,0,0,.36),0 0 23px rgba(54,216,178,.12),0 1px 0 rgba(255,255,255,.15) inset!important;
+}
+#pm-progress-page .progress-card-label{color:#9db8ca!important;letter-spacing:.55px;}
+#pm-progress-page .progress-card-value{
+  color:#f0fbff!important;
+  text-shadow:0 3px 12px rgba(49,190,190,.18);
+}
+#pm-progress-page .progress-card-sub{color:#8eaabd!important;}
+#pm-progress-page .progress-card:nth-child(1){border-top:2px solid #36d8b2!important;}
+#pm-progress-page .progress-card:nth-child(2){border-top:2px solid #55aef2!important;}
+#pm-progress-page .progress-card:nth-child(3){border-top:2px solid #ff7580!important;}
+#pm-progress-page .progress-card:nth-child(4){border-top:2px solid #f6bd66!important;}
+
+#pm-progress-page .pm-visual-chart-panel,
+#pm-progress-page .progress-dept-panel,
+#pm-progress-page .progress-repair-section,
+#pm-progress-page .progress-detail-panel{
+  position:relative;
+  transform-style:preserve-3d;
+  border:1px solid rgba(77,135,166,.33)!important;
+  border-radius:17px!important;
+  background:linear-gradient(150deg,#123149 0%,#0d263b 58%,#091e30 100%)!important;
+  box-shadow:0 8px 0 rgba(2,12,21,.22),0 17px 30px rgba(0,0,0,.27),0 1px 0 rgba(255,255,255,.08) inset!important;
+}
+#pm-progress-page .pm-visual-chart-panel{
+  overflow:hidden;
+  transition:transform .25s ease,box-shadow .25s ease,border-color .25s ease;
+}
+#pm-progress-page .pm-visual-chart-panel:hover{
+  transform:translateY(-3px);
+  border-color:rgba(77,202,197,.42)!important;
+  box-shadow:0 11px 0 rgba(2,12,21,.20),0 24px 38px rgba(0,0,0,.34),0 0 24px rgba(54,216,178,.08),0 1px 0 rgba(255,255,255,.10) inset!important;
+}
+#pm-progress-page .pm-visual-chart-title{color:#eaf7ff!important;text-shadow:0 2px 8px rgba(0,0,0,.25);}
+#pm-progress-page .pm-visual-chart-subtitle{color:#91aec2!important;}
+#pm-progress-page .pm-visual-donut,
+#pm-progress-page .progress-ring,
+#pm-progress-page .progress-repair-total-donut{
+  filter:drop-shadow(0 10px 12px rgba(0,0,0,.34)) drop-shadow(0 0 12px rgba(54,216,178,.08));
+}
+#pm-progress-page .pm-visual-donut{box-shadow:0 14px 24px rgba(0,0,0,.28),0 1px 0 rgba(255,255,255,.13) inset;}
+#pm-progress-page .pm-visual-donut::before,
+#pm-progress-page .progress-ring::before,
+#pm-progress-page .progress-repair-total-donut::before{
+  box-shadow:inset 0 4px 10px rgba(0,0,0,.27),0 1px 0 rgba(255,255,255,.08)!important;
+}
+
+#pm-progress-page .progress-dept-panel,
+#pm-progress-page .progress-repair-panel{overflow:hidden;transition:transform .25s ease,box-shadow .25s ease,border-color .25s ease;}
+#pm-progress-page .progress-dept-panel:hover,
+#pm-progress-page .progress-repair-panel:hover{
+  transform:translateY(-3px);
+  border-color:rgba(65,213,190,.42)!important;
+  box-shadow:0 11px 0 rgba(2,12,21,.18),0 24px 38px rgba(0,0,0,.34),0 0 24px rgba(54,216,178,.08),0 1px 0 rgba(255,255,255,.11) inset!important;
+}
+#pm-progress-page .progress-dept-head,
+#pm-progress-page .progress-repair-panel-head,
+#pm-progress-page .progress-detail-head{
+  background:linear-gradient(110deg,#1a4059 0%,#15364f 52%,#102b42 100%)!important;
+  border-bottom:1px solid rgba(102,160,187,.23)!important;
+  box-shadow:0 1px 0 rgba(255,255,255,.055) inset;
+}
+#pm-progress-page .progress-dept-title,
+#pm-progress-page .progress-repair-panel-title,
+#pm-progress-page .progress-detail-title{color:#edf7fc!important;}
+#pm-progress-page .progress-dept-icon{
+  border:1px solid rgba(54,216,178,.26);
+  background:linear-gradient(145deg,#1b655f,#16433f)!important;
+  color:#72f0d8!important;
+  box-shadow:0 5px 12px rgba(0,0,0,.22),0 1px 0 rgba(255,255,255,.10) inset;
+}
+#pm-progress-page .progress-dept-count{
+  background:linear-gradient(145deg,#1d4058,#142e43)!important;
+  border:1px solid rgba(107,164,191,.20);
+  color:#bad1df!important;
+  box-shadow:0 4px 10px rgba(0,0,0,.16),0 1px 0 rgba(255,255,255,.07) inset;
+}
+#pm-progress-page .progress-dept-body{background:linear-gradient(180deg,rgba(8,27,43,.18),rgba(6,20,33,.30));}
+#pm-progress-page .progress-overview-stats .progress-mini-stat{
+  border:1px solid rgba(89,144,172,.22)!important;
+  border-radius:11px;
+  background:linear-gradient(145deg,#17384f,#10283d)!important;
+  box-shadow:0 5px 0 rgba(2,12,21,.18),0 8px 13px rgba(0,0,0,.17),0 1px 0 rgba(255,255,255,.07) inset;
+}
+#pm-progress-page .progress-mini-stat .label{color:#91aec2!important;}
+#pm-progress-page .progress-mini-stat .value{color:#eff8ff!important;text-shadow:0 2px 8px rgba(0,0,0,.22);}
+#pm-progress-page .progress-group-chart-title{color:#d9edf8!important;}
+#pm-progress-page .progress-group-bar,
+#pm-progress-page .progress-bar-wrap,
+#pm-progress-page .progress-repair-bar-wrap{
+  background:linear-gradient(180deg,#071827,#102b40)!important;
+  border:1px solid rgba(122,166,190,.18);
+  box-shadow:0 2px 5px rgba(0,0,0,.22) inset,0 1px 0 rgba(255,255,255,.04);
+}
+#pm-progress-page .progress-group-fill,
+#pm-progress-page .progress-bar,
+#pm-progress-page .progress-repair-bar{box-shadow:0 0 12px rgba(54,216,178,.20),0 1px 0 rgba(255,255,255,.22) inset;}
+#pm-progress-page .progress-group-label,
+#pm-progress-page .progress-group-percent{color:#c8deeb!important;}
+#pm-progress-page .progress-no-data,
+#pm-progress-page .progress-empty,
+#pm-progress-page .progress-repair-empty{
+  color:#9bb5c7!important;
+  background:linear-gradient(145deg,#15344a,#0e263a)!important;
+  border:1px dashed rgba(100,160,190,.28);
+}
+
+#pm-progress-page .progress-repair-section{overflow:hidden;}
+#pm-progress-page .progress-repair-header{
+  background:linear-gradient(110deg,#3b2635 0%,#2b2639 48%,#172c40 100%)!important;
+  border-bottom:1px solid rgba(235,111,126,.22)!important;
+  box-shadow:0 1px 0 rgba(255,255,255,.045) inset;
+}
+#pm-progress-page .progress-repair-title{color:#fff0f2!important;}
+#pm-progress-page .progress-repair-subtitle{color:#c39da9!important;}
+#pm-progress-page .progress-repair-note{
+  border:1px solid rgba(255,117,129,.24)!important;
+  background:linear-gradient(145deg,rgba(111,43,58,.45),rgba(69,34,48,.55))!important;
+  color:#ffadb4!important;
+  box-shadow:0 5px 12px rgba(0,0,0,.18),0 1px 0 rgba(255,255,255,.06) inset;
+}
+#pm-progress-page .progress-repair-panel{
+  border:1px solid rgba(113,145,171,.22);
+  border-radius:14px;
+  background:linear-gradient(150deg,#152f45,#0c2337);
+  box-shadow:0 6px 0 rgba(2,12,21,.18),0 12px 20px rgba(0,0,0,.22),0 1px 0 rgba(255,255,255,.06) inset;
+}
+#pm-progress-page .progress-repair-total{
+  border:1px solid rgba(235,111,126,.18)!important;
+  border-radius:12px;
+  background:linear-gradient(145deg,#3a2935,#24283a)!important;
+  box-shadow:0 6px 0 rgba(2,12,21,.18),0 10px 17px rgba(0,0,0,.18),0 1px 0 rgba(255,255,255,.06) inset;
+  color:#c5d1db!important;
+}
+#pm-progress-page .progress-repair-total strong{color:#ff9ba4!important;}
+#pm-progress-page .progress-repair-row{
+  border:1px solid rgba(100,145,171,.12)!important;
+  border-radius:10px;
+  background:linear-gradient(110deg,#17364d,#10283d)!important;
+  box-shadow:0 4px 0 rgba(2,12,21,.16),0 7px 12px rgba(0,0,0,.14),0 1px 0 rgba(255,255,255,.045) inset;
+  transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease;
+}
+#pm-progress-page .progress-repair-row:hover{transform:translateY(-2px);border-color:rgba(255,117,129,.30)!important;box-shadow:0 7px 0 rgba(2,12,21,.13),0 12px 17px rgba(0,0,0,.20);}
+#pm-progress-page .progress-repair-row.has-repair{background:linear-gradient(110deg,#3c2938,#2a2637)!important;border-color:rgba(255,117,129,.20)!important;}
+#pm-progress-page .progress-repair-form{color:#eff7fc!important;}
+#pm-progress-page .progress-repair-form small{color:#a4b8c7!important;}
+#pm-progress-page .progress-repair-count{color:#a7bbc9!important;}
+
+#pm-progress-page .progress-detail-panel{overflow:hidden;}
+#pm-progress-page .progress-detail-head{background:linear-gradient(110deg,#173a53,#10283d)!important;}
+#pm-progress-page .progress-detail-sub{color:#9ab5c8!important;}
+#pm-progress-page .progress-list{background:transparent!important;}
+#pm-progress-page .progress-list-head{
+  background:linear-gradient(180deg,#244861,#19364d)!important;
+  border-bottom:1px solid rgba(121,171,195,.25)!important;
+  color:#e1f0f8!important;
+}
+#pm-progress-page .progress-row{
+  border:1px solid rgba(87,144,173,.15)!important;
+  border-radius:10px;
+  background:linear-gradient(105deg,rgba(22,54,77,.96),rgba(12,34,53,.98))!important;
+  box-shadow:0 4px 0 rgba(2,12,21,.14),0 7px 12px rgba(0,0,0,.16),0 1px 0 rgba(255,255,255,.045) inset!important;
+  transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease,background .2s ease!important;
+}
+#pm-progress-page .progress-row:nth-child(even){background:linear-gradient(105deg,rgba(19,48,69,.98),rgba(10,30,47,.98))!important;}
+#pm-progress-page .progress-row:hover{
+  transform:translateY(-2px) translateX(2px)!important;
+  border-color:rgba(69,211,194,.34)!important;
+  box-shadow:0 7px 0 rgba(2,12,21,.12),0 13px 19px rgba(0,0,0,.22),0 0 16px rgba(54,216,178,.08)!important;
+}
+#pm-progress-page .progress-form-name{color:#f1f8fc!important;}
+#pm-progress-page .progress-form-name small{color:#9bb5c7!important;}
+#pm-progress-page .progress-legend{color:#a9bfce!important;}
+
+/* Keep the dimensional look comfortable on touch screens. */
+@media(max-width:720px){
+  #login-screen{perspective:none;}
+  #login-container{border-radius:20px;}
+  #login-container:hover{transform:none;}
+  .login-logo{transform:none;}
+  #pm-progress-page{perspective:none;}
+  #pm-progress-page .progress-dashboard-hero:hover,
+  #pm-progress-page .progress-card:hover,
+  #pm-progress-page .pm-visual-chart-panel:hover,
+  #pm-progress-page .progress-dept-panel:hover,
+  #pm-progress-page .progress-repair-panel:hover,
+  #pm-progress-page .progress-repair-row:hover,
+  #pm-progress-page .progress-row:hover{transform:none!important;}
+  #pm-progress-page .progress-card{min-width:0;}
+}
+@media(max-width:430px){
+  #login-container{padding-left:19px;padding-right:19px;}
+  .login-title{font-size:22px;}
+  .login-subtitle{font-size:12.5px;}
+}
+@media(prefers-reduced-motion:reduce){
+  #login-screen::before,#login-screen::after,.login-logo::after{animation:none!important;}
+  #login-container,.login-logo,.login-input,.btn-login,
+  #pm-progress-page *{transition:none!important;animation:none!important;scroll-behavior:auto!important;}
+}
+@media print{
+  #login-screen::before,#login-screen::after,#login-container::before,#login-container::after{display:none!important;}
+  #login-container,#pm-progress-page .progress-dashboard-hero,
+  #pm-progress-page .progress-card,#pm-progress-page .pm-visual-chart-panel,
+  #pm-progress-page .progress-dept-panel,#pm-progress-page .progress-repair-panel,
+  #pm-progress-page .progress-repair-section,#pm-progress-page .progress-detail-panel,
+  #pm-progress-page .progress-row{transform:none!important;filter:none!important;box-shadow:none!important;}
+}
+
+
+/* ============================================================
+   LOGIN RESET: RESTORE THE ORIGINAL, SIMPLE LOGIN APPEARANCE
+   Only login visuals are reset; authentication handlers/IDs remain unchanged.
+   ============================================================ */
+#login-screen{
+  perspective:none!important;
+  isolation:auto!important;
+  background:
+    radial-gradient(circle at 15% 15%,rgba(8,183,168,.14),transparent 34%),
+    linear-gradient(135deg,var(--login-bg-1),var(--login-bg-2))!important;
+  overflow:auto!important;
+}
+#login-screen::before,#login-screen::after,
+#login-container::before,#login-container::after,.login-logo::after{display:none!important;content:none!important;animation:none!important;}
+#login-container{
+  position:relative!important;
+  z-index:1!important;
+  isolation:auto!important;
+  overflow:visible!important;
+  width:100%!important;
+  max-width:430px!important;
+  padding:38px 36px 30px!important;
+  transform:none!important;
+  transform-style:flat!important;
+  border:1px solid var(--login-border)!important;
+  border-radius:20px!important;
+  background:var(--login-card)!important;
+  box-shadow:0 25px 65px rgba(0,0,0,.20)!important;
+  backdrop-filter:none!important;
+  -webkit-backdrop-filter:none!important;
+  animation:none!important;
+  transition:background .2s ease,border-color .2s ease!important;
+}
+.login-logo{
+  width:76px!important;height:76px!important;
+  margin:0 auto 18px!important;
+  display:flex!important;align-items:center!important;justify-content:center!important;
+  font-size:31px!important;
+  transform:none!important;
+  border:0!important;border-radius:21px!important;
+  background:linear-gradient(135deg,#08b7a8,#007e93)!important;
+  box-shadow:0 10px 24px rgba(0,126,147,.24)!important;
+  animation:none!important;
+  overflow:visible!important;
+}
+.login-title{
+  margin:0!important;
+  color:var(--text)!important;
+  background:none!important;
+  -webkit-background-clip:border-box!important;
+  background-clip:border-box!important;
+  -webkit-text-fill-color:var(--text)!important;
+  text-shadow:none!important;
+  letter-spacing:0!important;
+}
+.login-subtitle,.login-field,.login-actions,.btn-login,.login-footer{
+  position:static!important;
+  transform:none!important;
+}
+.login-field label{color:var(--text)!important;letter-spacing:normal!important;}
+.login-input-wrap{transform:none!important;transform-style:flat!important;}
+.login-input{
+  height:50px!important;
+  padding:0 48px 0 52px!important;
+  border:1px solid var(--border)!important;
+  border-radius:10px!important;
+  background:var(--surface-input)!important;
+  color:var(--text)!important;
+  box-shadow:none!important;
+  transform:none!important;
+  transition:border-color .2s ease,box-shadow .2s ease!important;
+}
+.login-input:hover{transform:none!important;box-shadow:none!important;}
+.login-input:focus{
+  transform:none!important;
+  border-color:#007bff!important;
+  background:var(--surface-input)!important;
+  box-shadow:0 0 0 4px rgba(0,123,255,.12)!important;
+}
+.login-input-icon{filter:none!important;}
+.password-toggle{
+  border-radius:0!important;
+  transform:translateY(-50%)!important;
+  transition:none!important;
+}
+.password-toggle:hover{background:transparent!important;transform:translateY(-50%)!important;}
+.forgot-link{border-radius:0!important;text-shadow:none!important;}
+.btn-login{
+  width:100%!important;height:50px!important;
+  border:0!important;border-radius:6px!important;
+  background:linear-gradient(135deg,#08b7a8,#008d84)!important;
+  box-shadow:0 8px 18px rgba(0,141,132,.20)!important;
+  text-shadow:none!important;
+  letter-spacing:0!important;
+  transform:none!important;filter:none!important;
+  transition:background .2s ease,box-shadow .2s ease!important;
+}
+.btn-login:hover{transform:none!important;filter:none!important;box-shadow:0 8px 18px rgba(0,141,132,.20)!important;}
+.btn-login:active{transform:none!important;box-shadow:0 5px 12px rgba(0,141,132,.18)!important;}
+#login-theme-toggle{
+  border-radius:12px!important;
+  box-shadow:0 6px 16px rgba(20,35,49,.12)!important;
+  transform:none!important;
+}
+#login-theme-toggle:hover{transform:none!important;box-shadow:0 6px 16px rgba(20,35,49,.12)!important;}
+html[data-theme=dark] #login-screen{
+  background:
+    radial-gradient(circle at 15% 15%,rgba(8,183,168,.10),transparent 34%),
+    linear-gradient(135deg,var(--login-bg-1),var(--login-bg-2))!important;
+}
+html[data-theme=dark] #login-container{
+  background:var(--login-card)!important;
+  border-color:var(--login-border)!important;
+  box-shadow:0 25px 65px rgba(0,0,0,.32)!important;
+}
+html[data-theme=dark] .login-title{-webkit-text-fill-color:var(--text)!important;color:var(--text)!important;}
+html[data-theme=dark] .login-field label{color:var(--text)!important;}
+html[data-theme=dark] .login-input{
+  border-color:var(--border)!important;
+  background:var(--surface-input)!important;
+  color:var(--text)!important;
+}
+html[data-theme=dark] .login-input:focus{
+  border-color:#00b9aa!important;
+  box-shadow:0 0 0 4px rgba(0,185,170,.14)!important;
+}
+@media(max-width:480px){
+  #login-container{padding:30px 22px 26px!important;}
+}
+
+/* 3D faces used by the supplied PM Progress chart renderer. */
+#pm-progress-page .pm-3d-column,
+#pm-progress-page .pm-percent-column{filter:drop-shadow(2px 5px 4px rgba(0,0,0,.34));}
+#pm-progress-page .pm-3d-column-front,
+#pm-progress-page .pm-percent-bar{
+  stroke:rgba(255,255,255,.22);
+  stroke-width:.8;
+  paint-order:stroke fill;
+}
+#pm-progress-page .pm-3d-column-top,
+#pm-progress-page .pm-percent-column-top{filter:brightness(1.08);}
+#pm-progress-page .pm-3d-column-side,
+#pm-progress-page .pm-percent-column-side{filter:brightness(.82);}
+#pm-progress-page .pm-visual-donut{
+  transform:perspective(650px) rotateX(12deg);
+  box-shadow:0 13px 0 rgba(1,12,22,.35),0 20px 25px rgba(0,0,0,.32),inset 0 2px 3px rgba(255,255,255,.18)!important;
+}
+#pm-progress-page .progress-ring,
+#pm-progress-page .progress-repair-total-donut{
+  transform:perspective(650px) rotateX(12deg);
+  box-shadow:0 13px 0 rgba(1,12,22,.35),0 20px 25px rgba(0,0,0,.32),inset 0 2px 3px rgba(255,255,255,.18)!important;
+}
+@media(max-width:720px){
+  #pm-progress-page .pm-visual-donut,
+  #pm-progress-page .progress-ring,
+  #pm-progress-page .progress-repair-total-donut{transform:none!important;}
+}
+
 </style>
 
 </head>
@@ -2168,6 +2829,53 @@ html[data-theme=dark] #sync-overlay {
   font-size: 18px;
   font-weight: 800;
 }
+
+/* ---------- PM PROGRESS: 3D BAR + DONUT DEPTH ---------- */
+#pm-progress-page .pm-visual-bar-chart svg,
+#pm-progress-page .pm-visual-area-chart svg{overflow:visible}
+#pm-progress-page .pm-visual-bar-chart svg rect,
+#pm-progress-page .pm-visual-area-chart svg rect{
+  filter:drop-shadow(2px 5px 3px rgba(0,0,0,.34));
+  stroke:rgba(255,255,255,.18);stroke-width:.65;
+}
+#pm-progress-page .pm-visual-bar-chart svg rect[fill],
+#pm-progress-page .pm-visual-area-chart svg rect[fill]{rx:3px}
+#pm-progress-page .pm-visual-bar-chart svg path,
+#pm-progress-page .pm-visual-area-chart svg path{filter:drop-shadow(0 3px 3px rgba(0,0,0,.24))}
+#pm-progress-page .pm-visual-donut{transform:perspective(650px) rotateX(12deg);box-shadow:0 13px 0 rgba(1,12,22,.35),0 20px 25px rgba(0,0,0,.32),inset 0 2px 3px rgba(255,255,255,.18)!important;filter:drop-shadow(0 10px 9px rgba(0,0,0,.32))}
+#pm-progress-page .pm-visual-donut svg path,
+#pm-progress-page .pm-visual-donut-chart svg path{
+  stroke:rgba(255,255,255,.22);stroke-width:1.3px;
+  filter:drop-shadow(0 3px 2px rgba(0,0,0,.28));
+}
+#pm-progress-page .progress-ring,
+#pm-progress-page .progress-repair-total-donut{
+  transform:perspective(650px) rotateX(12deg);
+  box-shadow:0 13px 0 rgba(1,12,22,.35),0 20px 25px rgba(0,0,0,.32),inset 0 2px 3px rgba(255,255,255,.18);
+}
+#pm-progress-page .progress-ring:before,
+#pm-progress-page .progress-repair-total-donut:before{
+  box-shadow:inset 0 3px 8px rgba(0,0,0,.20),0 1px 0 rgba(255,255,255,.12);
+}
+#pm-progress-page .progress-group-bar,
+#pm-progress-page .progress-bar-wrap,
+#pm-progress-page .progress-repair-bar-wrap{
+  height:13px!important;border-radius:999px!important;
+  box-shadow:inset 0 3px 5px rgba(0,0,0,.45),0 1px 0 rgba(255,255,255,.08)!important;
+  transform:perspective(500px) rotateX(8deg);
+}
+#pm-progress-page .progress-group-fill,
+#pm-progress-page .progress-bar,
+#pm-progress-page .progress-repair-bar{
+  box-shadow:0 3px 0 rgba(0,0,0,.28),0 5px 9px rgba(0,0,0,.22),inset 0 2px 0 rgba(255,255,255,.28)!important;
+}
+@media(max-width:700px){
+ #pm-progress-page .progress-ring,#pm-progress-page .progress-repair-total-donut{transform:perspective(500px) rotateX(8deg)}
+}
+@media(prefers-reduced-motion:reduce){
+ #pm-progress-page *{transition:none!important;animation:none!important}
+}
+
 </style>
 
       <nav class="sidebar-menu" aria-label="PM equipment menu">
@@ -2183,6 +2891,7 @@ html[data-theme=dark] #sync-overlay {
         <button type="button" class="sidebar-link tank-nav" data-type="slurry" onclick="selectCategory('slurry')"><i class="fa-solid fa-water"></i><span class="menu-label">Slurry</span></button>
         <button type="button" class="sidebar-link tank-nav" data-type="fmu" onclick="selectCategory('fmu')"><i class="fa-solid fa-gauge-high"></i><span class="menu-label">Flow Meter Unit</span></button>
         <button type="button" class="sidebar-link tank-nav" data-type="pigline" onclick="selectCategory('pigline')"><i class="fa-solid fa-lines-leaning"></i><span class="menu-label">Pigline</span></button>
+        <button type="button" class="sidebar-link tank-nav" data-type="filling" onclick="selectCategory('filling')"><i class="fa-solid fa-industry"></i><span class="menu-label">Auto Filling M/C</span></button>
         <button type="button" class="sidebar-link tank-nav resin-only" data-type="thinning" onclick="selectCategory('thinning')"><i class="fa-solid fa-flask-vial"></i><span class="menu-label">Thinning Tank</span></button>
         <button type="button" class="sidebar-link tank-nav resin-only" data-type="reactor" onclick="selectCategory('reactor')"><i class="fa-solid fa-atom"></i><span class="menu-label">Reactor</span></button>
         <button type="button" class="sidebar-link tank-nav wwt-only" data-type="wwt_flow" onclick="selectCategory('wwt_flow')"><i class="fa-solid fa-water"></i><span class="menu-label">Flow Meter</span></button>
@@ -2231,6 +2940,7 @@ html[data-theme=dark] #sync-overlay {
         <select id="diverterSelect" onchange="switchTank('diverter')"><option value="">-- เลือกตัว --</option></select>
         <select id="slurrySelect" onchange="switchTank('slurry')"><option value="">-- เลือก Slurry --</option></select>
         <select id="piglineSelect" onchange="switchTank('pigline')"><option value="">-- เลือก Pigline --</option></select>
+        <select id="fillingSelect" onchange="switchTank('filling')"><option value="">-- เลือก Auto Filling M/C --</option></select>
       </div>
       <div class="tank-controls hidden" id="em1-controls">
         <select id="fmuSelect" onchange="switchTank('fmu')"><option value="">-- เลือก Unit --</option></select>
@@ -2592,7 +3302,46 @@ const em1Equipments = {
     {id:"IFMT011022.2", desc:"BEM1-FMT022 Pneumatic ON/OFF Valve", tType:5}
   ]
 };
-const tankGroupMapping={deluting:delutingTanks, delicel:delicelTanks, additive:additiveTanks, updown:updownTanks, tankfarm2:tankfarm2Tanks, surpressor:surpressorTanks, silo:siloPowderTanks, hopper:hopperPowderTanks, diverter:diverterTanks, fmu:fmuTanks, slurry:slurryTanks, thinning:resinThinningTanks, reactor:resinReactorTanks, wwt_flow:wwtFlowTanks, wwt_cond:wwtCondTanks, pigline:piglineTanks};
+
+// Emulsion 2 Auto Filling PM checklist imported from "PM Filling Blank form" (6 machines).
+const fillingTanks=["T-M-01-01-FIL-001","T-M-01-01-FIL-002","T-M-01-01-FIL-009","T-M-01-01-FIL-010","T-M-01-01-FIL-005","T-M-01-01-FIL-006"];
+const fillingMachineInfo={
+ "T-M-01-01-FIL-001":{fl:"T-M-01-01-FIL-001",desc:"Z6110 Auto Filling M/C",assets:[
+  ["MVBA011001","Water Hopper1 Actuator valve","actuator"],["MVBA011002","Color Hopper1 Actuator valve","color"],["MVBA011003","Water Hopper2 Actuator valve","actuator"],["MVBA011004","Color Hopper2 Actuator valve","color"],["IWEI011174","BEM2-WEI023 Weight checker 40Kg","weight"]]},
+ "T-M-01-01-FIL-002":{fl:"T-M-01-01-FIL-002",desc:"Z6120 Auto Filling M/C",assets:[
+  ["MVBA011005","Water Hopper1 Actuator valve","actuator"],["MVBA011006","Color Hopper1 Actuator valve","color"],["MVBA011007","Water Hopper2 Actuator valve","actuator"],["MVBA011008","Color Hopper2 Actuator valve","color"],["IWEI011175","BEM2-WEI024 Weight checker 40Kg","weight"]]},
+ "T-M-01-01-FIL-009":{fl:"T-M-01-01-FIL-009",desc:"Z6130 Auto Filling M/C",assets:[
+  ["MVBA011*","Color Hopper Actuator valve","actuator"],["IWEI011178","BEM2-WEI028 Weight checker 60Kg","weight"]]},
+ "T-M-01-01-FIL-010":{fl:"T-M-01-01-FIL-010",desc:"Z6140 Auto Filling M/C",assets:[
+  ["MVBA011*","Color Hopper Actuator valve","actuator"],["IWEI011179","BEM2-WEI029 Weight checker 60Kg","weight"]]},
+ "T-M-01-01-FIL-005":{fl:"T-M-01-01-FIL-005",desc:"Z6150 Auto Filling M/C",assets:[
+  ["MVBA011017","Water Hopper1 Actuator valve","actuator"],["MVBA011018","Color Hopper1 Actuator valve","color"],["MVBA011019","Water Hopper2 Actuator valve","actuator"],["MVBA011020","Color Hopper2 Actuator valve","color"],["IWEI011176","BEM2-WEI025 Weight checker 40Kg","weight"]]},
+ "T-M-01-01-FIL-006":{fl:"T-M-01-01-FIL-006",desc:"Z6160 Auto Filling M/C",assets:[
+  ["MVBA011021","Water Hopper1 Actuator valve","actuator"],["MVBA011022","Color Hopper1 Actuator valve","color"],["MVBA011023","Water Hopper2 Actuator valve","actuator"],["MVBA011024","Color Hopper2 Actuator valve","color"],["IWEI011177","BEM2-WEI026 Weight checker 40Kg","weight"]]}
+};
+const fillingActuatorTasks=[
+ {i:1,n:"ตรวจเช็ค Actuator",s:"ไม่มีลมรั่ว",p:"6M"},
+ {i:2,n:"ตรวจเช็ค Solenoid valve",s:"ไม่มีลมรั่ว, รูเดรนไม่อุดตัน",p:"6M"},
+ {i:3,n:"ตรวจเช็คสภาพสายไฟ",s:"ยึดแน่นกับเทอร์มินอล, ฉนวนไม่ขาด",p:"6M"},
+ {i:4,n:"ตรวจเช็คการทำงานของ Valve",s:"เปิด/ปิดสุด ไม่ติดขัด",p:"6M"},
+ {i:5,n:"ทำความสะอาด Actuator valve",s:"สะอาดไม่มีคราบสกปรก",p:"6M"},
+ {i:6,n:"",s:"",p:"6M"}
+];
+const fillingColorTasks=[
+ ...fillingActuatorTasks.slice(0,3),
+ {i:4,n:"ตรวจเช็ค Proximity sensor",s:"ทำงานปกติ ไม่แตกหัก",p:"6M"},
+ fillingActuatorTasks[3],fillingActuatorTasks[4]
+];
+const fillingWeightTasks=[
+ {i:1,n:"ตรวจเช็คการทำงาน",s:"อ่านค่าได้ปกติ",p:"6M"},
+ {i:2,n:"ตรวจเช็คบาลานซ์ด้วยตุ้ม 20Kg",s:"น้ำหนักหัว กลาง ท้าย ±0.01Kg",p:"6M"},
+ {i:3,n:"ตรวจเช็คสภาพสายไฟ",s:"ไม่ขาด, ฉนวนไม่ชำรุด",p:"6M"},
+ {i:4,n:"ทำความสะอาด Load cell",s:"สะอาดไม่มีคราบสกปรก",p:"6M"},
+ {i:5,n:"ขันอัดเทอร์มินอลตู้ควบคุม",s:"ยึดสายไฟแน่นไม่หลุด/หลวม",p:"6M"},
+ {i:6,n:"ทำความสะอาดภายใน/ภายนอกตู้ควบคุม",s:"สะอาดไม่มีคราบสกปรก, ฝุ่น",p:"6M"}
+];
+
+const tankGroupMapping={filling:fillingTanks, deluting:delutingTanks, delicel:delicelTanks, additive:additiveTanks, updown:updownTanks, tankfarm2:tankfarm2Tanks, surpressor:surpressorTanks, silo:siloPowderTanks, hopper:hopperPowderTanks, diverter:diverterTanks, fmu:fmuTanks, slurry:slurryTanks, thinning:resinThinningTanks, reactor:resinReactorTanks, wwt_flow:wwtFlowTanks, wwt_cond:wwtCondTanks, pigline:piglineTanks};
 
 // Slurry PM checksheet imported from "PM Checksheet_Slurry.pdf" (20 locations, 116 equipment sections).
 const slurryTankDescriptions={"SLU-001":"T5210 Slurry","SLU-002":"T5211 Slurry","SLU-003":"T5220 Slurry","SLU-004":"T5221 Slurry","SLU-005":"T5230 Slurry","SLU-006":"T5231 Slurry","SLU-007":"T5240 Slurry","SLU-008":"T5241 Slurry","SLU-009":"T5250 Slurry","SLU-010":"T5251 Slurry","SLU-011":"T5252 Slurry","SLU-012":"T5253 Slurry","SLU-013":"T5254 Slurry","SLU-014":"T5255 Slurry","SLU-015":"T5256 Slurry","SLU-016":"T5257 Slurry","SLU-017":"T5258 Slurry","SLU-018":"T5259 Slurry","SLU-019":"T5260 Slurry","SLU-020":"T5261 Slurry"};
@@ -2888,7 +3637,7 @@ function startApp(){
   const startDept = isResin ? 'resin' : (isEm1 ? 'em1' : 'em2');
   document.getElementById("deptSelect").value = startDept;
   switchDept(startDept, true);
-  ["deluting","delicel","additive","updown","tankfarm2","surpressor","silo","hopper","diverter","slurry","thinning","reactor","fmu","wwt_flow","wwt_cond","pigline"].forEach(t=>{const e=document.getElementById(t+"Select");if(e)e.value=t===activeTankType?activeTankName:""});
+  ["deluting","delicel","additive","updown","tankfarm2","surpressor","silo","hopper","diverter","slurry","thinning","reactor","fmu","wwt_flow","wwt_cond","pigline","filling"].forEach(t=>{const e=document.getElementById(t+"Select");if(e)e.value=t===activeTankType?activeTankName:""});
   updateSidebarForDept();
   updateEquipmentSelect();
   updateSidebarActive();
@@ -2950,7 +3699,7 @@ function switchDept(dept, preventClear) {
     document.getElementById("em2-controls").classList.remove("hidden");
   }
   if(!preventClear) { activeTankType = ""; activeTankName = ""; }
-  ["deluting","delicel","additive","updown","tankfarm2","surpressor","silo","hopper","diverter","slurry","thinning","reactor","fmu","wwt_flow","wwt_cond","pigline"].forEach(t=>{const e=document.getElementById(t+"Select");if(e)e.value=""});
+  ["deluting","delicel","additive","updown","tankfarm2","surpressor","silo","hopper","diverter","slurry","thinning","reactor","fmu","wwt_flow","wwt_cond","pigline","filling"].forEach(t=>{const e=document.getElementById(t+"Select");if(e)e.value=""});
   document.getElementById("deptSelect").value=dept;
   updateSidebarForDept();
   updateEquipmentSelect();
@@ -2961,7 +3710,7 @@ function switchDept(dept, preventClear) {
 function switchTank(type){
   const el=document.getElementById(type+"Select");if(!el||!el.value)return;
   activeTankType=type;activeTankName=el.value;
-  ["deluting","delicel","additive","updown","tankfarm2","surpressor","silo","hopper","diverter","slurry","thinning","reactor","fmu","wwt_flow","wwt_cond","pigline"].forEach(t=>{if(t!==type){const e=document.getElementById(t+"Select");if(e)e.value=""}});
+  ["deluting","delicel","additive","updown","tankfarm2","surpressor","silo","hopper","diverter","slurry","thinning","reactor","fmu","wwt_flow","wwt_cond","pigline","filling"].forEach(t=>{if(t!==type){const e=document.getElementById(t+"Select");if(e)e.value=""}});
   if(currentRole!=="view")saveMany([{key:"lastSavedTankType",value:type},{key:"lastSavedTank",value:activeTankName}]).catch(console.error);
   updateEquipmentSelect();
   updateSidebarActive();
@@ -3191,7 +3940,17 @@ function renderForm(){
       }
     }
   } else {
-    if(activeTankType==="slurry"){
+    if(activeTankType==="filling"){
+      const data=fillingMachineInfo[activeTankName];
+      if(data){
+        fl.textContent=`Functional Location : ${data.fl}`;
+        ed.textContent=`Description : ${data.desc}`;
+        data.assets.forEach(([eq,desc,kind])=>{
+          const tasks=kind==="weight"?fillingWeightTasks:(kind==="color"?fillingColorTasks:fillingActuatorTasks);
+          h+=buildSection(eq,desc,tasks,eq,activeTankName);
+        });
+      }
+    } else if(activeTankType==="slurry"){
       const loc=activeTankName;
       fl.textContent=`Functional Location : T-M-01-01-${loc}`;
       ed.textContent=`Description : ${slurryTankDescriptions[loc]||"Slurry"}`;
@@ -3301,7 +4060,7 @@ function fillSelect(id,arr){const s=document.getElementById(id);arr.forEach(x=>s
 function initSelectors(){
   fillSelect("delutingSelect",delutingTanks);fillSelect("delicelSelect",delicelTanks);fillSelect("additiveSelect",additiveTanks);fillSelect("updownSelect",updownTanks);fillSelect("tankfarm2Select",tankfarm2Tanks);fillSelect("surpressorSelect",surpressorTanks);fillSelect("siloSelect",siloPowderTanks);fillSelect("hopperSelect",hopperPowderTanks);fillSelect("diverterSelect",diverterTanks);
   fillSelect("thinningSelect",resinThinningTanks);fillSelect("reactorSelect",resinReactorTanks);fillSelect("slurrySelect",slurryTanks);fillSelect("fmuSelect",fmuTanks);
-  fillSelect("wwt_flowSelect",wwtFlowTanks);fillSelect("wwt_condSelect",wwtCondTanks);fillSelect("piglineSelect",piglineTanks);
+  fillSelect("wwt_flowSelect",wwtFlowTanks);fillSelect("wwt_condSelect",wwtCondTanks);fillSelect("piglineSelect",piglineTanks);fillSelect("fillingSelect",fillingTanks);
 }
 
 function toggleSidebar(){
@@ -3368,6 +4127,7 @@ function showPMProgress(){
 }
 
 const pmProgressGroupLabels={
+  filling:"Auto Filling M/C",
   fmu:"Flow Meter Unit",
   deluting:"Letdown Tanks",
   delicel:"Delicel Tanks",
@@ -3386,6 +4146,7 @@ const pmProgressGroupLabels={
   pigline:"Pigline"
 };
 const pmProgressDeptByGroup={
+  filling:"em2",
   fmu:"em1",
   deluting:"em2",delicel:"em2",additive:"em2",updown:"em2",tankfarm2:"em2",surpressor:"em2",silo:"em2",hopper:"em2",diverter:"em2",slurry:"em2",pigline:"em2",
   thinning:"resin",reactor:"resin",
@@ -3627,11 +4388,21 @@ function renderPMVisualCharts(rows,em1Rows,em2Rows,resinRows,wwtRows,filteredDep
   }
   let bars="";
   const groupSlot=plotW/Math.max(stats.length,1),barW=Math.min(45,groupSlot*.24);
+  const planBar3D=(x,y,w,h,kind,label,value)=>{
+    const dx=7,dy=5,base=kind==='planned'?'#d5e4ee':'#2587bd';
+    const top=kind==='planned'?'#f4fbff':'#6bc4f5';
+    const side=kind==='planned'?'#879dad':'#14547f';
+    return `<g class="pm-3d-column pm-3d-${kind}">
+      <polygon class="pm-3d-column-side" points="${x+w},${y} ${x+w+dx},${y-dy} ${x+w+dx},${baseY-dy} ${x+w},${baseY}" fill="${side}"/>
+      <polygon class="pm-3d-column-top" points="${x},${y} ${x+dx},${y-dy} ${x+w+dx},${y-dy} ${x+w},${y}" fill="${top}"/>
+      <rect class="pm-3d-column-front" x="${x}" y="${y}" width="${w}" height="${Math.max(0,h)}" rx="1.5" fill="${base}"><title>${esc(label)} ${kind}: ${value}</title></rect>
+    </g>`;
+  };
   stats.forEach((d,i)=>{
     const cx=left+groupSlot*(i+.5);
     const ph=d.plan/roundedMax*plotH,ch=d.checked/roundedMax*plotH;
-    bars+=`<rect x="${cx-barW-3}" y="${baseY-ph}" width="${barW}" height="${ph}" rx="2" fill="#d5e4ee"><title>${esc(d.label)} planned: ${d.plan}</title></rect>`;
-    bars+=`<rect x="${cx+3}" y="${baseY-ch}" width="${barW}" height="${ch}" rx="2" fill="#2587bd"><title>${esc(d.label)} checked: ${d.checked}</title></rect>`;
+    bars+=planBar3D(cx-barW-3,baseY-ph,barW,ph,'planned',d.label,d.plan);
+    bars+=planBar3D(cx+3,baseY-ch,barW,ch,'actual',d.label,d.checked);
     bars+=`<text x="${cx}" y="${baseY+22}" text-anchor="middle" fill="#b9cddc" font-size="12" font-weight="700">${esc(d.label)}</text>`;
   });
   barRoot.innerHTML=stats.length&&rows.length?`<svg viewBox="0 0 ${chartW} ${chartH}" role="img" aria-label="Planned tasks compared with checked tasks">${yGrid.join("")}<line x1="${left}" y1="${baseY}" x2="${chartW-right}" y2="${baseY}" stroke="#527086" stroke-width="1.2"/>${bars}</svg>`:'<div class="pm-visual-no-data">ไม่มีข้อมูลตามตัวกรองที่เลือก</div>';
@@ -3674,7 +4445,13 @@ function renderPMVisualCharts(rows,em1Rows,em2Rows,resinRows,wwtRows,filteredDep
     const y=barBaseY-bh;
     const label=pmProgressGroupLabels[g.groupType]||g.groupType;
     const shortLabel=label.length>15?label.slice(0,14)+'…':label;
-    pctBars+=`<g><rect class="pm-percent-bar" x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${pctBarW.toFixed(1)}" height="${Math.max(0,bh).toFixed(1)}" rx="3" fill="url(#pmPercentBarGradient)" stroke="#4b91c6" stroke-width=".6"><title>${esc(label)}: ${pct.toFixed(1)}%</title></rect><text x="${(x+pctBarW/2).toFixed(1)}" y="${Math.max(t+12,y-7).toFixed(1)}" text-anchor="middle" fill="#d9f1ff" font-size="${groups.length>8?10:12}" font-weight="850">${Math.round(pct)}%</text></g>`;
+    const dx3=8,dy3=6,frontH=Math.max(0,bh);
+    pctBars+=`<g class="pm-percent-column">
+      <polygon class="pm-percent-column-side" points="${(x+pctBarW).toFixed(1)},${y.toFixed(1)} ${(x+pctBarW+dx3).toFixed(1)},${(y-dy3).toFixed(1)} ${(x+pctBarW+dx3).toFixed(1)},${(barBaseY-dy3).toFixed(1)} ${(x+pctBarW).toFixed(1)},${barBaseY.toFixed(1)}" fill="#24547f"/>
+      <polygon class="pm-percent-column-top" points="${x.toFixed(1)},${y.toFixed(1)} ${(x+dx3).toFixed(1)},${(y-dy3).toFixed(1)} ${(x+pctBarW+dx3).toFixed(1)},${(y-dy3).toFixed(1)} ${(x+pctBarW).toFixed(1)},${y.toFixed(1)}" fill="#8bcaff"/>
+      <rect class="pm-percent-bar" x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${pctBarW.toFixed(1)}" height="${frontH.toFixed(1)}" rx="2" fill="url(#pmPercentBarGradient)" stroke="#4b91c6" stroke-width=".6"><title>${esc(label)}: ${pct.toFixed(1)}%</title></rect>
+      <text x="${(x+pctBarW/2+3).toFixed(1)}" y="${Math.max(t+12,y-10).toFixed(1)}" text-anchor="middle" fill="#e6f6ff" font-size="${groups.length>8?10:12}" font-weight="850">${Math.round(pct)}%</text>
+    </g>`;
     pctLabels+=`<text x="${(l+pctSlot*(i+.5)).toFixed(1)}" y="${barBaseY+19}" text-anchor="middle" fill="#bdd0df" font-size="${groups.length>8?9:11}" font-weight="700"><title>${esc(label)}</title>${esc(shortLabel)}</text>`;
   });
   const avgY=t+(100-pctAvg)/100*ph;
@@ -3795,7 +4572,7 @@ function updateEquipmentSelect(){
   list.forEach(v=>{
     const label = activeTankType === "slurry"
       ? ((slurryTankDescriptions[v]||v).split(/\s+/)[0] || v)
-      : (activeTankType === "fmu" ? "Flow Meter Unit " + parseInt(v.split("-")[1], 10) : v);
+      : (activeTankType === "fmu" ? "Flow Meter Unit " + parseInt(v.split("-")[1], 10) : (activeTankType === "filling" ? (fillingMachineInfo[v]?.desc||v) : v));
     sel.add(new Option(label,v));
   });
   if(list.includes(current))sel.value=current;
