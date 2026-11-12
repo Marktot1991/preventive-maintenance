@@ -62,7 +62,7 @@ const t_wwt_cond = [{i:1, n:"ตรวจเช็คสภาพ sensor", s:"�
 const wwtFlowEquipments = {
   "FVT-001": { fl: "T-M-01-05-FVT-001", desc: "MEMB1038 FLOW METER (Raw Waste Sump)", items: [ {id: "IFVT011016", desc: "BWW1-FVT001 Magnetic flow transmitter"} ] },
   "FVT-002": { fl: "T-M-01-05-FVT-002", desc: "MEMB1039 FLOW METER (บ่อ EQ1น่าเสีย)", items: [ {id: "IFVT011017", desc: "BWW1-FVT002 Magnetic flow transmitter"} ] },
-  "FVT-003": { fl: "T-M-01-05-FVT-003", desc: "MEMB1040 FLOW METER (บ่อพักน้ำออกนอกโรงง)", items: [ {id: "IFVT011018", desc: "BWW1-FVT003 Magnetic flow transmitter"} ] },
+  "FVT-003": { fl: "T-M-01-05-FVT-003", desc: "MEMB1040 FLOW METER (บ่อพักน้ำออกนอกโรงงาน)", items: [ {id: "IFVT011018", desc: "BWW1-FVT003 Magnetic flow transmitter"} ] },
   "FVT-004": { fl: "T-M-01-05-FVT-004", desc: "MEMB1041 FLOW METER (ถังตกตะกอน)", items: [ {id: "IFVT011019", desc: "BWW1-FVT004 Magnetic flow transmitter"} ] },
   "FVT-005": { fl: "T-M-01-05-FVT-005", desc: "MEMB1042 FLOW METER (บำบัดชีวภาพ1)", items: [ {id: "IFVT011020", desc: "BWW1-FVT005 Magnetic flow transmitter"} ] },
   "FVT-006": { fl: "T-M-01-05-FVT-006", desc: "MEMB1043 FLOW METER (บ่อ EQ2 น่าเสีย)", items: [ {id: "IFVT011021", desc: "BWW1-FVT006 Magnetic flow transmitter"} ] },
