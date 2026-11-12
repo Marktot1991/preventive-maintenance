@@ -1,0 +1,40 @@
+/* ---------- SYNC OVERLAY ---------- */
+#sync-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 999999;
+  background: rgba(255,255,255,0.7);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+html[data-theme=dark] #sync-overlay {
+  background: rgba(17, 27, 36, 0.75);
+}
+.sync-spinner {
+  width: 50px;
+  height: 50px;
+  border: 5px solid rgba(8, 183, 168, 0.2);
+  border-top-color: #08b7a8;
+  border-radius: 50%;
+  animation: syncSpin 0.8s linear infinite;
+  margin-bottom: 15px;
+}
+@keyframes syncSpin {
+  to { transform: rotate(360deg); }
+}
+.sync-text {
+  color: var(--text);
+  font-size: 18px;
+  font-weight: 800;
+}
+
+/* ============================================================
+   ✨ DIMENSIONAL & COLORFUL ENHANCEMENTS (NEW)
+   - เพิ่มมิติด้วย多层 shadows + gradients
+   - ไม่กระทบฟังก์ชันเดิม (Supabase, Print/PDF, logic ทั้งหมด)
+   ============================================================ */
+

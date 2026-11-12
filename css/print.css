@@ -1,0 +1,214 @@
+/* ---------- PRINT / PDF ---------- */
+@media print{
+  @page{
+    size:A4 portrait;
+    margin:5mm;
+  }
+  html,
+  body,
+  body.printing-group{
+    background:#fff!important;
+    background-color:#fff!important;
+    color:#111!important;
+    color-scheme:light!important;
+    margin:0!important;
+    padding:0!important;
+  }
+  #login-screen,
+  .sidebar,
+  .app-topbar,
+  #loading{
+    display:none!important;
+  }
+  body.printing-group > *:not(#print-group-container){
+    display:none!important;
+  }
+  body.printing-group #print-group-container{
+    display:block!important;
+    width:100%!important;
+    max-width:none!important;
+    min-height:0!important;
+    margin:0!important;
+    padding:0!important;
+    background:#fff!important;
+    background-color:#fff!important;
+    color:#111!important;
+    border:0!important;
+    border-radius:0!important;
+    box-shadow:none!important;
+    outline:0!important;
+  }
+  body.printing-group #print-group-container .print-group-item{
+    display:block!important;
+    width:100%!important;
+    min-height:0!important;
+    margin:0!important;
+    padding:0!important;
+    background:#fff!important;
+    background-color:#fff!important;
+    color:#111!important;
+    border:0!important;
+    border-radius:0!important;
+    box-shadow:none!important;
+    outline:0!important;
+    page-break-after:always;
+    break-after:page;
+  }
+  body.printing-group #print-group-container .print-group-item:last-child{
+    page-break-after:auto;
+    break-after:auto;
+  }
+  body.printing-group #print-group-container .print-group-title{
+    display:none!important;
+  }
+  body.printing-group #print-group-container .page-container{
+    display:block!important;
+    width:100%!important;
+    max-width:none!important;
+    min-height:0!important;
+    margin:0!important;
+    padding:10px!important;
+    background:#fff!important;
+    background-color:#fff!important;
+    color:#111!important;
+    border:0!important;
+    border-radius:0!important;
+    box-shadow:none!important;
+    -webkit-box-shadow:none!important;
+    outline:none!important;
+  }
+  body.printing-group #print-group-container *{
+    box-shadow:none!important;
+    -webkit-box-shadow:none!important;
+    text-shadow:none!important;
+    filter:none!important;
+  }
+  body.printing-group #print-group-container table{
+    width:100%!important;
+    border-collapse:collapse!important;
+    border-spacing:0!important;
+    margin:0 0 10px 0!important;
+    background:#fff!important;
+    background-color:#fff!important;
+    color:#111!important;
+    font-size:10.5px!important;
+    line-height:1.35!important;
+    page-break-inside:avoid;
+    break-inside:avoid;
+  }
+  body.printing-group #print-group-container table:last-child{
+    margin-bottom:0!important;
+  }
+  body.printing-group #print-group-container th,
+  body.printing-group #print-group-container td{
+    border:1px solid #000!important;
+    background:#fff!important;
+    background-color:#fff!important;
+    color:#111!important;
+    padding:2px 4px!important;
+    vertical-align:middle!important;
+  }
+  body.printing-group #print-group-container .header-bg{
+    background:#dbe2e8!important;
+    background-color:#dbe2e8!important;
+    color:#111!important;
+    font-weight:800!important;
+    text-align:center!important;
+  }
+  body.printing-group #print-group-container .sub-header-bg{
+    background:#eef1f3!important;
+    background-color:#eef1f3!important;
+    color:#111!important;
+  }
+  body.printing-group #print-group-container input,
+  body.printing-group #print-group-container select,
+  body.printing-group #print-group-container textarea{
+    background:#fff!important;
+    background-color:#fff!important;
+    color:#111!important;
+    -webkit-text-fill-color:#111!important;
+    border-color:#000!important;
+    font-size:10.5px!important;
+    padding:0!important;
+  }
+  body.printing-group #print-group-container .borderless-input{
+    border:0!important;
+    outline:0!important;
+    background:transparent!important;
+    color:#111!important;
+    -webkit-text-fill-color:#111!important;
+  }
+  body.printing-group #print-group-container .print-status-radio{
+    display:inline-block!important;
+    width:12px!important;
+    height:12px!important;
+    min-width:12px!important;
+    min-height:12px!important;
+    padding:0!important;
+    margin:0!important;
+    border:1.4px solid #777!important;
+    border-radius:50%!important;
+    position:relative!important;
+    vertical-align:middle!important;
+    box-sizing:border-box!important;
+    background:#fff!important;
+  }
+  body.printing-group #print-group-container .print-status-radio.selected-ok{
+    border-color:#16a34a!important;
+  }
+  body.printing-group #print-group-container .print-status-radio.selected-no{
+    border-color:#ef3340!important;
+  }
+  body.printing-group #print-group-container .print-status-radio.selected-ok::after,
+  body.printing-group #print-group-container .print-status-radio.selected-no::after{
+    content:"";
+    position:absolute;
+    width:6px;
+    height:6px;
+    left:50%;
+    top:50%;
+    transform:translate(-50%,-50%);
+    border-radius:50%;
+  }
+  body.printing-group #print-group-container .print-status-radio.selected-ok::after{
+    background:#16a34a!important;
+  }
+  body.printing-group #print-group-container .print-status-radio.selected-no::after{
+    background:#ef3340!important;
+  }
+  body.printing-group #print-group-container .radio-ok,
+  body.printing-group #print-group-container .radio-no{
+    display:none!important;
+  }
+  #app-container,
+  .app-main,
+  .main-content,
+  .page-container{
+    box-shadow:none!important;
+  }
+  *{
+    -webkit-print-color-adjust:exact!important;
+    print-color-adjust:exact!important;
+  }
+
+  /* --- FIX PDF ROUNDED CORNERS (NEW) --- */
+  body.printing-group #print-group-container,
+  body.printing-group #print-group-container * {
+    border-radius: 0 !important;
+    -webkit-border-radius: 0 !important;
+    overflow: visible !important;
+  }
+  body.printing-group #print-group-container .page-container::before {
+    display: none !important; /* ซ่อนแถบสีสันด้านบน */
+  }
+  body.printing-group #print-group-container table,
+  body.printing-group #print-group-container tr,
+  body.printing-group #print-group-container td,
+  body.printing-group #print-group-container th {
+    border-radius: 0 !important;
+    border-collapse: collapse !important;
+  }
+}
+
+/* ---------- PRINT END ---------- */
+

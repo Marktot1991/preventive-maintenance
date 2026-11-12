@@ -1,0 +1,80 @@
+.wwt-only{display:none;}
+/* ---------- SYNC OVERLAY ---------- */
+#sync-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 999999;
+  background: rgba(255,255,255,0.7);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+html[data-theme=dark] #sync-overlay {
+  background: rgba(17, 27, 36, 0.75);
+}
+.sync-spinner {
+  width: 50px;
+  height: 50px;
+  border: 5px solid rgba(8, 183, 168, 0.2);
+  border-top-color: #08b7a8;
+  border-radius: 50%;
+  animation: syncSpin 0.8s linear infinite;
+  margin-bottom: 15px;
+}
+@keyframes syncSpin {
+  to { transform: rotate(360deg); }
+}
+.sync-text {
+  color: var(--text);
+  font-size: 18px;
+  font-weight: 800;
+}
+
+/* ---------- PM PROGRESS: 3D BAR + DONUT DEPTH ---------- */
+#pm-progress-page .pm-visual-bar-chart svg,
+#pm-progress-page .pm-visual-area-chart svg{overflow:visible}
+#pm-progress-page .pm-visual-bar-chart svg rect,
+#pm-progress-page .pm-visual-area-chart svg rect{
+  filter:drop-shadow(2px 5px 3px rgba(0,0,0,.34));
+  stroke:rgba(255,255,255,.18);stroke-width:.65;
+}
+#pm-progress-page .pm-visual-bar-chart svg rect[fill],
+#pm-progress-page .pm-visual-area-chart svg rect[fill]{rx:3px}
+#pm-progress-page .pm-visual-bar-chart svg path,
+#pm-progress-page .pm-visual-area-chart svg path{filter:drop-shadow(0 3px 3px rgba(0,0,0,.24))}
+#pm-progress-page .pm-visual-donut{transform:perspective(650px) rotateX(12deg);box-shadow:0 13px 0 rgba(1,12,22,.35),0 20px 25px rgba(0,0,0,.32),inset 0 2px 3px rgba(255,255,255,.18)!important;filter:drop-shadow(0 10px 9px rgba(0,0,0,.32))}
+#pm-progress-page .pm-visual-donut svg path,
+#pm-progress-page .pm-visual-donut-chart svg path{
+  stroke:rgba(255,255,255,.22);stroke-width:1.3px;
+  filter:drop-shadow(0 3px 2px rgba(0,0,0,.28));
+}
+#pm-progress-page .progress-ring,
+#pm-progress-page .progress-repair-total-donut{
+  transform:perspective(650px) rotateX(12deg);
+  box-shadow:0 13px 0 rgba(1,12,22,.35),0 20px 25px rgba(0,0,0,.32),inset 0 2px 3px rgba(255,255,255,.18);
+}
+#pm-progress-page .progress-ring:before,
+#pm-progress-page .progress-repair-total-donut:before{
+  box-shadow:inset 0 3px 8px rgba(0,0,0,.20),0 1px 0 rgba(255,255,255,.12);
+}
+#pm-progress-page .progress-group-bar,
+#pm-progress-page .progress-bar-wrap,
+#pm-progress-page .progress-repair-bar-wrap{
+  height:13px!important;border-radius:999px!important;
+  box-shadow:inset 0 3px 5px rgba(0,0,0,.45),0 1px 0 rgba(255,255,255,.08)!important;
+  transform:perspective(500px) rotateX(8deg);
+}
+#pm-progress-page .progress-group-fill,
+#pm-progress-page .progress-bar,
+#pm-progress-page .progress-repair-bar{
+  box-shadow:0 3px 0 rgba(0,0,0,.28),0 5px 9px rgba(0,0,0,.22),inset 0 2px 0 rgba(255,255,255,.28)!important;
+}
+@media(max-width:700px){
+ #pm-progress-page .progress-ring,#pm-progress-page .progress-repair-total-donut{transform:perspective(500px) rotateX(8deg)}
+}
+@media(prefers-reduced-motion:reduce){
+ #pm-progress-page *{transition:none!important;animation:none!important}
+}
