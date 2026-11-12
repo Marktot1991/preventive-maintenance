@@ -1,1 +1,75 @@
+*{box-sizing:border-box}
+:root{
+  --body-bg:#eef2f5;
+  --surface:#fff;
+  --surface-soft:#f6f8fa;
+  --surface-input:#fbfcfd;
+  --text:#23384a;
+  --text-muted:#718092;
+  --border:#cfd7df;
+  --table-header:#dbe2e8;
+  --table-subheader:#eef1f3;
+  --sidebar:#273949;
+  --sidebar-2:#304556;
+  --sidebar-line:rgba(255,255,255,.075);
+  --sidebar-text:#c9d2db;
+  --sidebar-muted:#9eacb9;
+  --accent:#08b7a8;
+  --accent-2:#00a99d;
+  --danger:#dc4b4b;
+  --login-bg-1:#e8eef3;
+  --login-bg-2:#d8e4ec;
+  --login-card:#ffffff;
+  --login-border:rgba(22,42,58,.10);
+}
+html[data-theme=dark]{
+  color-scheme:dark;
+  --body-bg:#111b24;
+  --surface:#1d2a35;
+  --surface-soft:#253541;
+  --surface-input:#17232d;
+  --text:#edf3f7;
+  --text-muted:#aeb9c4;
+  --border:#43515d;
+  --table-header:#344451;
+  --table-subheader:#2d3944;
+  --sidebar:#1c2b37;
+  --login-bg-1:#121d27;
+  --login-bg-2:#1e3542;
+  --login-card:#1b2a35;
+  --login-border:rgba(255,255,255,.08);
+  --sidebar-2:#263845;
+  --sidebar-line:rgba(255,255,255,.07);
+  --sidebar-text:#d0dae3;
+  --sidebar-muted:#9aa8b5;
+}
+html,body{min-height:100%;}
+
+/* ---------- HIDE ALL SCROLLBARS ---------- */
+html,body,*{
+  scrollbar-width:none;
+  -ms-overflow-style:none;
+}
+html::-webkit-scrollbar,
+body::-webkit-scrollbar,
+*::-webkit-scrollbar{
+  width:0;
+  height:0;
+  display:none;
+}
+body{
+  font-family:'Segoe UI',Tahoma,Arial,sans-serif;
+  font-size:15px;
+  line-height:1.5;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+  margin:0;
+  min-height:100vh;
+  background:var(--body-bg);
+  color:var(--text);
+  overflow-x:hidden;
+}
+.hidden{display:none!important}
+button{cursor:pointer;font-family:inherit;font-weight:700;padding:8px 12px;border-radius:6px;border:0;color:#fff;font-size:12px}
+button:disabled{cursor:not-allowed;opacity:.65}
 
