@@ -60,6 +60,21 @@ const hopperMap={'B1210':['XV50','JET','RV50','LSH'],'B1211':['XV50','RV50','JET
 
 const mixFlMap={'D7301':'001','D7302':'002','D7303':'003','D7304':'004','D7305':'005','D7306':'006','D7307':'007','D7308':'008','D7309':'009','D7310':'010','D7311':'011','D7312':'012','D7313':'017','D7314':'018','D7315':'019'};
 const tf2FlMap={'T2110':'005','T2111':'006','T2112':'018','T2113':'022','T2210':'007','T2211':'008','T2212':'009','T2213':'010','T2214':'011','T2215':'012','T2216':'013','T2217':'014','T2218':'015','T2219':'019','T2220':'020','T2221':'021','T2410':'016','T2411':'017','T9110':'001'};
+
+// ชื่อ Description ของ Mass Flow Transmitter (FT) แต่ละถัง Tank Farm 2 — ตามแบบฟอร์ม PDF
+const tf2FtDescMap={
+  'T2110':'P2110FT01 Mass Flow transmitter',
+  'T2111':'P2111FT01 Mass Flow transmitter',
+  'T2210':'DVP2110FT01 Mass Flow Transmitter',
+  'T2212':'F2112FT40 Mass Flow Transmitter',
+  'T2214':'DVP2220FT01 Mass Flow Transmitter',
+  'T2216':'F2216FT40 Mass Flow Transmitter',
+  'T2217':'F2217FT40 Mass Flow Transmitter',
+  'T2218':'F2218FT40 Mass Flow Transmitter',
+  'T2410':'DVP2111FT01 Mass Flow Transmitter',
+  'T2411':'F2411FT40 Mass Flow Transmitter',
+  'T9110':'DVP2111FT51 Mass Flow Transmitter'
+};
 const surpFlMap={'C1910':'001','C1911':'002','C1920':'003','C1921':'004','C1930':'005','C1940':'006','C1960':'007','C1970':'008','C1980':'009','C1995':'010'};
 const siloFlMap={'S1110':'001','S1111':'002','S1112':'003','S1120':'004','S1130':'005','S1131':'006','S1140':'007','S1141':'008'};
 const hopperFlMap={'B1210':'001','B1211':'002','B1230':'003','B1240':'004','X1321':'005','Y1220':'006'};
