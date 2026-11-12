@@ -19,6 +19,7 @@
 <link rel="stylesheet" href="css/login-glass.css">
 <link rel="stylesheet" href="css/progress-3d.css">
 <link rel="stylesheet" href="css/sidebar-extra.css">
+<link rel="stylesheet" href="css/performance.css">
 
 </head>
 
@@ -187,7 +188,7 @@
         <select id="progressGroupFilter" class="progress-filter" onchange="renderPMProgress()">
           <option value="all">ทุกกลุ่มอุปกรณ์</option>
         </select>
-        <input id="progressSearch" class="progress-filter" type="search" placeholder="ค้นหารหัสอุปกรณ์ / ชื่อกลุ่ม" oninput="renderPMProgress()">
+        <input id="progressSearch" class="progress-filter" type="search" placeholder="ค้นหารหัสอุปกรณ์ / ชื่อกลุ่ม" oninput="schedulePMProgressRefresh()">
         <button type="button" class="progress-refresh-btn" onclick="refreshPMProgress()"><i class="fa-solid fa-rotate"></i> รีเฟรช</button>
       </div>
 
