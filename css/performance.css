@@ -1,0 +1,71 @@
+/* ============================================================
+   PERFORMANCE OVERRIDES  (โหลดเป็นไฟล์สุดท้าย)
+   ลดเอฟเฟกต์ที่ทำให้หน้าเว็บหน่วง/กระตุก โดยคงหน้าตาเดิมให้มากที่สุด
+   ต้องการเอฟเฟกต์เดิมกลับมา: ลบ <link> ของไฟล์นี้ใน index.html
+   ============================================================ */
+
+/* 1) Radio OK/NO — เดิมใส่ filter:drop-shadow ให้ "ทุกปุ่ม" (หลายร้อยปุ่มต่อฟอร์ม)
+      เปลี่ยนเป็น box-shadow ธรรมดาตอนถูกเลือก */
+.radio-ok,.radio-no,
+.radio-ok:hover,.radio-no:hover,
+.radio-ok:checked,.radio-no:checked{filter:none!important;transition:none!important}
+.radio-ok:checked{box-shadow:0 0 0 3px rgba(40,167,69,.28);border-radius:50%}
+.radio-no:checked{box-shadow:0 0 0 3px rgba(220,53,69,.28);border-radius:50%}
+
+/* 2) แอนิเมชันที่วนไม่รู้จบ (ทำให้เบราว์เซอร์ต้อง repaint ตลอดเวลา แม้ไม่ได้ทำอะไร) */
+.page-container::before{animation:none!important}
+.brand-mark{animation:none!important}
+#pm-progress-page .progress-bar.done::after,
+#pm-progress-page .progress-bar.partial::after{animation:none!important;display:none!important}
+
+/* 3) backdrop-filter: blur — แพงมากเมื่อมีหลายร้อยแถว / ทับเต็มจอ */
+#pm-progress-page .progress-card,
+#pm-progress-page .progress-row,
+.progress-hero-badge,
+#sync-overlay{
+  -webkit-backdrop-filter:none!important;
+  backdrop-filter:none!important;
+}
+#sync-overlay{background:rgba(255,255,255,.88)!important}
+html[data-theme=dark] #sync-overlay{background:rgba(17,27,36,.9)!important}
+
+/* 4) 3D context (perspective / preserve-3d / rotateX) ซ้อนกันหลายร้อยชั้นในหน้า Progress */
+#pm-progress-page{perspective:none!important}
+#pm-progress-page .progress-dashboard-shell,
+#pm-progress-page .progress-dashboard-hero,
+#pm-progress-page .progress-card,
+#pm-progress-page .progress-row,
+#pm-progress-page .progress-repair-row,
+#pm-progress-page .pm-visual-chart-panel,
+#pm-progress-page .progress-dept-panel,
+#pm-progress-page .progress-repair-panel,
+#pm-progress-page .progress-repair-section,
+#pm-progress-page .progress-detail-panel{transform-style:flat!important}
+#pm-progress-page .progress-group-bar,
+#pm-progress-page .progress-bar-wrap,
+#pm-progress-page .progress-repair-bar-wrap{transform:none!important}
+
+/* 5) SVG filter: drop-shadow บนทุก rect/path ของกราฟ (วาดใหม่ทุกครั้งที่ hover/อัปเดต) */
+#pm-progress-page .pm-visual-bar-chart svg,
+#pm-progress-page .pm-visual-area-chart svg,
+#pm-progress-page .pm-visual-donut-chart > div,
+#pm-progress-page .pm-visual-bar-chart svg rect,
+#pm-progress-page .pm-visual-area-chart svg rect,
+#pm-progress-page .pm-visual-bar-chart svg path,
+#pm-progress-page .pm-visual-area-chart svg path,
+#pm-progress-page .pm-visual-donut,
+#pm-progress-page .pm-visual-donut svg path,
+#pm-progress-page .pm-visual-donut-chart svg path,
+#pm-progress-page .progress-ring,
+#pm-progress-page .progress-repair-total-donut,
+#pm-progress-page .pm-3d-column,
+#pm-progress-page .pm-percent-column{filter:none!important}
+
+/* 6) สกอลล์ลื่นไหลเฉพาะระดับหน้า ไม่ใช้กับทุก element */
+body,*{scroll-behavior:auto}
+html{scroll-behavior:smooth}
+
+/* 7) ผู้ใช้ที่ตั้งค่าลดแอนิเมชันในระบบ */
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+}
