@@ -11,7 +11,7 @@ function getEquipData(tank,code,tankType){
     if(code==="XV42_P")return{eq:"N/A",desc:`${pTank}-XV42 Actuator valve`,tasks:t_XV};
     if(code==="XV43_P")return{eq:"N/A",desc:`${pTank}-XV43 Actuator valve`,tasks:t_XV};
     if(code==="PSV")return{eq:"N/A",desc:`PSV${tank.substring(1)} Breather valve`,tasks:t_PSV};
-    if(code==="FT")return{eq:"N/A",desc:"Mass Flow Transmitter",tasks:t_FT};
+    if(code==="FT")return{eq:"N/A",desc:tf2FtDescMap[tank]||"Mass Flow Transmitter",tasks:t_FT};
     if(code==="SOV50")return{eq:"N/A",desc:`${pTank}-XV50 Solenoid valve 2/2`,tasks:t_SOV};
     if(code==="REG")return{eq:"N/A",desc:`${pTank}-PCV54 Electric regulator`,tasks:t_REG};
   }
@@ -101,33 +101,11 @@ function buildSection(eq,desc,tasks,valveId,tankName=activeTankName){
 
 const RESIN_TASK_LISTS={psv:tr_psv,temp:tr_temp,sv:tr_sv,rota:tr_rota,ft:tr_ft,pt:tr_pt,pg:tr_pg,btv:tr_btv,cv:tr_cv};
 
-function renderForm(){
-  const deptDisplay = document.getElementById("dept-display");
-  if(activeDepartment === "em1") deptDisplay.textContent = "Department : Emulsion 1";
-  else if(activeDepartment === "resin") deptDisplay.textContent = "Department : Resin PD1";
-  else if(activeDepartment === "wwt") deptDisplay.textContent = "Department : WWT";
-  else deptDisplay.textContent = "Department : Emulsion 2";
-  if(!activeTankName){document.getElementById("checklist-container").innerHTML="";return}
-  ["orderNo","orderType","orderActivity","desc","workCenter","supervisor","sysStatus","userStatus","releaseDate","pmDate","pmNextDate"].forEach(id=>{
-    let val = dbData[`${activeTankName}_header_${id}`]||"";
-    if(id==="pmDate" || id==="pmNextDate") {
-      if(val.length > 7) val = val.substring(0, 7);
-      const hiddenEl = document.getElementById(id);
-      const dispEl = document.getElementById(id + "_display");
-      if(hiddenEl) hiddenEl.value = val;
-      if(dispEl) {
-        dispEl.dataset.val = val;
-        dispEl.type = 'text';
-        dispEl.value = formatMonthEn(val);
-      }
-    } else {
-      const el = document.getElementById(id);
-      if(el) el.value = val;
-    }
-  });
-  
+// สร้าง HTML ของฟอร์มเป็น string เท่านั้น (ไม่แตะ DOM) — ใช้ได้ทั้งตอนแสดงฟอร์มและตอนคำนวณ Progress
+function buildFormModel(){
+  if(!activeTankName)return {h:"",fl:null,ed:null};
   let h="";
-  const fl=document.getElementById("fl-display"),ed=document.getElementById("equipment-desc-display");
+  const fl={textContent:null},ed={textContent:null};
   
   if (activeDepartment === "em1") {
     if(activeTankType === "fmu") {
@@ -257,5 +235,35 @@ function renderForm(){
       }
     }
   }
-  document.getElementById("checklist-container").innerHTML=h;
+  return {h,fl:fl.textContent,ed:ed.textContent};
+}
+
+function renderForm(){
+  const deptDisplay = document.getElementById("dept-display");
+  if(activeDepartment === "em1") deptDisplay.textContent = "Department : Emulsion 1";
+  else if(activeDepartment === "resin") deptDisplay.textContent = "Department : Resin PD1";
+  else if(activeDepartment === "wwt") deptDisplay.textContent = "Department : WWT";
+  else deptDisplay.textContent = "Department : Emulsion 2";
+  if(!activeTankName){document.getElementById("checklist-container").innerHTML="";return}
+  ["orderNo","orderType","orderActivity","desc","workCenter","supervisor","sysStatus","userStatus","releaseDate","pmDate","pmNextDate"].forEach(id=>{
+    let val = dbData[`${activeTankName}_header_${id}`]||"";
+    if(id==="pmDate" || id==="pmNextDate") {
+      if(val.length > 7) val = val.substring(0, 7);
+      const hiddenEl = document.getElementById(id);
+      const dispEl = document.getElementById(id + "_display");
+      if(hiddenEl) hiddenEl.value = val;
+      if(dispEl) {
+        dispEl.dataset.val = val;
+        dispEl.type = 'text';
+        dispEl.value = formatMonthEn(val);
+      }
+    } else {
+      const el = document.getElementById(id);
+      if(el) el.value = val;
+    }
+  });
+  const m=buildFormModel();
+  if(m.fl!==null)document.getElementById("fl-display").textContent=m.fl;
+  if(m.ed!==null)document.getElementById("equipment-desc-display").textContent=m.ed;
+  document.getElementById("checklist-container").innerHTML=m.h;
 }

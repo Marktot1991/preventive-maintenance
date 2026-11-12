@@ -30,47 +30,64 @@ function schedulePMProgressRefresh(){
   window.__pmProgressTimer=setTimeout(()=>{if(currentPage==="progress")renderPMProgress()},180);
 }
 
+// แคชผลคำนวณรายถัง — ล้างเฉพาะถังที่มีการแก้ไข (ดู invalidateProgressCache ใน database.js)
+const progressTankCache=new Map();
+function invalidateProgressCache(key){
+  if(key==null){progressTankCache.clear();return}
+  const k=String(key);
+  for(const [ck,v] of progressTankCache){
+    if(k.startsWith(v.tank+"_"))progressTankCache.delete(ck);
+  }
+}
+
+// นับ OK/NO จาก HTML string โดยตรง (ไม่ต้องสร้าง DOM จริง)
+const PM_RADIO_RE=/<input\b[^>]*\bclass="radio-(?:ok|no)\b[^"]*"[^>]*\bname="([^"]*)"[^>]*\bvalue="(OK|NO)"[^>]*\bdata-checked="(true|false)"/g;
+function countChecksFromHtml(html){
+  const byName=new Map();
+  PM_RADIO_RE.lastIndex=0;
+  let m;
+  while((m=PM_RADIO_RE.exec(html))!==null){
+    let item=byName.get(m[1]);
+    if(!item){item={ok:false,no:false};byName.set(m[1],item)}
+    if(m[3]==="true"){
+      if(m[2]==="OK")item.ok=true;
+      else item.no=true;
+    }
+  }
+  let done=0,ok=0,no=0;
+  byName.forEach(v=>{
+    if(v.ok||v.no)done++;
+    if(v.ok)ok++;
+    if(v.no)no++;
+  });
+  return {total:byName.size,done,ok,no};
+}
+
 function calculateTankProgress(groupType,tank){
+  const cacheKey=groupType+"|"+tank;
+  const cached=progressTankCache.get(cacheKey);
+  if(cached)return {...cached.result};
+
   const savedType=activeTankType;
   const savedName=activeTankName;
   const savedDept=activeDepartment;
+  let html="";
   try{
     activeTankType=groupType;
     activeTankName=tank;
     activeDepartment=pmProgressDeptByGroup[groupType]||"em2";
-    renderForm();
-
-    const root=document.getElementById("checklist-container");
-    if(!root)return {groupType,tank,total:0,done:0,percent:0,ok:0,no:0};
-
-    const byName=new Map();
-    root.querySelectorAll('tr[data-pm-check="1"] input[type="radio"]').forEach(r=>{
-      const name=r.name||"";
-      if(!name)return;
-      if(!byName.has(name))byName.set(name,{done:false,ok:false,no:false});
-      const item=byName.get(name);
-      if(r.checked){
-        item.done=true;
-        if(r.value==="OK")item.ok=true;
-        if(r.value==="NO")item.no=true;
-      }
-    });
-
-    let done=0,ok=0,no=0;
-    byName.forEach(v=>{
-      if(v.done)done++;
-      if(v.ok)ok++;
-      if(v.no)no++;
-    });
-    const total=byName.size;
-    const percent=total?Math.round((done/total)*1000)/10:0;
-    return {groupType,tank,total,done,percent,ok,no};
+    html=buildFormModel().h;   // ไม่แตะ DOM จึงไม่ทำให้หน้าค้าง/กระตุก
   }finally{
     activeTankType=savedType;
     activeTankName=savedName;
     activeDepartment=savedDept;
-    renderForm();
   }
+
+  const c=countChecksFromHtml(html);
+  const percent=c.total?Math.round((c.done/c.total)*1000)/10:0;
+  const result={groupType,tank,total:c.total,done:c.done,percent,ok:c.ok,no:c.no};
+  progressTankCache.set(cacheKey,{tank,result});
+  return {...result};
 }
 
 function getProgressRows(){
