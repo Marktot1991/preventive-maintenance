@@ -127,13 +127,27 @@ async function logExport(info) {
 }
 
 // ---------- หน้า จัดการผู้ใช้ ----------
+async function fetchAdminUsers() {
+  // 1) ใช้ RPC (ไม่ติด RLS)  2) ถ้ายังไม่ได้รัน SQL ใหม่ ให้ fallback ไปอ่านตาราง profiles ตรง ๆ
+  let res = await db.rpc("admin_list_users");
+  if (!res.error) return { data: res.data || [], error: null, viaRpc: true };
+  const fb = await db.from("profiles").select("id,email,display_name,role").order("email");
+  if (fb.error) return { data: [], error: res.error, viaRpc: false };
+  return { data: fb.data || [], error: null, viaRpc: false, rpcError: res.error };
+}
+
 async function renderAdminUsers() {
   if (!isAdministrator()) return;
   const body = document.getElementById("adm-users-body");
   if (!body) return;
-  body.innerHTML = '<tr><td colspan="4" class="adm-empty">กำลังโหลด...</td></tr>';
-  const { data, error } = await db.from("profiles").select("id,email,display_name,role").order("email");
-  if (error) { body.innerHTML = `<tr><td colspan="4" class="adm-empty">โหลดไม่สำเร็จ: ${admEsc(error.message)}</td></tr>`; return; }
+  body.innerHTML = '<tr><td colspan="6" class="adm-empty">กำลังโหลด...</td></tr>';
+  const { data, error, viaRpc, rpcError } = await fetchAdminUsers();
+  if (error) {
+    body.innerHTML = `<tr><td colspan="6" class="adm-empty">โหลดรายชื่อผู้ใช้ไม่สำเร็จ: ${admEsc(error.message)}<br><span class="adm-sub">(ยังไม่ได้รัน sql/administrator-setup.sql ล่าสุดใน Supabase?)</span></td></tr>`;
+    return;
+  }
+  admMsg("adm-users-msg", viaRpc ? "" :
+    "แสดงรายชื่อแบบจำกัด เพราะยังไม่ได้รัน sql/administrator-setup.sql ล่าสุด (" + (rpcError?.message || "") + ")", false);
   const order = { administrator: 0, admin: 1, view: 2 };
   data.sort((a, b) => (order[a.role] ?? 3) - (order[b.role] ?? 3) || String(a.email).localeCompare(String(b.email)));
   document.getElementById("adm-users-count").textContent = `${data.length} บัญชี`;
@@ -144,8 +158,9 @@ async function renderAdminUsers() {
         ${["administrator", "admin", "view"].map(r => `<option value="${r}" ${u.role === r ? "selected" : ""}>${admRoleLabel(r)}</option>`).join("")}
       </select>`;
     const del = self ? "" : `<button type="button" class="adm-btn danger small" onclick="deleteUser('${admEsc(u.id)}','${admEsc(u.email)}')"><i class="fa-solid fa-trash-can"></i> ลบ</button>`;
-    return `<tr><td>${admEsc(u.display_name || "—")}</td><td>${admEsc(u.email)}</td><td>${roleSel}</td><td>${del}</td></tr>`;
-  }).join("") || '<tr><td colspan="4" class="adm-empty">ไม่มีผู้ใช้</td></tr>';
+    const last = u.last_sign_in_at ? admFmtDate(u.last_sign_in_at) + " " + admFmtTime(u.last_sign_in_at) : "—";
+    return `<tr><td>${admEsc(u.display_name || "—")}</td><td>${admEsc(u.email)}</td><td>${roleSel}</td><td>${viaRpc ? admFmtDate(u.created_at) : "—"}</td><td>${viaRpc ? last : "—"}</td><td>${del}</td></tr>`;
+  }).join("") || '<tr><td colspan="6" class="adm-empty">ไม่มีผู้ใช้</td></tr>';
 }
 
 async function addUser() {
@@ -170,8 +185,13 @@ async function deleteUser(id, email) {
   if (!isAdministrator()) return;
   if (!confirm(`ลบผู้ใช้ ${email} ?\nผู้ใช้นี้จะเข้าสู่ระบบไม่ได้อีก (ประวัติการแก้ไขที่เคยบันทึกจะยังอยู่)`)) return;
   const { error } = await db.rpc("admin_delete_user", { p_user_id: id });
-  if (error) { alert("ลบผู้ใช้ไม่สำเร็จ: " + error.message); return; }
+  if (error) {
+    admMsg("adm-users-msg", "ลบผู้ใช้ไม่สำเร็จ: " + error.message, false);
+    alert("ลบผู้ใช้ไม่สำเร็จ: " + error.message);
+    return;
+  }
   delete profileNames[id];
+  admMsg("adm-users-msg", `ลบผู้ใช้ ${email} เรียบร้อย`, true);
   renderAdminUsers();
 }
 
