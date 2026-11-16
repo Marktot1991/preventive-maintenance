@@ -66,16 +66,32 @@ function updateSidebarActive(){
   document.querySelectorAll('.tank-nav').forEach(btn=>btn.classList.toggle('active',currentPage==="form" && btn.dataset.type===activeTankType&&sidebarCategoryVisible(btn.dataset.type)));
   const nav=document.getElementById("navPMProgress");
   if(nav)nav.classList.toggle("active",currentPage==="progress");
+  const navHist=document.getElementById("navPMHistory");
+  if(navHist)navHist.classList.toggle("active",currentPage==="history");
+  const navAct=document.getElementById("navActivityLog");
+  if(navAct)navAct.classList.toggle("active",currentPage==="activity");
+  const navUsers=document.getElementById("navAdminUsers");
+  if(navUsers)navUsers.classList.toggle("active",currentPage==="adminUsers");
+  const navLogs=document.getElementById("navAdminLogs");
+  if(navLogs)navLogs.classList.toggle("active",currentPage==="adminLogs");
+  const navNext=document.getElementById("navPMNextDue");
+  if(navNext)navNext.classList.toggle("active",currentPage==="nextdue");
+}
+
+function setAllMainPagesHidden(){
+  ["pm-form-page","pm-progress-page","pm-history-page","pm-activity-page","pm-users-page","pm-logs-page","pm-next-due-page"].forEach(id=>{
+    const el=document.getElementById(id);
+    if(el)el.classList.add("hidden");
+  });
 }
 
 function showPMForm(){
   currentPage="form";
+  setAllMainPagesHidden();
   const form=document.getElementById("pm-form-page");
-  const dash=document.getElementById("pm-progress-page");
   const eq=document.querySelector(".topbar-equipment");
   const title=document.getElementById("topbarPageTitle");
   if(form)form.classList.remove("hidden");
-  if(dash)dash.classList.add("hidden");
   if(eq)eq.style.display="flex";
   if(title)title.style.display="none";
   updateSidebarActive();
@@ -83,17 +99,94 @@ function showPMForm(){
 
 function showPMProgress(){
   currentPage="progress";
-  const form=document.getElementById("pm-form-page");
+  setAllMainPagesHidden();
   const dash=document.getElementById("pm-progress-page");
   const eq=document.querySelector(".topbar-equipment");
   const title=document.getElementById("topbarPageTitle");
-  if(form)form.classList.add("hidden");
   if(dash)dash.classList.remove("hidden");
   if(eq)eq.style.display="none";
-  if(title)title.style.display="flex";
+  if(title){
+    title.style.display="flex";
+    title.innerHTML='<i class="fa-solid fa-chart-column"></i><span>PM Progress Dashboard</span>';
+  }
   updateSidebarActive();
   renderProgressGroupOptions();
   renderPMProgress();
+}
+
+function showPMHistory(){
+  currentPage="history";
+  setAllMainPagesHidden();
+  const page=document.getElementById("pm-history-page");
+  const eq=document.querySelector(".topbar-equipment");
+  const title=document.getElementById("topbarPageTitle");
+  if(page)page.classList.remove("hidden");
+  if(eq)eq.style.display="none";
+  if(title){
+    title.style.display="flex";
+    title.innerHTML='<i class="fa-solid fa-clock-rotate-left"></i><span>PM History</span>';
+  }
+  updateSidebarActive();
+  if(typeof renderHistoryGroupOptions==="function")renderHistoryGroupOptions();
+  if(typeof renderPMHistory==="function")renderPMHistory();
+}
+
+function showPMActivityLog(){
+  currentPage="activity";
+  setAllMainPagesHidden();
+  const page=document.getElementById("pm-activity-page");
+  const eq=document.querySelector(".topbar-equipment");
+  const title=document.getElementById("topbarPageTitle");
+  if(page)page.classList.remove("hidden");
+  if(eq)eq.style.display="none";
+  if(title){
+    title.style.display="flex";
+    title.innerHTML='<i class="fa-solid fa-user-pen"></i><span>Activity Log</span>';
+  }
+  updateSidebarActive();
+  if(typeof renderActivityGroupOptions==="function")renderActivityGroupOptions();
+  if(typeof renderActivityLog==="function")renderActivityLog(true);
+}
+
+function showAdminPage(pageId,page,icon,titleText){
+  if(typeof isAdministrator!=="function"||!isAdministrator())return false;
+  currentPage=page;
+  setAllMainPagesHidden();
+  const el=document.getElementById(pageId);
+  const eq=document.querySelector(".topbar-equipment");
+  const title=document.getElementById("topbarPageTitle");
+  if(el)el.classList.remove("hidden");
+  if(eq)eq.style.display="none";
+  if(title){
+    title.style.display="flex";
+    title.innerHTML='<i class="fa-solid '+icon+'"></i><span>'+titleText+'</span>';
+  }
+  updateSidebarActive();
+  return true;
+}
+function showAdminUsers(){
+  if(showAdminPage("pm-users-page","adminUsers","fa-users-gear","จัดการผู้ใช้"))renderAdminUsers();
+}
+function showAdminLogs(){
+  if(showAdminPage("pm-logs-page","adminLogs","fa-clipboard-user","Login & Export Log"))loadAdminLogs();
+}
+
+function showPMNextDue(){
+  currentPage="nextdue";
+  setAllMainPagesHidden();
+  const page=document.getElementById("pm-next-due-page");
+  const eq=document.querySelector(".topbar-equipment");
+  const title=document.getElementById("topbarPageTitle");
+  if(page)page.classList.remove("hidden");
+  if(eq)eq.style.display="none";
+  if(title){
+    title.style.display="flex";
+    title.innerHTML='<i class="fa-solid fa-calendar-check"></i><span>Preventive Maintenance Next Due Date</span>';
+  }
+  updateSidebarActive();
+  if(typeof renderNextDueGroupOptions==="function")renderNextDueGroupOptions();
+  if(typeof renderBulkNextDueGroupOptions==="function")renderBulkNextDueGroupOptions();
+  if(typeof renderPMNextDue==="function")renderPMNextDue();
 }
 function updateEquipmentSelect(){
   const sel=document.getElementById('equipmentSelect');

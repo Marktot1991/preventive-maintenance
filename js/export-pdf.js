@@ -82,6 +82,12 @@ function exportCurrentGroupPDF(){
   updateSidebarActive();
   renderForm();
 
+  if(typeof logExport==="function"){
+    const deptName={em1:"EM1",em2:"EM2",resin:"Resin PD1",wwt:"WWT"}[savedDept]||savedDept||"";
+    logExport({type:"PDF / พิมพ์ A4",department:deptName,groupType:groupType,groupLabel:groupLabel,tanks:uniqueTanks,
+      detail:"ส่งออกทั้งกรุ๊ป "+groupLabel+" ("+uniqueTanks.length+" ถัง/อุปกรณ์)"});
+  }
+
   document.body.classList.add("printing-group");
   const cleanup=()=>{
     document.body.classList.remove("printing-group");

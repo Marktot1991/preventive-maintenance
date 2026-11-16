@@ -35,6 +35,7 @@ async function loadUserAndStart(){
     return false;
   }
   currentRole=data.role||"view";
+  currentUserName=String(data.display_name||data.email||currentUser?.email||"").trim();
   await loadDbData();
   startApp();
   return true;
@@ -75,7 +76,10 @@ function startApp(){
   showApp();
   currentPage="form";
   const view=currentRole==="view";
-  document.getElementById("currentUserDisplay").innerHTML=view?`<span class="user-status-icon"><i class="fa-solid fa-user"></i></span><span class="user-status-text"><strong>ดูข้อมูลอย่างเดียว</strong></span>`:`<span class="user-status-icon"><i class="fa-solid fa-user-shield"></i></span><span class="user-status-text"><strong><span class="online-dot"></span>Online (Admin)</strong></span>`;
+  const roleText=currentRole==="administrator"?"Online (Administrator)":"Online (Admin)";
+  document.getElementById("currentUserDisplay").innerHTML=view?`<span class="user-status-icon"><i class="fa-solid fa-user"></i></span><span class="user-status-text"><strong>ดูข้อมูลอย่างเดียว</strong></span>`:`<span class="user-status-icon"><i class="fa-solid fa-user-shield"></i></span><span class="user-status-text"><strong><span class="online-dot"></span>${roleText}</strong></span>`;
+  if(typeof applyAdministratorUI==="function")applyAdministratorUI();
+  if(typeof initSessionTracking==="function")initSessionTracking();
   document.getElementById("btnClearData").style.display=view?"none":"inline-block";
   document.getElementById("btnClearGroup").style.display=view?"none":"inline-block";
   ["orderNo","orderType","orderActivity","desc","workCenter","supervisor","sysStatus","userStatus","releaseDate","pmDate","pmNextDate"].forEach(id=>{const e=document.getElementById(id==="pmDate"||id==="pmNextDate"?id+"_display":id);if(e)e.readOnly=view});
@@ -95,6 +99,9 @@ function startApp(){
 
 async function performLogout(){
   try{
+    if(typeof endSessionTracking==="function")await endSessionTracking();
+  }catch(e){}
+  try{
     await db.auth.signOut({scope:"local"});
   }catch(e){
     console.warn("Logout error:", e);
@@ -102,6 +109,7 @@ async function performLogout(){
     clearTabSession();
     currentUser=null;
     currentRole="view";
+    if(typeof applyAdministratorUI==="function")applyAdministratorUI();
     showLogin();
     location.reload();
   }
