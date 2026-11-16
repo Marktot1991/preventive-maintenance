@@ -1,0 +1,43 @@
+/* Administrator-only pages: User Management + Login/Export Logs */
+.admin-only{display:none !important}
+body.is-administrator .admin-only{display:flex !important}
+body.is-administrator .sidebar-link.admin-only{display:flex !important}
+
+.adm-panel{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:18px;margin-bottom:16px}
+.adm-panel h2{margin:0 0 4px;font-size:16px;color:var(--text)}
+.adm-sub{font-size:12px;color:var(--text-muted);margin-bottom:12px}
+.adm-form{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px;align-items:end}
+.adm-field label{display:block;font-size:11px;font-weight:700;color:var(--text-muted);margin-bottom:4px}
+.adm-field input,.adm-field select,.adm-filters select,.adm-filters input{
+  width:100%;box-sizing:border-box;padding:9px 11px;border:1px solid var(--border);border-radius:9px;
+  background:var(--surface-input);color:var(--text);font:inherit;font-size:13px}
+.adm-btn{padding:9px 16px;border:0;border-radius:9px;background:var(--accent);color:#fff;font-weight:700;cursor:pointer;font-size:13px}
+.adm-btn:disabled{opacity:.55;cursor:wait}
+.adm-btn.secondary{background:var(--surface-soft);color:var(--text);border:1px solid var(--border)}
+.adm-btn.danger{background:var(--danger)}
+.adm-btn.small{padding:5px 10px;font-size:12px}
+.adm-msg{margin-top:10px;font-size:12px;font-weight:700;display:none}
+.adm-msg.ok{display:block;color:#12a37f}
+.adm-msg.err{display:block;color:var(--danger)}
+
+.adm-tabs{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap}
+.adm-tab{padding:8px 16px;border-radius:999px;border:1px solid var(--border);background:var(--surface-soft);color:var(--text);font-weight:700;font-size:13px;cursor:pointer}
+.adm-tab.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.adm-filters{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin-bottom:12px}
+.adm-stats{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+.adm-stat{padding:8px 14px;border-radius:10px;background:var(--surface-soft);border:1px solid var(--border);font-size:12px;color:var(--text-muted)}
+.adm-stat b{display:block;font-size:18px;color:var(--text)}
+
+.adm-table-wrap{overflow-x:auto;border:1px solid var(--border);border-radius:10px}
+.adm-table{width:100%;border-collapse:collapse;font-size:13px;min-width:720px}
+.adm-table th{background:var(--table-header);color:var(--text);text-align:left;padding:10px 12px;font-size:12px;white-space:nowrap}
+.adm-table td{padding:9px 12px;border-top:1px solid var(--border);color:var(--text);vertical-align:middle}
+.adm-table tr:hover td{background:var(--surface-soft)}
+.adm-empty{padding:26px;text-align:center;color:var(--text-muted);font-size:13px}
+.adm-badge{display:inline-block;padding:3px 10px;border-radius:999px;font-size:11px;font-weight:800;white-space:nowrap}
+.adm-badge.administrator{background:rgba(167,139,250,.2);color:#8b6ff0}
+.adm-badge.admin{background:rgba(8,183,168,.18);color:#08a89a}
+.adm-badge.view{background:rgba(113,128,146,.2);color:var(--text-muted)}
+.adm-badge.online{background:rgba(18,163,127,.18);color:#12a37f}
+.adm-badge.offline{background:rgba(113,128,146,.2);color:var(--text-muted)}
+.adm-note{font-size:11px;color:var(--text-muted);margin-top:10px}
