@@ -20,6 +20,8 @@
 <link rel="stylesheet" href="css/progress-3d.css">
 <link rel="stylesheet" href="css/sidebar-extra.css">
 <link rel="stylesheet" href="css/performance.css">
+<link rel="stylesheet" href="css/history-nextdue.css">
+<link rel="stylesheet" href="css/admin-panel.css">
 
 </head>
 
@@ -32,18 +34,144 @@
 </div>
 
 <div id="login-screen">
-<button type="button" id="login-theme-toggle" class="theme-toggle" onclick="toggleTheme()" title="สลับธีม"><i class="fa-solid fa-moon"></i></button>
-<div id="login-container">
-<div class="login-logo">🛠️</div>
-<h1 class="login-title">Preventive Maintenance</h1>
-<p class="login-subtitle">กรุณาเข้าสู่ระบบเพื่อจัดการและตรวจสอบ<br>แบบฟอร์มบำรุงรักษาเชิงป้องกัน</p>
-<div class="login-field"><label for="username">E-Mail</label><div class="login-input-wrap"><span class="login-input-icon">👤</span><input type="email" id="username" class="login-input" placeholder="กรอก E-Mail" autocomplete="username"></div></div>
-<div class="login-field"><label for="password">รหัสผ่าน</label><div class="login-input-wrap"><span class="login-input-icon">🔑</span><input type="password" id="password" class="login-input" placeholder="กรอกรหัสผ่าน" autocomplete="current-password"><button type="button" id="passwordToggle" class="password-toggle" onclick="togglePasswordVisibility()"><i class="fa-solid fa-eye-slash"></i></button></div></div>
-<div class="login-actions"><button type="button" id="forgotPasswordBtn" class="forgot-link" onclick="requestPasswordHelp()">ลืมรหัสผ่าน?</button></div>
-<button type="button" id="loginButton" class="btn-login" onclick="performLogin()">เข้าสู่ระบบ</button>
-<div id="login-error" role="alert"></div><div id="forgot-status" role="status"></div>
-<div class="login-footer">TOA Paint (Thailand) Public Company Limited</div>
-</div></div>
+  <button type="button" id="login-theme-toggle" class="theme-toggle" onclick="toggleTheme()" title="สลับธีม"><i class="fa-solid fa-moon"></i></button>
+
+  <div class="login-split-layout">
+    <!-- Left Showcase Column -->
+    <div class="login-showcase">
+      <div class="login-brand-head">
+        <div class="login-brand-badge"><i class="fa-solid fa-screwdriver-wrench"></i></div>
+        <div class="login-brand-text">
+          <div class="login-brand-name">TOA</div>
+          <div class="login-brand-sub">ENGINEERING WORKSPACE</div>
+        </div>
+      </div>
+
+      <div class="login-kicker">
+        <span class="login-kicker-line"></span>
+        <span>SMART MAINTENANCE MANAGEMENT</span>
+      </div>
+
+      <h2 class="login-hero-heading">จัดการงาน PM<br>ได้ครบในที่เดียว</h2>
+      <p class="login-hero-desc">พื้นที่ทำงานสำหรับตรวจสอบแบบฟอร์มบำรุงรักษา ติดตามสถานะอุปกรณ์ และมองเห็นความคืบหน้าของแต่ละแผนกได้อย่างชัดเจน</p>
+
+      <div class="login-feature-grid">
+        <div class="login-feature-pill">
+          <div class="login-feature-icon"><i class="fa-solid fa-clipboard-check"></i></div>
+          <div class="login-feature-info">
+            <strong>PM Checklist</strong>
+            <span>ตรวจเช็คและบันทึกรายการบำรุงรักษา</span>
+          </div>
+        </div>
+        <div class="login-feature-pill">
+          <div class="login-feature-icon"><i class="fa-solid fa-chart-pie"></i></div>
+          <div class="login-feature-info">
+            <strong>Progress Overview</strong>
+            <span>ติดตามความคืบหน้าของงานตามแผน</span>
+          </div>
+        </div>
+        <div class="login-feature-pill">
+          <div class="login-feature-icon"><i class="fa-solid fa-building-Flag"></i><i class="fa-regular fa-building"></i></div>
+          <div class="login-feature-info">
+            <strong>Department Workspace</strong>
+            <span>แยกข้อมูลตามแผนกและกลุ่มอุปกรณ์</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="login-preview-wrapper">
+        <div class="login-preview-card">
+          <div class="login-floating-wrench"><i class="fa-solid fa-wrench"></i></div>
+          <div class="login-floating-bolt"><i class="fa-solid fa-bolt"></i></div>
+
+          <div class="login-preview-top">
+            <span class="login-preview-tag"><i class="fa-solid fa-Sliders"></i><i class="fa-solid fa-layer-group"></i> PM WORKSPACE</span>
+            <span class="login-preview-status"><span class="status-dot"></span> OVERVIEW</span>
+          </div>
+
+          <div class="login-preview-main">
+            <div class="login-preview-ring">
+              <div class="login-preview-ring-inner">
+                <i class="fa-solid fa-gears"></i>
+              </div>
+            </div>
+            <div class="login-preview-details">
+              <div class="login-preview-title">Maintenance Control</div>
+              <div class="login-preview-sub">Plan · Inspect · Improve</div>
+              <div class="login-preview-chips">
+                <span>PLAN</span>
+                <span>CHECK</span>
+                <span>FOLLOW UP</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="login-preview-bars">
+            <div class="login-bar-track"><div class="login-bar-fill fill-teal" style="width:86%"></div></div>
+            <div class="login-bar-track"><div class="login-bar-fill fill-blue" style="width:68%"></div></div>
+          </div>
+
+          <div class="login-preview-foot">
+            <i class="fa-solid fa-shield-halved"></i>
+            <span>สำหรับงานบำรุงรักษาและงาน PM</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="login-showcase-footer">
+        <span>PREVENTIVE MAINTENANCE</span>
+        <span>WORK SMARTER · MAINTAIN BETTER</span>
+      </div>
+    </div>
+
+    <!-- Right Login Form Card -->
+    <div id="login-container">
+      <div class="login-card-top">
+        <span class="login-welcome-label">WELCOME BACK</span>
+        <span class="login-secure-pill"><i class="fa-solid fa-lock"></i> SECURE ACCESS</span>
+      </div>
+
+      <div class="login-logo"><i class="fa-solid fa-screwdriver-wrench"></i></div>
+      <h1 class="login-title">Preventive Maintenance</h1>
+      <p class="login-subtitle">เข้าสู่ระบบเพื่อจัดการและตรวจสอบ<br>แบบฟอร์มบำรุงรักษาเชิงป้องกัน</p>
+
+      <div class="login-field">
+        <label for="username">E-Mail</label>
+        <div class="login-input-wrap">
+          <span class="login-input-icon"><i class="fa-regular fa-envelope"></i></span>
+          <input type="email" id="username" class="login-input" placeholder="กรอก E-Mail" autocomplete="username">
+        </div>
+      </div>
+
+      <div class="login-field">
+        <label for="password">รหัสผ่าน</label>
+        <div class="login-input-wrap">
+          <span class="login-input-icon"><i class="fa-solid fa-key"></i></span>
+          <input type="password" id="password" class="login-input" placeholder="กรอกรหัสผ่าน" autocomplete="current-password">
+          <button type="button" id="passwordToggle" class="password-toggle" onclick="togglePasswordVisibility()"><i class="fa-solid fa-eye-slash"></i></button>
+        </div>
+      </div>
+
+      <div class="login-actions">
+        <button type="button" id="forgotPasswordBtn" class="forgot-link" onclick="requestPasswordHelp()">ลืมรหัสผ่าน?</button>
+      </div>
+
+      <button type="button" id="loginButton" class="btn-login" onclick="performLogin()">
+        <span>เข้าสู่ระบบ</span>
+        <i class="fa-solid fa-arrow-right"></i>
+      </button>
+
+      <div class="login-auth-note">
+        <i class="fa-solid fa-shield-halved"></i>
+        <span>ระบบสำหรับผู้ใช้งานที่ได้รับอนุญาตเท่านั้น</span>
+      </div>
+
+      <div id="login-error" role="alert"></div>
+      <div id="forgot-status" role="status"></div>
+      <div class="login-footer">TOA Paint (Thailand) Public Company Limited</div>
+    </div>
+  </div>
+</div>
 
 <div id="app-container" class="hidden">
   <aside class="sidebar" id="sidebar">
@@ -86,6 +214,11 @@
 
         <div class="sidebar-divider"></div>
         <button type="button" id="navPMProgress" class="sidebar-link page-nav" onclick="showPMProgress()" title="ดูความคืบหน้า PM"><i class="fa-solid fa-chart-column"></i><span class="menu-label">PM Progress</span></button>
+        <button type="button" id="navPMHistory" class="sidebar-link page-nav" onclick="showPMHistory()" title="ดูประวัติการทำ PM"><i class="fa-solid fa-clock-rotate-left"></i><span class="menu-label">History</span></button>
+        <button type="button" id="navActivityLog" class="sidebar-link page-nav" onclick="showPMActivityLog()" title="ดูบันทึกการแก้ไข (ใคร แก้ไขอะไร เมื่อไร)"><i class="fa-solid fa-user-pen"></i><span class="menu-label">Activity Log</span></button>
+        <button type="button" id="navAdminUsers" class="sidebar-link page-nav admin-only" onclick="showAdminUsers()" title="เพิ่ม/ลบผู้ใช้ (เฉพาะ Administrator)"><i class="fa-solid fa-users-gear"></i><span class="menu-label">จัดการผู้ใช้</span></button>
+        <button type="button" id="navAdminLogs" class="sidebar-link page-nav admin-only" onclick="showAdminLogs()" title="Login / Export Log (เฉพาะ Administrator)"><i class="fa-solid fa-clipboard-user"></i><span class="menu-label">Login &amp; Export Log</span></button>
+        <button type="button" id="navPMNextDue" class="sidebar-link page-nav" onclick="showPMNextDue()" title="ดูวันครบกำหนด PM ครั้งถัดไป"><i class="fa-solid fa-calendar-check"></i><span class="menu-label">Preventive Maintenance Next Due Date</span></button>
         <button type="button" class="sidebar-link theme-toggle" onclick="toggleTheme()" title="สลับธีม"><i class="fa-solid fa-moon"></i><span class="menu-label">โหมดมืด</span></button>
         <button type="button" class="sidebar-link" onclick="exportCurrentGroupPDF()"><i class="fa-solid fa-print"></i><span class="menu-label">ส่งออก PDF / พิมพ์ A4</span></button>
         <button type="button" id="btnClearData" class="sidebar-link sidebar-action-danger" onclick="clearCurrentTankData()"><i class="fa-solid fa-eraser"></i><span class="menu-label">ล้างถังนี้</span></button>
@@ -268,6 +401,303 @@
     </div>
   </div>
 </section>
+
+    <section id="pm-history-page" class="main-content hidden">
+      <div class="page-container">
+        <div class="progress-dashboard-shell">
+          <div class="progress-dashboard-hero">
+            <div>
+              <h1 class="progress-dashboard-title">PM History</h1>
+              <p class="progress-dashboard-subtitle">ประวัติการตรวจเช็คและบันทึกใบงาน Preventive Maintenance แยกตามแผนกและกลุ่มอุปกรณ์</p>
+            </div>
+            <div style="display:flex;gap:10px;align-items:center;z-index:1">
+              <button type="button" id="btnSaveHistorySnapshot" class="progress-refresh-btn" onclick="saveCurrentAsHistorySnapshot()"><i class="fa-solid fa-floppy-disk"></i> บันทึกรอบประวัติปัจจุบัน</button>
+              <div class="progress-hero-badge"><i class="fa-solid fa-clock-rotate-left"></i><span>History Log</span></div>
+            </div>
+          </div>
+
+          <div class="progress-filter-bar">
+            <select id="historyDeptFilter" class="progress-filter" onchange="renderPMHistory()">
+              <option value="all">แสดงทุกแผนก</option>
+              <option value="em1">EM1</option>
+              <option value="em2">EM2</option>
+              <option value="resin">Resin PD1</option>
+              <option value="wwt">WWT</option>
+            </select>
+            <select id="historyGroupFilter" class="progress-filter" onchange="renderPMHistory()">
+              <option value="all">ทุกกลุ่มอุปกรณ์</option>
+            </select>
+            <select id="historyStatusFilter" class="progress-filter" onchange="renderPMHistory()">
+              <option value="all">ทุกสถานะ</option>
+              <option value="recorded">มีข้อมูลบันทึกแล้ว</option>
+              <option value="completed">เสร็จสิ้น 100%</option>
+              <option value="inprogress">กำลังดำเนินการ</option>
+              <option value="has_no">มีรายการรอแก้ไข (NO)</option>
+            </select>
+            <input id="historyMonthFilter" class="progress-filter" type="month" onchange="renderPMHistory()" title="กรองตามเดือนที่ทำ PM">
+            <input id="historySearch" class="progress-filter" type="search" placeholder="ค้นหารหัสอุปกรณ์ / Order No / ผู้ควบคุม" oninput="schedulePMHistoryRefresh()">
+            <button type="button" id="btnRefreshHistory" class="progress-refresh-btn" onclick="refreshPMHistory()"><i class="fa-solid fa-rotate"></i> รีเฟรช</button>
+          </div>
+
+          <div id="history-summary" class="progress-summary"></div>
+
+          <div class="progress-detail-panel">
+            <div class="progress-detail-head">
+              <div>
+                <h2 class="progress-detail-title">รอบประวัติที่บันทึกเก็บไว้ (Saved Snapshots)</h2>
+                <div class="progress-detail-sub">สรุปข้อมูลประวัติแต่ละรอบการทำ PM ที่กดบันทึกเก็บไว้ในระบบ</div>
+              </div>
+            </div>
+            <div id="history-snapshots-list" class="pm-snapshots-grid"></div>
+          </div>
+
+          <div class="progress-detail-panel">
+            <div class="progress-detail-head">
+              <div>
+                <h2 class="progress-detail-title">รายการประวัติใบงานและผลการตรวจเช็ค PM</h2>
+                <div class="progress-detail-sub">แสดงเลขที่ใบงาน วันที่ทำ PM ผลการตรวจ OK/NO และสามารถกดเปิดดูฟอร์มของแต่ละถังได้ทันที</div>
+              </div>
+            </div>
+            <div class="progress-list">
+              <div class="pm-history-table-head">
+                <div>อุปกรณ์ / กลุ่ม</div>
+                <div>Order No. / ผู้ควบคุม</div>
+                <div>ผู้ทำ PM</div>
+                <div class="text-center">PM Date</div>
+                <div class="text-center">Next Due Date</div>
+                <div>ผลการตรวจเช็ค</div>
+                <div class="text-center">สถานะ</div>
+                <div class="text-center">จัดการ</div>
+              </div>
+              <div id="history-rows" class="pm-history-rows"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="pm-activity-page" class="main-content hidden">
+      <div class="page-container">
+        <div class="progress-dashboard-shell">
+          <div class="progress-dashboard-hero">
+            <div>
+              <h1 class="progress-dashboard-title">Activity Log</h1>
+              <p class="progress-dashboard-subtitle">บันทึกการแก้ไขข้อมูล PM — ใคร แก้ไขอะไร เมื่อไร</p>
+            </div>
+            <div class="progress-hero-badge"><i class="fa-solid fa-user-pen"></i><span>Edit Log</span></div>
+          </div>
+
+          <div class="progress-detail-panel">
+            <div class="progress-detail-head">
+              <div>
+                <h2 class="progress-detail-title">บันทึกการแก้ไข (Activity Log)</h2>
+                <div class="progress-detail-sub">ใคร แก้ไขอะไร เมื่อไร · คลิกชื่ออุปกรณ์เพื่อเปิดฟอร์ม · แสดงเวลาบันทึกล่าสุดของแต่ละรายการ (ไม่มีค่าเดิมก่อนถูกแก้)</div>
+              </div>
+              <span id="activity-count" class="pm-activity-count"></span>
+            </div>
+            <div class="progress-filter-bar" style="margin-bottom:12px">
+              <select id="activityDeptFilter" class="progress-filter" onchange="renderActivityLog(true)">
+                <option value="all">แสดงทุกแผนก</option>
+                <option value="em1">EM1</option>
+                <option value="em2">EM2</option>
+                <option value="resin">Resin PD1</option>
+                <option value="wwt">WWT</option>
+              </select>
+              <select id="activityGroupFilter" class="progress-filter" onchange="renderActivityLog(true)">
+                <option value="all">ทุกกลุ่มอุปกรณ์</option>
+              </select>
+              <select id="activityTypeFilter" class="progress-filter" onchange="renderActivityLog(true)">
+                <option value="all">ทุกประเภทบันทึก</option>
+                <option value="ok">ติ๊ก OK</option>
+                <option value="no">ติ๊ก NO</option>
+                <option value="uncheck">ยกเลิกการติ๊ก</option>
+                <option value="note">หมายเหตุ</option>
+                <option value="date">วันที่ PM / Next Due</option>
+                <option value="other">อื่น ๆ</option>
+              </select>
+              <select id="activityPeriodFilter" class="progress-filter" onchange="renderActivityLog(true)">
+                <option value="all">ทุกช่วงเวลา</option>
+                <option value="today">วันนี้</option>
+                <option value="7d">7 วันล่าสุด</option>
+                <option value="30d">30 วันล่าสุด</option>
+              </select>
+              <input id="activitySearch" class="progress-filter" type="search" placeholder="ค้นหาอุปกรณ์ / ผู้บันทึก / ข้อความ" oninput="scheduleActivityRefresh()">
+              <button type="button" id="btnRefreshActivity" class="progress-refresh-btn" onclick="refreshActivityLog()"><i class="fa-solid fa-rotate"></i> รีเฟรช</button>
+            </div>
+            <div class="progress-list">
+              <div class="pm-activity-head">
+                <div>วัน-เวลา</div>
+                <div>ฟอร์ม / อุปกรณ์</div>
+                <div>การบันทึก</div>
+                <div>ผู้บันทึก</div>
+              </div>
+              <div id="activity-log-rows" class="pm-history-rows"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="pm-users-page" class="main-content hidden">
+      <div class="page-container">
+        <div class="progress-dashboard-shell">
+          <div class="progress-dashboard-hero">
+            <div>
+              <h1 class="progress-dashboard-title">จัดการผู้ใช้</h1>
+              <p class="progress-dashboard-subtitle">เพิ่ม / ลบ / เปลี่ยนสิทธิ์ผู้ใช้ — เฉพาะ Administrator เท่านั้น</p>
+            </div>
+            <div class="progress-hero-badge"><i class="fa-solid fa-users-gear"></i><span>Administrator</span></div>
+          </div>
+
+          <div class="adm-panel">
+            <h2>เพิ่มผู้ใช้ใหม่</h2>
+            <div class="adm-sub">Administrator = จัดการผู้ใช้ + ดู Log ได้ · Admin = แก้ไขข้อมูล PM ได้ · View = ดูข้อมูลอย่างเดียว</div>
+            <div class="adm-form">
+              <div class="adm-field"><label for="admNewEmail">E-Mail</label><input type="email" id="admNewEmail" autocomplete="off" placeholder="name@company.com"></div>
+              <div class="adm-field"><label for="admNewName">ชื่อที่แสดง</label><input type="text" id="admNewName" autocomplete="off" placeholder="ชื่อ-นามสกุล"></div>
+              <div class="adm-field"><label for="admNewPass">รหัสผ่านเริ่มต้น (อย่างน้อย 6 ตัว)</label><input type="password" id="admNewPass" autocomplete="new-password"></div>
+              <div class="adm-field"><label for="admNewRole">สิทธิ์</label>
+                <select id="admNewRole"><option value="view">View (ดูอย่างเดียว)</option><option value="admin">Admin (แก้ไขข้อมูล)</option><option value="administrator">Administrator</option></select>
+              </div>
+              <div class="adm-field"><button type="button" id="admAddBtn" class="adm-btn" onclick="addUser()"><i class="fa-solid fa-user-plus"></i> เพิ่มผู้ใช้</button></div>
+            </div>
+            <div id="adm-add-msg" class="adm-msg" role="status"></div>
+          </div>
+
+          <div class="adm-panel">
+            <h2>รายชื่อผู้ใช้ <span id="adm-users-count" class="adm-badge offline"></span></h2>
+            <div class="adm-table-wrap"><table class="adm-table">
+              <thead><tr><th>ชื่อ</th><th>E-Mail</th><th>สิทธิ์</th><th></th></tr></thead>
+              <tbody id="adm-users-body"></tbody>
+            </table></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="pm-logs-page" class="main-content hidden">
+      <div class="page-container">
+        <div class="progress-dashboard-shell">
+          <div class="progress-dashboard-hero">
+            <div>
+              <h1 class="progress-dashboard-title">Login &amp; Export Log</h1>
+              <p class="progress-dashboard-subtitle">ใครเข้าใช้งานวันไหน เวลาเท่าไร ใช้งานกี่นาที และใครส่งออกเอกสารส่วนไหน — เฉพาะ Administrator เท่านั้น</p>
+            </div>
+            <div class="progress-hero-badge"><i class="fa-solid fa-clipboard-user"></i><span>Audit Log</span></div>
+          </div>
+
+          <div class="adm-panel">
+            <div class="adm-stats">
+              <div class="adm-stat"><b id="adm-stat-logins">0</b>ครั้งที่เข้าใช้งาน</div>
+              <div class="adm-stat"><b id="adm-stat-online">0</b>ออนไลน์ตอนนี้</div>
+              <div class="adm-stat"><b id="adm-stat-minutes">0</b>นาทีใช้งานรวม</div>
+              <div class="adm-stat"><b id="adm-stat-exports">0</b>ครั้งที่ส่งออกเอกสาร</div>
+            </div>
+            <div class="adm-filters">
+              <select id="admLogUser" onchange="renderAdminLogs()"><option value="all">ผู้ใช้ทั้งหมด</option></select>
+              <select id="admLogPeriod" onchange="renderAdminLogs()">
+                <option value="all">ทุกช่วงเวลา (ย้อนหลัง 1 ปี)</option><option value="today">วันนี้</option><option value="7d">7 วันล่าสุด</option><option value="30d">30 วันล่าสุด</option>
+              </select>
+              <input id="admLogSearch" type="search" placeholder="ค้นหาชื่อ / กลุ่มอุปกรณ์ / ถัง" oninput="renderAdminLogs()">
+              <button type="button" id="admLogRefresh" class="adm-btn secondary" onclick="loadAdminLogs()"><i class="fa-solid fa-rotate"></i> รีเฟรช</button>
+            </div>
+            <div id="adm-log-msg" class="adm-msg" role="status"></div>
+
+            <div class="adm-tabs">
+              <button type="button" class="adm-tab active" data-tab="login" onclick="setAdminLogTab('login')"><i class="fa-solid fa-right-to-bracket"></i> การเข้าใช้งาน</button>
+              <button type="button" class="adm-tab" data-tab="export" onclick="setAdminLogTab('export')"><i class="fa-solid fa-file-export"></i> การส่งออกเอกสาร</button>
+            </div>
+
+            <div id="adm-login-view" class="adm-table-wrap"><table class="adm-table">
+              <thead><tr><th>ผู้ใช้</th><th>สิทธิ์</th><th>วันที่</th><th>เวลาเข้า</th><th>เวลาออก</th><th>ใช้งาน</th><th>สถานะ</th></tr></thead>
+              <tbody id="adm-login-body"></tbody>
+            </table></div>
+            <div id="adm-export-view" class="adm-table-wrap" style="display:none"><table class="adm-table">
+              <thead><tr><th>ผู้ใช้</th><th>วันที่</th><th>เวลา</th><th>ประเภท</th><th>แผนก</th><th>กลุ่มอุปกรณ์</th><th>ถังที่ส่งออก</th></tr></thead>
+              <tbody id="adm-export-body"></tbody>
+            </table></div>
+            <div class="adm-note">เวลาใช้งาน = เวลาออกจากระบบ (หรือเวลาที่ระบบเห็นล่าสุด หากปิดหน้าเว็บ) − เวลาเข้า · นับเฉพาะตอนที่เปิดหน้าเว็บอยู่</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="pm-next-due-page" class="main-content hidden">
+      <div class="page-container">
+        <div class="progress-dashboard-shell">
+          <div class="progress-dashboard-hero">
+            <div>
+              <h1 class="progress-dashboard-title">Preventive Maintenance Next Due Date</h1>
+              <p class="progress-dashboard-subtitle">ตารางติดตามกำหนดการบำรุงรักษาเชิงป้องกันรอบถัดไป · แจ้งเตือนรายการใกล้ครบกำหนดและเกินกำหนด</p>
+            </div>
+            <div class="progress-hero-badge"><i class="fa-solid fa-calendar-check"></i><span>PM Schedule & Due Date</span></div>
+          </div>
+
+          <div id="nextdue-bulk-bar" class="pm-bulk-due-bar">
+            <div class="pm-bulk-due-label"><i class="fa-solid fa-calendar-plus"></i> ตั้งค่า Next Due Date ทั้งกลุ่มอุปกรณ์:</div>
+            <select id="bulkNextDueGroup" class="progress-filter" style="min-width:220px"></select>
+            <input type="month" id="bulkNextDueMonth" class="progress-filter" style="width:170px">
+            <button type="button" class="progress-refresh-btn" onclick="applyBulkGroupNextDue()"><i class="fa-solid fa-check-double"></i> บันทึกทั้งกรุ๊ป</button>
+          </div>
+
+          <div class="progress-filter-bar">
+            <select id="nextDueDeptFilter" class="progress-filter" onchange="renderPMNextDue()">
+              <option value="all">แสดงทุกแผนก</option>
+              <option value="em1">EM1</option>
+              <option value="em2">EM2</option>
+              <option value="resin">Resin PD1</option>
+              <option value="wwt">WWT</option>
+            </select>
+            <select id="nextDueGroupFilter" class="progress-filter" onchange="renderPMNextDue()">
+              <option value="all">ทุกกลุ่มอุปกรณ์</option>
+            </select>
+            <select id="nextDueStatusFilter" class="progress-filter" onchange="renderPMNextDue()">
+              <option value="all">ทุกสถานะกำหนดการ</option>
+              <option value="overdue">เกินกำหนด (Overdue)</option>
+              <option value="duenow">ครบกำหนดเดือนนี้</option>
+              <option value="soon">ใกล้ครบกำหนด (1-2 เดือน)</option>
+              <option value="ontrack">ตามแผนปกติ</option>
+              <option value="unset">ยังไม่ระบุวัน</option>
+            </select>
+            <input id="nextDueMonthFilter" class="progress-filter" type="month" onchange="renderPMNextDue()" title="กรองตามเดือน Next Due Date">
+            <input id="nextDueSearch" class="progress-filter" type="search" placeholder="ค้นหารหัสอุปกรณ์ / กลุ่ม" oninput="schedulePMNextDueRefresh()">
+            <button type="button" id="btnRefreshNextDue" class="progress-refresh-btn" onclick="refreshPMNextDue()"><i class="fa-solid fa-rotate"></i> รีเฟรช</button>
+          </div>
+
+          <div id="nextdue-summary" class="progress-summary"></div>
+
+          <div class="progress-detail-panel">
+            <div class="progress-detail-head">
+              <div>
+                <h2 class="progress-detail-title">สรุปแผนกำหนดการตามเดือน (Monthly Due Schedule)</h2>
+                <div class="progress-detail-sub">จำนวนอุปกรณ์ที่ต้องทำ PM ในแต่ละเดือน</div>
+              </div>
+            </div>
+            <div id="nextdue-timeline-grid" class="pm-schedule-timeline-grid"></div>
+          </div>
+
+          <div class="progress-detail-panel">
+            <div class="progress-detail-head">
+              <div>
+                <h2 class="progress-detail-title">รายการกำหนดการ Preventive Maintenance Next Due Date รายอุปกรณ์</h2>
+                <div class="progress-detail-sub">เรียงลำดับตามความเร่งด่วน (สามารถปรับเปลี่ยนเดือน Next Due Date จากตารางได้โดยตรงสำหรับ Admin)</div>
+              </div>
+            </div>
+            <div class="progress-list">
+              <div class="pm-nextdue-table-head">
+                <div>อุปกรณ์ / กลุ่ม</div>
+                <div class="text-center">PM Date ล่าสุด</div>
+                <div class="text-center">Next Due Date</div>
+                <div class="text-center">สถานะกำหนดการ</div>
+                <div>ความคืบหน้าปัจจุบัน</div>
+                <div class="text-center">จัดการ</div>
+              </div>
+              <div id="nextdue-rows" class="pm-nextdue-rows"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
   </main>
 </div>
 
@@ -289,6 +719,9 @@
 <script src="js/ui.js"></script>
 <script src="js/progress.js"></script>
 <script src="js/export-pdf.js"></script>
+<script src="js/activity-log.js"></script>
+<script src="js/admin-panel.js"></script>
+<script src="js/history-nextdue.js"></script>
 <script src="js/main.js"></script>
 </body>
 </html>
