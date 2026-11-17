@@ -27,7 +27,7 @@ const pmProgressDeptByGroup={
 
 function schedulePMProgressRefresh(){
   clearTimeout(window.__pmProgressTimer);
-  window.__pmProgressTimer=setTimeout(()=>{if(currentPage==="progress")renderPMProgress()},180);
+  window.__pmProgressTimer=setTimeout(()=>{if(currentPage==="progress")renderPMProgress()},280);
 }
 
 // แคชผลคำนวณรายถัง — ล้างเฉพาะถังที่มีการแก้ไข (ดู invalidateProgressCache ใน database.js)

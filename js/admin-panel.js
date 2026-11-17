@@ -177,7 +177,7 @@ async function addUser() {
   if (error) { admMsg("adm-add-msg", "เพิ่มผู้ใช้ไม่สำเร็จ: " + error.message, false); return; }
   ["admNewEmail", "admNewName", "admNewPass"].forEach(id => { document.getElementById(id).value = ""; });
   admMsg("adm-add-msg", `เพิ่มผู้ใช้ ${email} เรียบร้อย`, true);
-  await loadProfileNames();
+  await loadProfileNames(true);
   renderAdminUsers();
 }
 
@@ -249,6 +249,14 @@ function admInPeriod(iso, period) {
   return t >= now - (period === "7d" ? 7 : 30) * 86400000;
 }
 
+let __adminLogsSearchTimer = null;
+function scheduleAdminLogsRefresh(){
+  clearTimeout(__adminLogsSearchTimer);
+  __adminLogsSearchTimer = setTimeout(() => {
+    if (currentPage === "adminLogs") renderAdminLogs();
+  }, 280);
+}
+
 function renderAdminLogs() {
   if (!isAdministrator()) return;
   const user = document.getElementById("admLogUser").value;
@@ -261,7 +269,7 @@ function renderAdminLogs() {
   const now = Date.now();
   let total = 0, online = 0;
   const lbody = document.getElementById("adm-login-body");
-  lbody.innerHTML = logins.map(r => {
+  if (__admTab === "login") lbody.innerHTML = logins.map(r => {
     const start = new Date(r.login_at).getTime();
     const end = new Date(r.logout_at || r.last_seen_at).getTime();
     const dur = Math.max(0, end - start); total += dur;
@@ -283,7 +291,7 @@ function renderAdminLogs() {
 
   const exps = __admExportRows.filter(r => match(r) && admInPeriod(r.exported_at, period));
   document.getElementById("adm-stat-exports").textContent = exps.length;
-  document.getElementById("adm-export-body").innerHTML = exps.map(r => `<tr>
+  if (__admTab === "export") document.getElementById("adm-export-body").innerHTML = exps.map(r => `<tr>
       <td>${admEsc(r.display_name || r.email || "—")}<div class="adm-sub" style="margin:0">${admEsc(r.email || "")}</div></td>
       <td>${admFmtDate(r.exported_at)}</td>
       <td>${admFmtTime(r.exported_at)}</td>

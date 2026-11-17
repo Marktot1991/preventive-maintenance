@@ -74,7 +74,11 @@ function buildLastEditorByTank() {
   return map;
 }
 
+let __equipmentRecordsCache = null;
+function invalidateEquipmentRecordsCache(){ __equipmentRecordsCache = null; }
+
 function collectAllEquipmentRecords() {
+  if (__equipmentRecordsCache) return __equipmentRecordsCache.slice();
   const records = [];
   const lastEditorByTank = buildLastEditorByTank();
   if (typeof tankGroupMapping === "undefined") return records;
@@ -142,7 +146,8 @@ function collectAllEquipmentRecords() {
     });
   });
 
-  return records;
+  __equipmentRecordsCache = records;
+  return records.slice();
 }
 
 function openEquipmentForm(dept, groupType, tank) {
@@ -175,7 +180,7 @@ function schedulePMHistoryRefresh() {
   clearTimeout(window.__pmHistoryTimer);
   window.__pmHistoryTimer = setTimeout(() => {
     if (currentPage === "history") renderPMHistory();
-  }, 180);
+  }, 280);
 }
 
 function getSnapshotsList() {
@@ -428,7 +433,7 @@ function schedulePMNextDueRefresh() {
   clearTimeout(window.__pmNextDueTimer);
   window.__pmNextDueTimer = setTimeout(() => {
     if (currentPage === "nextdue") renderPMNextDue();
-  }, 180);
+  }, 280);
 }
 
 async function quickUpdateNextDueDate(groupType, tank, newMonthVal, applyToGroup) {

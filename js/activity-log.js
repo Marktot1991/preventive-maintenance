@@ -14,6 +14,8 @@ const ACTIVITY_HEADER_LABELS = {
 };
 
 let __activityTankIndex = null;
+let __activityEntriesCache = null;
+function invalidateActivityCache(){ __activityEntriesCache = null; }
 function activityTankIndex() {
   if (__activityTankIndex) return __activityTankIndex;
   const byTank = new Map();
@@ -74,6 +76,7 @@ function classifyActivityEntry(key, value, meta) {
 }
 
 function buildActivityEntries() {
+  if (__activityEntriesCache) return __activityEntriesCache.slice();
   const all = [];
   Object.keys(dbData).forEach(key => {
     const meta = dbMeta[key];
@@ -92,7 +95,8 @@ function buildActivityEntries() {
   merged.forEach(e => {
     if (e.type === "date" && e.count > 1) { e.detail += ` · ทั้งกลุ่ม ${e.count} อุปกรณ์`; e.bulk = true; }
   });
-  return merged;
+  __activityEntriesCache = merged;
+  return merged.slice();
 }
 
 function fmtActivityTime(at) {
@@ -180,4 +184,4 @@ function renderActivityLog(resetLimit) {
 }
 
 function activityShowMore() { activityLimit += ACTIVITY_PAGE_SIZE; renderActivityLog(); }
-function scheduleActivityRefresh() { clearTimeout(window.__activityTimer); window.__activityTimer = setTimeout(() => { if (currentPage === "activity") renderActivityLog(true); }, 180); }
+function scheduleActivityRefresh() { clearTimeout(window.__activityTimer); window.__activityTimer = setTimeout(() => { if (currentPage === "activity") renderActivityLog(true); }, 280); }

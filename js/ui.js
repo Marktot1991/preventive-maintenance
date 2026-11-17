@@ -34,22 +34,24 @@ function initSelectors(){
 }
 
 function toggleSidebar(){
-  document.body.classList.toggle("sidebar-open");
-  const sidebar=document.getElementById("sidebar");
-  const main=document.querySelector(".app-main");
-  const top=document.querySelector(".app-topbar");
-  if(!sidebar||!main||!top)return;
-  if(window.innerWidth>720){
-    document.body.classList.toggle("sidebar-collapsed");
-    const collapsed=document.body.classList.contains("sidebar-collapsed");
-    const w=collapsed?68:235;
-    sidebar.style.width=w+"px";
-    main.style.marginLeft=w+"px";
-    top.style.left=w+"px";
-    const icon=document.querySelector(".sidebar-collapse i");
-    if(icon)icon.className=collapsed?"fa-solid fa-angles-right":"fa-solid fa-angles-left";
-    document.querySelectorAll(".sidebar-link .menu-label,.sidebar-section-label,.dept-wrap,.brand-title,.menu-chevron").forEach(el=>el.style.display=collapsed?"none":"");
+  const isMobile=window.innerWidth<=720;
+
+  // มือถือ: เปิด/ปิด Sidebar แบบเลื่อนเข้า-ออก โดยไม่เปลี่ยน layout ของหน้า
+  if(isMobile){
+    document.body.classList.remove("sidebar-collapsed");
+    document.body.classList.toggle("sidebar-open");
+    return;
   }
+
+  // Desktop: ใช้ class ให้ CSS จัดการ ไม่เขียน inline style และไม่วนแก้ DOM ทีละเมนู
+  document.body.classList.remove("sidebar-open");
+  document.body.classList.toggle("sidebar-collapsed");
+
+  const collapsed=document.body.classList.contains("sidebar-collapsed");
+  const icon=document.querySelector(".sidebar-collapse i");
+  if(icon) icon.className=collapsed
+    ?"fa-solid fa-angles-right"
+    :"fa-solid fa-angles-left";
 }
 function sidebarCategoryVisible(type){
   if(activeDepartment==='em1') return ['fmu'].includes(type);
