@@ -1,0 +1,66 @@
+/* ---------- PM CHECK MARKERS: clean check / cross instead of radio circles ---------- */
+.radio-ok,
+.radio-no {
+  -webkit-appearance: none !important;
+  appearance: none !important;
+  display: inline-block !important;
+  width: 22px !important;
+  height: 22px !important;
+  min-width: 22px !important;
+  min-height: 22px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  outline: 0;
+  box-shadow: none !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  vertical-align: middle;
+  cursor: pointer;
+  transform: none !important;
+  transition: background-color .16s ease, filter .16s ease, transform .16s ease;
+}
+
+.radio-ok {
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='m4.5 12.5 5 5L20 6.5' fill='none' stroke='black' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / contain no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='m4.5 12.5 5 5L20 6.5' fill='none' stroke='black' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+
+.radio-no {
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M18 6 6 18M6 6l12 12' fill='none' stroke='black' stroke-width='3.2' stroke-linecap='round'/%3E%3C/svg%3E") center / contain no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M18 6 6 18M6 6l12 12' fill='none' stroke='black' stroke-width='3.2' stroke-linecap='round'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+
+.radio-ok:checked {
+  background-color: #16a34a !important;
+}
+
+.radio-no:checked {
+  background-color: #e5484d !important;
+}
+
+.radio-ok:checked {
+  filter: drop-shadow(0 2px 3px rgba(22, 163, 74, .28));
+}
+
+.radio-no:checked {
+  filter: drop-shadow(0 2px 3px rgba(229, 72, 77, .28));
+}
+
+.radio-ok:focus-visible,
+.radio-no:focus-visible {
+  outline: 2px solid #64748b;
+  outline-offset: 3px;
+  border-radius: 2px !important;
+}
+
+@media (max-width: 720px) {
+  .radio-ok,
+  .radio-no {
+    width: 20px !important;
+    height: 20px !important;
+    min-width: 20px !important;
+    min-height: 20px !important;
+  }
+}

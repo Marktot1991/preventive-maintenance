@@ -139,42 +139,40 @@
     -webkit-text-fill-color:#111!important;
   }
   body.printing-group #print-group-container .print-status-radio{
-    display:inline-block!important;
-    width:12px!important;
-    height:12px!important;
-    min-width:12px!important;
-    min-height:12px!important;
+    display:inline-flex!important;
+    align-items:center!important;
+    justify-content:center!important;
+    width:14px!important;
+    height:14px!important;
+    min-width:14px!important;
+    min-height:14px!important;
     padding:0!important;
     margin:0!important;
-    border:1.4px solid #777!important;
-    border-radius:50%!important;
-    position:relative!important;
+    border:0!important;
+    border-radius:0!important;
+    position:static!important;
     vertical-align:middle!important;
     box-sizing:border-box!important;
-    background:#fff!important;
+    background:transparent!important;
+    font-family:Arial,sans-serif!important;
+    font-size:16px!important;
+    font-weight:900!important;
+    line-height:1!important;
   }
-  body.printing-group #print-group-container .print-status-radio.selected-ok{
-    border-color:#16a34a!important;
+  body.printing-group #print-group-container .print-status-radio::before{
+    display:block!important;
+    line-height:1!important;
   }
-  body.printing-group #print-group-container .print-status-radio.selected-no{
-    border-color:#ef3340!important;
+  body.printing-group #print-group-container .print-status-radio.status-ok::before{
+    content:"\2713"!important;
+    color:#16a34a!important;
   }
-  body.printing-group #print-group-container .print-status-radio.selected-ok::after,
-  body.printing-group #print-group-container .print-status-radio.selected-no::after{
-    content:"";
-    position:absolute;
-    width:6px;
-    height:6px;
-    left:50%;
-    top:50%;
-    transform:translate(-50%,-50%);
-    border-radius:50%;
+  body.printing-group #print-group-container .print-status-radio.status-no::before{
+    content:"\2715"!important;
+    color:#ef3340!important;
   }
-  body.printing-group #print-group-container .print-status-radio.selected-ok::after{
-    background:#16a34a!important;
-  }
-  body.printing-group #print-group-container .print-status-radio.selected-no::after{
-    background:#ef3340!important;
+  body.printing-group #print-group-container .print-status-radio:not(.selected){
+    display:none!important;
   }
   body.printing-group #print-group-container .radio-ok,
   body.printing-group #print-group-container .radio-no{
