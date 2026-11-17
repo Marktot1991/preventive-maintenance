@@ -3,9 +3,14 @@ function syncPrintInputState(root){
   root.querySelectorAll("input").forEach(input=>{
     if(input.type==="radio"){
       const isChecked = input.checked || input.getAttribute("data-checked")==="true" || input.hasAttribute("checked");
+      // Keep unchecked cells completely blank in the PDF; show only selected marks.
+      if(!isChecked){
+        input.remove();
+        return;
+      }
       const indicator=document.createElement("span");
-      indicator.className="print-status-radio "+(input.classList.contains("radio-ok")?"selected-ok":"selected-no");
-      if(!isChecked)indicator.classList.remove("selected-ok","selected-no");
+      const isOk=input.classList.contains("radio-ok");
+      indicator.className="print-status-radio "+(isOk?"status-ok":"status-no")+" selected";
       indicator.setAttribute("aria-hidden","true");
       input.replaceWith(indicator);
     }else if(input.type==="checkbox"){
