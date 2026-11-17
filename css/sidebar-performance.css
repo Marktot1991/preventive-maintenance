@@ -1,0 +1,91 @@
+/* ============================================================
+   SIDEBAR PERFORMANCE
+   - Desktop collapse/expand is an immediate one-time layout change.
+   - Avoid animating width and main-content offsets; those trigger layout
+     recalculation across the whole dashboard on every animation frame.
+   - Keep the mobile slide-in interaction smooth (transform only).
+   ============================================================ */
+
+@media (min-width: 721px) {
+  /* No animated width / margin / left changes on desktop. */
+  #sidebar,
+  .app-main,
+  .app-topbar {
+    transition: none !important;
+  }
+
+  body.sidebar-collapsed #sidebar {
+    width: 68px !important;
+  }
+
+  body.sidebar-collapsed .app-main {
+    margin-left: 68px !important;
+  }
+
+  body.sidebar-collapsed .app-topbar {
+    left: 68px !important;
+  }
+
+  /* Compact header: keep the brand icon and collapse control accessible. */
+  body.sidebar-collapsed .sidebar-brand {
+    padding-left: 6px !important;
+    padding-right: 6px !important;
+    gap: 4px !important;
+    justify-content: space-between;
+  }
+
+  body.sidebar-collapsed .brand-mark {
+    width: 18px !important;
+    flex: 0 0 18px;
+    filter: none !important;
+  }
+
+  body.sidebar-collapsed .sidebar-collapse {
+    width: 26px !important;
+    height: 30px !important;
+    flex: 0 0 26px;
+  }
+
+  /* CSS-only hiding avoids repeated querySelectorAll + inline style writes. */
+  body.sidebar-collapsed .brand-title,
+  body.sidebar-collapsed .sidebar-section-label,
+  body.sidebar-collapsed .dept-wrap,
+  body.sidebar-collapsed .sidebar-link .menu-label,
+  body.sidebar-collapsed .menu-chevron,
+  body.sidebar-collapsed .user-status-text {
+    display: none !important;
+  }
+
+  body.sidebar-collapsed .sidebar-link,
+  body.sidebar-collapsed .sidebar-link:hover {
+    justify-content: center !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    transform: none !important;
+  }
+
+  body.sidebar-collapsed .sidebar-link i:first-child {
+    width: 100% !important;
+    flex: 0 0 100%;
+    margin: 0 !important;
+    text-align: center;
+  }
+
+  body.sidebar-collapsed #currentUserDisplay {
+    justify-content: center;
+    margin-left: 0 !important;
+  }
+
+  body.sidebar-collapsed .sidebar-footer {
+    padding-left: 4px !important;
+    padding-right: 4px !important;
+  }
+}
+
+@media (max-width: 720px) {
+  /* Mobile keeps the compositor-friendly transform slide animation. */
+  #sidebar {
+    transition: transform .18s ease-out !important;
+    will-change: transform;
+  }
+}

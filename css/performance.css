@@ -62,10 +62,12 @@ html[data-theme=dark] #sync-overlay{background:rgba(17,27,36,.9)!important}
 #pm-progress-page .pm-percent-column{filter:none!important}
 
 /* 6) สกอลล์ลื่นไหลเฉพาะระดับหน้า ไม่ใช้กับทุก element */
-body,*{scroll-behavior:auto}
-html{scroll-behavior:smooth}
+html{scroll-behavior:auto!important}
 
 /* 7) ผู้ใช้ที่ตั้งค่าลดแอนิเมชันในระบบ */
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation:none!important;transition:none!important}
 }
+
+/* Keep report redraws immediate: avoid replaying the chart rise animation on every filter change. */
+#pm-progress-page .pm-percent-bar{animation:none!important;transition:none!important}
