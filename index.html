@@ -19,10 +19,11 @@
 <link rel="stylesheet" href="css/login-glass.css">
 <link rel="stylesheet" href="css/progress-3d.css">
 <link rel="stylesheet" href="css/sidebar-extra.css">
-<link rel="stylesheet" href="css/performance.css">
 <link rel="stylesheet" href="css/history-nextdue.css">
 <link rel="stylesheet" href="css/admin-panel.css">
 <link rel="stylesheet" href="css/status-symbols.css">
+<link rel="stylesheet" href="css/performance.css">
+<link rel="stylesheet" href="css/sidebar-performance.css">
 
 </head>
 
@@ -600,7 +601,7 @@
               <select id="admLogPeriod" onchange="renderAdminLogs()">
                 <option value="all">ทุกช่วงเวลา (ย้อนหลัง 1 ปี)</option><option value="today">วันนี้</option><option value="7d">7 วันล่าสุด</option><option value="30d">30 วันล่าสุด</option>
               </select>
-              <input id="admLogSearch" type="search" placeholder="ค้นหาชื่อ / กลุ่มอุปกรณ์ / ถัง" oninput="renderAdminLogs()">
+              <input id="admLogSearch" type="search" placeholder="ค้นหาชื่อ / กลุ่มอุปกรณ์ / ถัง" oninput="scheduleAdminLogsRefresh()">
               <button type="button" id="admLogRefresh" class="adm-btn secondary" onclick="loadAdminLogs()"><i class="fa-solid fa-rotate"></i> รีเฟรช</button>
             </div>
             <div id="adm-log-msg" class="adm-msg" role="status"></div>
