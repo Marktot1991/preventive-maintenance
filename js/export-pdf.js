@@ -36,11 +36,14 @@ function exportCurrentGroupPDF(){
   const savedTankType=activeTankType;
   const savedTankName=activeTankName;
   const savedDept=activeDepartment;
+  const savedPmEditMode=pmTemplateEditMode;
+  pmTemplateEditMode=false; // PDF ต้องเป็นเช็คฟอร์ม ไม่ใช่ช่องแก้ไขแม่แบบ
 
   const uniqueTanks=[...new Set(tanks)];
   printRoot.innerHTML="";
 
   const groupLabel={
+    selecta:"Selecta",
     fmu:"Flow Meter Unit",
   deluting:"Letdown Tanks",
     delicel:"Delicel Tanks",
@@ -81,6 +84,7 @@ function exportCurrentGroupPDF(){
   activeTankType=savedTankType;
   activeTankName=savedTankName;
   activeDepartment=savedDept;
+  pmTemplateEditMode=savedPmEditMode;
 
   updateEquipmentSelect();
   updateSidebarForDept();

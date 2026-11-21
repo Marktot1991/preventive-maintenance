@@ -35,7 +35,20 @@ async function loadUserAndStart(){
     return false;
   }
   currentRole=data.role||"view";
-  currentUserName=String(data.display_name||data.email||currentUser?.email||"").trim();
+  // ใช้ E-Mail จาก Supabase Auth ของบัญชีที่ล็อกอินจริงก่อนเสมอ
+  // และใช้ profiles.email เฉพาะกรณีที่ Auth ไม่ส่ง E-Mail กลับมา
+  let authEmail=String(currentUser?.email||"").trim();
+  try{
+    const {data:authData,error:authError}=await db.auth.getUser();
+    if(!authError && authData?.user?.id===currentUser.id){
+      currentUser=authData.user;
+      authEmail=String(authData.user.email||authEmail).trim();
+    }
+  }catch(e){
+    console.warn("Cannot refresh user email, using session/profile email:",e);
+  }
+  signedInEmail=authEmail||String(data.email||"").trim();
+  currentUserName=String(data.display_name||signedInEmail||"").trim();
   await loadDbData();
   startApp();
   return true;
@@ -46,6 +59,7 @@ async function checkLoginStatus(){
 
   if(!data.session){
     clearTabSession();
+    signedInEmail="";
     showLogin();
     return;
   }
@@ -57,6 +71,7 @@ async function checkLoginStatus(){
       console.warn("Auto logout after browser/tab close:", e);
     }
     currentUser=null;
+    signedInEmail="";
     currentRole="view";
     clearTabSession();
     showLogin();
@@ -72,31 +87,64 @@ async function checkLoginStatus(){
   }
 }
 
+// แสดง E-Mail จริงบริเวณเหนือปุ่มออกจากระบบสำหรับทุกสิทธิ์ (ไม่ใช้ "Online Admin")
+// ใช้ textContent เพื่อไม่ตีความ E-Mail เป็น HTML
+function renderSignedInEmail(){
+  const display=document.getElementById("currentUserDisplay");
+  if(!display)return;
+  const email=String(signedInEmail||currentUser?.email||"").trim();
+  const shown=email||"ไม่พบอีเมลผู้ใช้";
+  const icon=document.createElement("span");
+  icon.className="user-status-icon user-online-dot";
+  icon.setAttribute("aria-hidden","true");
+  const label=document.createElement("span");
+  label.className="user-email";
+  label.textContent=shown;
+  display.replaceChildren(icon,label);
+  display.title=shown;
+  display.setAttribute("aria-label","อีเมลผู้ใช้ที่เข้าสู่ระบบ: "+shown);
+}
+
 function startApp(){
-  showApp();
+  // V19: Every authenticated app start opens the neutral dashboard, never the
+  // equipment saved by a previous user. Keep inspection data untouched.
   currentPage="form";
+  activeDepartment="em2";
+  activeTankType="";
+  activeTankName="";
+  if(typeof pmTemplateEditMode!=="undefined")pmTemplateEditMode=false;
+  if(typeof expandedPmSidebarDepartment!=="undefined")expandedPmSidebarDepartment=null;
+  if(typeof expandedPmSidebarCategory!=="undefined")expandedPmSidebarCategory=null;
+  if(typeof resultNoteSidebarOpen!=="undefined")resultNoteSidebarOpen=false;
+  if(typeof resultNoteExpandedDept!=="undefined")resultNoteExpandedDept=null;
+  if(typeof resultNoteExpandedGroup!=="undefined")resultNoteExpandedGroup=null;
+  if(typeof resultNoteDept!=="undefined")resultNoteDept="all";
+  if(typeof resultNoteFormFilter!=="undefined")resultNoteFormFilter="all";
+
   const view=currentRole==="view";
-  const roleText=currentRole==="administrator"?"Online (Administrator)":"Online (Admin)";
-  document.getElementById("currentUserDisplay").innerHTML=view?`<span class="user-status-icon"><i class="fa-solid fa-user"></i></span><span class="user-status-text"><strong>ดูข้อมูลอย่างเดียว</strong></span>`:`<span class="user-status-icon"><i class="fa-solid fa-user-shield"></i></span><span class="user-status-text"><strong><span class="online-dot"></span>${roleText}</strong></span>`;
+  renderSignedInEmail();
   if(typeof applyAdministratorUI==="function")applyAdministratorUI();
   if(typeof initSessionTracking==="function")initSessionTracking();
   document.getElementById("btnClearData").style.display=view?"none":"inline-block";
   document.getElementById("btnClearGroup").style.display=view?"none":"inline-block";
-  ["orderNo","orderType","orderActivity","desc","workCenter","supervisor","sysStatus","userStatus","releaseDate","pmDate","pmNextDate"].forEach(id=>{const e=document.getElementById(id==="pmDate"||id==="pmNextDate"?id+"_display":id);if(e)e.readOnly=view});
-  activeTankType=dbData.lastSavedTankType||"deluting";
-  activeTankName=dbData.lastSavedTank||"T5110";
-  const isResin = ['thinning', 'reactor'].includes(activeTankType);
-  const isEm1 = ['fmu'].includes(activeTankType);
-  const startDept = isResin ? 'resin' : (isEm1 ? 'em1' : 'em2');
-  document.getElementById("deptSelect").value = startDept;
-  switchDept(startDept, true);
-  ["deluting","delicel","additive","updown","tankfarm2","surpressor","silo","hopper","diverter","slurry","thinning","reactor","fmu","wwt_flow","wwt_cond","pigline","filling"].forEach(t=>{const e=document.getElementById(t+"Select");if(e)e.value=t===activeTankType?activeTankName:""});
+  ["orderNo","orderType","orderActivity","desc","workCenter","supervisor","sysStatus","userStatus","releaseDate","pmDate","pmNextDate"].forEach(id=>{
+    const e=document.getElementById(id==="pmDate"||id==="pmNextDate"?id+"_display":id);
+    if(e)e.readOnly=view;
+  });
+
+  // Reset the PM form and its legacy selectors without writing to Supabase.
+  switchDept("em2", true);
+  if(typeof expandedPmSidebarDepartment!=="undefined")expandedPmSidebarDepartment=null;
+  if(typeof expandedPmSidebarCategory!=="undefined")expandedPmSidebarCategory=null;
   updateSidebarForDept();
   updateEquipmentSelect();
-  updateSidebarActive();
   renderForm();
-}
 
+  // Select a known page explicitly (not just currentPage="form").
+  // This also hides History / Result Note left visible in an existing DOM.
+  showPMProgress();
+  showApp();
+}
 async function performLogout(){
   try{
     if(typeof endSessionTracking==="function")await endSessionTracking();
@@ -108,6 +156,7 @@ async function performLogout(){
   }finally{
     clearTabSession();
     currentUser=null;
+    signedInEmail="";
     currentRole="view";
     if(typeof applyAdministratorUI==="function")applyAdministratorUI();
     showLogin();

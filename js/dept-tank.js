@@ -1,5 +1,9 @@
 function switchDept(dept, preventClear) {
+  const changedDepartment = activeDepartment !== dept;
   activeDepartment = dept;
+  if(typeof expandedPmSidebarDepartment !== "undefined")expandedPmSidebarDepartment=dept;
+  if(changedDepartment && typeof expandedPmSidebarCategory !== "undefined")expandedPmSidebarCategory=null;
+  if(!preventClear)pmTemplateEditMode=false;
   document.getElementById("em1-controls").classList.add("hidden");
   document.getElementById("em2-controls").classList.add("hidden");
   document.getElementById("resin-controls").classList.add("hidden");
@@ -15,8 +19,9 @@ function switchDept(dept, preventClear) {
     document.getElementById("em2-controls").classList.remove("hidden");
   }
   if(!preventClear) { activeTankType = ""; activeTankName = ""; }
-  ["deluting","delicel","additive","updown","tankfarm2","surpressor","silo","hopper","diverter","slurry","thinning","reactor","fmu","wwt_flow","wwt_cond","pigline","filling"].forEach(t=>{const e=document.getElementById(t+"Select");if(e)e.value=""});
-  document.getElementById("deptSelect").value=dept;
+  ["deluting","delicel","additive","updown","tankfarm2","surpressor","silo","hopper","diverter","slurry","thinning","reactor","fmu","wwt_flow","wwt_cond","pigline","filling","selecta"].forEach(t=>{const e=document.getElementById(t+"Select");if(e)e.value=""});
+  const oldDeptSelector=document.getElementById("deptSelect");
+  if(oldDeptSelector)oldDeptSelector.value=dept;
   updateSidebarForDept();
   updateEquipmentSelect();
   updateSidebarActive();
@@ -26,8 +31,10 @@ function switchDept(dept, preventClear) {
 function switchTank(type){
   const el=document.getElementById(type+"Select");if(!el||!el.value)return;
   activeTankType=type;activeTankName=el.value;
-  ["deluting","delicel","additive","updown","tankfarm2","surpressor","silo","hopper","diverter","slurry","thinning","reactor","fmu","wwt_flow","wwt_cond","pigline","filling"].forEach(t=>{if(t!==type){const e=document.getElementById(t+"Select");if(e)e.value=""}});
-  if(currentRole!=="view")saveMany([{key:"lastSavedTankType",value:type},{key:"lastSavedTank",value:activeTankName}]).catch(console.error);
+  pmTemplateEditMode=false;
+  ["deluting","delicel","additive","updown","tankfarm2","surpressor","silo","hopper","diverter","slurry","thinning","reactor","fmu","wwt_flow","wwt_cond","pigline","filling","selecta"].forEach(t=>{if(t!==type){const e=document.getElementById(t+"Select");if(e)e.value=""}});
+  // V19: Selection is tab-local UI state, not shared pm_data. This prevents
+  // another person's last open equipment from becoming everybody's login page.
   updateEquipmentSelect();
   updateSidebarActive();
   renderForm();
@@ -49,14 +56,25 @@ async function toggleRadio(e,radio,key,value){
   return true;
 }
 
+// ล้างเฉพาะข้อมูลผลตรวจ โดยเก็บการปรับแต่งแม่แบบ PM เอาไว้ทุกสิทธิ์
+// ป้องกันการลบแม่แบบทางอ้อมด้วยปุ่มล้างข้อมูล (SQL trigger ปฏิเสธด้วยหากผู้ใช้ไม่มีสิทธิ์)
+async function deleteTankInspectionData(tank){
+  const prefix=tank+"_";
+  const keys=Object.keys(dbData).filter(k=>k.startsWith(prefix)&&!isPmTemplateConfigKey(k));
+  for(let i=0;i<keys.length;i+=60){
+    const {error}=await db.from("pm_data").delete().in("data_key",keys.slice(i,i+60));
+    if(error)throw error;
+  }
+}
+
 async function clearCurrentTankData(){
   if(currentRole==="view"||!activeTankName)return;
-  if(!confirm(`ล้างข้อมูลถัง ${activeTankName} บน Supabase ใช่หรือไม่?`))return;
+  if(!confirm(`ล้างผลตรวจถัง ${activeTankName} บน Supabase ใช่หรือไม่?\n\nรายการแม่แบบ PM ที่ปรับแต่งไว้จะยังคงอยู่`))return;
   setLoading(true);
   try{
-    const {error}=await db.from("pm_data").delete().like("data_key",`${likeEsc(activeTankName)}\\_%`);
-    if(error)throw error;
-    await loadDbData();renderForm();alert("เคลียร์ข้อมูลถังเรียบร้อย");
+    await loadDbData(); // อ่านข้อมูลล่าสุดก่อนเลือกคีย์ที่จะลบ
+    await deleteTankInspectionData(activeTankName);
+    await loadDbData();renderForm();alert("ล้างผลตรวจถังเรียบร้อย (เก็บรายการ PM ที่ปรับแต่งไว้)");
   }catch(e){alert("เกิดข้อผิดพลาด: "+e.message)}finally{setLoading(false)}
 }
 
@@ -64,14 +82,12 @@ async function clearCurrentGroupData(){
   if(currentRole==="view"||!activeTankType)return;
   const tanks=tankGroupMapping[activeTankType]||[];
   if(!tanks.length)return;
-  if(!confirm(`⚠️ ล้างข้อมูลกรุ๊ป ${activeTankType} จำนวน ${tanks.length} อุปกรณ์?\n\nการกระทำนี้ไม่สามารถกู้คืนได้`))return;
+  if(!confirm(`⚠️ ล้างผลตรวจกรุ๊ป ${activeTankType} จำนวน ${tanks.length} อุปกรณ์?\n\nรายการแม่แบบ PM ที่ปรับแต่งไว้จะยังคงอยู่ แต่ผลตรวจที่ล้างไม่สามารถกู้คืนได้`))return;
   setLoading(true);
   try{
-    for(const tank of tanks){
-      const {error}=await db.from("pm_data").delete().like("data_key",`${likeEsc(tank)}\\_%`);
-      if(error)throw error;
-    }
-    await loadDbData();renderForm();alert("เคลียร์ข้อมูลทั้งกรุ๊ปเรียบร้อยแล้ว");
+    await loadDbData();
+    for(const tank of tanks)await deleteTankInspectionData(tank);
+    await loadDbData();renderForm();alert("ล้างผลตรวจทั้งกรุ๊ปเรียบร้อย (เก็บรายการ PM ที่ปรับแต่งไว้)");
   }catch(e){alert("เกิดข้อผิดพลาด: "+e.message)}finally{setLoading(false)}
 }
 

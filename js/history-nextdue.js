@@ -6,6 +6,9 @@ function getTankDisplayLabel(groupType, tank) {
   if (groupType === "slurry") {
     return ((typeof slurryTankDescriptions !== "undefined" && slurryTankDescriptions[tank]) || tank).split(/\s+/)[0] || tank;
   }
+  if (groupType === "selecta") {
+    return (typeof selectaMachineInfo !== "undefined" && selectaMachineInfo[tank]?.desc) || tank;
+  }
   if (groupType === "filling") {
     return (typeof fillingMachineInfo !== "undefined" && fillingMachineInfo[tank]?.desc) ? `${tank} (${fillingMachineInfo[tank].desc})` : tank;
   }
@@ -158,6 +161,8 @@ function openEquipmentForm(dept, groupType, tank) {
   activeTankName = tank;
   const legacy = document.getElementById(groupType + "Select");
   if (legacy) legacy.value = tank;
+  if (typeof expandedPmSidebarDepartment !== 'undefined') expandedPmSidebarDepartment=dept;
+  if (typeof expandedPmSidebarCategory !== 'undefined') expandedPmSidebarCategory=groupType;
   showPMForm();
   updateSidebarForDept();
   updateEquipmentSelect();
@@ -524,22 +529,22 @@ function renderPMNextDue() {
   summaryEl.innerHTML = `
     <div class="progress-card">
       <div class="progress-card-label">OVERDUE / เกินกำหนด</div>
-      <div class="progress-card-value" style="color:#ff7884!important">${overdueCount.toLocaleString()}</div>
+      <div class="progress-card-value" style="color:#ff7884">${overdueCount.toLocaleString()}</div>
       <div class="progress-card-sub">อุปกรณ์ที่เลยกำหนด PM Next Due Date</div>
     </div>
     <div class="progress-card">
       <div class="progress-card-label">DUE SOON / ครบกำหนดเร็วๆ นี้</div>
-      <div class="progress-card-value" style="color:#ffd07d!important">${(dueNowCount + soonCount).toLocaleString()}</div>
+      <div class="progress-card-value" style="color:#ffd07d">${(dueNowCount + soonCount).toLocaleString()}</div>
       <div class="progress-card-sub">เดือนนี้ ${dueNowCount} · ภายใน 1-2 เดือน ${soonCount}</div>
     </div>
     <div class="progress-card">
       <div class="progress-card-label">ON SCHEDULE / ตามแผน</div>
-      <div class="progress-card-value" style="color:#48e0bd!important">${onTrackCount.toLocaleString()}</div>
+      <div class="progress-card-value" style="color:#48e0bd">${onTrackCount.toLocaleString()}</div>
       <div class="progress-card-sub">กำหนดการมากกว่า 2 เดือนขึ้นไป</div>
     </div>
     <div class="progress-card">
       <div class="progress-card-label">UNSCHEDULED / ยังไม่ระบุ</div>
-      <div class="progress-card-value" style="color:#9db8ca!important">${unsetCount.toLocaleString()}</div>
+      <div class="progress-card-value" style="color:#9db8ca">${unsetCount.toLocaleString()}</div>
       <div class="progress-card-sub">ยังไม่ได้ระบุวันครบกำหนดรอบถัดไป</div>
     </div>
   `;

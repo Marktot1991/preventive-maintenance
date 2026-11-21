@@ -40,52 +40,51 @@ function getEquipData(tank,code,tankType){
 }
 
 function buildTaskRows(maxRows,tasks,tankCode,valveId){
-  const view=currentRole==="view",ro=view?"readonly":"",cursor=view?"locked-cursor":"";
+  const view=currentRole==="view", edit=pmIsTemplateEditing();
+  const ro=(view||edit)?"readonly":"", cursor=(view||edit)?"locked-cursor":"";
+  const disabled=edit?"disabled":"";
   let h="";
   const list=Array.isArray(tasks)?tasks:[];
-  const limit=Math.max(Number(maxRows)||0,list.length);
+  const limit=pmSectionMaxRows(tankCode,valveId,list.length);
 
   for(let i=0;i<limit;i++){
     const n=i+1;
-    const rKey=`${tankCode}_${valveId}_${n}_radio`;
-    const nKey=`${tankCode}_${valveId}_${n}_note`;
+    const prefix=`${tankCode}_${valveId}_${n}`;
+    const rKey=`${prefix}_radio`;
+    const nKey=`${prefix}_note`;
+    const taskKey=`${prefix}_taskName`;
+    const standardKey=`${prefix}_standard`;
+    const packageKey=`${prefix}_package`;
+    const original=list[i];
+    const isDefault=i<list.length;
+    const taskName=String(dbData[taskKey]||original?.n||"").trim();
+    if(!taskName)continue;
+    const hidden=dbData[`${prefix}_hidden`] === "1";
+    // เมื่อซ่อนรายการ จะไม่แสดงในโหมดตรวจ และไม่นับใน Progress
+    if(hidden&&!edit)continue;
+    const standard=String(dbData[standardKey]||original?.s||"");
+    const pkg=String(dbData[packageKey]||original?.p||"");
     const radio=dbData[rKey]||"";
     const note=dbData[nKey]||"";
     const ok=radio==="OK",no=radio==="NO";
-
-    if(i<list.length){
-      const t=list[i];
-      const taskName=String(t?.n??"").trim();
-      if(!taskName)continue;
-
-      h+=`<tr data-pm-check="1">
-        <td class="text-center">${t.i}</td>
-        <td>${esc(taskName)}</td>
-        <td>${esc(t.s)}</td>
-        <td class="text-center">${esc(t.p)}</td>
-        <td class="radio-center"><input type="radio" class="radio-ok ${cursor}" name="grp_${esc(rKey)}" value="OK" ${ok?"checked":""} data-checked="${ok}" onclick="toggleRadio(event,this,'${esc(rKey)}','OK')"></td>
-        <td class="radio-center"><input type="radio" class="radio-no ${cursor}" name="grp_${esc(rKey)}" value="NO" ${no?"checked":""} data-checked="${no}" onclick="toggleRadio(event,this,'${esc(rKey)}','NO')"></td>
-        <td><input type="text" class="borderless-input" value="${esc(note)}" ${ro} onchange="saveDataToServer('${esc(nKey)}',this.value)"></td>
-      </tr>`;
-      continue;
-    }
-
-    const a=`${tankCode}_${valveId}_${n}_taskName`;
-    const s=`${tankCode}_${valveId}_${n}_standard`;
-    const p=`${tankCode}_${valveId}_${n}_package`;
-    const customTaskName=String(dbData[a]??"").trim();
-
-    if(!customTaskName){
-      continue;
-    }
-
-    h+=`<tr data-pm-check="1">
-      <td class="text-center">${n}</td>
-      <td><input type="text" class="borderless-input" value="${esc(customTaskName)}" ${ro} onchange="saveDataToServer('${esc(a)}',this.value)"></td>
-      <td><input type="text" class="borderless-input" value="${esc(dbData[s]||"")}" ${ro} onchange="saveDataToServer('${esc(s)}',this.value)"></td>
-      <td><input type="text" class="borderless-input text-center" value="${esc(dbData[p]||"")}" ${ro} onchange="saveDataToServer('${esc(p)}',this.value)"></td>
-      <td class="radio-center"><input type="radio" class="radio-ok ${cursor}" name="grp_${esc(rKey)}" value="OK" ${ok?"checked":""} data-checked="${ok}" onclick="toggleRadio(event,this,'${esc(rKey)}','OK')"></td>
-      <td class="radio-center"><input type="radio" class="radio-no ${cursor}" name="grp_${esc(rKey)}" value="NO" ${no?"checked":""} data-checked="${no}" onclick="toggleRadio(event,this,'${esc(rKey)}','NO')"></td>
+    const field=(key,value,label,extra="")=>
+      `<input type="text" class="pm-template-field ${extra}" value="${esc(value)}" aria-label="${esc(label)}" onchange="savePmTemplateCell(this,'${esc(key)}')">`;
+    const actions=edit?`<div class="pm-template-row-actions">
+      <button type="button" onclick="togglePmTaskHidden('${esc(tankCode)}','${esc(valveId)}',${n})">${hidden?"แสดงรายการ":"ซ่อนรายการ"}</button>
+      ${isDefault
+        ? `<button type="button" onclick="resetPmDefaultTask('${esc(tankCode)}','${esc(valveId)}',${n})">คืนค่าเดิม</button>`
+        : `<button type="button" class="pm-template-delete-btn" title="ลบรายการนี้และผลตรวจอย่างถาวร" onclick="deletePmCustomTask(this,'${esc(tankCode)}','${esc(valveId)}',${n},${list.length})"><i class="fa-solid fa-trash-can" aria-hidden="true"></i> ลบรายการ</button>`}
+    </div>`:"";
+    const taskCell=edit?field(taskKey,taskName,"รายการ PM")+actions:esc(taskName);
+    const standardCell=edit?field(standardKey,standard,"มาตรฐาน"):esc(standard);
+    const packageCell=edit?field(packageKey,pkg,"Package","text-center"):esc(pkg);
+    h+=`<tr data-pm-check="1" ${hidden?'class="pm-template-hidden-row"':''}>
+      <td class="text-center">${isDefault?esc(original?.i??n):n}</td>
+      <td>${taskCell}</td>
+      <td>${standardCell}</td>
+      <td class="text-center">${packageCell}</td>
+      <td class="radio-center"><input type="radio" class="radio-ok ${cursor}" name="grp_${esc(rKey)}" value="OK" ${ok?"checked":""} data-checked="${ok}" ${disabled} onclick="toggleRadio(event,this,'${esc(rKey)}','OK')"></td>
+      <td class="radio-center"><input type="radio" class="radio-no ${cursor}" name="grp_${esc(rKey)}" value="NO" ${no?"checked":""} data-checked="${no}" ${disabled} onclick="toggleRadio(event,this,'${esc(rKey)}','NO')"></td>
       <td><input type="text" class="borderless-input" value="${esc(note)}" ${ro} onchange="saveDataToServer('${esc(nKey)}',this.value)"></td>
     </tr>`;
   }
@@ -93,10 +92,19 @@ function buildTaskRows(maxRows,tasks,tankCode,valveId){
 }
 
 function buildSection(eq,desc,tasks,valveId,tankName=activeTankName){
-  const rowCount=Array.isArray(tasks)?Math.max(6,tasks.length):6;
-  return `<table><tr class="header-bg"><td colspan="4" style="text-align:left">Equipment : ${esc(eq)}</td><td colspan="4" style="text-align:left;color:#b30000">Description : ${esc(desc)}</td></tr>
+  const rowCount=Array.isArray(tasks)?tasks.length:0;
+  const edit=pmIsTemplateEditing();
+  const footer=edit?`<div class="pm-add-task-panel">
+    <span class="pm-add-task-caption"><i class="fa-solid fa-plus"></i> เพิ่มรายการตรวจ PM เฉพาะ ${esc(tankName)} / ${esc(desc)}</span>
+    <input type="text" data-field="name" placeholder="ชื่อรายการ PM ใหม่ *" aria-label="ชื่อรายการ PM ใหม่">
+    <input type="text" data-field="standard" placeholder="มาตรฐานการตรวจ" aria-label="มาตรฐานใหม่">
+    <input type="text" data-field="package" placeholder="Package" aria-label="Package ใหม่">
+    <button type="button" onclick="addPmCustomTask(this,'${esc(tankName)}','${esc(valveId)}',${rowCount})"><i class="fa-solid fa-plus"></i> เพิ่มรายการ</button>
+  </div>`:"";
+  // ตารางเช็คฟอร์มมี 7 คอลัมน์ (colspan 3+4)
+  return `<table><tr class="header-bg"><td colspan="3" style="text-align:left">Equipment : ${esc(eq)}</td><td colspan="4" style="text-align:left;color:#b30000">Description : ${esc(desc)}</td></tr>
   <tr class="sub-header-bg text-center"><td width="4%">Items</td><td width="24%">Preventive Maintenance Task List</td><td width="24%">Standard</td><td width="6%">Package</td><td width="4%">OK</td><td width="4%">NO</td><td width="28%">Result Note</td></tr>
-  ${buildTaskRows(rowCount,tasks,tankName,valveId)}</table>`;
+  ${buildTaskRows(rowCount,tasks,tankName,valveId)}</table>${footer}`;
 }
 
 const RESIN_TASK_LISTS={psv:tr_psv,temp:tr_temp,sv:tr_sv,rota:tr_rota,ft:tr_ft,pt:tr_pt,pg:tr_pg,btv:tr_btv,cv:tr_cv};
@@ -151,7 +159,16 @@ function buildFormModel(){
       }
     }
   } else {
-    if(activeTankType==="filling"){
+    if(activeTankType==="selecta"){
+      const data=selectaMachineInfo[activeTankName];
+      if(data){
+        fl.textContent=`Functional Location : ${data.fl}`;
+        ed.textContent=`Description : ${data.desc}`;
+        (selectaMachineAssets[activeTankName]||[]).forEach(([eq,desc,kind,key])=>{
+          h+=buildSection(eq,desc,selectaTaskList(kind),key,activeTankName);
+        });
+      }
+    } else if(activeTankType==="filling"){
       const data=fillingMachineInfo[activeTankName];
       if(data){
         fl.textContent=`Functional Location : ${data.fl}`;
@@ -239,12 +256,30 @@ function buildFormModel(){
 }
 
 function renderForm(){
+  syncPmTemplateToolbar();
   const deptDisplay = document.getElementById("dept-display");
   if(activeDepartment === "em1") deptDisplay.textContent = "Department : Emulsion 1";
   else if(activeDepartment === "resin") deptDisplay.textContent = "Department : Resin PD1";
   else if(activeDepartment === "wwt") deptDisplay.textContent = "Department : WWT";
   else deptDisplay.textContent = "Department : Emulsion 2";
-  if(!activeTankName){document.getElementById("checklist-container").innerHTML="";return}
+  if(!activeTankName){
+    ["orderNo","orderType","orderActivity","desc","workCenter","supervisor","sysStatus","userStatus","releaseDate"].forEach(id=>{
+      const field=document.getElementById(id);
+      if(field)field.value="";
+    });
+    ["pmDate","pmNextDate"].forEach(id=>{
+      const hidden=document.getElementById(id);
+      if(hidden)hidden.value="";
+      const visible=document.getElementById(id+"_display");
+      if(visible){visible.value="";visible.dataset.val="";}
+    });
+    const fl=document.getElementById("fl-display");
+    if(fl)fl.textContent="Functional Location :";
+    const desc=document.getElementById("equipment-desc-display");
+    if(desc)desc.textContent="Description :";
+    document.getElementById("checklist-container").innerHTML="";
+    return;
+  }
   ["orderNo","orderType","orderActivity","desc","workCenter","supervisor","sysStatus","userStatus","releaseDate","pmDate","pmNextDate"].forEach(id=>{
     let val = dbData[`${activeTankName}_header_${id}`]||"";
     if(id==="pmDate" || id==="pmNextDate") {

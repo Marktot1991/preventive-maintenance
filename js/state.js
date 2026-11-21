@@ -1,1 +1,1 @@
-let dbData={}, activeDepartment="em2", activeTankType="deluting", activeTankName="T5110", currentUser=null, currentUserName="", dbMeta={}, profileNames={}, currentRole="view", currentPage="form", progressCache=null;
+let dbData={}, activeDepartment="em2", activeTankType="deluting", activeTankName="T5110", currentUser=null, currentUserName="", signedInEmail="", dbMeta={}, profileNames={}, currentRole="view", currentPage="form", progressCache=null;

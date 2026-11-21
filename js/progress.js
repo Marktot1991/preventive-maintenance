@@ -1,4 +1,5 @@
 const pmProgressGroupLabels={
+  selecta:"Selecta",
   filling:"Auto Filling M/C",
   fmu:"Flow Meter Unit",
   deluting:"Letdown Tanks",
@@ -18,6 +19,7 @@ const pmProgressGroupLabels={
   pigline:"Pigline"
 };
 const pmProgressDeptByGroup={
+  selecta:"em2",
   filling:"em2",
   fmu:"em1",
   deluting:"em2",delicel:"em2",additive:"em2",updown:"em2",tankfarm2:"em2",surpressor:"em2",silo:"em2",hopper:"em2",diverter:"em2",slurry:"em2",pigline:"em2",

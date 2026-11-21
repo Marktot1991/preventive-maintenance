@@ -11,6 +11,7 @@ function applyTheme(theme){
     if(i)i.className=t==="dark"?"fa-solid fa-sun":"fa-solid fa-moon";
     if(l)l.textContent=t==="dark"?"โหมดสว่าง":"โหมดมืด";
     b.setAttribute("title",t==="dark"?"เปลี่ยนเป็นโหมดสว่าง":"เปลี่ยนเป็นโหมดมืด");
+    b.setAttribute("aria-label",t==="dark"?"เปลี่ยนเป็นโหมดสว่าง":"เปลี่ยนเป็นโหมดมืด");
   });
 }
 function toggleTheme(){applyTheme((document.documentElement.getAttribute("data-theme")||"light")==="dark"?"light":"dark")}

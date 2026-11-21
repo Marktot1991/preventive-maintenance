@@ -1,6 +1,7 @@
 function invalidateReportCaches(){
   if(typeof invalidateEquipmentRecordsCache === "function") invalidateEquipmentRecordsCache();
   if(typeof invalidateActivityCache === "function") invalidateActivityCache();
+  if(typeof invalidateResultNotesCache === "function") invalidateResultNotesCache();
 }
 
 // ผู้ทำ PM: บันทึกชื่อผู้ใช้ที่แก้ไขฟอร์มของอุปกรณ์นั้นล่าสุด (เก็บเป็น key ของอุปกรณ์เอง จึงถูกล้างพร้อมข้อมูลถังเมื่อกดล้างข้อมูล)
@@ -43,6 +44,7 @@ async function loadDbData(){
   invalidateReportCaches();
   await loadProfileNames();
   if(typeof invalidateProgressCache==="function")invalidateProgressCache();
+  if(typeof updateResultNoteSidebarCounts === "function") updateResultNoteSidebarCounts();
 }
 
 // แปลง user id -> ชื่อ (ใช้กับข้อมูลเก่าที่ยังไม่มีชื่อผู้ทำ PM) ถ้าอ่านตาราง profiles ของคนอื่นไม่ได้จะข้ามไป
@@ -61,8 +63,20 @@ async function loadProfileNames(force=false){
   if(currentUser&&currentUserName&&!profileNames[currentUser.id])profileNames[currentUser.id]=currentUserName;
 }
 
+// ป้องกันการเขียนคีย์แม่แบบ PM จากบัญชี Admin ทั่วไป รวมถึงการเรียกฟังก์ชันบันทึกตรงๆ
+// หมายเหตุ: ความปลอดภัยฝั่งฐานข้อมูลจริงต้องติดตั้ง SQL trigger จากโฟลเดอร์ sql ด้วย
+function isPmTemplateConfigKey(key){
+  return /^.+_.+_(?:[0-9]+_(?:taskName|standard|package|hidden)|customMax)$/.test(String(key??""));
+}
+function requirePmTemplateAdministrator(keys){
+  if(currentRole!=="administrator" && keys.some(isPmTemplateConfigKey)){
+    throw new Error("เฉพาะ Administrator เท่านั้นที่แก้ไขหรือเพิ่มรายการ PM ได้");
+  }
+}
+
 async function saveDataToServer(key,value){
   if(currentRole==="view")return;
+  requirePmTemplateAdministrator([key]);
   dbData[key]=String(value??"");
   dbMeta[key]={by:currentUser.id,at:new Date().toISOString()};
   if(typeof invalidateProgressCache==="function")invalidateProgressCache(key);
@@ -79,12 +93,14 @@ async function saveDataToServer(key,value){
     if(currentPage==="history"&&typeof schedulePMHistoryRefresh==="function")schedulePMHistoryRefresh();
     if(currentPage==="activity"&&typeof scheduleActivityRefresh==="function")scheduleActivityRefresh();
     if(currentPage==="nextdue"&&typeof schedulePMNextDueRefresh==="function")schedulePMNextDueRefresh();
+    if(currentPage==="resultNotes"&&typeof scheduleResultNoteRender==="function")scheduleResultNoteRender();
   }catch(e){alert("⚠️ บันทึกไม่สำเร็จ: "+e.message);throw e}
   finally{setLoading(false)}
 }
 
 async function saveMany(rows){
   if(currentRole==="view"||!rows.length)return;
+  requirePmTemplateAdministrator(rows.map(r=>r.key));
   rows.forEach(r=>{dbData[r.key]=String(r.value??"");dbMeta[r.key]={by:currentUser.id,at:new Date().toISOString()};if(typeof invalidateProgressCache==="function")invalidateProgressCache(r.key)});
   try{
     setLoading(true);
@@ -98,6 +114,7 @@ async function saveMany(rows){
     if(currentPage==="history"&&typeof schedulePMHistoryRefresh==="function")schedulePMHistoryRefresh();
     if(currentPage==="activity"&&typeof scheduleActivityRefresh==="function")scheduleActivityRefresh();
     if(currentPage==="nextdue"&&typeof schedulePMNextDueRefresh==="function")schedulePMNextDueRefresh();
+    if(currentPage==="resultNotes"&&typeof scheduleResultNoteRender==="function")scheduleResultNoteRender();
   }catch(e){alert("⚠️ บันทึกข้อมูลไม่สำเร็จ: "+e.message);throw e}
   finally{setLoading(false)}
 }
