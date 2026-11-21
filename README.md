@@ -33,6 +33,7 @@
 18. [แนวทางการใช้งานประจำรอบ PM](#18-แนวทางการใช้งานประจำรอบ-pm)
 19. [คำถามที่พบบ่อยและวิธีแก้ปัญหา](#19-คำถามที่พบบ่อยและวิธีแก้ปัญหา)
 20. [โครงสร้างไฟล์และการดูแลระบบ](#20-โครงสร้างไฟล์และการดูแลระบบ)
+21. [การแจ้งเตือน PM ผ่าน LINE ด้วย Google Apps Script](#21-การแจ้งเตือน-pm-ผ่าน-line-ด้วย-google-apps-script)
 
 ---
 
@@ -605,6 +606,185 @@ preventive-maintenance-main/
 - อย่าสลับลำดับ `<script>` ที่ `index.html` โหลด เพราะไฟล์ JavaScript มีฟังก์ชัน/ตัวแปรที่อ้างอิงกัน
 - ตรวจการเปลี่ยนแปลงด้วยบัญชีทดสอบทุก Role และใช้สำเนาฐานข้อมูลทดสอบก่อนขึ้นระบบจริง
 - สำรอง `pm_data` และตรวจ Restore ได้เป็นระยะ ไม่ควรพึ่งเพียง GitHub เพราะ GitHub เก็บโค้ด ไม่ได้เก็บผล PM ที่อยู่ใน Supabase
+
+---
+
+
+## 21. การแจ้งเตือน PM ผ่าน LINE ด้วย Google Apps Script
+
+> ส่วนนี้อธิบายไฟล์ `New Text Document.txt` ที่ส่งมาเพิ่มเติม เป็น **สคริปต์แจ้งเตือนภายนอก** ไม่ใช่ฟังก์ชันที่อยู่ในหน้าเว็บ V21 โดยอัตโนมัติ ต้องสร้างโปรเจกต์ Google Apps Script ตั้งค่าสิทธิ์และ Trigger เอง จึงจะทำงานได้  
+> **ความปลอดภัย:** ไฟล์ที่ส่งมามี Supabase Secret Key (ขึ้นต้น `sb_secret_`) และ LINE Channel Access Token อยู่จริง ควร **เพิกถอน/หมุนเปลี่ยนทั้งสองคีย์ทันที** ก่อนใช้งานต่อ และห้ามนำค่าเดิม/ค่าใหม่ลง GitHub หรือคู่มือสาธารณะ คู่มือนี้ไม่ทำสำเนาคีย์ทั้งสอง
+
+### 21.1 ภาพรวมการทำงาน
+
+```text
+PM Dashboard (ผู้ตรวจ PM)
+       │  บันทึกเดือน Next Due
+       ▼
+Supabase ตาราง pm_data
+       │  อ่านเฉพาะคีย์ *_header_pmNextDate
+       ▼
+Google Apps Script: checkAndNotifyPM()
+       │  ตรวจวันที่ 5 และหาเดือน/ปีที่ตรงกับปัจจุบัน
+       │  จัดรายชื่ออุปกรณ์ EM1 / EM2 / Resin PD1 / WWT
+       ▼
+LINE Messaging API: POST /v2/bot/message/broadcast
+       │  ส่งข้อความรวม + URL PM Dashboard
+       ▼
+ผู้ติดตาม LINE Official Account ที่รับ Broadcast ได้
+```
+
+ข้อมูลไม่ได้ส่งจากเบราว์เซอร์ไป LINE โดยตรง; Apps Script เป็นตัวกลางที่อ่าน Supabase ผ่าน REST API และส่งข้อความผ่าน LINE Messaging API
+
+### 21.2 อธิบายตัวแปรและฟังก์ชันจากไฟล์
+
+| ส่วนในสคริปต์ | ทำหน้าที่อะไร | สิ่งที่ต้องระวัง |
+|---|---|---|
+| `SUPABASE_URL` | URL โปรเจกต์ Supabase | URL เป็นค่ากำหนดของโปรเจกต์ |
+| `SUPABASE_ANON_KEY` | ชื่อที่ไฟล์ใช้เก็บคีย์สำหรับเรียก REST API | **ชื่อทำให้เข้าใจผิด** เพราะค่าที่ส่งมาเป็น Secret Key ไม่ใช่ Anon/Publishable Key |
+| `LINE_CHANNEL_ACCESS_TOKEN` | สิทธิ์ส่งข้อความจาก LINE Official Account | เป็นความลับ ต้องหมุนเปลี่ยนและเก็บใน Script Properties |
+| `checkAndNotifyPM()` | ตรวจกำหนดและประกอบข้อความรายเดือน | ต้องมี Time-driven Trigger จึงทำงานอัตโนมัติ |
+| `notifyDay = 5` | ให้รันจริงเฉพาะวันที่ 5 ของเดือน | คอมเมนต์ในไฟล์เขียนว่า “วันที่ 1” แต่ค่าที่โค้ดใช้คือ **5** |
+| `yyyy_mm` / `format2` | แปลงเดือนเป็น `2026-11` หรือ `11/2026` | ตรวจเพียงเดือน/ปี ไม่ได้ตรวจวันภายในเดือน |
+| `data_key=like.*_header_pmNextDate` | อ่านแถวกำหนดตรวจถัดไปจาก `pm_data` | ดึงค่ากำหนดที่บันทึกจริง ไม่ได้คำนวณจาก `Package` |
+| `em1List`, `resinList`, `wwtList` | รายการรหัสที่ใช้แยกแผนก | รหัสใหม่หรือที่สะกดไม่ตรงอาจถูกจัดผิด |
+| `sendLineBroadcast(message)` | ส่งข้อความหนึ่งชุดผ่าน API Broadcast | ต้องตรวจ HTTP status และโควตา LINE ด้วย |
+
+**สิ่งที่สคริปต์นี้จะทำ**: ถ้าเปิด Trigger ทุกวัน สคริปต์จะหยุดเองในวันที่ไม่ใช่วันที่ 5, หาอุปกรณ์ที่มีเดือน Next Due ตรงกับเดือนปัจจุบัน, จัดกลุ่มตามแผนก, แล้วส่ง LINE เมื่อพบอย่างน้อยหนึ่งรายการ
+
+**สิ่งที่สคริปต์นี้ยังไม่ได้ทำ**: ไม่แจ้งเตือนก่อนถึงกำหนดหลายวัน, ไม่แจ้งรายการค้างเลยเดือนก่อน, ไม่คำนวณรอบ `6M` อัตโนมัติ, ไม่รู้ว่า OK/NO ครบแล้วหรือยัง, และยังไม่มีระบบกันแจ้งเตือนซ้ำเมื่อเรียกฟังก์ชันหลายครั้งภายในวันที่ 5
+
+### 21.3 ตัวอย่างการอ่านข้อมูล Supabase
+
+เมื่อกรอก **Preventive Maintenance Next Due Date** ของรหัส `FMU-001` และ `T5120` เป็นเดือน `2026-11` โค้ดคาดว่ามีข้อมูลรูปแบบใกล้เคียงต่อไปนี้ใน `pm_data`:
+
+```text
+data_key                     data_value
+------------------------------------------------
+FMU-001_header_pmNextDate    2026-11
+T5120_header_pmNextDate      2026-11
+```
+
+สคริปต์ตัดข้อความท้าย `_header_pmNextDate` เพื่อให้เหลือรหัสอุปกรณ์ เช่น `FMU-001` และ `T5120` จึงรองรับรหัสที่มีเครื่องหมายขีดกลางได้ โดยไม่ใช้ `split('_')`
+
+**ตรวจสอบก่อนเริ่มใช้งาน:**
+
+1. เปิดฟอร์ม PM หรือหน้า Next Due แล้วตรวจว่าได้บันทึกเดือนถัดไปจริง
+2. ยืนยันว่าคอลัมน์ข้อมูลใน `pm_data` ชื่อ `data_key` และ `data_value` ตามที่สคริปต์ใช้
+3. ตรวจว่าค่าเป็น `YYYY-MM` หรือ `MM/YYYY` ตามที่โค้ดเทียบ ไม่ใช่วันที่เต็มแบบ `YYYY-MM-DD`
+4. หากข้อมูลจำนวนมาก ต้องพิจารณาการแบ่งหน้า REST API (pagination) แทนการสมมติว่าคำตอบครั้งเดียวมีทุกแถว
+5. ถ้าต้องการแจ้งรายการค้างกำหนด (เดือนที่ผ่านมา) ต้องเพิ่มเงื่อนไขใหม่ ไม่ใช่แค่เทียบเท่ากับเดือนนี้
+
+### 21.4 การจัดกลุ่มแผนกและตัวอย่างข้อความ
+
+ไฟล์จัดกลุ่มจากรหัสอุปกรณ์ที่เขียนเป็นรายการคงที่:
+
+- **EM1:** `FMU-001` ถึง `FMU-006`
+- **Resin PD1:** `T-111`, `T-141`, `R-111`, `R-141`
+- **WWT:** `FVT-001` ถึง `FVT-009`, `CMC-001`, `CMC-002`
+- **EM2:** รหัสทุกตัวที่ไม่ตรงกับสามกลุ่มข้างบนจะถูกส่งเข้ากลุ่มนี้โดยปริยาย
+
+ตัวอย่างข้อความสมมติ (ไม่ใช่ข้อมูลฐานข้อมูลจริง):
+
+```text
+🔔 แจ้งเตือนรายการ PM ประจำเดือน
+📅 เดือน: 11/2026
+
+📍 แผนก EM1:
+- FMU-001
+
+📍 แผนก EM2:
+- T5120
+- PGL13
+
+กรุณาเข้าสู่ระบบ PM Dashboard เพื่อดำเนินการ
+https://marktot1991.github.io/preventive-maintenance/
+```
+
+**ข้อแนะนำ:** เมื่อเพิ่มฟอร์มใหม่ เช่น Selecta ใน EM2 หรือเพิ่มอุปกรณ์ให้ EM1/WWT/Resin PD1 ให้ปรับการแมปรหัสจากโค้ด PM จริง แทนการปล่อยให้รหัสที่ไม่รู้จักไป EM2 ทั้งหมด เพราะอาจมีอุปกรณ์ถูกแจ้งในแผนกผิด
+
+### 21.5 ตั้งค่า Google Apps Script ให้ปลอดภัย
+
+1. **หมุนเปลี่ยนคีย์ที่อยู่ในไฟล์เดิมก่อน**: ที่ Supabase ให้สร้างคีย์ใหม่/เพิกถอนคีย์ที่รั่ว และที่ LINE Developers ให้ออก Channel Access Token ใหม่/ยกเลิก Token เดิมตามชนิด Token ที่ใช้อยู่
+2. เปิด [Google Apps Script](https://script.google.com/) และสร้างโปรเจกต์สำหรับแจ้งเตือน PM แยกจากเว็บ GitHub Pages
+3. ไปที่ **Project Settings → Script properties** แล้วเพิ่มคีย์ชื่อ `SUPABASE_URL`, `SUPABASE_SECRET_KEY`, `LINE_CHANNEL_ACCESS_TOKEN` โดยใส่ **ค่าใหม่** ในช่อง Value (อย่าแชร์ภาพหน้าจอที่แสดงค่า)
+4. ใน `Code.gs` เปลี่ยนตัวแปรคงที่ที่ฝังคีย์ในซอร์สโค้ดเป็นการอ่านจาก Script Properties แทน:
+
+```javascript
+const props = PropertiesService.getScriptProperties();
+const SUPABASE_URL = props.getProperty('SUPABASE_URL');
+const SUPABASE_SECRET_KEY = props.getProperty('SUPABASE_SECRET_KEY');
+const LINE_CHANNEL_ACCESS_TOKEN = props.getProperty('LINE_CHANNEL_ACCESS_TOKEN');
+
+if (!SUPABASE_URL || !SUPABASE_SECRET_KEY || !LINE_CHANNEL_ACCESS_TOKEN) {
+  throw new Error('Missing Script Properties');
+}
+```
+
+5. ปรับส่วนดึงข้อมูล Supabase ให้ส่ง `sb_secret_...` ผ่าน **`apikey` เท่านั้น** อย่าส่งคีย์ชนิดนี้ใน `Authorization: Bearer ...` เพราะ Supabase อาจตีความเป็น JWT และตอบ `Invalid JWT` ตัวอย่างส่วนหัวที่ถูกต้องสำหรับ **คีย์ Secret รุ่นใหม่**:
+
+```javascript
+const options = {
+  method: 'get',
+  headers: { apikey: SUPABASE_SECRET_KEY },
+  muteHttpExceptions: true
+};
+```
+
+> ไม่ควรคัดลอกคีย์ Secret ไปไว้ใน `config.js`, `index.html`, README หรือไฟล์บน GitHub Pages เพราะคีย์ชนิดนี้สามารถข้าม Row Level Security (RLS) ได้ แม้จะถูกนำไปใช้เฉพาะเพื่ออ่านข้อมูลก็ตาม Script Properties ช่วยแยกคีย์จากซอร์สโค้ด แต่ยังต้องจำกัดสิทธิ์ผู้ที่แก้ไขโปรเจกต์ Apps Script ด้วย
+
+### 21.6 ตั้งเวลาให้ตรวจสอบทุกวัน
+
+1. เปิด Apps Script และเลือกฟังก์ชัน `checkAndNotifyPM`
+2. ตั้งค่า Time zone ของโปรเจกต์เป็น **Asia/Bangkok**
+3. เปิดเมนู **Triggers** (ไอคอนรูปนาฬิกา) → **Add Trigger**
+4. เลือกฟังก์ชัน `checkAndNotifyPM`, Event source เป็น **Time-driven**, ประเภทเป็น **Day timer** แล้วเลือกช่วงเวลาเช้า เช่น 08:00–09:00
+5. อนุญาตสิทธิ์ที่ Apps Script ขอสำหรับการเรียก URL ภายนอก (`UrlFetchApp`)
+6. สคริปต์จะถูกเรียกทุกวัน แต่ส่งเฉพาะวันที่ `notifyDay` ตรงกับวันที่ในโปรเจกต์
+
+> ควรใช้เขตเวลาเดียวกันทั้ง Script Project, การตรวจวันที่ และการแสดงเดือน (Asia/Bangkok) โค้ดเดิมใช้ `Utilities.formatDate(..., "Asia/Bangkok", ...)` เฉพาะบางส่วน แต่ `today.getDate()` / `today.getMonth()` อาจอิงเขตเวลาของ Script Project ซึ่งทำให้การคำนวณใกล้เที่ยงคืนไม่ตรงกันได้
+
+**การทดลองแบบปลอดภัย:** ก่อนรันจริงให้ลองตรวจเพียงผลการอ่านข้อมูลจาก Supabase และแสดงรายชื่อใน Execution log โดย **ไม่เรียก `sendLineBroadcast`** จนกว่าจะตรวจรายชื่อและจำนวนผู้รับถูกต้อง การกด Run ในวันอื่นจะออกจากฟังก์ชันตั้งแต่เงื่อนไข `notifyDay` และไม่ทดสอบการเชื่อมต่อที่เหลือ
+
+### 21.7 ส่งข้อความไปที่ไหน: Broadcast หรือกลุ่ม LINE?
+
+โค้ดในไฟล์ใช้ endpoint `POST https://api.line.me/v2/bot/message/broadcast` เพื่อส่งข้อความ **ถึงผู้ใช้ที่เป็นเพื่อนกับ LINE Official Account** ตามหลักของ Broadcast ไม่ใช่การเลือกส่งเข้า Group chat แบบเจาะจง
+
+ถ้าต้องการส่งเข้า **กลุ่ม LINE ของแผนก** โดยตรง ต้องใช้การส่งประเภท **Push message** และกำหนด `groupId`/ปลายทางที่ถูกต้อง รวมถึงตั้งค่าอนุญาตให้บอทเข้ากลุ่ม (ต้องดำเนินการเพิ่มเติม) ไม่ควรคาดหวังว่า Broadcast เดิมจะส่งเข้ากลุ่มได้
+
+ข้อมูลเพิ่มเติม:
+- [LINE Messaging API — Sending messages](https://developers.line.biz/en/docs/messaging-api/sending-messages/)
+- [LINE Messaging API — Group chats](https://developers.line.biz/en/docs/messaging-api/group-chats/)
+
+### 21.8 ตรวจผลลัพธ์และแก้ปัญหา
+
+| อาการ | ตรวจสอบอะไร | แนวทางแก้ |
+|---|---|---|
+| ไม่ส่ง LINE เลย | วันที่ปัจจุบันตรง `notifyDay` หรือไม่, มี Trigger หรือไม่ | ตรวจ Execution log; ใช้โหมดทดสอบอ่านข้อมูลโดยไม่ส่งก่อน |
+| Supabase ตอบ `401` / `Invalid JWT` | ส่ง `sb_secret_...` ผ่าน `Authorization: Bearer` หรือไม่ | ใช้ `apikey` สำหรับ Secret Key ชนิดใหม่ และตรวจว่าคีย์ยังใช้งานได้ |
+| ไม่เห็นอุปกรณ์บางตัว | `pmNextDate` ว่าง/รูปแบบต่างกัน/มีผลลัพธ์เกินขีดจำกัดรายการ REST | ตรวจข้อมูลจริงและเพิ่ม pagination เมื่อจำเป็น |
+| อุปกรณ์อยู่ผิดแผนก | ตารางรหัสอุปกรณ์เขียนคงที่ | ใช้แมปแผนกจาก PM Dashboard และปรับเมื่อเพิ่มฟอร์มใหม่ |
+| ส่งข้อความซ้ำในวันที่ 5 | ไม่มีตัวบันทึกว่าเดือนนี้ส่งแล้ว | ใช้ Script Properties เก็บเดือนที่ส่งสำเร็จ; บันทึกหลังเช็กว่า LINE ตอบสำเร็จเท่านั้น |
+| LINE ไม่มีผู้รับหรือส่งไม่ผ่าน | บัญชีปลายทางเป็นเพื่อน OA หรือยัง, โควตา/Token ถูกต้องหรือไม่ | ตรวจ HTTP status และรายละเอียดตอบกลับจาก LINE; อย่า log Token |
+| LINE ไม่เข้ากลุ่ม | ใช้ Broadcast ไม่ใช่ Push to group | เปลี่ยนวิธีส่งและตั้งค่ากลุ่มให้รองรับบอท |
+
+**ตรวจ HTTP status ของ LINE**: ฟังก์ชัน `sendLineBroadcast()` ในไฟล์เดิมเรียก `UrlFetchApp.fetch()` แต่ไม่ตรวจ `getResponseCode()` จึงอาจไม่พบข้อผิดพลาดชัดเจนเมื่อ LINE ตอบ 400/401/429 ควรแยกการส่งสำเร็จ/ล้มเหลว และเก็บเฉพาะข้อความตอบกลับที่ไม่ใช่ความลับใน Log
+
+**ป้องกันส่งซ้ำ**: ใช้คีย์ เช่น `PM_LINE_LAST_SENT_MONTH` ใน Script Properties เก็บค่า `2026-11` **หลังจากส่งสำเร็จเท่านั้น** และเช็กค่าดังกล่าวก่อนส่ง (การทำงานพร้อมกันหลายครั้งควรพิจารณา `LockService` เพิ่มเติม)
+
+### 21.9 ข้อจำกัดและข้อเสนอแนะก่อนใช้งานจริง
+
+- ใช้โปรเจกต์ทดสอบ หรือโหมดแสดงรายชื่อก่อนยิง LINE ถึงทุกคน เพราะ Broadcast อาจถูกคิดตามจำนวนผู้รับและโควตาบัญชี
+- ทดสอบการแจ้งเตือนรายเดือนกับข้อมูลจำลองของ EM1 / EM2 / Resin PD1 / WWT ก่อนนำไปใช้จริง
+- เก็บเฉพาะคีย์ที่จำเป็นใน Script Properties; จำกัดสิทธิ์ผู้แก้ไขโปรเจกต์ และหมุนเปลี่ยนคีย์ตามนโยบายองค์กร
+- หากต้องการดูว่างานใด **ยังไม่ตรวจ / ตรวจแล้ว / พบ NO / เลยกำหนด** ต้องเพิ่มการอ่านข้อมูลสถานะจากตาราง `pm_data` และนิยามเงื่อนไขอย่างชัดเจน โค้ดปัจจุบันตรวจเฉพาะเดือน `pmNextDate` เท่านั้น
+- Google Apps Script แจ้งเตือน LINE เป็นระบบเสริมแยกต่างหาก; การอัปเดต README หรือเว็บ GitHub Pages **ไม่ใช่** การตั้ง Trigger, สร้าง LINE OA หรือเพิ่มสิทธิ์ Supabase ให้โดยอัตโนมัติ
+
+**เอกสารอ้างอิงเพิ่มเติม**:
+- [Supabase API Keys](https://supabase.com/docs/guides/getting-started/api-keys)
+- [Supabase: Migrating to publishable/secret keys](https://supabase.com/docs/guides/getting-started/migrating-to-new-api-keys)
+- [Google Apps Script: Properties Service](https://developers.google.com/apps-script/guides/properties)
+- [Google Apps Script: Installable triggers](https://developers.google.com/apps-script/guides/triggers/installable)
 
 ---
 
