@@ -36,7 +36,7 @@ const fillingWeightTasks=[
  {i:6,n:"ทำความสะอาดภายใน/ภายนอกตู้ควบคุม",s:"สะอาดไม่มีคราบสกปรก, ฝุ่น",p:"6M"}
 ];
 
-const tankGroupMapping={filling:fillingTanks, deluting:delutingTanks, delicel:delicelTanks, additive:additiveTanks, updown:updownTanks, tankfarm2:tankfarm2Tanks, surpressor:surpressorTanks, silo:siloPowderTanks, hopper:hopperPowderTanks, diverter:diverterTanks, fmu:fmuTanks, slurry:slurryTanks, thinning:resinThinningTanks, reactor:resinReactorTanks, wwt_flow:wwtFlowTanks, wwt_cond:wwtCondTanks, pigline:piglineTanks};
+const tankGroupMapping={selecta:selectaTanks,filling:fillingTanks, deluting:delutingTanks, delicel:delicelTanks, additive:additiveTanks, updown:updownTanks, tankfarm2:tankfarm2Tanks, surpressor:surpressorTanks, silo:siloPowderTanks, hopper:hopperPowderTanks, diverter:diverterTanks, fmu:fmuTanks, slurry:slurryTanks, thinning:resinThinningTanks, reactor:resinReactorTanks, wwt_flow:wwtFlowTanks, wwt_cond:wwtCondTanks, pigline:piglineTanks};
 
 // Slurry PM checksheet imported from "PM Checksheet_Slurry.pdf" (20 locations, 116 equipment sections).
 const slurryTankDescriptions={"SLU-001":"T5210 Slurry","SLU-002":"T5211 Slurry","SLU-003":"T5220 Slurry","SLU-004":"T5221 Slurry","SLU-005":"T5230 Slurry","SLU-006":"T5231 Slurry","SLU-007":"T5240 Slurry","SLU-008":"T5241 Slurry","SLU-009":"T5250 Slurry","SLU-010":"T5251 Slurry","SLU-011":"T5252 Slurry","SLU-012":"T5253 Slurry","SLU-013":"T5254 Slurry","SLU-014":"T5255 Slurry","SLU-015":"T5256 Slurry","SLU-016":"T5257 Slurry","SLU-017":"T5258 Slurry","SLU-018":"T5259 Slurry","SLU-019":"T5260 Slurry","SLU-020":"T5261 Slurry"};
