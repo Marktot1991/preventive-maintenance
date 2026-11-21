@@ -24,7 +24,17 @@
 <link rel="stylesheet" href="css/status-symbols.css">
 <link rel="stylesheet" href="css/performance.css">
 <link rel="stylesheet" href="css/sidebar-performance.css">
+<link rel="stylesheet" href="css/page-theme-overrides.css">
+<link rel="stylesheet" href="css/pm-template-editor.css">
+<link rel="stylesheet" href="css/user-email-status.css?v=20261121-v21-online-dot">
+<link rel="stylesheet" href="css/glassmorphism-v7.css?v=20261121-glass1">
+<link rel="stylesheet" href="css/glassmorphism-v8-performance.css?v=20261121-glass8">
+<link rel="stylesheet" href="css/result-notes-v9.css?v=20261121-rn18-matched">
 
+<link rel="stylesheet" href="css/pm-sidebar-departments-v13.css?v=20261121-pm13">
+<link rel="stylesheet" href="css/login-contrast-v14.css?v=20261121-login14">
+<link rel="stylesheet" href="css/login-frameless-v15.css?v=20261121-frameless15">
+<link rel="stylesheet" href="css/result-note-sidebar-v18.css?v=20261121-rn18-matched">
 </head>
 
 <body>
@@ -36,7 +46,7 @@
 </div>
 
 <div id="login-screen">
-  <button type="button" id="login-theme-toggle" class="theme-toggle" onclick="toggleTheme()" title="สลับธีม"><i class="fa-solid fa-moon"></i></button>
+  <button type="button" id="login-theme-toggle" class="theme-toggle" onclick="toggleTheme()" title="เปลี่ยนเป็นโหมดมืด" aria-label="เปลี่ยนเป็นโหมดมืด"><i class="fa-solid fa-moon" aria-hidden="true"></i><span class="login-theme-label menu-label">โหมดมืด</span></button>
 
   <div class="login-split-layout">
     <!-- Left Showcase Column -->
@@ -184,37 +194,163 @@
     </div>
 
     <div class="sidebar-scroll">
-      <div class="sidebar-section-label">DEPARTMENT / แผนก</div>
-      <div class="dept-wrap">
-        <select id="deptSelect" class="dept-selector" onchange="switchDept(this.value)">
-          <option value="em1">EM1</option>
-          <option value="em2">EM2</option>
-          <option value="resin">Resin PD1</option>
-          <option value="wwt">WWT</option>
-        </select>
-      </div>
-
-
-      <nav class="sidebar-menu" aria-label="PM equipment menu">
-        <button type="button" class="sidebar-link tank-nav" data-type="deluting" onclick="selectCategory('deluting')"><i class="fa-solid fa-flask"></i><span class="menu-label">Letdown Tanks</span></button>
-        <button type="button" class="sidebar-link tank-nav" data-type="delicel" onclick="selectCategory('delicel')"><i class="fa-solid fa-boxes-stacked"></i><span class="menu-label">Delicel Tanks</span></button>
-        <button type="button" class="sidebar-link tank-nav" data-type="additive" onclick="selectCategory('additive')"><i class="fa-solid fa-vial"></i><span class="menu-label">Additive Tanks</span></button>
-        <button type="button" class="sidebar-link tank-nav" data-type="updown" onclick="selectCategory('updown')"><i class="fa-solid fa-arrows-up-down"></i><span class="menu-label">Up Down Mixer</span></button>
-        <button type="button" class="sidebar-link tank-nav" data-type="tankfarm2" onclick="selectCategory('tankfarm2')"><i class="fa-solid fa-database"></i><span class="menu-label">Tank Farm 2</span></button>
-        <button type="button" class="sidebar-link tank-nav" data-type="surpressor" onclick="selectCategory('surpressor')"><i class="fa-solid fa-fan"></i><span class="menu-label">Surpressor</span></button>
-        <button type="button" class="sidebar-link tank-nav" data-type="silo" onclick="selectCategory('silo')"><i class="fa-solid fa-industry"></i><span class="menu-label">Silo Powder</span></button>
-        <button type="button" class="sidebar-link tank-nav" data-type="hopper" onclick="selectCategory('hopper')"><i class="fa-solid fa-filter"></i><span class="menu-label">Hopper Powder</span></button>
-        <button type="button" class="sidebar-link tank-nav" data-type="diverter" onclick="selectCategory('diverter')"><i class="fa-solid fa-code-branch"></i><span class="menu-label">2-Way Diverter</span></button>
-        <button type="button" class="sidebar-link tank-nav" data-type="slurry" onclick="selectCategory('slurry')"><i class="fa-solid fa-water"></i><span class="menu-label">Slurry</span></button>
-        <button type="button" class="sidebar-link tank-nav" data-type="fmu" onclick="selectCategory('fmu')"><i class="fa-solid fa-gauge-high"></i><span class="menu-label">Flow Meter Unit</span></button>
-        <button type="button" class="sidebar-link tank-nav" data-type="pigline" onclick="selectCategory('pigline')"><i class="fa-solid fa-lines-leaning"></i><span class="menu-label">Pigline</span></button>
-        <button type="button" class="sidebar-link tank-nav" data-type="filling" onclick="selectCategory('filling')"><i class="fa-solid fa-industry"></i><span class="menu-label">Auto Filling M/C</span></button>
-        <button type="button" class="sidebar-link tank-nav resin-only" data-type="thinning" onclick="selectCategory('thinning')"><i class="fa-solid fa-flask-vial"></i><span class="menu-label">Thinning Tank</span></button>
-        <button type="button" class="sidebar-link tank-nav resin-only" data-type="reactor" onclick="selectCategory('reactor')"><i class="fa-solid fa-atom"></i><span class="menu-label">Reactor</span></button>
-        <button type="button" class="sidebar-link tank-nav wwt-only" data-type="wwt_flow" onclick="selectCategory('wwt_flow')"><i class="fa-solid fa-water"></i><span class="menu-label">Flow Meter</span></button>
-        <button type="button" class="sidebar-link tank-nav wwt-only" data-type="wwt_cond" onclick="selectCategory('wwt_cond')"><i class="fa-solid fa-bolt"></i><span class="menu-label">Conductivity</span></button>
-
+      <nav class="sidebar-menu" aria-label="แผนกและฟอร์ม PM">
+        <section class="pm-dept-section" data-pm-dept="em1">
+          <button type="button" class="pm-dept-toggle" onclick="togglePmSidebarDepartment('em1')" aria-expanded="false" aria-controls="pm-dept-body-em1" title="แสดงหรือซ่อนฟอร์มแผนก EM1"><i class="fa-solid fa-industry" aria-hidden="true"></i><span class="pm-dept-label">EM1</span><i class="fa-solid fa-chevron-down pm-dept-chevron" aria-hidden="true"></i></button>
+          <div class="pm-dept-body" id="pm-dept-body-em1" hidden>
+        <div class="pm-side-group" data-pm-side-group="fmu">
+          <button type="button" class="sidebar-link tank-nav" data-type="fmu" onclick="togglePmSidebarCategory('fmu')" aria-expanded="false" aria-controls="pm-side-forms-fmu" title="เปิด/ปิดรายการฟอร์ม PM"><i class="fa-solid fa-gauge-high"></i><span class="menu-label">Flow Meter Unit</span><i class="fa-solid fa-chevron-down pm-side-chevron" aria-hidden="true"></i></button>
+          <div class="pm-side-form-panel" id="pm-side-forms-fmu" hidden>
+            <div class="pm-side-form-list" role="group" aria-label="รายการฟอร์ม PM fmu"></div>
+          </div>
+        </div>
+          </div>
+        </section>
+        <section class="pm-dept-section" data-pm-dept="em2">
+          <button type="button" class="pm-dept-toggle" onclick="togglePmSidebarDepartment('em2')" aria-expanded="false" aria-controls="pm-dept-body-em2" title="แสดงหรือซ่อนฟอร์มแผนก EM2"><i class="fa-solid fa-industry" aria-hidden="true"></i><span class="pm-dept-label">EM2</span><i class="fa-solid fa-chevron-down pm-dept-chevron" aria-hidden="true"></i></button>
+          <div class="pm-dept-body" id="pm-dept-body-em2" hidden>
+        <div class="pm-side-group" data-pm-side-group="deluting">
+          <button type="button" class="sidebar-link tank-nav" data-type="deluting" onclick="togglePmSidebarCategory('deluting')" aria-expanded="false" aria-controls="pm-side-forms-deluting" title="เปิด/ปิดรายการฟอร์ม PM"><i class="fa-solid fa-flask"></i><span class="menu-label">Letdown Tanks</span><i class="fa-solid fa-chevron-down pm-side-chevron" aria-hidden="true"></i></button>
+          <div class="pm-side-form-panel" id="pm-side-forms-deluting" hidden>
+            <div class="pm-side-form-list" role="group" aria-label="รายการฟอร์ม PM deluting"></div>
+          </div>
+        </div>
+        <div class="pm-side-group" data-pm-side-group="delicel">
+          <button type="button" class="sidebar-link tank-nav" data-type="delicel" onclick="togglePmSidebarCategory('delicel')" aria-expanded="false" aria-controls="pm-side-forms-delicel" title="เปิด/ปิดรายการฟอร์ม PM"><i class="fa-solid fa-boxes-stacked"></i><span class="menu-label">Delicel Tanks</span><i class="fa-solid fa-chevron-down pm-side-chevron" aria-hidden="true"></i></button>
+          <div class="pm-side-form-panel" id="pm-side-forms-delicel" hidden>
+            <div class="pm-side-form-list" role="group" aria-label="รายการฟอร์ม PM delicel"></div>
+          </div>
+        </div>
+        <div class="pm-side-group" data-pm-side-group="additive">
+          <button type="button" class="sidebar-link tank-nav" data-type="additive" onclick="togglePmSidebarCategory('additive')" aria-expanded="false" aria-controls="pm-side-forms-additive" title="เปิด/ปิดรายการฟอร์ม PM"><i class="fa-solid fa-vial"></i><span class="menu-label">Additive Tanks</span><i class="fa-solid fa-chevron-down pm-side-chevron" aria-hidden="true"></i></button>
+          <div class="pm-side-form-panel" id="pm-side-forms-additive" hidden>
+            <div class="pm-side-form-list" role="group" aria-label="รายการฟอร์ม PM additive"></div>
+          </div>
+        </div>
+        <div class="pm-side-group" data-pm-side-group="updown">
+          <button type="button" class="sidebar-link tank-nav" data-type="updown" onclick="togglePmSidebarCategory('updown')" aria-expanded="false" aria-controls="pm-side-forms-updown" title="เปิด/ปิดรายการฟอร์ม PM"><i class="fa-solid fa-arrows-up-down"></i><span class="menu-label">Up Down Mixer</span><i class="fa-solid fa-chevron-down pm-side-chevron" aria-hidden="true"></i></button>
+          <div class="pm-side-form-panel" id="pm-side-forms-updown" hidden>
+            <div class="pm-side-form-list" role="group" aria-label="รายการฟอร์ม PM updown"></div>
+          </div>
+        </div>
+        <div class="pm-side-group" data-pm-side-group="tankfarm2">
+          <button type="button" class="sidebar-link tank-nav" data-type="tankfarm2" onclick="togglePmSidebarCategory('tankfarm2')" aria-expanded="false" aria-controls="pm-side-forms-tankfarm2" title="เปิด/ปิดรายการฟอร์ม PM"><i class="fa-solid fa-database"></i><span class="menu-label">Tank Farm 2</span><i class="fa-solid fa-chevron-down pm-side-chevron" aria-hidden="true"></i></button>
+          <div class="pm-side-form-panel" id="pm-side-forms-tankfarm2" hidden>
+            <div class="pm-side-form-list" role="group" aria-label="รายการฟอร์ม PM tankfarm2"></div>
+          </div>
+        </div>
+        <div class="pm-side-group" data-pm-side-group="surpressor">
+          <button type="button" class="sidebar-link tank-nav" data-type="surpressor" onclick="togglePmSidebarCategory('surpressor')" aria-expanded="false" aria-controls="pm-side-forms-surpressor" title="เปิด/ปิดรายการฟอร์ม PM"><i class="fa-solid fa-fan"></i><span class="menu-label">Surpressor</span><i class="fa-solid fa-chevron-down pm-side-chevron" aria-hidden="true"></i></button>
+          <div class="pm-side-form-panel" id="pm-side-forms-surpressor" hidden>
+            <div class="pm-side-form-list" role="group" aria-label="รายการฟอร์ม PM surpressor"></div>
+          </div>
+        </div>
+        <div class="pm-side-group" data-pm-side-group="silo">
+          <button type="button" class="sidebar-link tank-nav" data-type="silo" onclick="togglePmSidebarCategory('silo')" aria-expanded="false" aria-controls="pm-side-forms-silo" title="เปิด/ปิดรายการฟอร์ม PM"><i class="fa-solid fa-industry"></i><span class="menu-label">Silo Powder</span><i class="fa-solid fa-chevron-down pm-side-chevron" aria-hidden="true"></i></button>
+          <div class="pm-side-form-panel" id="pm-side-forms-silo" hidden>
+            <div class="pm-side-form-list" role="group" aria-label="รายการฟอร์ม PM silo"></div>
+          </div>
+        </div>
+        <div class="pm-side-group" data-pm-side-group="hopper">
+          <button type="button" class="sidebar-link tank-nav" data-type="hopper" onclick="togglePmSidebarCategory('hopper')" aria-expanded="false" aria-controls="pm-side-forms-hopper" title="เปิด/ปิดรายการฟอร์ม PM"><i class="fa-solid fa-filter"></i><span class="menu-label">Hopper Powder</span><i class="fa-solid fa-chevron-down pm-side-chevron" aria-hidden="true"></i></button>
+          <div class="pm-side-form-panel" id="pm-side-forms-hopper" hidden>
+            <div class="pm-side-form-list" role="group" aria-label="รายการฟอร์ม PM hopper"></div>
+          </div>
+        </div>
+        <div class="pm-side-group" data-pm-side-group="diverter">
+          <button type="button" class="sidebar-link tank-nav" data-type="diverter" onclick="togglePmSidebarCategory('diverter')" aria-expanded="false" aria-controls="pm-side-forms-diverter" title="เปิด/ปิดรายการฟอร์ม PM"><i class="fa-solid fa-code-branch"></i><span class="menu-label">2-Way Diverter</span><i class="fa-solid fa-chevron-down pm-side-chevron" aria-hidden="true"></i></button>
+          <div class="pm-side-form-panel" id="pm-side-forms-diverter" hidden>
+            <div class="pm-side-form-list" role="group" aria-label="รายการฟอร์ม PM diverter"></div>
+          </div>
+        </div>
+        <div class="pm-side-group" data-pm-side-group="slurry">
+          <button type="button" class="sidebar-link tank-nav" data-type="slurry" onclick="togglePmSidebarCategory('slurry')" aria-expanded="false" aria-controls="pm-side-forms-slurry" title="เปิด/ปิดรายการฟอร์ม PM"><i class="fa-solid fa-water"></i><span class="menu-label">Slurry</span><i class="fa-solid fa-chevron-down pm-side-chevron" aria-hidden="true"></i></button>
+          <div class="pm-side-form-panel" id="pm-side-forms-slurry" hidden>
+            <div class="pm-side-form-list" role="group" aria-label="รายการฟอร์ม PM slurry"></div>
+          </div>
+        </div>
+        <div class="pm-side-group" data-pm-side-group="pigline">
+          <button type="button" class="sidebar-link tank-nav" data-type="pigline" onclick="togglePmSidebarCategory('pigline')" aria-expanded="false" aria-controls="pm-side-forms-pigline" title="เปิด/ปิดรายการฟอร์ม PM"><i class="fa-solid fa-lines-leaning"></i><span class="menu-label">Pigline</span><i class="fa-solid fa-chevron-down pm-side-chevron" aria-hidden="true"></i></button>
+          <div class="pm-side-form-panel" id="pm-side-forms-pigline" hidden>
+            <div class="pm-side-form-list" role="group" aria-label="รายการฟอร์ม PM pigline"></div>
+          </div>
+        </div>
+        <div class="pm-side-group" data-pm-side-group="selecta">
+          <button type="button" class="sidebar-link tank-nav" data-type="selecta" onclick="togglePmSidebarCategory('selecta')" aria-expanded="false" aria-controls="pm-side-forms-selecta" title="เปิด/ปิดรายการฟอร์ม PM Selecta"><i class="fa-solid fa-gears"></i><span class="menu-label">Selecta</span><i class="fa-solid fa-chevron-down pm-side-chevron" aria-hidden="true"></i></button>
+          <div class="pm-side-form-panel" id="pm-side-forms-selecta" hidden>
+            <div class="pm-side-form-list" role="group" aria-label="รายการฟอร์ม PM Selecta"></div>
+          </div>
+        </div>
+        <div class="pm-side-group" data-pm-side-group="filling">
+          <button type="button" class="sidebar-link tank-nav" data-type="filling" onclick="togglePmSidebarCategory('filling')" aria-expanded="false" aria-controls="pm-side-forms-filling" title="เปิด/ปิดรายการฟอร์ม PM"><i class="fa-solid fa-industry"></i><span class="menu-label">Auto Filling M/C</span><i class="fa-solid fa-chevron-down pm-side-chevron" aria-hidden="true"></i></button>
+          <div class="pm-side-form-panel" id="pm-side-forms-filling" hidden>
+            <div class="pm-side-form-list" role="group" aria-label="รายการฟอร์ม PM filling"></div>
+          </div>
+        </div>
+          </div>
+        </section>
+        <section class="pm-dept-section" data-pm-dept="resin">
+          <button type="button" class="pm-dept-toggle" onclick="togglePmSidebarDepartment('resin')" aria-expanded="false" aria-controls="pm-dept-body-resin" title="แสดงหรือซ่อนฟอร์มแผนก Resin PD1"><i class="fa-solid fa-flask-vial" aria-hidden="true"></i><span class="pm-dept-label">Resin PD1</span><i class="fa-solid fa-chevron-down pm-dept-chevron" aria-hidden="true"></i></button>
+          <div class="pm-dept-body" id="pm-dept-body-resin" hidden>
+        <div class="pm-side-group" data-pm-side-group="thinning">
+          <button type="button" class="sidebar-link tank-nav" data-type="thinning" onclick="togglePmSidebarCategory('thinning')" aria-expanded="false" aria-controls="pm-side-forms-thinning" title="เปิด/ปิดรายการฟอร์ม PM"><i class="fa-solid fa-flask-vial"></i><span class="menu-label">Thinning Tank</span><i class="fa-solid fa-chevron-down pm-side-chevron" aria-hidden="true"></i></button>
+          <div class="pm-side-form-panel" id="pm-side-forms-thinning" hidden>
+            <div class="pm-side-form-list" role="group" aria-label="รายการฟอร์ม PM thinning"></div>
+          </div>
+        </div>
+        <div class="pm-side-group" data-pm-side-group="reactor">
+          <button type="button" class="sidebar-link tank-nav" data-type="reactor" onclick="togglePmSidebarCategory('reactor')" aria-expanded="false" aria-controls="pm-side-forms-reactor" title="เปิด/ปิดรายการฟอร์ม PM"><i class="fa-solid fa-atom"></i><span class="menu-label">Reactor</span><i class="fa-solid fa-chevron-down pm-side-chevron" aria-hidden="true"></i></button>
+          <div class="pm-side-form-panel" id="pm-side-forms-reactor" hidden>
+            <div class="pm-side-form-list" role="group" aria-label="รายการฟอร์ม PM reactor"></div>
+          </div>
+        </div>
+          </div>
+        </section>
+        <section class="pm-dept-section" data-pm-dept="wwt">
+          <button type="button" class="pm-dept-toggle" onclick="togglePmSidebarDepartment('wwt')" aria-expanded="false" aria-controls="pm-dept-body-wwt" title="แสดงหรือซ่อนฟอร์มแผนก WWT"><i class="fa-solid fa-water" aria-hidden="true"></i><span class="pm-dept-label">WWT</span><i class="fa-solid fa-chevron-down pm-dept-chevron" aria-hidden="true"></i></button>
+          <div class="pm-dept-body" id="pm-dept-body-wwt" hidden>
+        <div class="pm-side-group" data-pm-side-group="wwt_flow">
+          <button type="button" class="sidebar-link tank-nav" data-type="wwt_flow" onclick="togglePmSidebarCategory('wwt_flow')" aria-expanded="false" aria-controls="pm-side-forms-wwt_flow" title="เปิด/ปิดรายการฟอร์ม PM"><i class="fa-solid fa-water"></i><span class="menu-label">Flow Meter</span><i class="fa-solid fa-chevron-down pm-side-chevron" aria-hidden="true"></i></button>
+          <div class="pm-side-form-panel" id="pm-side-forms-wwt_flow" hidden>
+            <div class="pm-side-form-list" role="group" aria-label="รายการฟอร์ม PM wwt_flow"></div>
+          </div>
+        </div>
+        <div class="pm-side-group" data-pm-side-group="wwt_cond">
+          <button type="button" class="sidebar-link tank-nav" data-type="wwt_cond" onclick="togglePmSidebarCategory('wwt_cond')" aria-expanded="false" aria-controls="pm-side-forms-wwt_cond" title="เปิด/ปิดรายการฟอร์ม PM"><i class="fa-solid fa-bolt"></i><span class="menu-label">Conductivity</span><i class="fa-solid fa-chevron-down pm-side-chevron" aria-hidden="true"></i></button>
+          <div class="pm-side-form-panel" id="pm-side-forms-wwt_cond" hidden>
+            <div class="pm-side-form-list" role="group" aria-label="รายการฟอร์ม PM wwt_cond"></div>
+          </div>
+        </div>
+          </div>
+        </section>
         <div class="sidebar-divider"></div>
+        <button type="button" id="navPMResultNote" class="sidebar-link page-nav" onclick="toggleResultNoteSidebar()" aria-expanded="false" aria-controls="resultNoteDeptMenu" title="เปิดหรือยุบเมนู Result Note"><i class="fa-solid fa-note-sticky"></i><span class="menu-label">Result Note <span id="resultNoteSidebarTotal" class="result-note-count" aria-label="จำนวนฟอร์มที่มีบันทึก">0</span></span><i class="fa-solid fa-chevron-down result-note-main-chevron" aria-hidden="true"></i></button>
+        <div id="resultNoteDeptMenu" class="result-note-side-list" hidden aria-label="เลือกแผนกและฟอร์ม Result Note">
+          <div class="result-note-dept-section">
+            <button type="button" class="result-note-dept-link" data-result-dept="em1" onclick="toggleResultNoteDepartment('em1')" aria-expanded="false" aria-controls="resultNoteForms-em1"><i class="fa-solid fa-industry" aria-hidden="true"></i><span class="result-note-dept-name">EM1</span><i class="fa-solid fa-chevron-down result-note-dept-chevron" aria-hidden="true"></i></button>
+            <div id="resultNoteForms-em1" class="result-note-form-submenu" hidden>
+              <div id="resultNoteSideList-em1" class="result-note-side-form-list" role="group" aria-label="รายการฟอร์ม Result Note EM1"></div>
+            </div>
+          </div>
+          <div class="result-note-dept-section">
+            <button type="button" class="result-note-dept-link" data-result-dept="em2" onclick="toggleResultNoteDepartment('em2')" aria-expanded="false" aria-controls="resultNoteForms-em2"><i class="fa-solid fa-industry" aria-hidden="true"></i><span class="result-note-dept-name">EM2</span><i class="fa-solid fa-chevron-down result-note-dept-chevron" aria-hidden="true"></i></button>
+            <div id="resultNoteForms-em2" class="result-note-form-submenu" hidden>
+              <div id="resultNoteSideList-em2" class="result-note-side-form-list" role="group" aria-label="รายการฟอร์ม Result Note EM2"></div>
+            </div>
+          </div>
+          <div class="result-note-dept-section">
+            <button type="button" class="result-note-dept-link" data-result-dept="resin" onclick="toggleResultNoteDepartment('resin')" aria-expanded="false" aria-controls="resultNoteForms-resin"><i class="fa-solid fa-flask-vial" aria-hidden="true"></i><span class="result-note-dept-name">Resin PD1</span><i class="fa-solid fa-chevron-down result-note-dept-chevron" aria-hidden="true"></i></button>
+            <div id="resultNoteForms-resin" class="result-note-form-submenu" hidden>
+              <div id="resultNoteSideList-resin" class="result-note-side-form-list" role="group" aria-label="รายการฟอร์ม Result Note Resin PD1"></div>
+            </div>
+          </div>
+          <div class="result-note-dept-section">
+            <button type="button" class="result-note-dept-link" data-result-dept="wwt" onclick="toggleResultNoteDepartment('wwt')" aria-expanded="false" aria-controls="resultNoteForms-wwt"><i class="fa-solid fa-water" aria-hidden="true"></i><span class="result-note-dept-name">WWT</span><i class="fa-solid fa-chevron-down result-note-dept-chevron" aria-hidden="true"></i></button>
+            <div id="resultNoteForms-wwt" class="result-note-form-submenu" hidden>
+              <div id="resultNoteSideList-wwt" class="result-note-side-form-list" role="group" aria-label="รายการฟอร์ม Result Note WWT"></div>
+            </div>
+          </div>
+        </div>
         <button type="button" id="navPMProgress" class="sidebar-link page-nav" onclick="showPMProgress()" title="ดูความคืบหน้า PM"><i class="fa-solid fa-chart-column"></i><span class="menu-label">PM Progress</span></button>
         <button type="button" id="navPMHistory" class="sidebar-link page-nav" onclick="showPMHistory()" title="ดูประวัติการทำ PM"><i class="fa-solid fa-clock-rotate-left"></i><span class="menu-label">History</span></button>
         <button type="button" id="navActivityLog" class="sidebar-link page-nav" onclick="showPMActivityLog()" title="ดูบันทึกการแก้ไข (ใคร แก้ไขอะไร เมื่อไร)"><i class="fa-solid fa-user-pen"></i><span class="menu-label">Activity Log</span></button>
@@ -237,19 +373,14 @@
   <main class="app-main">
     <header class="app-topbar">
       <button type="button" class="mobile-menu-button" onclick="toggleSidebar()" title="เมนู"><i class="fa-solid fa-bars"></i></button>
-      <div class="topbar-equipment">
-        <i class="fa-solid fa-magnifying-glass topbar-search-icon"></i>
-        <span class="topbar-label">เลือกรหัสอุปกรณ์:</span>
-        <select id="equipmentSelect" class="equipment-selector" onchange="switchTankFromTopbar(this.value)">
-          <option value="">-- เลือกอุปกรณ์ --</option>
-        </select>
-      </div>
+
       <div id="topbarPageTitle" class="topbar-page-title"><i class="fa-solid fa-chart-column"></i><span>PM Progress Dashboard</span></div>
       <div class="topbar-spacer"></div>
     </header>
 
     <!-- Legacy selectors are kept so existing Supabase / PM data logic remains compatible -->
     <div id="legacy-controls" aria-hidden="true">
+      <select id="equipmentSelect" tabindex="-1"><option value="">-- เลือกอุปกรณ์ --</option></select>
       <div class="tank-controls" id="em2-controls">
         <select id="delutingSelect" onchange="switchTank('deluting')"><option value="">-- เลือกถัง --</option></select>
         <select id="delicelSelect" onchange="switchTank('delicel')"><option value="">-- เลือกถัง --</option></select>
@@ -263,6 +394,7 @@
         <select id="slurrySelect" onchange="switchTank('slurry')"><option value="">-- เลือก Slurry --</option></select>
         <select id="piglineSelect" onchange="switchTank('pigline')"><option value="">-- เลือก Pigline --</option></select>
         <select id="fillingSelect" onchange="switchTank('filling')"><option value="">-- เลือก Auto Filling M/C --</option></select>
+        <select id="selectaSelect" onchange="switchTank('selecta')"><option value="">-- เลือก Selecta --</option></select>
       </div>
       <div class="tank-controls hidden" id="em1-controls">
         <select id="fmuSelect" onchange="switchTank('fmu')"><option value="">-- เลือก Unit --</option></select>
@@ -296,6 +428,10 @@
                  onfocus="onMonthFocus(this)" onblur="onMonthBlur(this)" onchange="onMonthChange(this, 'pmNextDate')">
           <input type="hidden" id="pmNextDate">
         </td></tr></table>
+        <div id="pm-template-edit-toolbar" class="pm-template-toolbar admin-only" hidden>
+          <button type="button" id="pm-template-edit-toggle" onclick="togglePmTemplateEdit()" aria-pressed="false"><i class="fa-solid fa-pen-to-square"></i> แก้ไขรายการ PM</button>
+          <span class="pm-template-help">เฉพาะ Administrator · แก้ไขอุปกรณ์ที่เลือก · บันทึกลง Supabase อัตโนมัติ</span>
+        </div>
         <div id="checklist-container"></div>
       </div>
     </section>
@@ -403,6 +539,38 @@
     </div>
   </div>
 </section>
+
+    <!-- RESULT NOTE: read-only summary of non-empty notes already saved in pm_data -->
+    <section id="pm-result-note-page" class="main-content hidden" aria-labelledby="resultNoteTitle">
+      <div class="page-container">
+        <div class="result-note-shell">
+          <header class="result-note-hero">
+            <div class="result-note-hero-icon"><i class="fa-solid fa-note-sticky" aria-hidden="true"></i></div>
+            <div class="result-note-hero-copy">
+              <h1 id="resultNoteTitle">Result Note</h1>
+              <p>รวมฟอร์ม PM ที่มีการบันทึกข้อความในช่อง Result Note แยกตามแผนก และเปิดกลับไปดูฟอร์มจริงได้</p>
+            </div>
+          </header>
+          <div class="result-note-filter-bar">
+            <label for="resultNoteDeptFilter">แผนก</label>
+            <select id="resultNoteDeptFilter" class="result-note-select" onchange="showResultNotes(this.value)">
+              <option value="all">ทุกแผนก</option>
+              <option value="em1">EM1</option>
+              <option value="em2">EM2</option>
+              <option value="resin">Resin PD1</option>
+              <option value="wwt">WWT</option>
+            </select>
+            <label class="result-note-filter-label" for="resultNoteFormFilter">ฟอร์ม</label>
+            <select id="resultNoteFormFilter" class="result-note-select result-note-form-select" onchange="setResultNoteFormFilter(this.value)" aria-label="เลือกกลุ่มหรือฟอร์ม PM ที่มี Result Note">
+              <option value="all">ทุกฟอร์มที่มีบันทึก</option>
+            </select>
+            <button id="resultNoteRefresh" type="button" class="result-note-refresh" onclick="refreshResultNotes()"><i class="fa-solid fa-rotate"></i> อัปเดตข้อมูล</button>
+          </div>
+          <div class="result-note-summary" id="resultNoteSummary" aria-live="polite"></div>
+          <div id="resultNoteGroups" class="result-note-groups" aria-live="polite"></div>
+        </div>
+      </div>
+    </section>
 
     <section id="pm-history-page" class="main-content hidden">
       <div class="page-container">
@@ -707,24 +875,27 @@
 <!-- Dedicated print area: generated only when exporting the selected equipment group -->
 <div id="print-group-container" aria-hidden="true"></div>
 
-<script src="js/state.js"></script>
+<script src="js/state.js?v=20261120-email1"></script>
 <script src="js/auth-session.js"></script>
 <script src="js/data/tanks.js"></script>
 <script src="js/data/pigline-wwt-em1.js"></script>
-<script src="js/data/filling-slurry.js"></script>
+<script src="js/data/selecta.js?v=20261121-selecta20"></script>
+<script src="js/data/filling-slurry.js?v=20261121-selecta20"></script>
 <script src="js/data/task-templates.js"></script>
 <script src="js/data/additive-resin-maps.js"></script>
 <script src="js/utils.js"></script>
 <script src="js/database.js"></script>
-<script src="js/auth.js"></script>
-<script src="js/dept-tank.js"></script>
-<script src="js/form-render.js"></script>
-<script src="js/ui.js"></script>
-<script src="js/progress.js"></script>
-<script src="js/export-pdf.js"></script>
-<script src="js/activity-log.js"></script>
+<script src="js/auth.js?v=20261121-v21-sidebar-order-online-dot"></script>
+<script src="js/dept-tank.js?v=20261121-selecta20"></script>
+<script src="js/pm-template-editor.js"></script>
+<script src="js/form-render.js?v=20261121-selecta20"></script>
+<script src="js/ui.js?v=20261121-selecta20"></script>
+<script src="js/progress.js?v=20261121-selecta20"></script>
+<script src="js/export-pdf.js?v=20261121-selecta20"></script>
+<script src="js/activity-log.js?v=20261121-selecta20"></script>
 <script src="js/admin-panel.js"></script>
-<script src="js/history-nextdue.js"></script>
+<script src="js/history-nextdue.js?v=20261121-selecta20"></script>
+<script src="js/result-notes-v9.js?v=20261121-selecta20"></script>
 <script src="js/main.js"></script>
 </body>
 </html>
