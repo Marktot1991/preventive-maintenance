@@ -1,0 +1,142 @@
+/* PM Dashboard V15 — frameless left-hand login hero like supplied reference.
+   V14 remains intact; this screen-only layer takes precedence and does not affect PDF. */
+@media screen {
+  /* No enclosing background, border, line or shadow around the hero content. */
+  #login-screen .login-showcase,
+  html[data-theme="dark"] #login-screen .login-showcase {
+    background:transparent !important;
+    border:0 !important;
+    outline:0 !important;
+    border-radius:0 !important;
+    box-shadow:none !important;
+    backdrop-filter:none !important;
+    -webkit-backdrop-filter:none !important;
+    padding:0 8px 0 0 !important;
+  }
+  #login-screen .login-showcase::before,
+  #login-screen .login-showcase::after {display:none !important;content:none !important;}
+
+  /* Light theme — readable dark text directly over pastel page background. */
+  html:not([data-theme="dark"]) #login-screen .login-brand-name,
+  html:not([data-theme="dark"]) #login-screen .login-hero-heading,
+  html:not([data-theme="dark"]) #login-screen .login-feature-info strong {
+    color:#122c45 !important;
+    text-shadow:none !important;
+  }
+  html:not([data-theme="dark"]) #login-screen .login-brand-sub,
+  html:not([data-theme="dark"]) #login-screen .login-showcase-footer {
+    color:#496886 !important;
+    opacity:1 !important;
+  }
+  html:not([data-theme="dark"]) #login-screen .login-kicker {
+    color:#007f80 !important;
+    opacity:1 !important;
+  }
+  html:not([data-theme="dark"]) #login-screen .login-hero-desc,
+  html:not([data-theme="dark"]) #login-screen .login-feature-info span {
+    color:#365570 !important;
+    opacity:1 !important;
+  }
+  #login-screen .login-hero-desc {line-height:1.72 !important;}
+
+  /* Individual feature tiles and the mini-preview remain, matching the picture. */
+  html:not([data-theme="dark"]) #login-screen .login-feature-pill {
+    background:rgba(255,255,255,.76) !important;
+    border:1px solid rgba(255,255,255,.84) !important;
+    box-shadow:0 5px 16px rgba(36,84,117,.055) !important;
+    backdrop-filter:none !important;
+    -webkit-backdrop-filter:none !important;
+  }
+  html:not([data-theme="dark"]) #login-screen .login-feature-pill:hover {
+    background:rgba(255,255,255,.92) !important;
+  }
+  #login-screen .login-preview-card,
+  html[data-theme="dark"] #login-screen .login-preview-card {
+    backdrop-filter:none !important;
+    -webkit-backdrop-filter:none !important;
+  }
+
+  /* Keep the right-side sign-in card, without an unnecessary top ornament. */
+  #login-screen #login-container::before {display:none !important;content:none !important;}
+  html:not([data-theme="dark"]) #login-screen #login-container {
+    background:rgba(255,255,255,.95) !important;
+    border:1px solid rgba(255,255,255,.96) !important;
+    box-shadow:0 15px 36px rgba(24,56,82,.19) !important;
+    backdrop-filter:none !important;
+    -webkit-backdrop-filter:none !important;
+  }
+  html:not([data-theme="dark"]) #login-screen #login-container:hover {
+    transform:none !important;
+    box-shadow:0 15px 36px rgba(24,56,82,.19) !important;
+  }
+
+  /* Clear 44px moon/sun control as in the picture, accessible label via title. */
+  #login-screen #login-theme-toggle,
+  html[data-theme="dark"] #login-screen #login-theme-toggle {
+    display:inline-flex !important;
+    width:46px !important;
+    min-width:46px !important;
+    height:46px !important;
+    padding:0 !important;
+    border-radius:12px !important;
+    gap:0 !important;
+    backdrop-filter:none !important;
+    -webkit-backdrop-filter:none !important;
+    transform:none !important;
+  }
+  #login-screen #login-theme-toggle .login-theme-label {display:none !important;}
+  html:not([data-theme="dark"]) #login-screen #login-theme-toggle {
+    color:#183047 !important;
+    background:rgba(255,255,255,.90) !important;
+    border:1px solid #fff !important;
+    box-shadow:0 5px 14px rgba(17,49,76,.16) !important;
+  }
+  html:not([data-theme="dark"]) #login-screen #login-theme-toggle:hover {
+    background:#ffffff !important;
+    border-color:#75d9d5 !important;
+  }
+  html[data-theme="dark"] #login-screen #login-theme-toggle {
+    color:#e8fff9 !important;
+    background:#164961 !important;
+    border:1px solid #6bcfc7 !important;
+    box-shadow:0 5px 14px rgba(0,9,24,.22) !important;
+  }
+  html[data-theme="dark"] #login-screen #login-theme-toggle:hover {
+    background:#21627b !important;
+    border-color:#aafbf1 !important;
+  }
+  #login-screen #login-theme-toggle i {font-size:19px !important;opacity:1 !important;}
+
+  /* Dark theme — still frameless, with high-contrast light text. */
+  html[data-theme="dark"] #login-screen .login-brand-name,
+  html[data-theme="dark"] #login-screen .login-hero-heading,
+  html[data-theme="dark"] #login-screen .login-feature-info strong {
+    color:#f5fbff !important;
+    text-shadow:none !important;
+  }
+  html[data-theme="dark"] #login-screen .login-brand-sub,
+  html[data-theme="dark"] #login-screen .login-showcase-footer,
+  html[data-theme="dark"] #login-screen .login-hero-desc,
+  html[data-theme="dark"] #login-screen .login-feature-info span {
+    color:#d5e9f7 !important;
+    opacity:1 !important;
+  }
+  html[data-theme="dark"] #login-screen .login-kicker {color:#83f0dc !important;}
+  html[data-theme="dark"] #login-screen .login-feature-pill {
+    background:rgba(14,45,69,.59) !important;
+    border:1px solid rgba(170,228,245,.25) !important;
+    box-shadow:none !important;
+    backdrop-filter:none !important;
+    -webkit-backdrop-filter:none !important;
+  }
+  html[data-theme="dark"] #login-screen .login-feature-pill:hover {
+    background:rgba(21,60,86,.74) !important;
+  }
+  @media (max-width:900px) {
+    #login-screen .login-showcase,
+    html[data-theme="dark"] #login-screen .login-showcase {padding:0 !important;}
+  }
+  @media (prefers-reduced-motion:reduce) {
+    #login-screen .login-feature-pill {transition:none !important;transform:none !important;}
+  }
+}

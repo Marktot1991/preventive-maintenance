@@ -1,0 +1,147 @@
+/* PM Dashboard V14 — improve legibility on glass Login screen.
+   Scoped to the login screen and @media screen so the PM/PDF print layout stays unchanged.
+   Uses no expensive animated blur or extra scripts. */
+@media screen {
+  /* Showcase remains translucent, with a sufficiently dark base for white text. */
+  #login-screen .login-showcase {
+    background: linear-gradient(125deg,rgba(14,49,68,.92),rgba(28,62,94,.90) 61%,rgba(49,56,101,.88)) !important;
+    border-color: rgba(211,243,255,.38) !important;
+    color: #f9fcff !important;
+  }
+  #login-screen .login-brand-name,
+  #login-screen .login-hero-heading,
+  #login-screen .login-feature-info strong,
+  #login-screen .login-preview-title { color: #ffffff !important; }
+  #login-screen .login-brand-sub,
+  #login-screen .login-kicker,
+  #login-screen .login-showcase-footer {
+    color: #e1f2ff !important;
+    opacity:1 !important;
+  }
+  #login-screen .login-hero-desc {
+    color: #f0f9ff !important;
+    opacity:1 !important;
+    font-size:14.5px;
+    line-height:1.72;
+  }
+  #login-screen .login-feature-pill {
+    background:rgba(11,34,58,.39) !important;
+    border:1px solid rgba(213,239,255,.32) !important;
+  }
+  #login-screen .login-feature-info span {
+    color:#e7f3ff !important;
+    font-size:11px;
+    line-height:1.46;
+  }
+  #login-screen .login-feature-info strong {font-size:12.5px;}
+  #login-screen .login-preview-card {
+    background:linear-gradient(135deg,rgba(13,39,65,.78),rgba(21,30,67,.78)) !important;
+    border-color:rgba(209,238,255,.34) !important;
+  }
+  #login-screen .login-preview-sub,
+  #login-screen .login-preview-foot,
+  #login-screen .login-preview-tag,
+  #login-screen .login-preview-chips span { color:#e4f2ff !important; }
+  #login-screen .login-preview-status {color:#b0ffe2 !important;}
+
+  /* Fix theme control contrast, including text label so the action is obvious. */
+  #login-screen #login-theme-toggle {
+    display:inline-flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+    gap:9px !important;
+    width:auto !important;
+    min-width:120px !important;
+    height:46px !important;
+    padding:0 15px !important;
+    background:#075c73 !important;
+    color:#ffffff !important;
+    border:2px solid rgba(255,255,255,.85) !important;
+    box-shadow:0 6px 20px rgba(6,51,75,.26) !important;
+    border-radius:13px !important;
+    opacity:1 !important;
+    filter:none !important;
+    backdrop-filter:none !important;
+    -webkit-backdrop-filter:none !important;
+    text-shadow:none !important;
+    cursor:pointer;
+    transition:background-color .15s ease,border-color .15s ease !important;
+  }
+  #login-screen #login-theme-toggle i {
+    color:inherit !important;
+    font-size:18px !important;
+    opacity:1 !important;
+    -webkit-text-fill-color:currentColor !important;
+  }
+  #login-screen #login-theme-toggle .login-theme-label {
+    color:inherit !important;
+    display:inline-block !important;
+    font-size:13px !important;
+    font-weight:800 !important;
+    white-space:nowrap;
+    line-height:1;
+    letter-spacing:0;
+  }
+  #login-screen #login-theme-toggle:hover,
+  #login-screen #login-theme-toggle:focus-visible {
+    background:#03445c !important;
+    border-color:#8fe7eb !important;
+  }
+  #login-screen #login-theme-toggle:focus-visible {
+    outline:3px solid #18b6c6 !important;
+    outline-offset:3px !important;
+  }
+
+  /* Secondary copy on the sign-in panel should remain readable. */
+  #login-screen #login-container .login-subtitle,
+  #login-screen #login-container .login-auth-note,
+  #login-screen #login-container .login-footer {color:#425b73 !important;opacity:1 !important;}
+  #login-screen #login-container .login-welcome-label {color:#38516e !important;}
+  #login-screen #login-container .login-input::placeholder {color:#5b7087 !important;opacity:1 !important;}
+
+  /* Dark mode: brighter white-blue typography on darker translucent glass. */
+  html[data-theme="dark"] #login-screen .login-showcase {
+    background:linear-gradient(125deg,rgba(7,29,48,.89),rgba(16,46,75,.85) 61%,rgba(37,37,75,.85)) !important;
+    border-color:rgba(165,226,247,.37) !important;
+  }
+  html[data-theme="dark"] #login-screen .login-feature-pill {
+    background:rgba(5,23,41,.50) !important;
+    border-color:rgba(191,236,251,.30) !important;
+  }
+  html[data-theme="dark"] #login-screen #login-theme-toggle {
+    background:#a9f2e8 !important;
+    color:#083947 !important;
+    border-color:#e5fffb !important;
+    box-shadow:0 6px 20px rgba(0,9,25,.27) !important;
+  }
+  html[data-theme="dark"] #login-screen #login-theme-toggle:hover,
+  html[data-theme="dark"] #login-screen #login-theme-toggle:focus-visible {
+    background:#d2fff8 !important;
+    border-color:#ffffff !important;
+  }
+  html[data-theme="dark"] #login-screen #login-container .login-title {
+    color:#f5fbff !important;
+    -webkit-text-fill-color:#f5fbff !important;
+    text-shadow:none !important;
+  }
+  html[data-theme="dark"] #login-screen #login-container .login-subtitle,
+  html[data-theme="dark"] #login-screen #login-container .login-auth-note,
+  html[data-theme="dark"] #login-screen #login-container .login-footer {
+    color:#d2e6f5 !important;
+  }
+  html[data-theme="dark"] #login-screen #login-container .login-welcome-label,
+  html[data-theme="dark"] #login-screen #login-container .login-field label {color:#ecf7ff !important;}
+  html[data-theme="dark"] #login-screen #login-container .login-input {color:#f7fcff !important;}
+  html[data-theme="dark"] #login-screen #login-container .login-input::placeholder {color:#bad3e2 !important;}
+  html[data-theme="dark"] #login-screen #login-container .login-input-icon,
+  html[data-theme="dark"] #login-screen #login-container .password-toggle {color:#b2d4e7 !important;}
+  html[data-theme="dark"] #login-screen #login-container .forgot-link {color:#80f4df !important;}
+  html[data-theme="dark"] #login-screen #login-container .login-secure-pill {
+    background:rgba(16,147,125,.20) !important;
+    color:#a9ffde !important;
+    border-color:rgba(105,235,199,.38) !important;
+  }
+  @media (prefers-reduced-motion:reduce) {
+    #login-screen #login-theme-toggle {transition:none !important;}
+  }
+}

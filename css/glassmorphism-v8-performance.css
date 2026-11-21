@@ -1,0 +1,166 @@
+/* PM Dashboard Glass UI V8 — dark translucent + lightweight compositing.
+   This file MUST load after glassmorphism-v7.css. SCREEN ONLY: print A4 unchanged.
+   Glass transparency comes from alpha backgrounds and contrast, not nested blur. */
+@media screen {
+  :root {
+    --glass-backdrop: none;
+    --glass-shadow: 0 7px 22px rgba(20,54,76,.095), inset 0 1px rgba(255,255,255,.56);
+  }
+  html[data-theme="dark"] {
+    --glass-ink:#e9f6ff;
+    --glass-muted:#b2c9da;
+    --glass-panel:rgba(15,38,62,.31);
+    --glass-panel-strong:rgba(22,52,78,.45);
+    --glass-panel-soft:rgba(56,91,116,.22);
+    --glass-line:rgba(171,225,251,.21);
+    --glass-shadow:0 7px 24px rgba(0,10,24,.14), inset 0 1px rgba(210,245,255,.075);
+  }
+  /* Do not use background-attachment:fixed: it can trigger full-screen redraw while scrolling. */
+  body {
+    background:
+      radial-gradient(ellipse at 15% 15%,rgba(26,185,196,.17),transparent 42%),
+      radial-gradient(ellipse at 84% 72%,rgba(144,122,224,.17),transparent 45%),
+      linear-gradient(125deg,#e8f3f9,#dceafa 58%,#ede8fb) !important;
+  }
+  html[data-theme="dark"] body {
+    background:
+      radial-gradient(ellipse at 17% 14%,rgba(25,174,185,.32),transparent 43%),
+      radial-gradient(ellipse at 85% 80%,rgba(115,105,221,.30),transparent 46%),
+      linear-gradient(127deg,#071e31,#123657 52%,#192748) !important;
+  }
+  /* Background accents are static so they don't cost repaint cycles. */
+  #login-screen:not(.hidden) {
+    background:
+      radial-gradient(ellipse at 15% 13%,rgba(28,208,195,.20),transparent 43%),
+      radial-gradient(ellipse at 83% 79%,rgba(130,151,249,.22),transparent 46%),
+      linear-gradient(126deg,#e6f4fb,#dbeafb 53%,#eae3f8) !important;
+  }
+  html[data-theme="dark"] #login-screen:not(.hidden) {
+    background:
+      radial-gradient(ellipse at 12% 10%,rgba(26,194,185,.34),transparent 42%),
+      radial-gradient(ellipse at 89% 85%,rgba(128,111,234,.30),transparent 45%),
+      linear-gradient(129deg,#081b30,#123857 53%,#252947) !important;
+  }
+  /* One blur per major chrome surface only. Never blur every chart/card/row. */
+  #login-screen .login-showcase,
+  #login-screen .login-feature-pill,
+  #login-screen .login-preview-card,
+  #login-screen #login-theme-toggle,
+  #app-container .main-content .page-container,
+  #app-container :is(.progress-dashboard-hero,.progress-filter-bar,.progress-card,
+    .pm-visual-chart-panel,.progress-dept-panel,.progress-repair-section,
+    .progress-repair-panel,.progress-detail-panel,.adm-panel),
+  #app-container .sidebar-footer,
+  #app-container :is(.progress-mini-stat,.progress-row,.progress-repair-row,
+    .pm-snapshot-card,.pm-schedule-card,.pm-custom-row) {
+    backdrop-filter:none !important;
+    -webkit-backdrop-filter:none !important;
+  }
+  #login-screen #login-container {
+    backdrop-filter:blur(7px) !important;
+    -webkit-backdrop-filter:blur(7px) !important;
+    box-shadow:0 14px 36px rgba(21,60,86,.16) !important;
+  }
+  #login-screen #login-container:hover {
+    transform:none !important;
+    box-shadow:0 15px 38px rgba(21,60,86,.17) !important;
+  }
+  html[data-theme="dark"] #login-screen #login-container {
+    background:linear-gradient(148deg,rgba(22,55,81,.57),rgba(14,32,54,.49)) !important;
+    border-color:rgba(180,235,251,.29) !important;
+    box-shadow:0 16px 38px rgba(0,7,22,.24) !important;
+  }
+  html[data-theme="dark"] #login-screen #login-container:hover {
+    box-shadow:0 16px 38px rgba(0,7,22,.24) !important;
+  }
+  html[data-theme="dark"] #login-screen .login-showcase {
+    background:linear-gradient(126deg,rgba(15,49,70,.55),rgba(30,49,91,.38)) !important;
+    border-color:rgba(170,229,255,.24) !important;
+    box-shadow:0 12px 30px rgba(0,8,25,.16) !important;
+  }
+  html[data-theme="dark"] #login-screen :is(.login-subtitle,.login-hero-desc,.login-preview-sub,.login-auth-note,.login-footer) {
+    color:#b8d0e1 !important;
+  }
+  html[data-theme="dark"] #login-screen .login-input::placeholder {color:#a2bdd2 !important;opacity:1;}
+  html[data-theme="dark"] #login-screen .login-preview-card {
+    background:rgba(13,35,62,.36) !important;
+    box-shadow:0 8px 22px rgba(0,9,27,.12) !important;
+  }
+  /* Fixed chrome has no backdrop sampling: keep it translucent without scroll jank. */
+  #app-container .sidebar,
+  #app-container .app-topbar {
+    backdrop-filter:none !important;
+    -webkit-backdrop-filter:none !important;
+    box-shadow:0 3px 14px rgba(7,27,46,.12) !important;
+  }
+  html[data-theme="dark"] #app-container .sidebar {
+    background:linear-gradient(162deg,rgba(8,32,56,.67),rgba(19,42,73,.53)) !important;
+    border-right:1px solid rgba(160,222,248,.22) !important;
+  }
+  html[data-theme="dark"] #app-container .app-topbar {
+    background:rgba(13,37,64,.57) !important;
+    border-bottom:1px solid rgba(175,224,248,.20) !important;
+  }
+  /* Outer panes have little fill; the more translucent cards show the real background. */
+  html[data-theme="dark"] #app-container .main-content .page-container {
+    background:rgba(10,29,50,.16) !important;
+    border:1px solid rgba(150,213,245,.15) !important;
+    box-shadow:none !important;
+  }
+  html[data-theme="dark"] #app-container :is(#pm-progress-page,#pm-history-page,#pm-activity-page,#pm-next-due-page,#pm-users-page,#pm-logs-page)
+    :is(.progress-dashboard-hero,.progress-filter-bar,.progress-card,.pm-visual-chart-panel,
+    .progress-dept-panel,.progress-repair-section,.progress-repair-panel,.progress-detail-panel,.adm-panel) {
+    background:linear-gradient(137deg,rgba(43,79,107,.42),rgba(12,37,62,.30)) !important;
+    border:1px solid var(--glass-line) !important;
+    box-shadow:var(--glass-shadow) !important;
+    color:var(--glass-ink);
+  }
+  html[data-theme="dark"] #app-container :is(#pm-progress-page,#pm-history-page,#pm-activity-page,#pm-next-due-page,#pm-users-page,#pm-logs-page)
+    :is(.progress-dept-head,.progress-repair-header,.progress-repair-panel-head,.progress-detail-head,.progress-list-head,.pm-history-table-head,.pm-nextdue-table-head,.pm-activity-head) {
+    background:rgba(75,117,143,.18) !important;
+    border-bottom:1px solid rgba(160,222,248,.13) !important;
+  }
+  html[data-theme="dark"] #app-container :is(.progress-row,.progress-repair-row,.progress-mini-stat,
+    .pm-history-rows .pm-custom-row,.pm-nextdue-rows .pm-custom-row,.pm-snapshot-card,.pm-schedule-card,.adm-stat) {
+    background:rgba(85,123,150,.13) !important;
+    border-color:rgba(166,223,250,.12) !important;
+    box-shadow:none !important;
+  }
+  /* Keep readable control contrast, avoid filling complete dashboard with solid rectangles. */
+  html[data-theme="dark"] #app-container :is(#pm-progress-page,#pm-history-page,#pm-activity-page,#pm-next-due-page)
+    .progress-filter,
+  html[data-theme="dark"] #app-container .adm-panel :is(input,select) {
+    color:#edf8ff !important;
+    background:rgba(15,37,59,.49) !important;
+    border-color:rgba(168,220,247,.25) !important;
+  }
+  html[data-theme="dark"] #app-container #pm-form-page .page-container > table,
+  html[data-theme="dark"] #app-container #pm-form-page #checklist-container table {
+    background:rgba(15,35,54,.83) !important;
+  }
+  /* Avoid scaling/large shadow animations on chart-heavy pages. */
+  #app-container :is(.progress-card,.pm-visual-chart-panel,.progress-dept-panel,
+    .progress-repair-panel,.progress-detail-panel,.pm-snapshot-card,.pm-schedule-card):hover {
+    transform:none !important;
+    box-shadow:var(--glass-shadow) !important;
+  }
+  #login-screen .login-feature-pill:hover {transform:none !important;}
+  #app-container :is(.progress-card,.pm-visual-chart-panel,.progress-dept-panel,
+    .progress-repair-panel,.progress-detail-panel,.pm-snapshot-card,.pm-schedule-card) {
+    filter:none !important;
+    transition:background-color .16s ease,border-color .16s ease !important;
+  }
+  @media (max-width:720px), (prefers-reduced-motion:reduce) {
+    #login-screen #login-container,
+    #app-container .sidebar,
+    #app-container .app-topbar {
+      backdrop-filter:none !important;
+      -webkit-backdrop-filter:none !important;
+    }
+  }
+  @media (prefers-reduced-motion:reduce) {
+    #login-screen *,#login-screen *::before,#login-screen *::after,
+    #app-container .main-content *,#app-container .main-content *::before,
+    #app-container .main-content *::after {animation:none !important;transition:none !important;}
+  }
+}

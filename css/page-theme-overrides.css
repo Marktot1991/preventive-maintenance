@@ -1,0 +1,632 @@
+/* ============================================================
+   COMPLETE LIGHT THEME FOR PM DASHBOARD PAGES
+   Applies to PM Progress, PM History, Activity Log and Next Due.
+   Dark theme keeps the existing industrial dark styling.
+   ============================================================ */
+
+/* Authenticated user identity: icon + online dot + email on one line */
+#currentUserDisplay {
+  align-items: center !important;
+  white-space: nowrap !important;
+  min-width: 0;
+  overflow: hidden;
+}
+#currentUserDisplay .user-status-icon {
+  margin-top: 0;
+  flex: 0 0 19px;
+}
+#currentUserDisplay .user-status-text {
+  display: flex !important;
+  flex-direction: row;
+  align-items: center;
+  gap: 0;
+  min-width: 0;
+  width: auto;
+  flex: 1 1 auto;
+  line-height: 1.2;
+  overflow: hidden;
+}
+#currentUserDisplay .user-status-text .user-email-line {
+  display: flex !important;
+  align-items: center;
+  gap: 5px;
+  min-width: 0;
+  width: 100%;
+  max-width: 100%;
+  font-size: 10px;
+  font-weight: 600;
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+}
+#currentUserDisplay .user-status-text .online-dot {
+  display: inline-block;
+  flex: 0 0 7px;
+  width: 7px;
+  height: 7px;
+  margin: 0;
+  vertical-align: middle;
+}
+#currentUserDisplay .user-status-text .user-email {
+  display: block !important;
+  flex: 1 1 auto;
+  min-width: 0;
+  width: auto;
+  max-width: 100%;
+  color: #e3edf4;
+  font-size: 10px;
+  font-weight: 600;
+  line-height: 1.2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  opacity: .98;
+}
+
+/* ------------------------------------------------------------
+   PM PROGRESS DASHBOARD — LIGHT MODE
+   ------------------------------------------------------------ */
+html[data-theme="light"] #pm-progress-page {
+  color-scheme: light;
+  color: #263b4d !important;
+  background:
+    radial-gradient(ellipse at 50% -10%, rgba(28, 145, 157, .10), transparent 48%),
+    linear-gradient(145deg, #f7fafc 0%, #eef4f7 55%, #f5f8fb 100%) !important;
+}
+html[data-theme="light"] #pm-progress-page .page-container {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+html[data-theme="light"] #pm-progress-page .progress-dashboard-hero {
+  border: 1px solid #d6e4eb !important;
+  background:
+    radial-gradient(circle at 90% 5%, rgba(20, 184, 166, .13), transparent 32%),
+    linear-gradient(135deg, #ffffff 0%, #edf6f8 52%, #e7f1f6 100%) !important;
+  box-shadow: 0 12px 28px rgba(35, 65, 86, .10), inset 0 1px #fff !important;
+}
+html[data-theme="light"] #pm-progress-page .progress-dashboard-title {
+  color: #1d3a4c !important;
+  text-shadow: none !important;
+}
+html[data-theme="light"] #pm-progress-page .progress-dashboard-subtitle {
+  color: #637b8d !important;
+}
+html[data-theme="light"] #pm-progress-page .progress-hero-badge {
+  color: #176d68 !important;
+  border: 1px solid #b9e1da !important;
+  background: rgba(255, 255, 255, .82) !important;
+  box-shadow: 0 4px 12px rgba(36, 90, 97, .07) !important;
+}
+html[data-theme="light"] #pm-progress-page .progress-hero-badge i {
+  color: #079b8d !important;
+}
+html[data-theme="light"] #pm-progress-page .progress-filter {
+  color: #263b4d !important;
+  background: #fff !important;
+  border: 1px solid #cbd9e2 !important;
+  box-shadow: 0 2px 7px rgba(34, 58, 76, .05) !important;
+}
+html[data-theme="light"] #pm-progress-page .progress-filter option {
+  color: #263b4d !important;
+  background: #fff !important;
+}
+html[data-theme="light"] #pm-progress-page .progress-filter:focus {
+  border-color: #18a99c !important;
+  box-shadow: 0 0 0 3px rgba(24, 169, 156, .13) !important;
+}
+html[data-theme="light"] #pm-progress-page .progress-refresh-btn {
+  color: #fff !important;
+  border: 1px solid #159d90 !important;
+  background: linear-gradient(135deg, #16b9a7, #078c82) !important;
+  box-shadow: 0 4px 10px rgba(8, 143, 131, .16) !important;
+}
+html[data-theme="light"] #pm-progress-page .progress-card {
+  border: 1px solid #d9e3e9 !important;
+  background: linear-gradient(150deg, #fff 0%, #f8fbfd 100%) !important;
+  box-shadow: 0 5px 15px rgba(32, 61, 80, .07) !important;
+}
+html[data-theme="light"] #pm-progress-page .progress-card-label {
+  color: #657c8e !important;
+}
+html[data-theme="light"] #pm-progress-page .progress-card-value {
+  color: #24465a !important;
+  text-shadow: none !important;
+}
+html[data-theme="light"] #pm-progress-page .progress-card:nth-child(1) .progress-card-value { color: #078d7c !important; }
+html[data-theme="light"] #pm-progress-page .progress-card:nth-child(2) .progress-card-value { color: #2879b6 !important; }
+html[data-theme="light"] #pm-progress-page .progress-card:nth-child(3) .progress-card-value { color: #b77918 !important; }
+html[data-theme="light"] #pm-progress-page .progress-card:nth-child(4) .progress-card-value { color: #c34d5a !important; }
+html[data-theme="light"] #pm-progress-page .progress-card-sub {
+  color: #718697 !important;
+}
+html[data-theme="light"] #pm-progress-page .pm-visual-chart-panel,
+html[data-theme="light"] #pm-progress-page .progress-dept-panel,
+html[data-theme="light"] #pm-progress-page .progress-repair-section,
+html[data-theme="light"] #pm-progress-page .progress-repair-panel,
+html[data-theme="light"] #pm-progress-page .progress-detail-panel {
+  color: #2b4052 !important;
+  border: 1px solid #d6e1e8 !important;
+  background: linear-gradient(155deg, #fff 0%, #f7fafc 100%) !important;
+  box-shadow: 0 6px 18px rgba(35, 62, 80, .08) !important;
+}
+html[data-theme="light"] #pm-progress-page .pm-visual-chart-title,
+html[data-theme="light"] #pm-progress-page .progress-dept-title,
+html[data-theme="light"] #pm-progress-page .progress-repair-panel-title,
+html[data-theme="light"] #pm-progress-page .progress-detail-title {
+  color: #254357 !important;
+  text-shadow: none !important;
+}
+html[data-theme="light"] #pm-progress-page .pm-visual-chart-subtitle,
+html[data-theme="light"] #pm-progress-page .progress-detail-sub {
+  color: #6d8394 !important;
+}
+html[data-theme="light"] #pm-progress-page .progress-dept-head,
+html[data-theme="light"] #pm-progress-page .progress-repair-panel-head,
+html[data-theme="light"] #pm-progress-page .progress-detail-head {
+  background: linear-gradient(100deg, #edf5f8, #f8fbfd) !important;
+  border-bottom: 1px solid #dce6ec !important;
+  box-shadow: none !important;
+}
+html[data-theme="light"] #pm-progress-page .progress-dept-icon {
+  color: #078b80 !important;
+  border: 1px solid #c8e8e2 !important;
+  background: linear-gradient(145deg, #e8f8f4, #dff2ee) !important;
+  box-shadow: none !important;
+}
+html[data-theme="light"] #pm-progress-page .progress-dept-count {
+  color: #536b7c !important;
+  border: 1px solid #d8e3e9 !important;
+  background: #f1f6f9 !important;
+  box-shadow: none !important;
+}
+html[data-theme="light"] #pm-progress-page .progress-dept-body {
+  background: transparent !important;
+}
+html[data-theme="light"] #pm-progress-page .progress-mini-stat {
+  border: 1px solid #e0e8ed !important;
+  background: #f6f9fb !important;
+  box-shadow: none !important;
+}
+html[data-theme="light"] #pm-progress-page .progress-mini-stat .label {
+  color: #708697 !important;
+}
+html[data-theme="light"] #pm-progress-page .progress-mini-stat .value {
+  color: #27475a !important;
+  text-shadow: none !important;
+}
+html[data-theme="light"] #pm-progress-page .progress-group-chart-title {
+  color: #38576b !important;
+}
+html[data-theme="light"] #pm-progress-page .progress-group-label,
+html[data-theme="light"] #pm-progress-page .progress-group-percent {
+  color: #526d80 !important;
+}
+html[data-theme="light"] #pm-progress-page .progress-group-bar,
+html[data-theme="light"] #pm-progress-page .progress-bar-wrap,
+html[data-theme="light"] #pm-progress-page .progress-repair-bar-wrap {
+  background: #e7eef3 !important;
+  border: 1px solid #d5e0e7 !important;
+  box-shadow: inset 0 1px 3px rgba(37, 64, 82, .08) !important;
+}
+html[data-theme="light"] #pm-progress-page .progress-ring {
+  background: conic-gradient(#12b8a6 calc(var(--progress-pct) * 1%), #e4edf1 0) !important;
+}
+html[data-theme="light"] #pm-progress-page .progress-ring::before,
+html[data-theme="light"] #pm-progress-page .progress-repair-total-donut::before,
+html[data-theme="light"] #pm-progress-page .pm-visual-donut::before {
+  background: #fff !important;
+  box-shadow: inset 0 0 0 1px #e3ebef !important;
+}
+html[data-theme="light"] #pm-progress-page .progress-ring-value {
+  color: #21465a !important;
+}
+html[data-theme="light"] #pm-progress-page .progress-ring-label {
+  color: #73899a !important;
+}
+html[data-theme="light"] #pm-progress-page .progress-repair-header {
+  background: linear-gradient(110deg, #fff5f5, #fbf7f8) !important;
+  border-bottom: 1px solid #f0dfe2 !important;
+  box-shadow: none !important;
+}
+html[data-theme="light"] #pm-progress-page .progress-repair-title {
+  color: #813f49 !important;
+}
+html[data-theme="light"] #pm-progress-page .progress-repair-subtitle {
+  color: #8b6971 !important;
+}
+html[data-theme="light"] #pm-progress-page .progress-repair-note {
+  color: #a43d4b !important;
+  border: 1px solid #f1cbd0 !important;
+  background: #fff0f1 !important;
+  box-shadow: none !important;
+}
+html[data-theme="light"] #pm-progress-page .progress-repair-panel {
+  background: linear-gradient(150deg, #fff, #fbfcfd) !important;
+  box-shadow: 0 4px 12px rgba(45, 61, 76, .06) !important;
+}
+html[data-theme="light"] #pm-progress-page .progress-repair-panel-count {
+  color: #aa3d4b !important;
+  background: #fff0f1 !important;
+}
+html[data-theme="light"] #pm-progress-page .progress-repair-total {
+  color: #64798a !important;
+  border: 1px solid #f0dfe2 !important;
+  background: #fff7f7 !important;
+  box-shadow: none !important;
+}
+html[data-theme="light"] #pm-progress-page .progress-repair-total strong,
+html[data-theme="light"] #pm-progress-page .progress-repair-total-donut-value,
+html[data-theme="light"] #pm-progress-page .progress-repair-percent {
+  color: #c04755 !important;
+}
+html[data-theme="light"] #pm-progress-page .progress-repair-form {
+  color: #385366 !important;
+}
+html[data-theme="light"] #pm-progress-page .progress-repair-form small,
+html[data-theme="light"] #pm-progress-page .progress-repair-count {
+  color: #778b9a !important;
+}
+html[data-theme="light"] #pm-progress-page .progress-repair-row {
+  border: 1px solid #e1e8ed !important;
+  background: #f6f9fb !important;
+  box-shadow: none !important;
+}
+html[data-theme="light"] #pm-progress-page .progress-repair-row.has-repair {
+  border-color: #f1d8dc !important;
+  background: #fff5f6 !important;
+}
+html[data-theme="light"] #pm-progress-page .progress-repair-row:hover {
+  border-color: #e9b9c0 !important;
+  box-shadow: 0 3px 10px rgba(111, 50, 60, .08) !important;
+}
+html[data-theme="light"] #pm-progress-page .progress-list {
+  background: transparent !important;
+}
+html[data-theme="light"] #pm-progress-page .progress-list-head {
+  color: #496477 !important;
+  background: linear-gradient(180deg, #edf4f7, #e5eef3) !important;
+  border-bottom: 1px solid #d8e4ea !important;
+}
+html[data-theme="light"] #pm-progress-page .progress-row {
+  color: #385164 !important;
+  border: 1px solid #e0e8ed !important;
+  background: #fff !important;
+  box-shadow: 0 2px 7px rgba(36, 61, 78, .04) !important;
+}
+html[data-theme="light"] #pm-progress-page .progress-row:nth-child(even) {
+  background: #f6f9fb !important;
+}
+html[data-theme="light"] #pm-progress-page .progress-row:hover {
+  border-color: #b9dcd6 !important;
+  background: #f0faf8 !important;
+  box-shadow: 0 3px 10px rgba(18, 121, 110, .08) !important;
+}
+html[data-theme="light"] #pm-progress-page .progress-form-name {
+  color: #27485c !important;
+}
+html[data-theme="light"] #pm-progress-page .progress-form-name small {
+  color: #758b9a !important;
+}
+html[data-theme="light"] #pm-progress-page .progress-group-badge {
+  color: #087d74 !important;
+  background: #e6f6f2 !important;
+}
+html[data-theme="light"] #pm-progress-page .progress-percent,
+html[data-theme="light"] #pm-progress-page .progress-checks,
+html[data-theme="light"] #pm-progress-page .progress-legend,
+html[data-theme="light"] #pm-progress-page .progress-empty,
+html[data-theme="light"] #pm-progress-page .progress-no-data,
+html[data-theme="light"] #pm-progress-page .progress-repair-empty {
+  color: #6b8293 !important;
+}
+html[data-theme="light"] #pm-progress-page .progress-no-data,
+html[data-theme="light"] #pm-progress-page .progress-repair-empty {
+  border: 1px dashed #d1dfe6 !important;
+  background: #f5f9fb !important;
+}
+html[data-theme="light"] #pm-progress-page .pm-visual-donut-total {
+  color: #25485c !important;
+}
+html[data-theme="light"] #pm-progress-page .pm-visual-donut-label {
+  color: #72899a !important;
+}
+html[data-theme="light"] #pm-progress-page .pm-donut-legend-item {
+  color: #526b7d !important;
+}
+html[data-theme="light"] #pm-progress-page .pm-donut-legend-value {
+  color: #294c60 !important;
+}
+html[data-theme="light"] #pm-progress-page .pm-visual-bar-chart svg text,
+html[data-theme="light"] #pm-progress-page .pm-visual-area-chart svg text {
+  fill: #718697 !important;
+}
+html[data-theme="light"] #pm-progress-page .pm-visual-bar-chart svg line:not(.pm-percent-average),
+html[data-theme="light"] #pm-progress-page .pm-visual-area-chart svg line:not(.pm-percent-average) {
+  stroke: #c9d6de !important;
+}
+
+/* ------------------------------------------------------------
+   HISTORY / ACTIVITY / NEXT DUE — LIGHT MODE
+   ------------------------------------------------------------ */
+html[data-theme="light"] #pm-history-page,
+html[data-theme="light"] #pm-activity-page,
+html[data-theme="light"] #pm-next-due-page {
+  color-scheme: light;
+  color: #263b4d !important;
+  background:
+    radial-gradient(ellipse at 50% -12%, rgba(32, 145, 158, .10), transparent 47%),
+    linear-gradient(145deg, #f7fafc 0%, #eef4f7 55%, #f5f8fb 100%) !important;
+}
+html[data-theme="light"] #pm-history-page .page-container,
+html[data-theme="light"] #pm-activity-page .page-container,
+html[data-theme="light"] #pm-next-due-page .page-container {
+  background: transparent !important;
+}
+html[data-theme="light"] #pm-history-page .progress-dashboard-hero,
+html[data-theme="light"] #pm-activity-page .progress-dashboard-hero,
+html[data-theme="light"] #pm-next-due-page .progress-dashboard-hero {
+  border: 1px solid #d6e4eb !important;
+  background:
+    radial-gradient(circle at 90% 5%, rgba(20, 184, 166, .13), transparent 32%),
+    linear-gradient(135deg, #fff 0%, #edf6f8 52%, #e7f1f6 100%) !important;
+  box-shadow: 0 10px 24px rgba(35, 65, 86, .09) !important;
+}
+html[data-theme="light"] #pm-history-page .progress-dashboard-title,
+html[data-theme="light"] #pm-activity-page .progress-dashboard-title,
+html[data-theme="light"] #pm-next-due-page .progress-dashboard-title {
+  color: #1d3a4c !important;
+  text-shadow: none !important;
+}
+html[data-theme="light"] #pm-history-page .progress-dashboard-subtitle,
+html[data-theme="light"] #pm-activity-page .progress-dashboard-subtitle,
+html[data-theme="light"] #pm-next-due-page .progress-dashboard-subtitle {
+  color: #637b8d !important;
+}
+html[data-theme="light"] #pm-history-page .progress-hero-badge,
+html[data-theme="light"] #pm-activity-page .progress-hero-badge,
+html[data-theme="light"] #pm-next-due-page .progress-hero-badge {
+  color: #176d68 !important;
+  border: 1px solid #b9e1da !important;
+  background: rgba(255, 255, 255, .82) !important;
+}
+html[data-theme="light"] #pm-history-page .progress-hero-badge i,
+html[data-theme="light"] #pm-activity-page .progress-hero-badge i,
+html[data-theme="light"] #pm-next-due-page .progress-hero-badge i {
+  color: #079b8d !important;
+}
+html[data-theme="light"] #pm-history-page .progress-filter,
+html[data-theme="light"] #pm-activity-page .progress-filter,
+html[data-theme="light"] #pm-next-due-page .progress-filter {
+  color: #263b4d !important;
+  border: 1px solid #cbd9e2 !important;
+  background: #fff !important;
+  box-shadow: 0 2px 7px rgba(34, 58, 76, .05) !important;
+}
+html[data-theme="light"] #pm-history-page .progress-filter option,
+html[data-theme="light"] #pm-activity-page .progress-filter option,
+html[data-theme="light"] #pm-next-due-page .progress-filter option {
+  color: #263b4d !important;
+  background: #fff !important;
+}
+html[data-theme="light"] #pm-history-page .progress-refresh-btn,
+html[data-theme="light"] #pm-activity-page .progress-refresh-btn,
+html[data-theme="light"] #pm-next-due-page .progress-refresh-btn {
+  color: #fff !important;
+  border: 1px solid #159d90 !important;
+  background: linear-gradient(135deg, #16b9a7, #078c82) !important;
+  box-shadow: 0 4px 10px rgba(8, 143, 131, .16) !important;
+}
+html[data-theme="light"] #pm-history-page .progress-card,
+html[data-theme="light"] #pm-activity-page .progress-card,
+html[data-theme="light"] #pm-next-due-page .progress-card {
+  border: 1px solid #d9e3e9 !important;
+  background: linear-gradient(150deg, #fff, #f8fbfd) !important;
+  box-shadow: 0 5px 15px rgba(32, 61, 80, .07) !important;
+}
+html[data-theme="light"] #pm-history-page .progress-card-label,
+html[data-theme="light"] #pm-activity-page .progress-card-label,
+html[data-theme="light"] #pm-next-due-page .progress-card-label {
+  color: #657c8e !important;
+}
+html[data-theme="light"] #pm-history-page .progress-card-value,
+html[data-theme="light"] #pm-activity-page .progress-card-value,
+html[data-theme="light"] #pm-next-due-page .progress-card-value {
+  color: #24465a !important;
+  text-shadow: none !important;
+}
+html[data-theme="light"] #pm-next-due-page .progress-card-value[style*="ff7884"] { color: #c04755 !important; }
+html[data-theme="light"] #pm-next-due-page .progress-card-value[style*="ffd07d"] { color: #a66b12 !important; }
+html[data-theme="light"] #pm-next-due-page .progress-card-value[style*="48e0bd"] { color: #078d7c !important; }
+html[data-theme="light"] #pm-next-due-page .progress-card-value[style*="9db8ca"] { color: #617b8d !important; }
+html[data-theme="light"] #pm-history-page .progress-card-sub,
+html[data-theme="light"] #pm-activity-page .progress-card-sub,
+html[data-theme="light"] #pm-next-due-page .progress-card-sub {
+  color: #718697 !important;
+}
+html[data-theme="light"] #pm-history-page .progress-detail-panel,
+html[data-theme="light"] #pm-activity-page .progress-detail-panel,
+html[data-theme="light"] #pm-next-due-page .progress-detail-panel {
+  border: 1px solid #d6e1e8 !important;
+  background: linear-gradient(160deg, #fff, #f7fafc) !important;
+  box-shadow: 0 7px 18px rgba(35, 62, 80, .08) !important;
+}
+html[data-theme="light"] #pm-history-page .progress-detail-head,
+html[data-theme="light"] #pm-activity-page .progress-detail-head,
+html[data-theme="light"] #pm-next-due-page .progress-detail-head {
+  background: linear-gradient(105deg, #edf5f8, #f8fbfd) !important;
+  border-bottom: 1px solid #dce6ec !important;
+}
+html[data-theme="light"] #pm-history-page .progress-detail-title,
+html[data-theme="light"] #pm-activity-page .progress-detail-title,
+html[data-theme="light"] #pm-next-due-page .progress-detail-title {
+  color: #254357 !important;
+}
+html[data-theme="light"] #pm-history-page .progress-detail-sub,
+html[data-theme="light"] #pm-activity-page .progress-detail-sub,
+html[data-theme="light"] #pm-next-due-page .progress-detail-sub {
+  color: #6d8394 !important;
+}
+html[data-theme="light"] #pm-history-page .progress-list,
+html[data-theme="light"] #pm-activity-page .progress-list,
+html[data-theme="light"] #pm-next-due-page .progress-list {
+  background: transparent !important;
+}
+html[data-theme="light"] #pm-history-page .pm-history-table-head,
+html[data-theme="light"] #pm-history-page .pm-nextdue-table-head,
+html[data-theme="light"] #pm-activity-page .pm-activity-head {
+  color: #496477 !important;
+  background: linear-gradient(180deg, #edf4f7, #e5eef3) !important;
+  border-bottom: 1px solid #d8e4ea !important;
+}
+html[data-theme="light"] #pm-history-page .pm-history-rows,
+html[data-theme="light"] #pm-history-page .pm-nextdue-rows,
+html[data-theme="light"] #pm-activity-page .pm-history-rows {
+  background: #f5f8fa !important;
+}
+html[data-theme="light"] #pm-history-page .pm-custom-row,
+html[data-theme="light"] #pm-activity-page .pm-custom-row,
+html[data-theme="light"] #pm-next-due-page .pm-custom-row {
+  color: #385164 !important;
+  border: 1px solid #e0e8ed !important;
+  background: #fff !important;
+  box-shadow: 0 2px 7px rgba(36, 61, 78, .04) !important;
+}
+html[data-theme="light"] #pm-history-page .pm-custom-row:nth-child(even),
+html[data-theme="light"] #pm-activity-page .pm-custom-row:nth-child(even),
+html[data-theme="light"] #pm-next-due-page .pm-custom-row:nth-child(even) {
+  background: #f9fbfc !important;
+}
+html[data-theme="light"] #pm-history-page .pm-custom-row:hover,
+html[data-theme="light"] #pm-activity-page .pm-custom-row:hover,
+html[data-theme="light"] #pm-next-due-page .pm-custom-row:hover {
+  border-color: #b9dcd6 !important;
+  background: #f0faf8 !important;
+}
+html[data-theme="light"] #pm-history-page .pm-col-equip .pm-equip-code,
+html[data-theme="light"] #pm-activity-page .pm-col-equip .pm-equip-code,
+html[data-theme="light"] #pm-next-due-page .pm-col-equip .pm-equip-code {
+  color: #25485c !important;
+}
+html[data-theme="light"] #pm-history-page .pm-col-equip small,
+html[data-theme="light"] #pm-history-page .pm-col-order small,
+html[data-theme="light"] #pm-activity-page .pm-col-equip small,
+html[data-theme="light"] #pm-next-due-page .pm-col-equip small {
+  color: #748a99 !important;
+}
+html[data-theme="light"] #pm-history-page .pm-col-order strong,
+html[data-theme="light"] #pm-history-page .pm-col-user strong,
+html[data-theme="light"] #pm-activity-page .pm-col-user strong {
+  color: #365367 !important;
+}
+html[data-theme="light"] #pm-history-page .pm-col-user small,
+html[data-theme="light"] #pm-history-page .pm-user-empty {
+  color: #748a99 !important;
+}
+html[data-theme="light"] #pm-history-page .pm-activity-time,
+html[data-theme="light"] #pm-activity-page .pm-activity-time {
+  color: #718899 !important;
+}
+html[data-theme="light"] #pm-history-page .pm-activity-detail,
+html[data-theme="light"] #pm-activity-page .pm-activity-detail {
+  color: #405b6e !important;
+}
+html[data-theme="light"] #pm-history-page .pm-activity-count,
+html[data-theme="light"] #pm-activity-page .pm-activity-count,
+html[data-theme="light"] #pm-history-page .pm-activity-badge,
+html[data-theme="light"] #pm-activity-page .pm-activity-badge {
+  color: #4b6578;
+  background: #edf3f6;
+}
+html[data-theme="light"] #pm-history-page .pm-activity-badge.act-ok,
+html[data-theme="light"] #pm-activity-page .pm-activity-badge.act-ok { color: #08795f !important; background: #e4f6ef !important; }
+html[data-theme="light"] #pm-history-page .pm-activity-badge.act-no,
+html[data-theme="light"] #pm-activity-page .pm-activity-badge.act-no { color: #b43847 !important; background: #fff0f1 !important; }
+html[data-theme="light"] #pm-history-page .pm-activity-badge.act-uncheck,
+html[data-theme="light"] #pm-activity-page .pm-activity-badge.act-uncheck { color: #91620f !important; background: #fff7df !important; }
+html[data-theme="light"] #pm-history-page .pm-activity-badge.act-note,
+html[data-theme="light"] #pm-activity-page .pm-activity-badge.act-note { color: #176b98 !important; background: #eaf6fc !important; }
+html[data-theme="light"] #pm-history-page .pm-activity-badge.act-date,
+html[data-theme="light"] #pm-activity-page .pm-activity-badge.act-date { color: #6948a4 !important; background: #f2edfc !important; }
+html[data-theme="light"] #pm-history-page .pm-date-pill,
+html[data-theme="light"] #pm-next-due-page .pm-date-pill {
+  color: #276d9b !important;
+  border-color: #c7e1f0 !important;
+  background: #edf7fc !important;
+}
+html[data-theme="light"] #pm-history-page .pm-date-pill.next,
+html[data-theme="light"] #pm-next-due-page .pm-date-pill.next {
+  color: #087d68 !important;
+  border-color: #bfe7dc !important;
+  background: #e9f8f3 !important;
+}
+html[data-theme="light"] #pm-history-page .pm-result-counts,
+html[data-theme="light"] #pm-next-due-page .pm-result-counts {
+  color: #657d8e !important;
+}
+html[data-theme="light"] #pm-history-page .pm-result-counts .ok-count,
+html[data-theme="light"] #pm-next-due-page .pm-result-counts .ok-count { color: #07835f !important; }
+html[data-theme="light"] #pm-history-page .pm-result-counts .no-count.has-no,
+html[data-theme="light"] #pm-next-due-page .pm-result-counts .no-count.has-no { color: #c04755 !important; }
+html[data-theme="light"] #pm-history-page .pm-result-counts .total-count,
+html[data-theme="light"] #pm-next-due-page .pm-result-counts .total-count { color: #8496a3 !important; }
+html[data-theme="light"] #pm-history-page .badge-done,
+html[data-theme="light"] #pm-next-due-page .status-ontrack { color: #08795f !important; background: #e4f6ef !important; border-color: #bfe7d9 !important; }
+html[data-theme="light"] #pm-history-page .badge-partial,
+html[data-theme="light"] #pm-next-due-page .status-soon { color: #93620e !important; background: #fff7df !important; border-color: #f2dfa7 !important; }
+html[data-theme="light"] #pm-next-due-page .status-duenow { color: #176b98 !important; background: #eaf6fc !important; border-color: #c7e1f0 !important; }
+html[data-theme="light"] #pm-next-due-page .status-overdue { color: #b43847 !important; background: #fff0f1 !important; border-color: #f0c6cc !important; }
+html[data-theme="light"] #pm-history-page .badge-zero,
+html[data-theme="light"] #pm-next-due-page .status-unset { color: #64798a !important; background: #edf2f5 !important; border-color: #d7e0e6 !important; }
+html[data-theme="light"] #pm-history-page .pm-open-form-btn,
+html[data-theme="light"] #pm-next-due-page .pm-open-form-btn {
+  color: #fff !important;
+  background: linear-gradient(135deg, #2c719b, #245777) !important;
+  border-color: #2b7199 !important;
+}
+html[data-theme="light"] #pm-next-due-page .pm-inline-month-input {
+  color: #176e62 !important;
+  border-color: #bfe2d9 !important;
+  background: #f5fbf9 !important;
+}
+html[data-theme="light"] #pm-history-page .pm-snapshot-card {
+  border-color: #d6e3e9 !important;
+  background: linear-gradient(145deg, #fff, #f5f9fb) !important;
+  box-shadow: 0 4px 12px rgba(35, 62, 80, .07) !important;
+}
+html[data-theme="light"] #pm-history-page .pm-snapshot-title { color: #2c4e62 !important; }
+html[data-theme="light"] #pm-history-page .pm-snapshot-meta { color: #718899 !important; }
+html[data-theme="light"] #pm-history-page .pm-snapshot-stats {
+  color: #5d7486 !important;
+  border-top-color: #e0e8ed !important;
+}
+html[data-theme="light"] #pm-next-due-page .pm-schedule-card {
+  border-color: #d6e3e9 !important;
+  background: linear-gradient(145deg, #fff, #f5f9fb) !important;
+  box-shadow: 0 4px 12px rgba(35, 62, 80, .07) !important;
+}
+html[data-theme="light"] #pm-next-due-page .pm-schedule-card.status-overdue {
+  border-color: #efcbd0 !important;
+  background: linear-gradient(145deg, #fff7f7, #fff0f1) !important;
+}
+html[data-theme="light"] #pm-next-due-page .pm-schedule-month { color: #2c4e62 !important; }
+html[data-theme="light"] #pm-next-due-page .pm-schedule-count { color: #078d7c !important; }
+html[data-theme="light"] #pm-next-due-page .pm-schedule-count small,
+html[data-theme="light"] #pm-next-due-page .pm-schedule-groups { color: #73899a !important; }
+html[data-theme="light"] #pm-next-due-page .pm-schedule-status { color: #526b7d !important; }
+html[data-theme="light"] #pm-next-due-page .pm-bulk-due-bar {
+  border-color: #cce6df !important;
+  background: linear-gradient(120deg, #f1faf7, #eaf6f4) !important;
+}
+html[data-theme="light"] #pm-next-due-page .pm-bulk-due-label { color: #315d5a !important; }
+html[data-theme="light"] #pm-next-due-page .pm-bulk-due-label i { color: #0d9b88 !important; }
+
+/* Keep controls legible after switching either theme. */
+html[data-theme="light"] #pm-history-page input,
+html[data-theme="light"] #pm-history-page select,
+html[data-theme="light"] #pm-activity-page input,
+html[data-theme="light"] #pm-activity-page select,
+html[data-theme="light"] #pm-next-due-page input,
+html[data-theme="light"] #pm-next-due-page select {
+  color-scheme: light;
+}

@@ -1,0 +1,76 @@
+/* แก้ไขรายการ PM ในหน้าฟอร์ม (ไม่กระทบ Print/PDF) */
+.pm-template-toolbar[hidden] { display:none!important; }
+.pm-template-toolbar {
+  display:flex;align-items:center;gap:12px;flex-wrap:wrap;
+  border:1px solid var(--border);border-radius:12px;
+  background:var(--surface);padding:12px 15px;
+  margin:10px 0 14px;color:var(--text-muted);font-size:12px;
+  box-shadow:0 5px 18px rgba(8,32,60,.07);
+}
+.pm-template-help { flex:1;line-height:1.5;min-width:180px; }
+#pm-template-edit-toggle {
+  display:inline-flex;align-items:center;gap:8px;white-space:nowrap;
+  padding:10px 15px;border-radius:9px;border:0;
+  background:linear-gradient(120deg,#1769c1,#00a9a2);color:white;
+  font-weight:750;font-size:13px;
+  box-shadow:0 4px 11px rgba(0,116,173,.18);
+  transition:transform .16s,box-shadow .16s,filter .16s;
+}
+#pm-template-edit-toggle:hover {transform:translateY(-1px);filter:brightness(1.06);box-shadow:0 7px 16px rgba(0,116,173,.22)}
+#pm-template-edit-toggle.is-editing { background:linear-gradient(110deg,#12815c,#09a493); }
+.pm-template-field {
+  display:block;width:100%;min-width:0;box-sizing:border-box;
+  color:var(--text)!important;background:var(--surface-input)!important;
+  padding:7px 8px!important;min-height:36px;
+  border:1px solid var(--border)!important;border-radius:7px!important;
+  outline:0;font:inherit;font-size:13px!important;
+}
+.pm-template-field:focus { border-color:var(--accent)!important;outline:2px solid rgba(2,172,164,.22)!important; }
+.pm-template-field:disabled { opacity:.65; }
+.pm-template-row-actions {display:flex;gap:5px;flex-wrap:wrap;margin-top:6px;}
+.pm-template-row-actions button {
+  color:var(--text)!important;border:1px solid var(--border)!important;
+  background:var(--surface-soft)!important;padding:4px 8px;border-radius:6px;
+  font-weight:650;font-size:11px;line-height:1.3;box-shadow:none;
+}
+.pm-template-row-actions button:hover { border-color:var(--accent)!important; }
+/* ปุ่มลบเฉพาะรายการ PM ที่เพิ่มใหม่ แสดงเฉพาะโหมดแก้ไขของ administrator */
+.pm-template-row-actions .pm-template-delete-btn {
+  color:#b42330!important;background:#fff0f1!important;border-color:#f1b4bc!important;
+  display:inline-flex;align-items:center;gap:5px;
+}
+.pm-template-row-actions .pm-template-delete-btn:hover {
+  color:#fff!important;background:#c6263b!important;border-color:#c6263b!important;
+}
+[data-theme="dark"] .pm-template-row-actions .pm-template-delete-btn {
+  color:#ffb1bb!important;background:#571e2b!important;border-color:#a34755!important;
+}
+[data-theme="dark"] .pm-template-row-actions .pm-template-delete-btn:hover {
+  color:#fff!important;background:#a92037!important;
+}
+.pm-template-row-actions button:disabled {opacity:.55;cursor:wait;}
+
+#pm-form-page #checklist-container tr.pm-template-hidden-row td {opacity:.62;background:var(--surface-soft)!important;}
+.pm-add-task-panel {
+  display:grid;grid-template-columns:minmax(140px,2fr) minmax(110px,2fr) minmax(65px,1fr) auto;
+  gap:8px;align-items:center;margin:-2px 0 17px;
+  padding:12px;border:1px dashed var(--accent);border-radius:0 0 10px 10px;
+  background:var(--surface-soft);color:var(--text);
+}
+.pm-add-task-caption {grid-column:1/-1;color:var(--text);font-weight:750;font-size:13px;}
+.pm-add-task-panel input {
+  width:100%;min-width:0;box-sizing:border-box;
+  background:var(--surface-input);color:var(--text);
+  border:1px solid var(--border);border-radius:7px;
+  padding:8px 9px;font:inherit;font-size:13px;
+}
+.pm-add-task-panel button {display:inline-flex;align-items:center;justify-content:center;gap:5px;background:#13977c;color:#fff;white-space:nowrap;min-height:36px;}
+.pm-add-task-panel button:hover {filter:brightness(1.07)}
+@media(max-width:760px) {
+  .pm-add-task-panel {grid-template-columns:1fr 1fr;}
+  .pm-add-task-caption,.pm-add-task-panel input[data-field='name'] {grid-column:1/-1;}
+}
+@media print {
+  .pm-template-toolbar,.pm-add-task-panel,.pm-template-row-actions {display:none!important;}
+}
+@media(prefers-reduced-motion:reduce){#pm-template-edit-toggle{transition:none}#pm-template-edit-toggle:hover{transform:none}}

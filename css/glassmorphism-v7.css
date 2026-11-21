@@ -1,0 +1,337 @@
+/* PM Dashboard V7 — unified glass appearance.
+   Screen-only on purpose: never change A4 / PDF print formatting.
+   Loaded LAST to override older opaque / 3D color rules. */
+@media screen {
+  :root {
+    --glass-ink: #193c53;
+    --glass-muted: #547083;
+    --glass-panel: rgba(255,255,255,.64);
+    --glass-panel-strong: rgba(255,255,255,.77);
+    --glass-panel-soft: rgba(241,249,255,.51);
+    --glass-line: rgba(255,255,255,.79);
+    --glass-shadow: 0 14px 36px rgba(29,66,91,.11), inset 0 1px 0 rgba(255,255,255,.67);
+    --glass-backdrop: blur(16px) saturate(155%);
+  }
+  html[data-theme="dark"] {
+    --glass-ink: #eaf7ff;
+    --glass-muted: #b4ccdd;
+    --glass-panel: rgba(15,34,53,.67);
+    --glass-panel-strong: rgba(19,41,61,.79);
+    --glass-panel-soft: rgba(22,50,71,.58);
+    --glass-line: rgba(153,212,243,.17);
+    --glass-shadow: 0 15px 38px rgba(0,11,25,.24), inset 0 1px 0 rgba(255,255,255,.075);
+  }
+  body {
+    background:
+      radial-gradient(circle at 8% 17%,rgba(38,211,195,.21),transparent 30%),
+      radial-gradient(circle at 89% 15%,rgba(113,153,247,.25),transparent 35%),
+      radial-gradient(circle at 55% 84%,rgba(167,128,241,.17),transparent 45%),
+      linear-gradient(135deg,#e8f4f8,#ddeaf9 52%,#f0eaff) fixed !important;
+  }
+  html[data-theme="dark"] body {
+    background:
+      radial-gradient(circle at 12% 18%,rgba(14,164,158,.18),transparent 34%),
+      radial-gradient(circle at 91% 20%,rgba(79,118,222,.2),transparent 36%),
+      radial-gradient(circle at 45% 86%,rgba(122,75,190,.1),transparent 39%),
+      linear-gradient(135deg,#071725,#10263b 53%,#101c35) fixed !important;
+  }
+
+  /* Login: two distinct translucent panes, with readable contrasting labels. */
+  #login-screen:not(.hidden) {
+    overflow-y: auto;
+    background:
+      radial-gradient(circle at 19% 15%,rgba(38,218,199,.22),transparent 35%),
+      radial-gradient(circle at 87% 78%,rgba(130,139,246,.26),transparent 39%),
+      linear-gradient(135deg,#dbeef5 0%,#e1ebf8 52%,#eae4fa 100%) !important;
+  }
+  html[data-theme="dark"] #login-screen:not(.hidden) {
+    background:
+      radial-gradient(circle at 18% 21%,rgba(19,189,179,.21),transparent 38%),
+      radial-gradient(circle at 84% 78%,rgba(97,115,245,.18),transparent 41%),
+      linear-gradient(135deg,#091b2d 0%,#12283e 55%,#171b35 100%) !important;
+  }
+  #login-screen::before {
+    content:"";
+    position:fixed; inset:0; z-index:-1; pointer-events:none;
+    background:
+      radial-gradient(circle at 23% 25%,rgba(30,215,195,.25),transparent 31%),
+      radial-gradient(circle at 83% 76%,rgba(111,120,243,.24),transparent 32%);
+  }
+  .login-split-layout{position:relative;z-index:1;}
+  #login-screen .login-showcase {
+    padding:24px 26px;
+    border-radius:26px;
+    border:1px solid rgba(192,241,255,.25);
+    background:linear-gradient(125deg,rgba(8,45,67,.78),rgba(17,50,91,.57) 65%,rgba(45,48,100,.54)) !important;
+    box-shadow:0 22px 55px rgba(15,40,70,.17),inset 0 1px rgba(255,255,255,.15);
+    backdrop-filter:blur(19px) saturate(150%);
+    -webkit-backdrop-filter:blur(19px) saturate(150%);
+  }
+  #login-screen .login-feature-pill {
+    background:rgba(226,245,255,.10) !important;
+    border:1px solid rgba(226,250,255,.20) !important;
+    box-shadow:0 8px 22px rgba(5,20,41,.1) !important;
+    backdrop-filter:blur(10px);
+    -webkit-backdrop-filter:blur(10px);
+  }
+  #login-screen .login-feature-pill:hover {
+    background:rgba(226,245,255,.18) !important;
+    transform:translateY(-2px);
+  }
+  #login-screen .login-preview-card {
+    background:linear-gradient(135deg,rgba(12,42,68,.60),rgba(24,31,72,.55)) !important;
+    border-color:rgba(205,239,255,.25) !important;
+    box-shadow:0 18px 37px rgba(0,17,40,.19),inset 0 1px rgba(255,255,255,.13) !important;
+    backdrop-filter:blur(14px);
+    -webkit-backdrop-filter:blur(14px);
+  }
+  #login-screen #login-container {
+    background:linear-gradient(150deg,rgba(255,255,255,.83),rgba(237,249,255,.64)) !important;
+    border:1px solid rgba(255,255,255,.93) !important;
+    box-shadow:0 26px 65px rgba(24,59,85,.19),inset 0 1px rgba(255,255,255,.94) !important;
+    backdrop-filter:blur(24px) saturate(155%) !important;
+    -webkit-backdrop-filter:blur(24px) saturate(155%) !important;
+    transform:none !important;
+  }
+  #login-screen #login-container:hover {
+    transform:translateY(-3px) !important;
+    box-shadow:0 32px 74px rgba(24,59,85,.23),inset 0 1px rgba(255,255,255,.95) !important;
+  }
+  #login-screen .login-input {
+    background:rgba(255,255,255,.62) !important;
+    border-color:rgba(113,164,188,.37) !important;
+  }
+  #login-screen .login-input:focus {
+    background:rgba(255,255,255,.95) !important;
+  }
+  #login-screen #login-theme-toggle {
+    background:rgba(255,255,255,.38) !important;
+    backdrop-filter:blur(14px);
+    -webkit-backdrop-filter:blur(14px);
+  }
+  html[data-theme="dark"] #login-screen #login-container {
+    color:#edf7ff !important;
+    background:linear-gradient(148deg,rgba(21,43,65,.78),rgba(12,30,49,.67)) !important;
+    border-color:rgba(162,229,250,.21) !important;
+    box-shadow:0 25px 63px rgba(0,7,20,.38),inset 0 1px rgba(255,255,255,.11) !important;
+  }
+  html[data-theme="dark"] #login-screen .login-input {
+    background:rgba(13,31,48,.61) !important;
+    border-color:rgba(145,207,235,.25) !important;
+  }
+  html[data-theme="dark"] #login-screen .login-input:focus {background:rgba(15,40,57,.88) !important;}
+
+  /* Sidebar and top bar: translucent with strong contrast for white labels. */
+  #app-container .sidebar {
+    background:linear-gradient(167deg,rgba(16,42,65,.83),rgba(19,48,70,.76) 60%,rgba(26,44,76,.83)) !important;
+    border-right:1px solid rgba(174,229,252,.19) !important;
+    box-shadow:7px 0 30px rgba(9,35,58,.15),inset -1px 0 rgba(255,255,255,.08) !important;
+    backdrop-filter:blur(21px) saturate(150%);
+    -webkit-backdrop-filter:blur(21px) saturate(150%);
+  }
+  #app-container .sidebar-brand {border-bottom-color:rgba(220,248,255,.12) !important;}
+  #app-container .sidebar .brand-title {color:#7af1de !important;}
+  #app-container .sidebar-link {margin:2px 7px;width:calc(100% - 14px);border-radius:11px;}
+  #app-container .sidebar-link:hover {
+    background:rgba(196,238,255,.15) !important;
+    box-shadow:inset 0 1px rgba(255,255,255,.12);
+  }
+  #app-container .sidebar-link.active {
+    background:linear-gradient(110deg,rgba(24,196,174,.66),rgba(49,137,212,.49)) !important;
+    box-shadow:0 7px 20px rgba(3,25,43,.16),inset 0 1px rgba(255,255,255,.20) !important;
+  }
+  #app-container .sidebar-link.active::before{border-radius:8px 0 0 8px;}
+  #app-container .sidebar-footer {background:rgba(11,28,45,.27) !important;backdrop-filter:blur(10px);}
+  #app-container .sidebar .dept-selector {
+    background:rgba(16,43,64,.50) !important;
+    border-color:rgba(96,224,214,.50) !important;
+  }
+  #app-container .sidebar .sidebar-collapse {
+    background:rgba(233,250,255,.12) !important;
+    border-color:rgba(204,244,252,.23) !important;
+  }
+  #app-container .app-topbar {
+    background:rgba(18,48,69,.78) !important;
+    border-bottom:1px solid rgba(207,248,255,.17) !important;
+    box-shadow:0 6px 22px rgba(12,39,64,.12) !important;
+    backdrop-filter:blur(20px) saturate(150%);
+    -webkit-backdrop-filter:blur(20px) saturate(150%);
+  }
+  #app-container .app-topbar .equipment-selector {background:rgba(10,37,55,.58) !important;}
+  #app-container .app-main {background:transparent !important;}
+  #app-container .main-content {background:transparent !important;}
+  #app-container .main-content .page-container {
+    border-color:var(--glass-line);
+    background:var(--glass-panel);
+    box-shadow:var(--glass-shadow);
+    backdrop-filter:blur(12px) saturate(135%);
+    -webkit-backdrop-filter:blur(12px) saturate(135%);
+  }
+
+  /* Dashboard surfaces are glass, regardless of prior industrial 3D !important rules. */
+  #app-container .progress-dashboard-hero,
+  #app-container .progress-filter-bar,
+  #app-container .progress-card,
+  #app-container .pm-visual-chart-panel,
+  #app-container .progress-dept-panel,
+  #app-container .progress-repair-section,
+  #app-container .progress-repair-panel,
+  #app-container .progress-detail-panel,
+  #app-container .adm-panel {
+    color:var(--glass-ink);
+    background:linear-gradient(137deg,var(--glass-panel-strong),var(--glass-panel)) !important;
+    border:1px solid var(--glass-line) !important;
+    box-shadow:var(--glass-shadow) !important;
+    backdrop-filter:var(--glass-backdrop) !important;
+    -webkit-backdrop-filter:var(--glass-backdrop) !important;
+  }
+  #app-container .progress-dashboard-hero {
+    background:linear-gradient(118deg,rgba(33,170,172,.24),var(--glass-panel-strong) 48%,rgba(119,137,236,.19)) !important;
+    border-radius:19px;
+  }
+  #app-container .progress-card:hover,
+  #app-container .pm-visual-chart-panel:hover,
+  #app-container .progress-dept-panel:hover,
+  #app-container .progress-repair-panel:hover {
+    transform:translateY(-3px) !important;
+    box-shadow:0 21px 44px rgba(28,69,92,.18),inset 0 1px rgba(255,255,255,.64) !important;
+  }
+  html[data-theme="dark"] #app-container .progress-card:hover,
+  html[data-theme="dark"] #app-container .pm-visual-chart-panel:hover,
+  html[data-theme="dark"] #app-container .progress-dept-panel:hover {
+    box-shadow:0 21px 44px rgba(0,8,21,.32),inset 0 1px rgba(255,255,255,.1) !important;
+  }
+  #app-container .progress-dept-head,
+  #app-container .progress-repair-header,
+  #app-container .progress-repair-panel-head,
+  #app-container .progress-detail-head,
+  #app-container .progress-list-head {
+    background:var(--glass-panel-soft) !important;
+    border-bottom:1px solid var(--glass-line) !important;
+    box-shadow:none !important;
+  }
+  #app-container .progress-list,
+  #app-container .progress-rows,
+  #app-container .progress-dept-body {background:transparent !important;}
+  #app-container .progress-row,
+  #app-container .progress-repair-row,
+  #app-container .pm-history-rows .pm-custom-row,
+  #app-container .pm-nextdue-rows .pm-custom-row,
+  #app-container .progress-mini-stat,
+  #app-container .adm-stat {
+    background:var(--glass-panel-soft) !important;
+    border-color:var(--glass-line) !important;
+    box-shadow:none !important;
+  }
+  #app-container .progress-filter,
+  #app-container .adm-panel input,
+  #app-container .adm-panel select {
+    color:var(--glass-ink) !important;
+    background:var(--glass-panel-strong) !important;
+    border-color:var(--glass-line) !important;
+    box-shadow:0 3px 12px rgba(30,70,96,.045) !important;
+  }
+  #app-container .progress-filter option{color:#1e3a4d !important;background:#e9f4fa !important;}
+  html[data-theme="dark"] #app-container .progress-filter option{color:#eef9ff !important;background:#142e44 !important;}
+  #app-container .progress-dashboard-title,
+  #app-container .progress-detail-title,
+  #app-container .pm-visual-chart-title,
+  #app-container .progress-dept-title {color:var(--glass-ink) !important;text-shadow:none !important;}
+  #app-container .progress-dashboard-subtitle,
+  #app-container .progress-detail-sub,
+  #app-container .pm-visual-chart-subtitle {color:var(--glass-muted) !important;}
+  #app-container .progress-card-label,
+  #app-container .progress-card-sub {color:var(--glass-muted) !important;}
+  #app-container .progress-card-value {text-shadow:none !important;}
+  html[data-theme="dark"] #app-container .progress-card-value {color:#e9faff !important;}
+  html[data-theme="dark"] #app-container .progress-dept-title,
+  html[data-theme="dark"] #app-container .progress-detail-title,
+  html[data-theme="dark"] #app-container .progress-dashboard-title {color:#e9faff !important;}
+  #app-container .progress-hero-badge {
+    background:var(--glass-panel-soft) !important;
+    border-color:var(--glass-line) !important;
+    box-shadow:none !important;
+  }
+
+  /* Stronger selectors than prior light-mode + industrial 3D overrides. */
+  #app-container #pm-progress-page,
+  #app-container #pm-history-page,
+  #app-container #pm-activity-page,
+  #app-container #pm-next-due-page {
+    background:transparent !important;
+  }
+  html[data-theme] #app-container #pm-progress-page .progress-dashboard-hero,
+  html[data-theme] #app-container #pm-progress-page .progress-card,
+  html[data-theme] #app-container #pm-progress-page .pm-visual-chart-panel,
+  html[data-theme] #app-container #pm-progress-page .progress-dept-panel,
+  html[data-theme] #app-container #pm-progress-page .progress-repair-section,
+  html[data-theme] #app-container #pm-progress-page .progress-repair-panel,
+  html[data-theme] #app-container #pm-progress-page .progress-detail-panel,
+  html[data-theme] #app-container #pm-history-page .progress-dashboard-hero,
+  html[data-theme] #app-container #pm-history-page .progress-card,
+  html[data-theme] #app-container #pm-history-page .progress-detail-panel,
+  html[data-theme] #app-container #pm-activity-page .progress-dashboard-hero,
+  html[data-theme] #app-container #pm-activity-page .progress-card,
+  html[data-theme] #app-container #pm-activity-page .progress-detail-panel,
+  html[data-theme] #app-container #pm-next-due-page .progress-dashboard-hero,
+  html[data-theme] #app-container #pm-next-due-page .progress-card,
+  html[data-theme] #app-container #pm-next-due-page .progress-detail-panel {
+    background:linear-gradient(137deg,var(--glass-panel-strong),var(--glass-panel)) !important;
+    border:1px solid var(--glass-line) !important;
+    box-shadow:var(--glass-shadow) !important;
+  }
+  html[data-theme] #app-container #pm-progress-page .progress-dept-head,
+  html[data-theme] #app-container #pm-progress-page .progress-detail-head,
+  html[data-theme] #app-container #pm-progress-page .progress-repair-header,
+  html[data-theme] #app-container #pm-progress-page .progress-repair-panel-head,
+  html[data-theme] #app-container #pm-progress-page .progress-list-head,
+  html[data-theme] #app-container #pm-history-page .progress-detail-head,
+  html[data-theme] #app-container #pm-activity-page .progress-detail-head,
+  html[data-theme] #app-container #pm-next-due-page .progress-detail-head {
+    background:var(--glass-panel-soft) !important;
+    border-bottom:1px solid var(--glass-line) !important;
+  }
+  html[data-theme] #app-container #pm-progress-page .progress-filter,
+  html[data-theme] #app-container #pm-history-page .progress-filter,
+  html[data-theme] #app-container #pm-activity-page .progress-filter,
+  html[data-theme] #app-container #pm-next-due-page .progress-filter {
+    background:var(--glass-panel-strong) !important;
+    color:var(--glass-ink) !important;
+    border:1px solid var(--glass-line) !important;
+    box-shadow:0 3px 12px rgba(30,70,96,.045) !important;
+  }
+  html[data-theme] #app-container #pm-progress-page .progress-card-label,
+  html[data-theme] #app-container #pm-history-page .progress-card-label,
+  html[data-theme] #app-container #pm-next-due-page .progress-card-label {
+    color:var(--glass-muted) !important;
+  }
+  /* Keep text-heavy PM forms legible: only the outer sheet is translucent. */
+  #app-container #pm-form-page .page-container > table,
+  #app-container #pm-form-page #checklist-container table {
+    background:var(--surface);
+  }
+  #app-container .adm-table th {background:var(--glass-panel-soft) !important;}
+  #app-container .adm-table tr:hover td {background:var(--glass-panel-soft) !important;}
+
+  @media (max-width:900px) {
+    #login-screen .login-showcase {padding:20px 18px;}
+  }
+  @media (max-width:720px) {
+    #app-container .sidebar {backdrop-filter:blur(17px) saturate(135%);}
+    #login-screen .login-showcase {padding:16px;}
+    #login-screen #login-container {margin-top:12px;}
+  }
+  @media (prefers-reduced-motion:reduce) {
+    #login-screen #login-container,
+    #app-container .progress-card,
+    #app-container .pm-visual-chart-panel,
+    #app-container .progress-dept-panel {transition:none !important;animation:none !important;}
+  }
+  @supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))) {
+    #login-screen #login-container {background:rgba(250,253,255,.97) !important;}
+    #app-container .sidebar {background:rgba(18,47,70,.96) !important;}
+    #app-container .app-topbar {background:rgba(18,47,70,.96) !important;}
+    #app-container .progress-card,
+    #app-container .progress-detail-panel {background:var(--surface) !important;}
+  }
+}
